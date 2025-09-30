@@ -202,24 +202,28 @@
     <!-- Featured Products Section -->
     <section class="product-section" id="products">
         <div class="container">
-            <div class="text-center">
-                <h2 class="section-title" data-aos="fade-up">Featured Products</h2>
+            <div class="d-flex justify-content-between align-items-center">
+                <h2 class="section-title mb-0" data-aos="fade-up">Featured Products</h2>
+                <a href="pages/products.html" class="btn btn-hero" data-aos="fade-left" data-aos-delay="150">View
+                    All</a>
             </div>
 
             <!-- Swiper -->
             <div class="swiper mySwiper" data-aos="fade-up" data-aos-delay="200">
                 <div class="swiper-wrapper">
                     <div class="swiper-slide">
-                        <div class="product-card">
+                        <div class="product-card" onclick="viewProduct(1)" style="cursor: pointer;">
                             <div class="product-img">
                                 <img src="https://images.unsplash.com/photo-1559620192-032c4bc4674e?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1229&q=80"
                                     alt="Royal Chocolate Cake">
                                 <div class="product-overlay">
                                     <div class="product-actions">
-                                        <button class="btn-action" title="Add to Wishlist">
+                                        <button class="btn-action" title="Add to Wishlist"
+                                            onclick="event.stopPropagation(); addToWishlist(1)">
                                             <i class="fas fa-heart"></i>
                                         </button>
-                                        <button class="btn-action" title="Quick View">
+                                        <button class="btn-action" title="Quick View"
+                                            onclick="event.stopPropagation(); viewProduct(1)">
                                             <i class="fas fa-eye"></i>
                                         </button>
                                     </div>
@@ -235,7 +239,7 @@
                                     <i class="fas fa-star-half-alt"></i>
                                 </div>
                                 <p class="product-price">SAR 199</p>
-                                <button class="btn-add-cart">
+                                <button class="btn-add-cart" onclick="event.stopPropagation(); addToCart(1)">
                                     <i class="fas fa-shopping-cart"></i>
                                     Add to Cart
                                 </button>
@@ -243,16 +247,18 @@
                         </div>
                     </div>
                     <div class="swiper-slide">
-                        <div class="product-card">
+                        <div class="product-card" onclick="viewProduct(5)" style="cursor: pointer;">
                             <div class="product-img">
                                 <img src="https://images.unsplash.com/photo-1563241527-3004b7be0ffd?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1170&q=80"
                                     alt="Premium Rose Bouquet">
                                 <div class="product-overlay">
                                     <div class="product-actions">
-                                        <button class="btn-action" title="Add to Wishlist">
+                                        <button class="btn-action" title="Add to Wishlist"
+                                            onclick="event.stopPropagation(); addToWishlist(5)">
                                             <i class="fas fa-heart"></i>
                                         </button>
-                                        <button class="btn-action" title="Quick View">
+                                        <button class="btn-action" title="Quick View"
+                                            onclick="event.stopPropagation(); viewProduct(5)">
                                             <i class="fas fa-eye"></i>
                                         </button>
                                     </div>
@@ -268,7 +274,7 @@
                                     <i class="fas fa-star"></i>
                                 </div>
                                 <p class="product-price">SAR 149</p>
-                                <button class="btn-add-cart">
+                                <button class="btn-add-cart" onclick="event.stopPropagation(); addToCart(5)">
                                     <i class="fas fa-shopping-cart"></i>
                                     Add to Cart
                                 </button>
@@ -276,16 +282,18 @@
                         </div>
                     </div>
                     <div class="swiper-slide">
-                        <div class="product-card">
+                        <div class="product-card" onclick="viewProduct(9)" style="cursor: pointer;">
                             <div class="product-img">
                                 <img src="https://images.unsplash.com/photo-1580516094686-3d5d45f9450c?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1170&q=80"
                                     alt="Birthday Balloon Set">
                                 <div class="product-overlay">
                                     <div class="product-actions">
-                                        <button class="btn-action" title="Add to Wishlist">
+                                        <button class="btn-action" title="Add to Wishlist"
+                                            onclick="event.stopPropagation(); addToWishlist(9)">
                                             <i class="fas fa-heart"></i>
                                         </button>
-                                        <button class="btn-action" title="Quick View">
+                                        <button class="btn-action" title="Quick View"
+                                            onclick="event.stopPropagation(); viewProduct(9)">
                                             <i class="fas fa-eye"></i>
                                         </button>
                                     </div>
@@ -301,7 +309,7 @@
                                     <i class="far fa-star"></i>
                                 </div>
                                 <p class="product-price">SAR 89</p>
-                                <button class="btn-add-cart">
+                                <button class="btn-add-cart" onclick="event.stopPropagation(); addToCart(9)">
                                     <i class="fas fa-shopping-cart"></i>
                                     Add to Cart
                                 </button>
@@ -309,16 +317,18 @@
                         </div>
                     </div>
                     <div class="swiper-slide">
-                        <div class="product-card">
+                        <div class="product-card" onclick="viewProduct(2)" style="cursor: pointer;">
                             <div class="product-img">
                                 <img src="https://images.unsplash.com/photo-1571115764595-644a1f56a55c?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1283&q=80"
                                     alt="Vanilla Dream Cake">
                                 <div class="product-overlay">
                                     <div class="product-actions">
-                                        <button class="btn-action" title="Add to Wishlist">
+                                        <button class="btn-action" title="Add to Wishlist"
+                                            onclick="event.stopPropagation(); addToWishlist(2)">
                                             <i class="fas fa-heart"></i>
                                         </button>
-                                        <button class="btn-action" title="Quick View">
+                                        <button class="btn-action" title="Quick View"
+                                            onclick="event.stopPropagation(); viewProduct(2)">
                                             <i class="fas fa-eye"></i>
                                         </button>
                                     </div>
@@ -334,7 +344,7 @@
                                     <i class="fas fa-star-half-alt"></i>
                                 </div>
                                 <p class="product-price">SAR 179</p>
-                                <button class="btn-add-cart">
+                                <button class="btn-add-cart" onclick="event.stopPropagation(); addToCart(2)">
                                     <i class="fas fa-shopping-cart"></i>
                                     Add to Cart
                                 </button>
@@ -342,16 +352,18 @@
                         </div>
                     </div>
                     <div class="swiper-slide">
-                        <div class="product-card">
+                        <div class="product-card" onclick="viewProduct(6)" style="cursor: pointer;">
                             <div class="product-img">
                                 <img src="https://images.unsplash.com/photo-1487070183336-b8639229991c?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1173&q=80"
                                     alt="Mixed Flower Arrangement">
                                 <div class="product-overlay">
                                     <div class="product-actions">
-                                        <button class="btn-action" title="Add to Wishlist">
+                                        <button class="btn-action" title="Add to Wishlist"
+                                            onclick="event.stopPropagation(); addToWishlist(6)">
                                             <i class="fas fa-heart"></i>
                                         </button>
-                                        <button class="btn-action" title="Quick View">
+                                        <button class="btn-action" title="Quick View"
+                                            onclick="event.stopPropagation(); viewProduct(6)">
                                             <i class="fas fa-eye"></i>
                                         </button>
                                     </div>
@@ -367,7 +379,7 @@
                                     <i class="far fa-star"></i>
                                 </div>
                                 <p class="product-price">SAR 129</p>
-                                <button class="btn-add-cart">
+                                <button class="btn-add-cart" onclick="event.stopPropagation(); addToCart(6)">
                                     <i class="fas fa-shopping-cart"></i>
                                     Add to Cart
                                 </button>
@@ -375,16 +387,18 @@
                         </div>
                     </div>
                     <div class="swiper-slide">
-                        <div class="product-card">
+                        <div class="product-card" onclick="viewProduct(12)" style="cursor: pointer;">
                             <div class="product-img">
                                 <img src="https://images.unsplash.com/photo-1549465220-1a8b9238cd48?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1160&q=80"
                                     alt="Celebration Gift Box">
                                 <div class="product-overlay">
                                     <div class="product-actions">
-                                        <button class="btn-action" title="Add to Wishlist">
+                                        <button class="btn-action" title="Add to Wishlist"
+                                            onclick="event.stopPropagation(); addToWishlist(12)">
                                             <i class="fas fa-heart"></i>
                                         </button>
-                                        <button class="btn-action" title="Quick View">
+                                        <button class="btn-action" title="Quick View"
+                                            onclick="event.stopPropagation(); viewProduct(12)">
                                             <i class="fas fa-eye"></i>
                                         </button>
                                     </div>
@@ -400,7 +414,7 @@
                                     <i class="fas fa-star"></i>
                                 </div>
                                 <p class="product-price">SAR 249</p>
-                                <button class="btn-add-cart">
+                                <button class="btn-add-cart" onclick="event.stopPropagation(); addToCart(12)">
                                     <i class="fas fa-shopping-cart"></i>
                                     Add to Cart
                                 </button>
@@ -557,7 +571,59 @@
     <!-- Toastify JS -->
     <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/toastify-js"></script>
     <script src="js/script.js"></script>
-    <!-- Custom JS -->
+
+    <!-- Product Navigation and Cart Functions -->
+    <script>
+        function viewProduct(productId) {
+            // For now, redirect to the product details page
+            // In a real application, you would pass the product ID as a parameter
+            window.location.href = 'pages/product-details.html';
+        }
+
+        function addToCart(productId) {
+            const productNames = {
+                1: 'Royal Chocolate Cake',
+                2: 'Vanilla Dream Cake',
+                5: 'Premium Rose Bouquet',
+                6: 'Mixed Flower Arrangement',
+                9: 'Birthday Balloon Set',
+                12: 'Celebration Gift Box'
+            };
+
+            const productName = productNames[productId] || 'Product';
+
+            Toastify({
+                text: `Added ${productName} to cart!`,
+                duration: 3000,
+                gravity: "top",
+                position: "right",
+                backgroundColor: "linear-gradient(to right, #FF4FA1, #e03d8c)",
+                stopOnFocus: true
+            }).showToast();
+        }
+
+        function addToWishlist(productId) {
+            const productNames = {
+                1: 'Royal Chocolate Cake',
+                2: 'Vanilla Dream Cake',
+                5: 'Premium Rose Bouquet',
+                6: 'Mixed Flower Arrangement',
+                9: 'Birthday Balloon Set',
+                12: 'Celebration Gift Box'
+            };
+
+            const productName = productNames[productId] || 'Product';
+
+            Toastify({
+                text: `Added ${productName} to wishlist!`,
+                duration: 3000,
+                gravity: "top",
+                position: "right",
+                backgroundColor: "linear-gradient(to right, #7ED7FF, #368BFF)",
+                stopOnFocus: true
+            }).showToast();
+        }
+    </script>
 
 </body>
 

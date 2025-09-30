@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>All Products - Custom Joy</title>
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="../css/style.css">
+    <link rel="stylesheet" href="../css/products.css">
+</head>
+
+<body class="products-page">
+    <div class="animated-bg"></div>
+
+    <!-- Navigation (same structure for consistency) -->
+    <nav class="navbar navbar-expand-lg navbar-dark sticky-top">
+        <div class="container">
+            <a class="navbar-brand" href="../index.html" data-aos="fade-right"><img class="logo"
+                    src="../images/logo.png" alt="logo"></a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item" data-aos="fade-down" data-aos-delay="100"><a class="nav-link"
+                            href="../index.html#top">Home</a></li>
+                    <li class="nav-item" data-aos="fade-down" data-aos-delay="150"><a class="nav-link"
+                            href="../index.html#services">Services</a></li>
+                    <li class="nav-item" data-aos="fade-down" data-aos-delay="200"><a class="nav-link"
+                            href="../index.html#products">Products</a></li>
+                    <li class="nav-item" data-aos="fade-down" data-aos-delay="250"><a class="nav-link"
+                            href="../index.html#contact">Contact</a></li>
+                    <li class="nav-item ms-lg-2 mt-2 mt-lg-0" data-aos="fade-down" data-aos-delay="350"><a
+                            class="btn btn-login w-100" href="../auth/login.html">Login</a></li>
+                    <li class="nav-item ms-lg-2 mt-2 mt-lg-0" data-aos="fade-down" data-aos-delay="400"><a
+                            class="btn btn-register w-100" href="../auth/register.html">Register</a></li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Header -->
+    <section class="about-section py-5">
+        <div class="container">
+            <div class="d-flex flex-column flex-md-row align-items-md-center justify-content-between gap-3">
+                <div>
+                    <h2 class="section-title mb-2" data-aos="fade-up">All Products</h2>
+                    <p class="mt-2 mb-0" data-aos="fade-up" data-aos-delay="100">Browse our complete catalog and find
+                        exactly
+                        what you need.</p>
+                </div>
+                <a href="../index.html#products" class="btn btn-hero" data-aos="fade-left" data-aos-delay="150">
+                    <i class="fa-solid fa-arrow-left me-1"></i> Back to Featured
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Redesigned Search & Filters -->
+    <section class="py-5">
+        <div class="container">
+            <!-- Main Search Bar -->
+            <div class="row justify-content-center mb-4">
+                <div class="col-12 col-lg-8">
+                    <div class="search-container" data-aos="fade-up">
+                        <div class="search-input-wrapper">
+                            <div class="search-icon">
+                                <i class="fas fa-search"></i>
+                            </div>
+                            <input id="searchInput" type="text" class="search-input"
+                                placeholder="What are you looking for? Search cakes, flowers, balloons..."
+                                autocomplete="off">
+                            <button id="clearSearch" class="clear-search" style="display: none;">
+                                <i class="fas fa-times"></i>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Filter Pills -->
+            <div class="row justify-content-center">
+                <div class="col-12 col-lg-10">
+                    <div class="filters-container" data-aos="fade-up" data-aos-delay="100">
+                        <div class="filter-pills">
+                            <button class="filter-pill active" data-filter="all">
+                                <i class="fas fa-th-large"></i>
+                                <span>All Products</span>
+                            </button>
+                            <button class="filter-pill" data-filter="cakes">
+                                <i class="fas fa-birthday-cake"></i>
+                                <span>Cakes</span>
+                            </button>
+                            <button class="filter-pill" data-filter="flowers">
+                                <i class="fas fa-seedling"></i>
+                                <span>Flowers</span>
+                            </button>
+                            <button class="filter-pill" data-filter="balloons">
+                                <i class="fas fa-circle"></i>
+                                <span>Balloons</span>
+                            </button>
+                            <button class="filter-pill" data-filter="gifts">
+                                <i class="fas fa-gift"></i>
+                                <span>Gifts</span>
+                            </button>
+                        </div>
+
+                        <div class="filter-options">
+                            <div class="price-filter">
+                                <label class="filter-label">Price Range</label>
+                                <select id="priceFilter" class="filter-select">
+                                    <option value="">All Prices</option>
+                                    <option value="0-100">Under SAR 100</option>
+                                    <option value="100-200">SAR 100-200</option>
+                                    <option value="200-300">SAR 200-300</option>
+                                    <option value="300+">Above SAR 300</option>
+                                </select>
+                            </div>
+
+                            <div class="results-info">
+                                <span id="resultsCount" class="results-badge">18 products</span>
+                                <button id="clearFilters" class="clear-filters-btn">
+                                    <i class="fas fa-undo"></i>
+                                    Reset
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Products Grid -->
+    <section class="product-section pt-4">
+        <div class="container">
+            <div id="productsGrid" class="row g-4">
+                <!-- Items rendered by JS -->
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-4 mb-4" data-aos="fade-up">
+                    <h4 class="mb-4">Custom Joy</h4>
+                    <p>Saudi Arabia's premier platform for celebration services since 2025. We make your special moments
+                        unforgettable with our premium cakes, flowers, balloons, and event arrangements.</p>
+                </div>
+                <div class="col-lg-2 col-md-6 mb-4" data-aos="fade-up" data-aos-delay="100">
+                    <h5 class="mb-4">Quick Links</h5>
+                    <div class="footer-links">
+                        <a href="../index.html#top">Home</a>
+                        <a href="../index.html#services">Services</a>
+                        <a href="../index.html#products">Products</a>
+                        <a href="../index.html#contact">Contact</a>
+                    </div>
+                </div>
+                <div class="col-lg-3 col-md-6 mb-4" data-aos="fade-up" data-aos-delay="200">
+                    <h5 class="mb-4">Services</h5>
+                    <div class="footer-links">
+                        <a href="#">Custom Cakes</a>
+                        <a href="#">Fresh Flowers</a>
+                        <a href="#">Balloon Decorations</a>
+                        <a href="#">Event Arrangements</a>
+                    </div>
+                </div>
+                <div class="col-lg-3 mb-4" data-aos="fade-up" data-aos-delay="300">
+                    <h5 class="mb-4">Contact Info</h5>
+                    <p><i class="fas fa-map-marker-alt me-2"></i> Riyadh, Saudi Arabia</p>
+                    <p><i class="fas fa-phone me-2"></i> +966 123 456 789</p>
+                    <p><i class="fas fa-envelope me-2"></i> info@customjoy.sa</p>
+                </div>
+            </div>
+            <div class="copyright">
+                <p>&copy; 2025 Custom Joy. All rights reserved. | Crafted with ❤️ in Saudi Arabia</p>
+            </div>
+        </div>
+    </footer>
+
+    <div class="scroll-top" id="scrollTop"><i class="fas fa-arrow-up"></i></div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/toastify-js"></script>
+    <script src="../js/products.js"></script>
+</body>
+
+</html>
