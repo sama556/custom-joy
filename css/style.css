@@ -68,12 +68,32 @@ body {
 
 /* Glassmorphism Navbar */
 .navbar {
-    background: rgba(9, 21, 35, 0.85);
-    backdrop-filter: blur(20px);
-    -webkit-backdrop-filter: blur(20px);
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    z-index: 1000;
+    /* background: rgba(9, 21, 35, 0.85); */
+    background: transparent;
+    backdrop-filter: none;
+    -webkit-backdrop-filter: none;
+    /* backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px); */
     padding: 20px 0;
+    /* box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.05); */
+}
+
+.navbar.scrolled {
+    padding: 15px 0;
+    background: rgba(9, 21, 35, 0.95);
     box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
     border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+.navbar-brand {
+    color: var(--white) !important;
+    font-weight: 800;
     transition: all 0.3s ease;
 }
 
@@ -844,6 +864,55 @@ footer {
     margin-top: 40px;
     text-align: center;
     color: rgba(255, 255, 255, 0.5);
+}
+
+/* Auth modal (glassmorphism consistent with theme) */
+.auth-modal .modal-content {
+    background: linear-gradient(135deg, rgba(126, 215, 255, 0.08) 0%, rgba(255, 79, 161, 0.08) 100%);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    border: 1px solid rgba(255, 255, 255, 0.18);
+    box-shadow: 0 20px 60px rgba(0,0,0,0.35);
+    border-radius: 24px;
+}
+
+.auth-modal .modal-header .btn-close {
+    filter: invert(1) grayscale(100%);
+}
+
+.auth-modal .modal-title {
+    background: linear-gradient(135deg, var(--white) 0%, var(--sky-blue) 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+}
+
+.auth-modal .form-control {
+    background: rgba(255, 255, 255, 0.12);
+    color: var(--dark-navy);
+}
+
+.auth-modal .form-control::placeholder { color: rgba(9,21,35,0.55); }
+.auth-modal .form-control:focus { box-shadow: 0 0 0 0.25rem rgba(126, 215, 255, 0.25); }
+
+.auth-modal .form-check-input {
+    border-color: rgba(9,21,35,0.3);
+}
+
+.auth-modal .btn-submit {
+    margin-top: 4px;
+}
+
+/* Helper links inside auth modal */
+.auth-modal .helper-links .form-check-label,
+.auth-modal .helper-links .btn-link {
+    color: rgba(9,21,35,0.8);
+    text-decoration: none;
+}
+
+.auth-modal .helper-links .btn-link:hover {
+    color: var(--pink);
+    text-decoration: underline;
 }
 
 /* Swiper custom styles (duplicate safeguards for specificity) */
