@@ -53,7 +53,13 @@
                         <a class="nav-link" href="#contact">Contact</a>
                     </li>
                     <li class="nav-item" data-aos="fade-down" data-aos-delay="300">
-                        <a class="nav-link" href="pages/chef.html">Our Chefs</a>
+                        <a class="nav-link" href="pages/chef.html">Service Providers</a>
+                    </li>
+                    <li class="nav-item" data-aos="fade-down" data-aos-delay="310">
+                        <a class="nav-link" href="pages/themes.html">Themes</a>
+                    </li>
+                    <li class="nav-item" data-aos="fade-down" data-aos-delay="320">
+                        <a class="nav-link" href="pages/ads.html">Ads</a>
                     </li>
 
                     <li class="nav-item ms-lg-2 mt-2 mt-lg-0" data-aos="fade-down" data-aos-delay="350">
@@ -630,6 +636,19 @@
                 stopOnFocus: true
             }).showToast();
         }
+    </script>
+
+    <!-- Immediate Login Redirect for Add to Cart on Home -->
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            document.querySelectorAll('.btn-add-cart').forEach(function (btn) {
+                btn.addEventListener('click', function (e) {
+                    e.preventDefault();
+                    e.stopPropagation();
+                    window.location.href = 'auth/login.html';
+                });
+            });
+        });
     </script>
 
 </body>

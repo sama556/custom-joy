@@ -35,7 +35,9 @@
                     <li class="nav-item" data-aos="fade-down" data-aos-delay="250"><a class="nav-link"
                             href="../index.html#contact">Contact</a></li>
                     <li class="nav-item" data-aos="fade-down" data-aos-delay="300"><a class="nav-link"
-                            href="chef.html">Our Chefs</a></li>
+                            href="chef.html">Service Providers</a></li>
+                    <li class="nav-item" data-aos="fade-down" data-aos-delay="310"><a class="nav-link" href="themes.html">Themes</a></li>
+                    <li class="nav-item" data-aos="fade-down" data-aos-delay="320"><a class="nav-link" href="ads.html">Ads</a></li>
                     <li class="nav-item ms-lg-2 mt-2 mt-lg-0" data-aos="fade-down" data-aos-delay="350"><a
                             class="btn btn-login w-100" href="../auth/login.html">Login</a></li>
                     <li class="nav-item ms-lg-2 mt-2 mt-lg-0" data-aos="fade-down" data-aos-delay="400"><a
@@ -107,7 +109,7 @@
                             </button>
                             <button class="filter-pill" data-filter="gifts">
                                 <i class="fas fa-gift"></i>
-                                <span>Gifts</span>
+                                <span>Decorations</span>
                             </button>
                         </div>
 
@@ -422,6 +424,72 @@
     <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
     <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/toastify-js"></script>
     <script src="../js/products.js"></script>
+    <script>
+        // Fallback: ensure login-required popup always appears on Add to Cart
+        document.addEventListener('DOMContentLoaded', function () {
+            document.querySelectorAll('.btn-add-cart').forEach(function (btn) {
+                btn.addEventListener('click', function (e) {
+                    e.preventDefault();
+                    e.stopPropagation();
+
+                    const container = document.createElement('div');
+                    container.style.display = 'flex';
+                    container.style.flexDirection = 'column';
+                    container.style.gap = '12px';
+                    const title = document.createElement('div');
+                    title.textContent = 'Login Required';
+                    title.style.fontWeight = '800';
+                    const msg = document.createElement('div');
+                    msg.textContent = 'Please login before adding items to your cart.';
+                    const actions = document.createElement('div');
+                    actions.style.display = 'flex';
+                    actions.style.gap = '10px';
+                    const cancelBtn = document.createElement('button');
+                    cancelBtn.textContent = 'Cancel';
+                    cancelBtn.style.padding = '8px 14px';
+                    cancelBtn.style.borderRadius = '24px';
+                    cancelBtn.style.border = '1px solid rgba(255,255,255,0.35)';
+                    cancelBtn.style.background = 'rgba(255,255,255,0.12)';
+                    cancelBtn.style.color = '#fff';
+                    const loginBtn = document.createElement('button');
+                    loginBtn.textContent = 'Login';
+                    loginBtn.style.padding = '8px 16px';
+                    loginBtn.style.borderRadius = '24px';
+                    loginBtn.style.border = 'none';
+                    loginBtn.style.color = '#fff';
+                    loginBtn.style.fontWeight = '700';
+                    loginBtn.style.background = 'linear-gradient(135deg, var(--pink) 0%, #e03d8c 100%)';
+                    actions.appendChild(cancelBtn);
+                    actions.appendChild(loginBtn);
+                    container.appendChild(title);
+                    container.appendChild(msg);
+                    container.appendChild(actions);
+
+                    const toast = Toastify({
+                        node: container,
+                        duration: -1,
+                        gravity: 'top',
+                        position: 'center',
+                        stopOnFocus: true,
+                        style: {
+                            background: 'rgba(9, 21, 35, 0.55)',
+                            boxShadow: '0 8px 32px rgba(0,0,0,0.35)',
+                            border: '1px solid rgba(255,255,255,0.18)',
+                            backdropFilter: 'blur(18px)',
+                            WebkitBackdropFilter: 'blur(18px)',
+                            borderRadius: '18px',
+                            padding: '16px 18px',
+                            color: '#fff',
+                            maxWidth: '360px'
+                        }
+                    });
+                    cancelBtn.addEventListener('click', () => toast.hideToast());
+                    loginBtn.addEventListener('click', () => { toast.hideToast(); window.location.href = '../auth/login.html'; });
+                    toast.showToast();
+                });
+            });
+        });
+    </script>
 </body>
 
 </html>

@@ -167,19 +167,80 @@ function viewProduct(productId) {
 }
 
 function addToCart(productId) {
-    // Find the product card by the onclick attribute
+    // Require login before adding to cart (popup with Login button)
     const productCard = document.querySelector(`[onclick*="viewProduct(${productId})"]`);
-    if (productCard) {
-        const productName = productCard.querySelector('.product-title').textContent;
-        Toastify({
-            text: `Added ${productName} to cart!`,
-            duration: 3000,
-            gravity: "top",
-            position: "right",
-            backgroundColor: "linear-gradient(to right, #FF4FA1, #e03d8c)",
-            stopOnFocus: true
-        }).showToast();
-    }
+    const productName = productCard ? productCard.querySelector('.product-title').textContent : 'Product';
+
+    const container = document.createElement('div');
+    container.style.display = 'flex';
+    container.style.flexDirection = 'column';
+    container.style.gap = '12px';
+
+    const title = document.createElement('div');
+    title.textContent = 'Login Required';
+    title.style.fontWeight = '800';
+    title.style.fontSize = '16px';
+
+    const msg = document.createElement('div');
+    msg.textContent = `Please login before adding "${productName}" to your cart.`;
+    msg.style.opacity = '0.9';
+    msg.style.fontSize = '14px';
+
+    const actions = document.createElement('div');
+    actions.style.display = 'flex';
+    actions.style.gap = '10px';
+
+    const cancelBtn = document.createElement('button');
+    cancelBtn.type = 'button';
+    cancelBtn.textContent = 'Cancel';
+    cancelBtn.style.padding = '8px 14px';
+    cancelBtn.style.borderRadius = '24px';
+    cancelBtn.style.border = '1px solid rgba(255,255,255,0.35)';
+    cancelBtn.style.background = 'rgba(255,255,255,0.12)';
+    cancelBtn.style.color = '#fff';
+
+    const loginBtn = document.createElement('button');
+    loginBtn.type = 'button';
+    loginBtn.textContent = 'Login';
+    loginBtn.style.padding = '8px 16px';
+    loginBtn.style.borderRadius = '24px';
+    loginBtn.style.border = 'none';
+    loginBtn.style.color = '#fff';
+    loginBtn.style.fontWeight = '700';
+    loginBtn.style.background = 'linear-gradient(135deg, var(--pink) 0%, #e03d8c 100%)';
+
+    actions.appendChild(cancelBtn);
+    actions.appendChild(loginBtn);
+    container.appendChild(title);
+    container.appendChild(msg);
+    container.appendChild(actions);
+
+    const toast = Toastify({
+        node: container,
+        duration: -1,
+        gravity: 'top',
+        position: 'center',
+        stopOnFocus: true,
+        style: {
+            background: 'rgba(9, 21, 35, 0.55)',
+            boxShadow: '0 8px 32px rgba(0,0,0,0.35)',
+            border: '1px solid rgba(255,255,255,0.18)',
+            backdropFilter: 'blur(18px)',
+            WebkitBackdropFilter: 'blur(18px)',
+            borderRadius: '18px',
+            padding: '16px 18px',
+            color: '#fff',
+            maxWidth: '360px'
+        }
+    });
+
+    cancelBtn.addEventListener('click', () => toast.hideToast());
+    loginBtn.addEventListener('click', () => {
+        toast.hideToast();
+        window.location.href = '../auth/login.html';
+    });
+
+    toast.showToast();
 }
 
 // Initial setup - show all products
