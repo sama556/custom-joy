@@ -1,0 +1,501 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Our Chefs - Custom Joy</title>
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="../css/style.css">
+    <link rel="stylesheet" href="../css/chef.css">
+</head>
+
+<body class="chef-page">
+    <div class="animated-bg"></div>
+
+    <!-- Navigation -->
+    <nav class="navbar navbar-expand-lg navbar-dark sticky-top">
+        <div class="container">
+            <a class="navbar-brand" href="../index.html" data-aos="fade-right"><img class="logo"
+                    src="../images/logo.png" alt="logo"></a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item" data-aos="fade-down" data-aos-delay="100"><a class="nav-link"
+                            href="../index.html#top">Home</a></li>
+                    <li class="nav-item" data-aos="fade-down" data-aos-delay="150"><a class="nav-link"
+                            href="../index.html#services">Services</a></li>
+                    <li class="nav-item" data-aos="fade-down" data-aos-delay="200"><a class="nav-link"
+                            href="../index.html#products">Products</a></li>
+                    <li class="nav-item" data-aos="fade-down" data-aos-delay="250"><a class="nav-link"
+                            href="../index.html#contact">Contact</a></li>
+                    <li class="nav-item" data-aos="fade-down" data-aos-delay="300"><a class="nav-link active"
+                            href="chef.html">Our Chefs</a></li>
+                    <li class="nav-item ms-lg-2 mt-2 mt-lg-0" data-aos="fade-down" data-aos-delay="350"><a
+                            class="btn btn-login w-100" href="../auth/login.html">Login</a></li>
+                    <li class="nav-item ms-lg-2 mt-2 mt-lg-0" data-aos="fade-down" data-aos-delay="400"><a
+                            class="btn btn-register w-100" href="../auth/register.html">Register</a></li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+  
+    <!-- Chef Team Section -->
+    <section id="chef-team" class="py-7 mt-6 ">
+        <div class="container">
+            <div class="text-center mb-5" data-aos="fade-up">
+                <h2 class="section-title">Our  Team</h2>
+                <p class="lead text-muted">Meet the passionate chefs who bring your celebrations to life</p>
+            </div>
+
+            <div class="row g-4">
+                <!-- Chef 1 -->
+                <div class="col-lg-3 col-md-4 col-sm-6" data-aos="fade-up" data-aos-delay="100">
+                    <div class="chef-card" onclick="window.location.href='chef-profile.html'">
+                        <div class="chef-image">
+                            <img src="../images/avater.jpg" alt="Chef Ahmed Al-Rashid">
+                            <div class="chef-overlay">
+                                <div class="chef-social">
+                                    <a href="#" class="social-link"><i class="fab fa-instagram"></i></a>
+                                    <a href="#" class="social-link"><i class="fab fa-twitter"></i></a>
+                                    <a href="#" class="social-link"><i class="fab fa-linkedin"></i></a>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="chef-info">
+                            <h4 class="chef-name">Chef Ahmed Al-Rashid</h4>
+                            <p class="chef-title">Head Pastry Chef</p>
+                            <div class="chef-rating">
+                                <div class="stars">
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                </div>
+                                <span class="rating-text">4.9 (127)</span>
+                            </div>
+                            <div class="chef-stats">
+                                <div class="stat">
+                                    <i class="fas fa-birthday-cake"></i>
+                                    <span>24 Products</span>
+                                </div>
+                                <div class="stat">
+                                    <i class="fas fa-award"></i>
+                                    <span>5 Awards</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Chef 2 -->
+                <div class="col-lg-3 col-md-4 col-sm-6" data-aos="fade-up" data-aos-delay="200">
+                    <div class="chef-card" onclick="window.location.href='chef-profile.html'">
+                        <div class="chef-image">
+                            <img src="../images/wowan2.jpg" alt="Chef Fatima Al-Zahra">
+                            <div class="chef-overlay">
+                                <div class="chef-social">
+                                    <a href="#" class="social-link"><i class="fab fa-instagram"></i></a>
+                                    <a href="#" class="social-link"><i class="fab fa-twitter"></i></a>
+                                    <a href="#" class="social-link"><i class="fab fa-linkedin"></i></a>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="chef-info">
+                            <h4 class="chef-name">Chef Fatima Al-Zahra</h4>
+                            <p class="chef-title">Creative Director</p>
+                            <div class="chef-rating">
+                                <div class="stars">
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                </div>
+                                <span class="rating-text">4.8 (98)</span>
+                            </div>
+                            <div class="chef-stats">
+                                <div class="stat">
+                                    <i class="fas fa-birthday-cake"></i>
+                                    <span>18 Products</span>
+                                </div>
+                                <div class="stat">
+                                    <i class="fas fa-award"></i>
+                                    <span>3 Awards</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Chef 3 -->
+                <div class="col-lg-3 col-md-4 col-sm-6" data-aos="fade-up" data-aos-delay="300">
+                    <div class="chef-card" onclick="window.location.href='chef-profile.html'">
+                        <div class="chef-image">
+                            <img src="../images/avater4.jpg" alt="Chef Mohammed Al-Sabah">
+                            <div class="chef-overlay">
+                                <div class="chef-social">
+                                    <a href="#" class="social-link"><i class="fab fa-instagram"></i></a>
+                                    <a href="#" class="social-link"><i class="fab fa-twitter"></i></a>
+                                    <a href="#" class="social-link"><i class="fab fa-linkedin"></i></a>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="chef-info">
+                            <h4 class="chef-name">Chef Mohammed Al-Sabah</h4>
+                            <p class="chef-title">Specialty Cake Artist</p>
+                            <div class="chef-rating">
+                                <div class="stars">
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                </div>
+                                <span class="rating-text">4.9 (156)</span>
+                            </div>
+                            <div class="chef-stats">
+                                <div class="stat">
+                                    <i class="fas fa-birthday-cake"></i>
+                                    <span>31 Products</span>
+                                </div>
+                                <div class="stat">
+                                    <i class="fas fa-award"></i>
+                                    <span>7 Awards</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Chef 4 -->
+                <div class="col-lg-3 col-md-4 col-sm-6" data-aos="fade-up" data-aos-delay="400">
+                    <div class="chef-card" onclick="window.location.href='chef-profile.html'">
+                        <div class="chef-image">
+                            <img src="../images/avater9.jpg" alt="Chef Sarah Al-Mansouri">
+                            <div class="chef-overlay">
+                                <div class="chef-social">
+                                    <a href="#" class="social-link"><i class="fab fa-instagram"></i></a>
+                                    <a href="#" class="social-link"><i class="fab fa-twitter"></i></a>
+                                    <a href="#" class="social-link"><i class="fab fa-linkedin"></i></a>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="chef-info">
+                            <h4 class="chef-name">Chef Sarah Al-Mansouri</h4>
+                            <p class="chef-title">Flower Specialist</p>
+                            <div class="chef-rating">
+                                <div class="stars">
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <i class="far fa-star"></i>
+                                </div>
+                                <span class="rating-text">4.6 (89)</span>
+                            </div>
+                            <div class="chef-stats">
+                                <div class="stat">
+                                    <i class="fas fa-birthday-cake"></i>
+                                    <span>15 Products</span>
+                                </div>
+                                <div class="stat">
+                                    <i class="fas fa-award"></i>
+                                    <span>2 Awards</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Chef 5 -->
+                <div class="col-lg-3 col-md-4 col-sm-6" data-aos="fade-up" data-aos-delay="500">
+                    <div class="chef-card" onclick="window.location.href='chef-profile.html'">
+                        <div class="chef-image">
+                            <img src="../images/avater6.jpg" alt="Chef Khalid Al-Harbi">
+                            <div class="chef-overlay">
+                                <div class="chef-social">
+                                    <a href="#" class="social-link"><i class="fab fa-instagram"></i></a>
+                                    <a href="#" class="social-link"><i class="fab fa-twitter"></i></a>
+                                    <a href="#" class="social-link"><i class="fab fa-linkedin"></i></a>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="chef-info">
+                            <h4 class="chef-name">Chef Khalid Al-Harbi</h4>
+                            <p class="chef-title">Traditional Expert</p>
+                            <div class="chef-rating">
+                                <div class="stars">
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                </div>
+                                <span class="rating-text">4.7 (112)</span>
+                            </div>
+                            <div class="chef-stats">
+                                <div class="stat">
+                                    <i class="fas fa-birthday-cake"></i>
+                                    <span>22 Products</span>
+                                </div>
+                                <div class="stat">
+                                    <i class="fas fa-award"></i>
+                                    <span>4 Awards</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Chef 6 -->
+                <div class="col-lg-3 col-md-4 col-sm-6" data-aos="fade-up" data-aos-delay="600">
+                    <div class="chef-card" onclick="window.location.href='chef-profile.html'">
+                        <div class="chef-image">
+                            <img src="../images/woman.jpg" alt="Chef Layla Al-Rashid">
+                            <div class="chef-overlay">
+                                <div class="chef-social">
+                                    <a href="#" class="social-link"><i class="fab fa-instagram"></i></a>
+                                    <a href="#" class="social-link"><i class="fab fa-twitter"></i></a>
+                                    <a href="#" class="social-link"><i class="fab fa-linkedin"></i></a>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="chef-info">
+                            <h4 class="chef-name">Chef Layla Al-Rashid</h4>
+                            <p class="chef-title">Kids' Specialist</p>
+                            <div class="chef-rating">
+                                <div class="stars">
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <i class="far fa-star"></i>
+                                </div>
+                                <span class="rating-text">4.5 (76)</span>
+                            </div>
+                            <div class="chef-stats">
+                                <div class="stat">
+                                    <i class="fas fa-birthday-cake"></i>
+                                    <span>12 Products</span>
+                                </div>
+                                <div class="stat">
+                                    <i class="fas fa-award"></i>
+                                    <span>1 Award</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Chef 7 -->
+                <div class="col-lg-3 col-md-4 col-sm-6" data-aos="fade-up" data-aos-delay="700">
+                    <div class="chef-card" onclick="window.location.href='chef-profile.html'">
+                        <div class="chef-image">
+                            <img src="../images/avater4.jpg" alt="Chef Omar Al-Mutairi">
+                            <div class="chef-overlay">
+                                <div class="chef-social">
+                                    <a href="#" class="social-link"><i class="fab fa-instagram"></i></a>
+                                    <a href="#" class="social-link"><i class="fab fa-twitter"></i></a>
+                                    <a href="#" class="social-link"><i class="fab fa-linkedin"></i></a>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="chef-info">
+                            <h4 class="chef-name">Chef Omar Al-Mutairi</h4>
+                            <p class="chef-title">Chocolate Master</p>
+                            <div class="chef-rating">
+                                <div class="stars">
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                </div>
+                                <span class="rating-text">4.8 (134)</span>
+                            </div>
+                            <div class="chef-stats">
+                                <div class="stat">
+                                    <i class="fas fa-birthday-cake"></i>
+                                    <span>28 Products</span>
+                                </div>
+                                <div class="stat">
+                                    <i class="fas fa-award"></i>
+                                    <span>6 Awards</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Chef 8 -->
+                <div class="col-lg-3 col-md-4 col-sm-6" data-aos="fade-up" data-aos-delay="800">
+                    <div class="chef-card" onclick="window.location.href='chef-profile.html'">
+                        <div class="chef-image">
+                            <img src="../images/avater3.jpg" alt="Chef Nour Al-Sheikh">
+                            <div class="chef-overlay">
+                                <div class="chef-social">
+                                    <a href="#" class="social-link"><i class="fab fa-instagram"></i></a>
+                                    <a href="#" class="social-link"><i class="fab fa-twitter"></i></a>
+                                    <a href="#" class="social-link"><i class="fab fa-linkedin"></i></a>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="chef-info">
+                            <h4 class="chef-name">Chef Nour Al-Sheikh</h4>
+                            <p class="chef-title">Wedding Specialist</p>
+                            <div class="chef-rating">
+                                <div class="stars">
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                </div>
+                                <span class="rating-text">4.9 (203)</span>
+                            </div>
+                            <div class="chef-stats">
+                                <div class="stat">
+                                    <i class="fas fa-birthday-cake"></i>
+                                    <span>35 Products</span>
+                                </div>
+                                <div class="stat">
+                                    <i class="fas fa-award"></i>
+                                    <span>8 Awards</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+   
+
+    <!-- Awards & Recognition Section -->
+    <section class="awards-section py-5">
+        <div class="container">
+            <div class="text-center mb-5" data-aos="fade-up">
+                <h2 class="section-title">Awards & Recognition</h2>
+                <p class="lead text-muted">Our chefs have been recognized for their exceptional talent and dedication</p>
+            </div>
+            <div class="row g-4">
+                <div class="col-lg-3 col-md-6" data-aos="fade-up" data-aos-delay="100">
+                    <div class="award-card text-center">
+                        <div class="award-icon">
+                            <i class="fas fa-trophy"></i>
+                        </div>
+                        <h5>Best Pastry Chef 2024</h5>
+                        <p class="text-muted">Saudi Culinary Awards</p>
+                    </div>
+                </div>
+                <div class="col-lg-3 col-md-6" data-aos="fade-up" data-aos-delay="200">
+                    <div class="award-card text-center">
+                        <div class="award-icon">
+                            <i class="fas fa-medal"></i>
+                        </div>
+                        <h5>Excellence in Design</h5>
+                        <p class="text-muted">Middle East Food Awards</p>
+                    </div>
+                </div>
+                <div class="col-lg-3 col-md-6" data-aos="fade-up" data-aos-delay="300">
+                    <div class="award-card text-center">
+                        <div class="award-icon">
+                            <i class="fas fa-star"></i>
+                        </div>
+                        <h5>Customer Choice Award</h5>
+                        <p class="text-muted">Riyadh Business Excellence</p>
+                    </div>
+                </div>
+                <div class="col-lg-3 col-md-6" data-aos="fade-up" data-aos-delay="400">
+                    <div class="award-card text-center">
+                        <div class="award-icon">
+                            <i class="fas fa-gem"></i>
+                        </div>
+                        <h5>Innovation in Desserts</h5>
+                        <p class="text-muted">Gulf Food Festival</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- CTA Section -->
+    <section class="cta-section py-5">
+        <div class="container">
+            <div class="row justify-content-center text-center">
+                <div class="col-lg-8" data-aos="fade-up">
+                    <h2 class="section-title text-white mb-4">Ready to Experience Our Culinary Excellence?</h2>
+                    <p class="lead text-white mb-4">Let our talented chefs create something extraordinary for your next celebration</p>
+                    <div class="d-flex flex-wrap justify-content-center gap-3">
+                        <a href="../pages/products.html" class="btn btn-hero">
+                            <i class="fas fa-birthday-cake me-2"></i>View Our Creations
+                        </a>
+                        <a href="../index.html#contact" class="btn btn-outline-light">
+                            <i class="fas fa-phone me-2"></i>Contact Us
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-4 mb-4" data-aos="fade-up">
+                    <h4 class="mb-4">Custom Joy</h4>
+                    <p>Saudi Arabia's premier platform for celebration services since 2025. We make your special moments
+                        unforgettable with our premium cakes, flowers, balloons, and event arrangements.</p>
+                </div>
+                <div class="col-lg-2 col-md-6 mb-4" data-aos="fade-up" data-aos-delay="100">
+                    <h5 class="mb-4">Quick Links</h5>
+                    <div class="footer-links">
+                        <a href="../index.html#top">Home</a>
+                        <a href="../index.html#services">Services</a>
+                        <a href="../index.html#products">Products</a>
+                        <a href="../index.html#contact">Contact</a>
+                        <a href="chef.html">Our Chefs</a>
+                    </div>
+                </div>
+                <div class="col-lg-3 col-md-6 mb-4" data-aos="fade-up" data-aos-delay="200">
+                    <h5 class="mb-4">Services</h5>
+                    <div class="footer-links">
+                        <a href="#">Custom Cakes</a>
+                        <a href="#">Fresh Flowers</a>
+                        <a href="#">Balloon Decorations</a>
+                        <a href="#">Event Arrangements</a>
+                    </div>
+                </div>
+                <div class="col-lg-3 mb-4" data-aos="fade-up" data-aos-delay="300">
+                    <h5 class="mb-4">Contact Info</h5>
+                    <p><i class="fas fa-map-marker-alt me-2"></i>  Saudi Arabia</p>
+                    <p><i class="fas fa-phone me-2"></i> +966 123 456 789</p>
+                    <p><i class="fas fa-envelope me-2"></i> info@customjoy.sa</p>
+                </div>
+            </div>
+            <div class="copyright">
+                <p>&copy; 2025 Custom Joy. All rights reserved. | Crafted with ❤️ in Saudi Arabia</p>
+            </div>
+        </div>
+    </footer>
+
+    <div class="scroll-top" id="scrollTop"><i class="fas fa-arrow-up"></i></div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/toastify-js"></script>
+    <script src="../js/chef.js"></script>
+</body>
+
+</html>

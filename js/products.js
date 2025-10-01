@@ -2,27 +2,7 @@
 
 AOS.init({ duration: 800, once: true });
 
-// Sample catalog (can be replaced with API later)
-const CATALOG = [
-    { id: 1, name: 'Royal Chocolate Cake', price: 199, category: 'cakes', rating: 4.8, reviews: 124, img: 'https://images.unsplash.com/photo-1559620192-032c4bc4674e?auto=format&fit=crop&w=1229&q=80' },
-    { id: 2, name: 'Vanilla Dream Cake', price: 179, category: 'cakes', rating: 4.6, reviews: 89, img: 'https://images.unsplash.com/photo-1571115764595-644a1f56a55c?auto=format&fit=crop&w=1283&q=80' },
-    { id: 3, name: 'Strawberry Delight Cake', price: 189, category: 'cakes', rating: 4.9, reviews: 156, img: 'https://images.unsplash.com/photo-1578985545062-69928b1d9587?auto=format&fit=crop&w=1089&q=80' },
-    { id: 4, name: 'Red Velvet Cake', price: 219, category: 'cakes', rating: 4.7, reviews: 98, img: 'https://images.unsplash.com/photo-1563805042-7684c019e1cb?auto=format&fit=crop&w=1000&q=80' },
-    { id: 5, name: 'Premium Rose Bouquet', price: 149, category: 'flowers', rating: 4.9, reviews: 203, img: 'https://images.unsplash.com/photo-1563241527-3004b7be0ffd?auto=format&fit=crop&w=1170&q=80' },
-    { id: 6, name: 'Mixed Flower Arrangement', price: 129, category: 'flowers', rating: 4.5, reviews: 67, img: 'https://images.unsplash.com/photo-1487070183336-b8639229991c?auto=format&fit=crop&w=1173&q=80' },
-    { id: 7, name: 'Tulip Bouquet', price: 99, category: 'flowers', rating: 4.4, reviews: 45, img: 'https://images.unsplash.com/photo-1490750967868-88aa4486c946?auto=format&fit=crop&w=1000&q=80' },
-    { id: 8, name: 'Sunflower Collection', price: 119, category: 'flowers', rating: 4.6, reviews: 78, img: 'https://images.unsplash.com/photo-1597848212624-e17eb5d6e0e4?auto=format&fit=crop&w=1000&q=80' },
-    { id: 9, name: 'Birthday Balloon Set', price: 89, category: 'balloons', rating: 4.3, reviews: 34, img: 'https://images.unsplash.com/photo-1580516094686-3d5d45f9450c?auto=format&fit=crop&w=1170&q=80' },
-    { id: 10, name: 'Heart Balloon Bouquet', price: 69, category: 'balloons', rating: 4.7, reviews: 56, img: 'https://images.unsplash.com/photo-1513475382585-d06e58bcb0e0?auto=format&fit=crop&w=1000&q=80' },
-    { id: 11, name: 'Number Balloon Set', price: 79, category: 'balloons', rating: 4.5, reviews: 42, img: 'https://images.unsplash.com/photo-1506905925346-21bda4d32df4?auto=format&fit=crop&w=1000&q=80' },
-    { id: 12, name: 'Celebration Gift Box', price: 249, category: 'gifts', rating: 4.8, reviews: 112, img: 'https://images.unsplash.com/photo-1549465220-1a8b9238cd48?auto=format&fit=crop&w=1160&q=80' },
-    { id: 13, name: 'Luxury Gift Basket', price: 299, category: 'gifts', rating: 4.9, reviews: 89, img: 'https://images.unsplash.com/photo-1513475382585-d06e58bcb0e0?auto=format&fit=crop&w=1000&q=80' },
-    { id: 14, name: 'Chocolate Gift Set', price: 159, category: 'gifts', rating: 4.6, reviews: 73, img: 'https://images.unsplash.com/photo-1511381939415-e44015466834?auto=format&fit=crop&w=1000&q=80' },
-    { id: 15, name: 'Wedding Cake', price: 399, category: 'cakes', rating: 4.9, reviews: 167, img: 'https://images.unsplash.com/photo-1464349095431-e9a21285b5f3?auto=format&fit=crop&w=1000&q=80' },
-    { id: 16, name: 'Orchid Arrangement', price: 179, category: 'flowers', rating: 4.7, reviews: 91, img: 'https://images.unsplash.com/photo-1544947950-fa07a98d237f?auto=format&fit=crop&w=1000&q=80' },
-    { id: 17, name: 'Confetti Balloons', price: 49, category: 'balloons', rating: 4.2, reviews: 28, img: 'https://images.unsplash.com/photo-1506905925346-21bda4d32df4?auto=format&fit=crop&w=1000&q=80' },
-    { id: 18, name: 'Premium Gift Hamper', price: 349, category: 'gifts', rating: 4.8, reviews: 134, img: 'https://images.unsplash.com/photo-1513475382585-d06e58bcb0e0?auto=format&fit=crop&w=1000&q=80' }
-];
+// Static product data is now in HTML - no need for CATALOG array
 
 const grid = document.getElementById('productsGrid');
 const searchInput = document.getElementById('searchInput');
@@ -58,56 +38,38 @@ function generateStars(rating) {
 }
 
 function renderProducts(items) {
-    grid.innerHTML = items.map(p => `
-        <div class="col-6 col-md-4 col-lg-3 col-xl-2">
-            <div class="product-card h-100" data-aos="zoom-in" onclick="viewProduct(${p.id})" style="cursor: pointer;">
-                <div class="product-img">
-                    <img src="${p.img}" alt="${p.name}">
-                </div>
-                <div class="product-info">
-                    <h6 class="product-title">${p.name}</h6>
-                    <div class="product-rating">
-                        <div class="stars">
-                            ${generateStars(p.rating)}
-                        </div>
-                        <span class="rating-text">${p.rating} (${p.reviews})</span>
-                    </div>
-                    <p class="product-price">SAR ${p.price}</p>
-                    <button class="btn-add-cart" onclick="event.stopPropagation(); addToCart(${p.id})"><i class="fas fa-shopping-cart"></i> Add to Cart</button>
-                </div>
-            </div>
-        </div>
-    `).join('');
-
-    // Image fallback
-    const fallbackUrl = 'https://placehold.co/600x400?text=Image+Unavailable';
-    grid.querySelectorAll('img').forEach(img => {
-        img.addEventListener('error', function () {
-            if (!img.dataset.fallbackApplied) {
-                img.src = fallbackUrl;
-                img.dataset.fallbackApplied = 'true';
-            }
-        }, { once: true });
+    // Get all product cards
+    const allCards = grid.querySelectorAll('.product-card');
+    
+    // Hide all cards first
+    allCards.forEach(card => {
+        card.closest('.col-6').style.display = 'none';
     });
 
-    resultsCount.textContent = `${items.length} result${items.length !== 1 ? 's' : ''}`;
-}
+    // Show only matching cards
+    let visibleCount = 0;
+    allCards.forEach(card => {
+        const productName = card.querySelector('.product-title').textContent.toLowerCase();
+        const productCategory = card.dataset.category;
+        const productPrice = parseInt(card.querySelector('.product-price').textContent.replace('SAR ', ''));
+        
+        const term = searchInput.value.trim().toLowerCase();
+        const activePill = document.querySelector('.filter-pill.active');
+        const cat = activePill ? activePill.dataset.filter : 'all';
+        const price = priceFilter.value;
 
-function applyFilters() {
-    const term = searchInput.value.trim().toLowerCase();
-    const activePill = document.querySelector('.filter-pill.active');
-    const cat = activePill ? activePill.dataset.filter : 'all';
-    const price = priceFilter.value;
+        const matchesText = !term || productName.includes(term);
+        const matchesCat = cat === 'all' || productCategory === cat;
+        const matchesPrice = !price || checkPriceRange(productPrice, price);
 
-    const filtered = CATALOG.filter(p => {
-        const matchesText = !term || p.name.toLowerCase().includes(term);
-        const matchesCat = cat === 'all' || p.category === cat;
-        const matchesPrice = !price || checkPriceRange(p.price, price);
-        return matchesText && matchesCat && matchesPrice;
+        if (matchesText && matchesCat && matchesPrice) {
+            card.closest('.col-6').style.display = 'block';
+            visibleCount++;
+        }
     });
 
     // Show "No results" message if no products match
-    if (filtered.length === 0) {
+    if (visibleCount === 0) {
         grid.innerHTML = `
             <div class="col-12 text-center py-5">
                 <div class="card border-0 shadow-sm" style="background: rgba(255, 255, 255, 0.8);">
@@ -122,9 +84,13 @@ function applyFilters() {
                 </div>
             </div>
         `;
-    } else {
-        renderProducts(filtered);
     }
+
+    resultsCount.textContent = `${visibleCount} result${visibleCount !== 1 ? 's' : ''}`;
+}
+
+function applyFilters() {
+    renderProducts();
     AOS.refreshHard();
 }
 
@@ -139,7 +105,13 @@ function clearAllFilters() {
     // Hide clear search button
     clearSearch.style.display = 'none';
 
-    applyFilters();
+    // Show all product cards
+    const allCards = grid.querySelectorAll('.product-card');
+    allCards.forEach(card => {
+        card.closest('.col-6').style.display = 'block';
+    });
+
+    resultsCount.textContent = `${allCards.length} result${allCards.length !== 1 ? 's' : ''}`;
 }
 
 function checkPriceRange(price, range) {
@@ -195,10 +167,12 @@ function viewProduct(productId) {
 }
 
 function addToCart(productId) {
-    const product = CATALOG.find(p => p.id === productId);
-    if (product) {
+    // Find the product card by the onclick attribute
+    const productCard = document.querySelector(`[onclick*="viewProduct(${productId})"]`);
+    if (productCard) {
+        const productName = productCard.querySelector('.product-title').textContent;
         Toastify({
-            text: `Added ${product.name} to cart!`,
+            text: `Added ${productName} to cart!`,
             duration: 3000,
             gravity: "top",
             position: "right",
@@ -208,9 +182,11 @@ function addToCart(productId) {
     }
 }
 
-// Initial render
-renderProducts(CATALOG);
-// Ensure AOS animations are calculated after dynamic render
+// Initial setup - show all products
+const allCards = grid.querySelectorAll('.product-card');
+resultsCount.textContent = `${allCards.length} result${allCards.length !== 1 ? 's' : ''}`;
+
+// Ensure AOS animations are calculated
 setTimeout(() => { try { AOS.refreshHard(); } catch (e) { } }, 0);
 
 // Force navbar to appear dark on this page (no hero overlap here)

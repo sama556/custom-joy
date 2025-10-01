@@ -34,6 +34,8 @@
                             href="../index.html#products">Products</a></li>
                     <li class="nav-item" data-aos="fade-down" data-aos-delay="250"><a class="nav-link"
                             href="../index.html#contact">Contact</a></li>
+                    <li class="nav-item" data-aos="fade-down" data-aos-delay="300"><a class="nav-link"
+                            href="chef.html">Our Chefs</a></li>
                     <li class="nav-item ms-lg-2 mt-2 mt-lg-0" data-aos="fade-down" data-aos-delay="350"><a
                             class="btn btn-login w-100" href="../auth/login.html">Login</a></li>
                     <li class="nav-item ms-lg-2 mt-2 mt-lg-0" data-aos="fade-down" data-aos-delay="400"><a
@@ -139,7 +141,236 @@
     <section class="product-section pt-4">
         <div class="container">
             <div id="productsGrid" class="row g-4">
-                <!-- Items rendered by JS -->
+                <!-- Static Product Cards -->
+                <div class="col-6 col-md-4 col-lg-3 col-xl-2">
+                    <div class="product-card h-100" data-aos="zoom-in" onclick="viewProduct(1)" style="cursor: pointer;" data-category="cakes">
+                        <div class="product-img">
+                            <img src="../images/ceek1.jpg" alt="Royal Chocolate Cake">
+                        </div>
+                        <div class="product-info">
+                            <h6 class="product-title">Royal Chocolate Cake</h6>
+                            <div class="product-rating">
+                                <div class="stars">
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                </div>
+                                <span class="rating-text">4.8 (124)</span>
+                            </div>
+                            <p class="product-price">SAR 199</p>
+                            <button class="btn-add-cart" onclick="event.stopPropagation(); addToCart(1)"><i class="fas fa-shopping-cart"></i> Add to Cart</button>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-6 col-md-4 col-lg-3 col-xl-2">
+                    <div class="product-card h-100" data-aos="zoom-in" onclick="viewProduct(2)" style="cursor: pointer;" data-category="cakes">
+                        <div class="product-img">
+                            <img src="../images/ceek2.jpg" alt="Vanilla Dream Cake">
+                        </div>
+                        <div class="product-info">
+                            <h6 class="product-title">Vanilla Dream Cake</h6>
+                            <div class="product-rating">
+                                <div class="stars">
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                </div>
+                                <span class="rating-text">4.6 (89)</span>
+                            </div>
+                            <p class="product-price">SAR 179</p>
+                            <button class="btn-add-cart" onclick="event.stopPropagation(); addToCart(2)"><i class="fas fa-shopping-cart"></i> Add to Cart</button>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-6 col-md-4 col-lg-3 col-xl-2">
+                    <div class="product-card h-100" data-aos="zoom-in" onclick="viewProduct(4)" style="cursor: pointer;" data-category="cakes">
+                        <div class="product-img">
+                            <img src="../images/ceek3.jpg" alt="Red Velvet Cake">
+                        </div>
+                        <div class="product-info">
+                            <h6 class="product-title">Red Velvet Cake</h6>
+                            <div class="product-rating">
+                                <div class="stars">
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                </div>
+                                <span class="rating-text">4.7 (98)</span>
+                            </div>
+                            <p class="product-price">SAR 219</p>
+                            <button class="btn-add-cart" onclick="event.stopPropagation(); addToCart(4)"><i class="fas fa-shopping-cart"></i> Add to Cart</button>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-6 col-md-4 col-lg-3 col-xl-2">
+                    <div class="product-card h-100" data-aos="zoom-in" onclick="viewProduct(5)" style="cursor: pointer;" data-category="flowers">
+                        <div class="product-img">
+                            <img src="../images/rose.jpg" alt="Premium Rose Bouquet">
+                        </div>
+                        <div class="product-info">
+                            <h6 class="product-title">Premium Rose Bouquet</h6>
+                            <div class="product-rating">
+                                <div class="stars">
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                </div>
+                                <span class="rating-text">4.9 (203)</span>
+                            </div>
+                            <p class="product-price">SAR 149</p>
+                            <button class="btn-add-cart" onclick="event.stopPropagation(); addToCart(5)"><i class="fas fa-shopping-cart"></i> Add to Cart</button>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-6 col-md-4 col-lg-3 col-xl-2">
+                    <div class="product-card h-100" data-aos="zoom-in" onclick="viewProduct(6)" style="cursor: pointer;" data-category="flowers">
+                        <div class="product-img">
+                            <img src="../images/flower1.jpg" alt="Mixed Flower Arrangement">
+                        </div>
+                        <div class="product-info">
+                            <h6 class="product-title">Mixed Flower Arrangement</h6>
+                            <div class="product-rating">
+                                <div class="stars">
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <i class="far fa-star"></i>
+                                </div>
+                                <span class="rating-text">4.5 (67)</span>
+                            </div>
+                            <p class="product-price">SAR 129</p>
+                            <button class="btn-add-cart" onclick="event.stopPropagation(); addToCart(6)"><i class="fas fa-shopping-cart"></i> Add to Cart</button>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-6 col-md-4 col-lg-3 col-xl-2">
+                    <div class="product-card h-100" data-aos="zoom-in" onclick="viewProduct(7)" style="cursor: pointer;" data-category="flowers">
+                        <div class="product-img">
+                            <img src="../images/rose2.jpg" alt="Tulip Bouquet">
+                        </div>
+                        <div class="product-info">
+                            <h6 class="product-title">Tulip Bouquet</h6>
+                            <div class="product-rating">
+                                <div class="stars">
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <i class="far fa-star"></i>
+                                </div>
+                                <span class="rating-text">4.4 (45)</span>
+                            </div>
+                            <p class="product-price">SAR 99</p>
+                            <button class="btn-add-cart" onclick="event.stopPropagation(); addToCart(7)"><i class="fas fa-shopping-cart"></i> Add to Cart</button>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-6 col-md-4 col-lg-3 col-xl-2">
+                    <div class="product-card h-100" data-aos="zoom-in" onclick="viewProduct(8)" style="cursor: pointer;" data-category="flowers">
+                        <div class="product-img">
+                            <img src="../images/flower2.jpg" alt="Sunflower Collection">
+                        </div>
+                        <div class="product-info">
+                            <h6 class="product-title">Sunflower Collection</h6>
+                            <div class="product-rating">
+                                <div class="stars">
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <i class="far fa-star"></i>
+                                </div>
+                                <span class="rating-text">4.6 (78)</span>
+                            </div>
+                            <p class="product-price">SAR 119</p>
+                            <button class="btn-add-cart" onclick="event.stopPropagation(); addToCart(8)"><i class="fas fa-shopping-cart"></i> Add to Cart</button>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-6 col-md-4 col-lg-3 col-xl-2">
+                    <div class="product-card h-100" data-aos="zoom-in" onclick="viewProduct(9)" style="cursor: pointer;" data-category="balloons">
+                        <div class="product-img">
+                            <img src="../images/ballon.jpg" alt="Birthday Balloon Set">
+                        </div>
+                        <div class="product-info">
+                            <h6 class="product-title">Birthday Balloon Set</h6>
+                            <div class="product-rating">
+                                <div class="stars">
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <i class="far fa-star"></i>
+                                </div>
+                                <span class="rating-text">4.3 (34)</span>
+                            </div>
+                            <p class="product-price">SAR 89</p>
+                            <button class="btn-add-cart" onclick="event.stopPropagation(); addToCart(9)"><i class="fas fa-shopping-cart"></i> Add to Cart</button>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-6 col-md-4 col-lg-3 col-xl-2">
+                    <div class="product-card h-100" data-aos="zoom-in" onclick="viewProduct(11)" style="cursor: pointer;" data-category="balloons">
+                        <div class="product-img">
+                            <img src="https://images.unsplash.com/photo-1506905925346-21bda4d32df4?auto=format&fit=crop&w=1000&q=80" alt="Number Balloon Set">
+                        </div>
+                        <div class="product-info">
+                            <h6 class="product-title">Number Balloon Set</h6>
+                            <div class="product-rating">
+                                <div class="stars">
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <i class="far fa-star"></i>
+                                </div>
+                                <span class="rating-text">4.5 (42)</span>
+                            </div>
+                            <p class="product-price">SAR 79</p>
+                            <button class="btn-add-cart" onclick="event.stopPropagation(); addToCart(11)"><i class="fas fa-shopping-cart"></i> Add to Cart</button>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-6 col-md-4 col-lg-3 col-xl-2">
+                    <div class="product-card h-100" data-aos="zoom-in" onclick="viewProduct(12)" style="cursor: pointer;" data-category="gifts">
+                        <div class="product-img">
+                            <img src="../images/boxjpg.jpg" alt="Celebration Gift Box">
+                        </div>
+                        <div class="product-info">
+                            <h6 class="product-title">Celebration Gift Box</h6>
+                            <div class="product-rating">
+                                <div class="stars">
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                </div>
+                                <span class="rating-text">4.8 (112)</span>
+                            </div>
+                            <p class="product-price">SAR 249</p>
+                            <button class="btn-add-cart" onclick="event.stopPropagation(); addToCart(12)"><i class="fas fa-shopping-cart"></i> Add to Cart</button>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
     </section>
@@ -173,7 +404,7 @@
                 </div>
                 <div class="col-lg-3 mb-4" data-aos="fade-up" data-aos-delay="300">
                     <h5 class="mb-4">Contact Info</h5>
-                    <p><i class="fas fa-map-marker-alt me-2"></i> Riyadh, Saudi Arabia</p>
+                    <p><i class="fas fa-map-marker-alt me-2"></i>  Saudi Arabia</p>
                     <p><i class="fas fa-phone me-2"></i> +966 123 456 789</p>
                     <p><i class="fas fa-envelope me-2"></i> info@customjoy.sa</p>
                 </div>
