@@ -1,0 +1,602 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Dashboard - Product Management</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="../css/products.css">
+</head>
+
+<body>
+    <!-- Sidebar -->
+    <div class="sidebar">
+        <div class="sidebar-header">
+            <img class="logo" src="../../images/logo.png">
+        </div>
+        <nav class="sidebar-menu">
+            <ul>
+                <li><a href="../overview.html"><i class="fas fa-chart-pie"></i> <span>Overview</span></a></li>
+                <li><a href="users.html"><i class="fas fa-users"></i> <span>User Management</span></a></li>
+                <li><a href="service-providers.html"><i class="fas fa-user-tie"></i> <span>Service Providers</span></a>
+                </li>
+                <li><a href="financials.html"><i class="fas fa-chart-line"></i> <span>Financials</span></a></li>
+                <li><a href="ads.html"><i class="fas fa-ad"></i> <span>Ads Management</span></a></li>
+                <li><a href="themes.html"><i class="fas fa-palette"></i> <span>Themes Management</span></a></li>
+                <li><a href="sales.html"><i class="fas fa-shopping-cart"></i> <span>Sales Statistics</span></a></li>
+                <li><a href="feedback.html"><i class="fas fa-star"></i> <span>Feedback Management</span></a></li>
+                <li class="active"><a href="#"><i class="fas fa-box"></i> <span>Product Management</span></a></li>
+                <li><a href="#"><i class="fas fa-clipboard-list"></i> <span>Order Management</span></a></li>
+                <li><a href="support.html"><i class="fas fa-headset"></i> <span>Support & Contact</span></a></li>
+            </ul>
+        </nav>
+    </div>
+
+    <!-- Main Content -->
+    <div class="main-content">
+        <div class="header">
+            <h1>Product Management</h1>
+            <div class="user-info">
+                <img src="https://i.pravatar.cc/150?img=12" alt="Admin User">
+                <span>Admin User</span>
+                <a href="#" class="profile-link"><i class="fas fa-user"></i> Profile</a>
+                <button class="signout-btn" id="openSignOut"><i class="fas fa-sign-out-alt"></i> Sign Out</button>
+            </div>
+        </div>
+
+        <!-- Tabs -->
+        <div class="tabs">
+            <button class="tab-btn active" data-tab="cakes"><i class="fas fa-birthday-cake"></i> Cakes</button>
+            <button class="tab-btn" data-tab="cake-addons"><i class="fas fa-plus-circle"></i> Cake Add-ons</button>
+            <button class="tab-btn" data-tab="flowers"><i class="fas fa-seedling"></i> Flowers</button>
+            <button class="tab-btn" data-tab="flower-addons"><i class="fas fa-plus"></i> Flower Add-ons</button>
+            <button class="tab-btn" data-tab="balloons"><i class="fas fa-balloon"></i> Balloons</button>
+        </div>
+
+        <!-- Toolbars per tab -->
+        <div class="tab-content active" id="tab-cakes">
+            <div class="toolbar">
+                <div class="search-wrap">
+                    <i class="fas fa-search"></i>
+                    <input id="cakeSearch" type="text" placeholder="Search cakes...">
+                </div>
+                <div class="toolbar-actions">
+                    <button id="addCakeBtn" class="btn btn-primary"><i class="fas fa-plus"></i> Add Cake</button>
+                </div>
+            </div>
+            <div class="card">
+                <div class="card-header">
+                    <h3>Cakes</h3>
+                    <span class="muted" id="cakeCount">0 items</span>
+                </div>
+                <div class="table-responsive">
+                    <table class="data-table" id="cakesTable">
+                        <thead>
+                            <tr>
+                                <th>ID</th>
+                                <th>Name</th>
+                                <th>Description</th>
+                                <th>Base Price</th>
+                                <th>Image</th>
+                                <th>Size</th>
+                                <th>Layers</th>
+                                <th>Available</th>
+                                <th>Supplier ID</th>
+                                <th>Scope</th>
+                                <th>Type</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody></tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+        <div class="tab-content" id="tab-cake-addons">
+            <div class="toolbar">
+                <div class="search-wrap">
+                    <i class="fas fa-search"></i>
+                    <input id="cakeAddonSearch" type="text" placeholder="Search cake add-ons...">
+                </div>
+                <div class="toolbar-actions">
+                    <button id="addCakeAddonBtn" class="btn btn-primary"><i class="fas fa-plus"></i> Add Add-on</button>
+                </div>
+            </div>
+            <div class="card">
+                <div class="card-header">
+                    <h3>Cake Add-ons</h3>
+                    <span class="muted" id="cakeAddonCount">0 items</span>
+                </div>
+                <div class="table-responsive">
+                    <table class="data-table" id="cakeAddonsTable">
+                        <thead>
+                            <tr>
+                                <th>ID</th>
+                                <th>Cake ID</th>
+                                <th>Option Group</th>
+                                <th>Option Name</th>
+                                <th>Extra Price</th>
+                                <th>Image</th>
+                                <th>Enabled</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody></tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+        <div class="tab-content" id="tab-flowers">
+            <div class="toolbar">
+                <div class="search-wrap">
+                    <i class="fas fa-search"></i>
+                    <input id="flowerSearch" type="text" placeholder="Search flowers...">
+                </div>
+                <div class="toolbar-actions">
+                    <button id="addFlowerBtn" class="btn btn-primary"><i class="fas fa-plus"></i> Add Flower</button>
+                </div>
+            </div>
+            <div class="card">
+                <div class="card-header">
+                    <h3>Flowers</h3>
+                    <span class="muted" id="flowerCount">0 items</span>
+                </div>
+                <div class="table-responsive">
+                    <table class="data-table" id="flowersTable">
+                        <thead>
+                            <tr>
+                                <th>ID</th>
+                                <th>Name</th>
+                                <th>Category</th>
+                                <th>Size</th>
+                                <th>Base Price</th>
+                                <th>Image</th>
+                                <th>Available</th>
+                                <th>Supplier ID</th>
+                                <th>Scope</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody></tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+        <div class="tab-content" id="tab-flower-addons">
+            <div class="toolbar">
+                <div class="search-wrap">
+                    <i class="fas fa-search"></i>
+                    <input id="flowerAddonSearch" type="text" placeholder="Search flower add-ons...">
+                </div>
+                <div class="toolbar-actions">
+                    <button id="addFlowerAddonBtn" class="btn btn-primary"><i class="fas fa-plus"></i> Add
+                        Add-on</button>
+                </div>
+            </div>
+            <div class="card">
+                <div class="card-header">
+                    <h3>Flower Add-ons</h3>
+                    <span class="muted" id="flowerAddonCount">0 items</span>
+                </div>
+                <div class="table-responsive">
+                    <table class="data-table" id="flowerAddonsTable">
+                        <thead>
+                            <tr>
+                                <th>ID</th>
+                                <th>Flower ID</th>
+                                <th>Option Group</th>
+                                <th>Option Name</th>
+                                <th>Extra Price</th>
+                                <th>Image</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody></tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+        <div class="tab-content" id="tab-balloons">
+            <div class="toolbar">
+                <div class="search-wrap">
+                    <i class="fas fa-search"></i>
+                    <input id="balloonSearch" type="text" placeholder="Search balloons...">
+                </div>
+                <div class="toolbar-actions">
+                    <button id="addBalloonBtn" class="btn btn-primary"><i class="fas fa-plus"></i> Add Balloon</button>
+                </div>
+            </div>
+            <div class="card">
+                <div class="card-header">
+                    <h3>Balloons</h3>
+                    <span class="muted" id="balloonCount">0 items</span>
+                </div>
+                <div class="table-responsive">
+                    <table class="data-table" id="balloonsTable">
+                        <thead>
+                            <tr>
+                                <th>ID</th>
+                                <th>Name</th>
+                                <th>Balloon Type</th>
+                                <th>Color</th>
+                                <th>Size</th>
+                                <th>Price</th>
+                                <th>Image</th>
+                                <th>Available</th>
+                                <th>Extra Description</th>
+                                <th>Supplier ID</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody></tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    <!-- Toast Notifications -->
+    <div class="toast-container"></div>
+    <template id="toast-template">
+        <div class="toast">
+            <div class="toast-icon">
+                <i class=""></i>
+            </div>
+            <div class="toast-content">
+                <div class="toast-title"></div>
+                <div class="toast-message"></div>
+            </div>
+            <button class="toast-close">
+                <i class="fas fa-times"></i>
+            </button>
+        </div>
+    </template>
+
+    <!-- Modals (Add/Edit) -->
+    <div class="modal-overlay" id="productModal" aria-hidden="true" role="dialog" aria-modal="true">
+        <div class="modal" role="document">
+            <h3 id="productModalTitle"></h3>
+            <div id="productForms">
+                <!-- Cake Form -->
+                <form class="product-form" data-entity="cake">
+                    <div class="form-grid">
+                        <div class="form-field">
+                            <label for="cake-name">Name</label>
+                            <input type="text" id="cake-name" name="name">
+                        </div>
+                        <div class="form-field" style="grid-column: 1 / -1;">
+                            <label for="cake-description">Description</label>
+                            <textarea id="cake-description" name="description"></textarea>
+                        </div>
+                        <div class="form-field">
+                            <label for="cake-basePrice">Base Price</label>
+                            <input type="number" step="0.01" id="cake-basePrice" name="basePrice">
+                        </div>
+                        <div class="form-field">
+                            <label for="cake-primaryImage">Primary Image URL</label>
+                            <input type="url" id="cake-primaryImage" name="primaryImage" placeholder="https://...">
+                        </div>
+                        <div class="form-field" style="grid-column: 1 / -1;">
+                            <label for="cake-galleryImages">Gallery Image URLs (comma-separated)</label>
+                            <input type="text" id="cake-galleryImages" name="galleryImages"
+                                placeholder="https://img1.jpg, https://img2.jpg">
+                        </div>
+                        <div class="form-field">
+                            <label for="cake-size">Size</label>
+                            <input type="text" id="cake-size" name="size">
+                        </div>
+                        <div class="form-field">
+                            <label for="cake-layers">Layers</label>
+                            <input type="number" min="1" id="cake-layers" name="layers">
+                        </div>
+                        <div class="form-field">
+                            <label for="cake-available">Available</label>
+                            <select id="cake-available" name="available">
+                                <option value="true">Yes</option>
+                                <option value="false">No</option>
+                            </select>
+                        </div>
+                        <div class="form-field">
+                            <label for="cake-supplierId">Supplier ID</label>
+                            <input type="text" id="cake-supplierId" name="supplierId">
+                        </div>
+                        <div class="form-field">
+                            <label for="cake-scope">Scope</label>
+                            <select id="cake-scope" name="scope">
+                                <option value="private">Private</option>
+                                <option value="public">Public</option>
+                            </select>
+                        </div>
+                        <div class="form-field">
+                            <label for="cake-type">Type</label>
+                            <input type="text" id="cake-type" name="type">
+                        </div>
+                    </div>
+                </form>
+
+                <!-- Cake Addon Form -->
+                <form class="product-form" data-entity="cakeAddon" style="display:none;">
+                    <div class="form-grid">
+                        <div class="form-field">
+                            <label for="cakeAddon-cakeId">Cake ID</label>
+                            <input type="text" id="cakeAddon-cakeId" name="cakeId">
+                        </div>
+                        <div class="form-field">
+                            <label for="cakeAddon-optionGroup">Option Group</label>
+                            <input type="text" id="cakeAddon-optionGroup" name="optionGroup">
+                        </div>
+                        <div class="form-field">
+                            <label for="cakeAddon-optionName">Option Name</label>
+                            <input type="text" id="cakeAddon-optionName" name="optionName">
+                        </div>
+                        <div class="form-field">
+                            <label for="cakeAddon-extraPrice">Extra Price</label>
+                            <input type="number" step="0.01" id="cakeAddon-extraPrice" name="extraPrice">
+                        </div>
+                        <div class="form-field">
+                            <label for="cakeAddon-image">Image URL</label>
+                            <input type="url" id="cakeAddon-image" name="image">
+                        </div>
+                        <div class="form-field">
+                            <label for="cakeAddon-enabled">Enabled</label>
+                            <select id="cakeAddon-enabled" name="enabled">
+                                <option value="true">Yes</option>
+                                <option value="false">No</option>
+                            </select>
+                        </div>
+                    </div>
+                </form>
+
+                <!-- Flower Form -->
+                <form class="product-form" data-entity="flower" style="display:none;">
+                    <div class="form-grid">
+                        <div class="form-field">
+                            <label for="flower-name">Name</label>
+                            <input type="text" id="flower-name" name="name">
+                        </div>
+                        <div class="form-field">
+                            <label for="flower-category">Category</label>
+                            <input type="text" id="flower-category" name="category">
+                        </div>
+                        <div class="form-field">
+                            <label for="flower-size">Size</label>
+                            <input type="text" id="flower-size" name="size">
+                        </div>
+                        <div class="form-field">
+                            <label for="flower-basePrice">Base Price</label>
+                            <input type="number" step="0.01" id="flower-basePrice" name="basePrice">
+                        </div>
+                        <div class="form-field">
+                            <label for="flower-primaryImage">Primary Image URL</label>
+                            <input type="url" id="flower-primaryImage" name="primaryImage" placeholder="https://...">
+                        </div>
+                        <div class="form-field" style="grid-column: 1 / -1;">
+                            <label for="flower-galleryImages">Gallery Image URLs (comma-separated)</label>
+                            <input type="text" id="flower-galleryImages" name="galleryImages"
+                                placeholder="https://img1.jpg, https://img2.jpg">
+                        </div>
+                        <div class="form-field">
+                            <label for="flower-available">Available</label>
+                            <select id="flower-available" name="available">
+                                <option value="true">Yes</option>
+                                <option value="false">No</option>
+                            </select>
+                        </div>
+                        <div class="form-field">
+                            <label for="flower-supplierId">Supplier ID</label>
+                            <input type="text" id="flower-supplierId" name="supplierId">
+                        </div>
+                        <div class="form-field">
+                            <label for="flower-scope">Scope</label>
+                            <select id="flower-scope" name="scope">
+                                <option value="private">Private</option>
+                                <option value="public">Public</option>
+                            </select>
+                        </div>
+                    </div>
+                </form>
+
+                <!-- Flower Addon Form -->
+                <form class="product-form" data-entity="flowerAddon" style="display:none;">
+                    <div class="form-grid">
+                        <div class="form-field">
+                            <label for="flowerAddon-flowerId">Flower ID</label>
+                            <input type="text" id="flowerAddon-flowerId" name="flowerId">
+                        </div>
+                        <div class="form-field">
+                            <label for="flowerAddon-optionGroup">Option Group</label>
+                            <input type="text" id="flowerAddon-optionGroup" name="optionGroup">
+                        </div>
+                        <div class="form-field">
+                            <label for="flowerAddon-optionName">Option Name</label>
+                            <input type="text" id="flowerAddon-optionName" name="optionName">
+                        </div>
+                        <div class="form-field">
+                            <label for="flowerAddon-extraPrice">Extra Price</label>
+                            <input type="number" step="0.01" id="flowerAddon-extraPrice" name="extraPrice">
+                        </div>
+                        <div class="form-field">
+                            <label for="flowerAddon-image">Image URL</label>
+                            <input type="url" id="flowerAddon-image" name="image">
+                        </div>
+                    </div>
+                </form>
+
+                <!-- Balloon Form -->
+                <form class="product-form" data-entity="balloon" style="display:none;">
+                    <div class="form-grid">
+                        <div class="form-field">
+                            <label for="balloon-name">Name</label>
+                            <input type="text" id="balloon-name" name="name">
+                        </div>
+                        <div class="form-field">
+                            <label for="balloon-balloonType">Balloon Type</label>
+                            <input type="text" id="balloon-balloonType" name="balloonType">
+                        </div>
+                        <div class="form-field">
+                            <label for="balloon-color">Color</label>
+                            <input type="text" id="balloon-color" name="color">
+                        </div>
+                        <div class="form-field">
+                            <label for="balloon-size">Size</label>
+                            <input type="text" id="balloon-size" name="size">
+                        </div>
+                        <div class="form-field">
+                            <label for="balloon-price">Price</label>
+                            <input type="number" step="0.01" id="balloon-price" name="price">
+                        </div>
+                        <div class="form-field">
+                            <label for="balloon-primaryImage">Primary Image URL</label>
+                            <input type="url" id="balloon-primaryImage" name="primaryImage" placeholder="https://...">
+                        </div>
+                        <div class="form-field" style="grid-column: 1 / -1;">
+                            <label for="balloon-galleryImages">Gallery Image URLs (comma-separated)</label>
+                            <input type="text" id="balloon-galleryImages" name="galleryImages"
+                                placeholder="https://img1.jpg, https://img2.jpg">
+                        </div>
+                        <div class="form-field" style="grid-column: 1 / -1;">
+                            <label for="balloon-extraDescription">Extra Description</label>
+                            <textarea id="balloon-extraDescription" name="extraDescription"></textarea>
+                        </div>
+                        <div class="form-field">
+                            <label for="balloon-available">Available</label>
+                            <select id="balloon-available" name="available">
+                                <option value="true">Yes</option>
+                                <option value="false">No</option>
+                            </select>
+                        </div>
+                        <div class="form-field">
+                            <label for="balloon-supplierId">Supplier ID</label>
+                            <input type="text" id="balloon-supplierId" name="supplierId">
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-actions">
+                <button type="button" class="btn btn-secondary" id="cancelProduct">Cancel</button>
+                <button type="submit" class="btn btn-primary" id="saveProduct">Save</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Row Templates -->
+    <template id="tmpl-cake-row">
+        <tr>
+            <td class="cell-id"></td>
+            <td class="cell-name"></td>
+            <td class="cell-description"></td>
+            <td class="cell-basePrice"></td>
+            <td class="cell-image"></td>
+            <td class="cell-size"></td>
+            <td class="cell-layers"></td>
+            <td class="cell-available"></td>
+            <td class="cell-supplierId"></td>
+            <td class="cell-scope"></td>
+            <td class="cell-type"></td>
+            <td>
+                <div class="row-actions">
+                    <button class="icon-btn edit"><i class="fas fa-edit"></i></button>
+                    <button class="icon-btn danger" data-action="delete"><i class="fas fa-trash"></i></button>
+                </div>
+            </td>
+        </tr>
+    </template>
+
+    <template id="tmpl-cakeAddon-row">
+        <tr>
+            <td class="cell-id"></td>
+            <td class="cell-cakeId"></td>
+            <td class="cell-optionGroup"></td>
+            <td class="cell-optionName"></td>
+            <td class="cell-extraPrice"></td>
+            <td class="cell-image"></td>
+            <td class="cell-enabled"></td>
+            <td>
+                <div class="row-actions">
+                    <button class="icon-btn edit"><i class="fas fa-edit"></i></button>
+                    <button class="icon-btn danger" data-action="delete"><i class="fas fa-trash"></i></button>
+                </div>
+            </td>
+        </tr>
+    </template>
+
+    <template id="tmpl-flower-row">
+        <tr>
+            <td class="cell-id"></td>
+            <td class="cell-name"></td>
+            <td class="cell-category"></td>
+            <td class="cell-size"></td>
+            <td class="cell-basePrice"></td>
+            <td class="cell-image"></td>
+            <td class="cell-available"></td>
+            <td class="cell-supplierId"></td>
+            <td class="cell-scope"></td>
+            <td>
+                <div class="row-actions">
+                    <button class="icon-btn edit"><i class="fas fa-edit"></i></button>
+                    <button class="icon-btn danger" data-action="delete"><i class="fas fa-trash"></i></button>
+                </div>
+            </td>
+        </tr>
+    </template>
+
+    <template id="tmpl-flowerAddon-row">
+        <tr>
+            <td class="cell-id"></td>
+            <td class="cell-flowerId"></td>
+            <td class="cell-optionGroup"></td>
+            <td class="cell-optionName"></td>
+            <td class="cell-extraPrice"></td>
+            <td class="cell-image"></td>
+            <td>
+                <div class="row-actions">
+                    <button class="icon-btn edit"><i class="fas fa-edit"></i></button>
+                    <button class="icon-btn danger" data-action="delete"><i class="fas fa-trash"></i></button>
+                </div>
+            </td>
+        </tr>
+    </template>
+
+    <template id="tmpl-balloon-row">
+        <tr>
+            <td class="cell-id"></td>
+            <td class="cell-name"></td>
+            <td class="cell-balloonType"></td>
+            <td class="cell-color"></td>
+            <td class="cell-size"></td>
+            <td class="cell-price"></td>
+            <td class="cell-image"></td>
+            <td class="cell-available"></td>
+            <td class="cell-extraDescription"></td>
+            <td class="cell-supplierId"></td>
+            <td>
+                <div class="row-actions">
+                    <button class="icon-btn edit"><i class="fas fa-edit"></i></button>
+                    <button class="icon-btn danger" data-action="delete"><i class="fas fa-trash"></i></button>
+                </div>
+            </td>
+        </tr>
+    </template>
+
+    <!-- Sign Out Confirm Modal -->
+    <div class="modal-overlay" id="signOutModal" aria-hidden="true" role="dialog" aria-modal="true">
+        <div class="modal" role="document">
+            <h3><i class="fas fa-sign-out-alt" style="color: var(--pink);"></i> Sign out</h3>
+            <p>Are you sure you want to sign out?</p>
+            <div class="modal-actions">
+                <button class="btn btn-secondary" id="cancelSignOut">Cancel</button>
+                <button class="btn btn-primary" id="confirmSignOut">Sign Out</button>
+            </div>
+        </div>
+    </div>
+
+    <script src="../js/products.js"></script>
+</body>
+
+</html>

@@ -1,0 +1,252 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Dashboard - Ads Management</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="../css/ads.css">
+</head>
+
+<body>
+    <!-- Sidebar -->
+    <div class="sidebar">
+        <div class="sidebar-header">
+            <img class="logo" src="../../images/logo.png">
+        </div>
+        <nav class="sidebar-menu">
+            <ul>
+                <li><a href="../overview.html"><i class="fas fa-chart-pie"></i> <span>Overview</span></a></li>
+                <li><a href="users.html"><i class="fas fa-users"></i> <span>User Management</span></a></li>
+                <li><a href="service-providers.html"><i class="fas fa-user-tie"></i> <span>Service Providers</span></a>
+                </li>
+                <li><a href="financials.html"><i class="fas fa-chart-line"></i> <span>Financials</span></a></li>
+                <li class="active"><a href="#"><i class="fas fa-ad"></i> <span>Ads Management</span></a></li>
+                <li><a href="themes.html"><i class="fas fa-palette"></i> <span>Themes Management</span></a></li>
+                <li><a href="sales.html"><i class="fas fa-shopping-cart"></i> <span>Sales Statistics</span></a></li>
+                <li><a href="feedback.html"><i class="fas fa-star"></i> <span>Feedback Management</span></a></li>
+                <li><a href="products.html"><i class="fas fa-box"></i> <span>Product Management</span></a></li>
+                <li><a href="#"><i class="fas fa-clipboard-list"></i> <span>Order Management</span></a></li>
+                <li><a href="support.html"><i class="fas fa-headset"></i> <span>Support & Contact</span></a></li>
+            </ul>
+        </nav>
+    </div>
+
+    <!-- Main Content -->
+    <div class="main-content">
+        <div class="header">
+            <h1>Ads Management</h1>
+            <div class="user-info">
+                <img src="https://i.pravatar.cc/150?img=12" alt="Admin User">
+                <span>Admin User</span>
+                <a href="#" class="profile-link"><i class="fas fa-user"></i> Profile</a>
+                <button class="signout-btn" id="openSignOut"><i class="fas fa-sign-out-alt"></i> Sign Out</button>
+            </div>
+        </div>
+
+        <!-- Filters & Actions -->
+        <div class="ads-toolbar">
+            <div class="search-wrap">
+                <i class="fas fa-search"></i>
+                <input id="adsSearch" type="text" placeholder="Search by title or description...">
+            </div>
+            <div class="toolbar-actions">
+                <select id="statusFilter">
+                    <option value="">All Status</option>
+                    <option value="active">Active</option>
+                    <option value="scheduled">Scheduled</option>
+                    <option value="expired">Expired</option>
+                    <option value="hidden">Hidden</option>
+                </select>
+                <button id="addAdBtn" class="btn btn-primary"><i class="fas fa-plus"></i> Add Ad</button>
+            </div>
+        </div>
+
+        <!-- Ads Grid -->
+        <div class="card">
+            <div class="card-header">
+                <h3>Ads</h3>
+                <span class="muted" id="adsCount">0 ads</span>
+            </div>
+            <div class="ads-grid" id="adsGrid">
+                <!-- Sample cards (inspired by public ads) -->
+                <div class="ad-card" data-status="active">
+                    <div class="ad-thumb" style="background-image:url('../../images/celebrate.jpg')"></div>
+                    <div class="ad-meta">
+                        <div class="ad-top">
+                            <div class="ad-id">AD-1001</div>
+                            <span class="badge status active" data-status="active">Active</span>
+                        </div>
+                        <div class="ad-title">Grand Opening Offer</div>
+                        <div class="ad-desc">Enjoy 20% off on all custom cakes this week only.</div>
+                        <div class="ad-duration"><i class="far fa-clock"></i> Ends in 3 days</div>
+                        <div class="ad-actions">
+                            <button class="icon-btn view" data-action="view" title="View"><i
+                                    class="fas fa-eye"></i></button>
+                            <button class="icon-btn edit" data-action="edit" title="Edit"><i
+                                    class="fas fa-edit"></i></button>
+                            <button class="icon-btn warn" data-action="hide" title="Hide"><i
+                                    class="fas fa-eye-slash"></i></button>
+                            <button class="icon-btn danger" data-action="delete" title="Delete"><i
+                                    class="fas fa-trash"></i></button>
+                        </div>
+                    </div>
+                </div>
+                <div class="ad-card" data-status="active">
+                    <div class="ad-thumb" style="background-image:url('../../images/flower1.jpg')"></div>
+                    <div class="ad-meta">
+                        <div class="ad-top">
+                            <div class="ad-id">AD-1002</div>
+                            <span class="badge status active" data-status="active">Active</span>
+                        </div>
+                        <div class="ad-title">Fresh Flowers Bundle</div>
+                        <div class="ad-desc">Buy 2 bouquets and get a free greeting card.</div>
+                        <div class="ad-duration"><i class="far fa-clock"></i> Limited time</div>
+                        <div class="ad-actions">
+                            <button class="icon-btn view" data-action="view" title="View"><i
+                                    class="fas fa-eye"></i></button>
+                            <button class="icon-btn edit" data-action="edit" title="Edit"><i
+                                    class="fas fa-edit"></i></button>
+                            <button class="icon-btn success" data-action="activate" title="Activate"><i
+                                    class="fas fa-eye"></i></button>
+                            <button class="icon-btn danger" data-action="delete" title="Delete"><i
+                                    class="fas fa-trash"></i></button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Templates -->
+    <template id="ad-card-template">
+        <div class="ad-card" data-status="">
+            <div class="ad-thumb"></div>
+            <div class="ad-meta">
+                <div class="ad-top">
+                    <div class="ad-id"></div>
+                    <span class="badge status" data-status="">Status</span>
+                </div>
+                <div class="ad-title"></div>
+                <div class="ad-desc"></div>
+                <div class="ad-duration"></div>
+                <div class="ad-actions">
+                    <button class="icon-btn view" data-action="view" title="View"><i class="fas fa-eye"></i></button>
+                    <button class="icon-btn edit" data-action="edit" title="Edit"><i class="fas fa-edit"></i></button>
+                    <button class="icon-btn warn" data-action="hide" title="Hide"><i
+                            class="fas fa-eye-slash"></i></button>
+                    <button class="icon-btn danger" data-action="delete" title="Delete"><i
+                            class="fas fa-trash"></i></button>
+                </div>
+            </div>
+        </div>
+    </template>
+
+    <!-- Toast Notifications -->
+    <div class="toast-container"></div>
+    <template id="toast-template">
+        <div class="toast">
+            <div class="toast-icon"><i class=""></i></div>
+            <div class="toast-content">
+                <div class="toast-title"></div>
+                <div class="toast-message"></div>
+            </div>
+            <button class="toast-close"><i class="fas fa-times"></i></button>
+        </div>
+    </template>
+
+    <!-- Add/Edit Ad Modal -->
+    <div class="modal-overlay" id="adModal" aria-hidden="true" role="dialog" aria-modal="true">
+        <div class="modal" role="document">
+            <h3 id="adModalTitle"><i class="fas fa-ad" style="color: var(--bright-blue);"></i> Ad</h3>
+            <form id="adForm">
+                <div class="form-grid">
+                    <div class="form-field">
+                        <label for="adId">Ad ID</label>
+                        <input type="text" id="adId" required>
+                    </div>
+                    <div class="form-field">
+                        <label for="adTitle">Title</label>
+                        <input type="text" id="adTitle" required>
+                    </div>
+                    <div class="form-field" style="grid-column: 1 / -1;">
+                        <label for="adDescription">Description</label>
+                        <input type="text" id="adDescription" required>
+                    </div>
+                    <div class="form-field">
+                        <label for="adImage">Image URL</label>
+                        <input type="url" id="adImage" placeholder="https://...">
+                    </div>
+                    <div class="form-field">
+                        <label for="adStatus">Status</label>
+                        <select id="adStatus" required>
+                            <option value="active">Active</option>
+                            <option value="scheduled">Scheduled</option>
+                            <option value="expired">Expired</option>
+                            <option value="hidden">Hidden</option>
+                        </select>
+                    </div>
+                    <div class="form-field">
+                        <label for="adDuration">Duration/Timing</label>
+                        <input type="text" id="adDuration" placeholder="Ends in 3 days, Oct 1 - Oct 15, ...">
+                    </div>
+                </div>
+                <div class="modal-actions">
+                    <button type="button" class="btn btn-secondary" id="cancelAd">Cancel</button>
+                    <button type="submit" class="btn btn-primary" id="saveAd">Save</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- View Ad Modal -->
+    <div class="modal-overlay" id="viewAdModal" aria-hidden="true" role="dialog" aria-modal="true">
+        <div class="modal" role="document">
+            <h3><i class="fas fa-eye" style="color: var(--sky-blue);"></i> Ad details</h3>
+            <div class="view-ad">
+                <div class="view-ad-header">
+                    <img id="viewAdImage" src="" alt=""
+                        style="width:64px;height:64px;border-radius:8px;object-fit:cover;margin-right:12px;">
+                    <div>
+                        <div id="viewAdTitle" style="font-weight:700;font-size:1.1rem;">Title</div>
+                        <div class="muted"><span id="viewAdId"></span></div>
+                    </div>
+                </div>
+                <div class="view-ad-grid" style="display:grid;grid-template-columns:1fr;gap:12px;margin-top:14px;">
+                    <div>
+                        <div class="muted">Description</div>
+                        <div id="viewAdDescription"></div>
+                    </div>
+                    <div>
+                        <div class="muted">Status</div>
+                        <div id="viewAdStatus"></div>
+                    </div>
+                    <div>
+                        <div class="muted">Duration/Timing</div>
+                        <div id="viewAdDuration"></div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-actions">
+                <button class="btn btn-secondary" id="closeViewAd" type="button">Close</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Sign Out Confirm Modal -->
+    <div class="modal-overlay" id="signOutModal" aria-hidden="true" role="dialog" aria-modal="true">
+        <div class="modal" role="document">
+            <h3><i class="fas fa-sign-out-alt" style="color: var(--pink);"></i> Sign out</h3>
+            <p>Are you sure you want to sign out?</p>
+            <div class="modal-actions">
+                <button class="btn btn-secondary" id="cancelSignOut">Cancel</button>
+                <button class="btn btn-primary" id="confirmSignOut">Sign Out</button>
+            </div>
+        </div>
+    </div>
+
+    <script src="../js/ads.js"></script>
+</body>
+
+</html>

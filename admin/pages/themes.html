@@ -1,0 +1,237 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Dashboard - Themes Management</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="../css/themes.css">
+</head>
+
+<body>
+    <!-- Sidebar -->
+    <div class="sidebar">
+        <div class="sidebar-header">
+            <img class="logo" src="../../images/logo.png">
+        </div>
+        <nav class="sidebar-menu">
+            <ul>
+                <li><a href="../overview.html"><i class="fas fa-chart-pie"></i> <span>Overview</span></a></li>
+                <li><a href="users.html"><i class="fas fa-users"></i> <span>User Management</span></a></li>
+                <li><a href="service-providers.html"><i class="fas fa-user-tie"></i> <span>Service Providers</span></a>
+                </li>
+                <li><a href="financials.html"><i class="fas fa-chart-line"></i> <span>Financials</span></a></li>
+                <li><a href="ads.html"><i class="fas fa-ad"></i> <span>Ads Management</span></a></li>
+                <li class="active"><a href="#"><i class="fas fa-palette"></i> <span>Themes Management</span></a></li>
+                <li><a href="sales.html"><i class="fas fa-shopping-cart"></i> <span>Sales Statistics</span></a></li>
+                <li><a href="feedback.html"><i class="fas fa-star"></i> <span>Feedback Management</span></a></li>
+                <li><a href="products.html"><i class="fas fa-box"></i> <span>Product Management</span></a></li>
+                <li><a href="#"><i class="fas fa-clipboard-list"></i> <span>Order Management</span></a></li>
+                <li><a href="support.html"><i class="fas fa-headset"></i> <span>Support & Contact</span></a></li>
+            </ul>
+        </nav>
+    </div>
+
+    <!-- Main Content -->
+    <div class="main-content">
+        <div class="header">
+            <h1>Themes Management</h1>
+            <div class="user-info">
+                <img src="https://i.pravatar.cc/150?img=12" alt="Admin User">
+                <span>Admin User</span>
+                <a href="#" class="profile-link"><i class="fas fa-user"></i> Profile</a>
+                <button class="signout-btn" id="openSignOut"><i class="fas fa-sign-out-alt"></i> Sign Out</button>
+            </div>
+        </div>
+
+        <!-- Filters & Actions -->
+        <div class="themes-toolbar">
+            <div class="search-wrap">
+                <i class="fas fa-search"></i>
+                <input id="themeSearch" type="text" placeholder="Search by title or description...">
+            </div>
+            <div class="toolbar-actions">
+                <select id="statusFilter">
+                    <option value="">All Status</option>
+                    <option value="active">Active</option>
+                    <option value="hidden">Hidden</option>
+                </select>
+                <button id="addThemeBtn" class="btn btn-primary"><i class="fas fa-plus"></i> Add Theme</button>
+            </div>
+        </div>
+
+        <!-- Themes Grid -->
+        <div class="card">
+            <div class="card-header">
+                <h3>Themes</h3>
+                <span class="muted" id="themeCount">0 themes</span>
+            </div>
+            <div class="themes-grid" id="themesGrid">
+                <!-- Sample cards (from public themes) -->
+                <div class="theme-card" data-status="active">
+                    <div class="theme-thumb" style="background-image:url('../../images/celebrate2.jpg')"></div>
+                    <div class="theme-meta">
+                        <div class="theme-top">
+                            <div class="theme-id">TH-1001</div>
+                            <span class="badge status active" data-status="active">Active</span>
+                        </div>
+                        <div class="theme-title">Birthday Bash</div>
+                        <div class="theme-desc">Fun, colorful balloons and cake displays perfect for all ages.</div>
+                        <div class="theme-actions">
+                            <button class="icon-btn view" data-action="view" title="View"><i
+                                    class="fas fa-eye"></i></button>
+                            <button class="icon-btn edit" data-action="edit" title="Edit"><i
+                                    class="fas fa-edit"></i></button>
+                            <button class="icon-btn warn" data-action="hide" title="Hide"><i
+                                    class="fas fa-eye-slash"></i></button>
+                            <button class="icon-btn danger" data-action="delete" title="Delete"><i
+                                    class="fas fa-trash"></i></button>
+                        </div>
+                    </div>
+                </div>
+                <div class="theme-card" data-status="active">
+                    <div class="theme-thumb" style="background-image:url('../../images/flower2.jpg')"></div>
+                    <div class="theme-meta">
+                        <div class="theme-top">
+                            <div class="theme-id">TH-1002</div>
+                            <span class="badge status active" data-status="active">Active</span>
+                        </div>
+                        <div class="theme-title">Graduation Glow</div>
+                        <div class="theme-desc">Elegant arrangements and backdrops to celebrate academic success.</div>
+                        <div class="theme-actions">
+                            <button class="icon-btn view" data-action="view" title="View"><i
+                                    class="fas fa-eye"></i></button>
+                            <button class="icon-btn edit" data-action="edit" title="Edit"><i
+                                    class="fas fa-edit"></i></button>
+                            <button class="icon-btn success" data-action="activate" title="Activate"><i
+                                    class="fas fa-eye"></i></button>
+                            <button class="icon-btn danger" data-action="delete" title="Delete"><i
+                                    class="fas fa-trash"></i></button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Templates -->
+    <template id="theme-card-template">
+        <div class="theme-card" data-status="">
+            <div class="theme-thumb"></div>
+            <div class="theme-meta">
+                <div class="theme-top">
+                    <div class="theme-id"></div>
+                    <span class="badge status" data-status="">Status</span>
+                </div>
+                <div class="theme-title"></div>
+                <div class="theme-desc"></div>
+                <div class="theme-actions">
+                    <button class="icon-btn view" data-action="view" title="View"><i class="fas fa-eye"></i></button>
+                    <button class="icon-btn edit" data-action="edit" title="Edit"><i class="fas fa-edit"></i></button>
+                    <button class="icon-btn warn" data-action="hide" title="Hide"><i
+                            class="fas fa-eye-slash"></i></button>
+                    <button class="icon-btn danger" data-action="delete" title="Delete"><i
+                            class="fas fa-trash"></i></button>
+                </div>
+            </div>
+        </div>
+    </template>
+
+    <!-- Toast Notifications -->
+    <div class="toast-container"></div>
+    <template id="toast-template">
+        <div class="toast">
+            <div class="toast-icon"><i class=""></i></div>
+            <div class="toast-content">
+                <div class="toast-title"></div>
+                <div class="toast-message"></div>
+            </div>
+            <button class="toast-close"><i class="fas fa-times"></i></button>
+        </div>
+    </template>
+
+    <!-- Add/Edit Theme Modal -->
+    <div class="modal-overlay" id="themeModal" aria-hidden="true" role="dialog" aria-modal="true">
+        <div class="modal" role="document">
+            <h3 id="themeModalTitle"><i class="fas fa-palette" style="color: var(--bright-blue);"></i> Theme</h3>
+            <form id="themeForm">
+                <div class="form-grid">
+                    <div class="form-field">
+                        <label for="themeId">Theme ID</label>
+                        <input type="text" id="themeId" required>
+                    </div>
+                    <div class="form-field">
+                        <label for="themeTitle">Title</label>
+                        <input type="text" id="themeTitle" required>
+                    </div>
+                    <div class="form-field" style="grid-column: 1 / -1;">
+                        <label for="themeDescription">Description</label>
+                        <input type="text" id="themeDescription" required>
+                    </div>
+                    <div class="form-field">
+                        <label for="themeImage">Image URL</label>
+                        <input type="url" id="themeImage" placeholder="https://...">
+                    </div>
+                    <div class="form-field">
+                        <label for="themeStatus">Status</label>
+                        <select id="themeStatus" required>
+                            <option value="active">Active</option>
+                            <option value="hidden">Hidden</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="modal-actions">
+                    <button type="button" class="btn btn-secondary" id="cancelTheme">Cancel</button>
+                    <button type="submit" class="btn btn-primary" id="saveTheme">Save</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- View Theme Modal -->
+    <div class="modal-overlay" id="viewThemeModal" aria-hidden="true" role="dialog" aria-modal="true">
+        <div class="modal" role="document">
+            <h3><i class="fas fa-eye" style="color: var(--sky-blue);"></i> Theme details</h3>
+            <div class="view-theme">
+                <div class="view-theme-header">
+                    <img id="viewThemeImage" src="" alt=""
+                        style="width:64px;height:64px;border-radius:8px;object-fit:cover;margin-right:12px;">
+                    <div>
+                        <div id="viewThemeTitle" style="font-weight:700;font-size:1.1rem;">Title</div>
+                        <div class="muted"><span id="viewThemeId"></span></div>
+                    </div>
+                </div>
+                <div class="view-theme-grid" style="display:grid;grid-template-columns:1fr;gap:12px;margin-top:14px;">
+                    <div>
+                        <div class="muted">Description</div>
+                        <div id="viewThemeDescription"></div>
+                    </div>
+                    <div>
+                        <div class="muted">Status</div>
+                        <div id="viewThemeStatus"></div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-actions">
+                <button class="btn btn-secondary" id="closeViewTheme" type="button">Close</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Sign Out Confirm Modal -->
+    <div class="modal-overlay" id="signOutModal" aria-hidden="true" role="dialog" aria-modal="true">
+        <div class="modal" role="document">
+            <h3><i class="fas fa-sign-out-alt" style="color: var(--pink);"></i> Sign out</h3>
+            <p>Are you sure you want to sign out?</p>
+            <div class="modal-actions">
+                <button class="btn btn-secondary" id="cancelSignOut">Cancel</button>
+                <button class="btn btn-primary" id="confirmSignOut">Sign Out</button>
+            </div>
+        </div>
+    </div>
+
+    <script src="../js/themes.js"></script>
+</body>
+
+</html>

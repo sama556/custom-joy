@@ -1,0 +1,331 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Dashboard - User Management</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="../css/users.css">
+</head>
+
+<body>
+    <!-- Sidebar -->
+    <div class="sidebar">
+        <div class="sidebar-header">
+            <img class="logo" src="../../images/logo.png">
+        </div>
+        <nav class="sidebar-menu">
+            <ul>
+                <li><a href="../overview.html"><i class="fas fa-chart-pie"></i> <span>Overview</span></a></li>
+                <li class="active"><a href="#"><i class="fas fa-users"></i> <span>User Management</span></a></li>
+                <li><a href="service-providers.html"><i class="fas fa-user-tie"></i> <span>Service Providers</span></a>
+                </li>
+                <li><a href="financials.html"><i class="fas fa-chart-line"></i> <span>Financials</span></a></li>
+                <li><a href="ads.html"><i class="fas fa-ad"></i> <span>Ads Management</span></a></li>
+                <li><a href="themes.html"><i class="fas fa-palette"></i> <span>Themes Management</span></a></li>
+                <li><a href="sales.html"><i class="fas fa-shopping-cart"></i> <span>Sales Statistics</span></a></li>
+                <li><a href="feedback.html"><i class="fas fa-star"></i> <span>Feedback Management</span></a></li>
+                <li><a href="products.html"><i class="fas fa-box"></i> <span>Product Management</span></a></li>
+                <li><a href="#"><i class="fas fa-clipboard-list"></i> <span>Order Management</span></a></li>
+                <li><a href="support.html"><i class="fas fa-headset"></i> <span>Support & Contact</span></a></li>
+            </ul>
+        </nav>
+    </div>
+
+    <!-- Main Content -->
+    <div class="main-content">
+        <div class="header">
+            <h1>User Management</h1>
+            <div class="user-info">
+                <img src="https://i.pravatar.cc/150?img=12" alt="Admin User">
+                <span>Admin User</span>
+                <a href="#" class="profile-link"><i class="fas fa-user"></i> Profile</a>
+                <button class="signout-btn" id="openSignOut"><i class="fas fa-sign-out-alt"></i> Sign Out</button>
+            </div>
+        </div>
+
+        <!-- Filters & Actions -->
+        <div class="users-toolbar">
+            <div class="search-wrap">
+                <i class="fas fa-search"></i>
+                <input id="userSearch" type="text" placeholder="Search by name, email or role...">
+            </div>
+            <div class="toolbar-actions">
+                <select id="roleFilter">
+                    <option value="">All Roles</option>
+                    <option value="customer">Customer</option>
+                    <option value="employee">Employee</option>
+                    <option value="admin">Admin</option>
+                </select>
+                <select id="statusFilter">
+                    <option value="">All Status</option>
+                    <option value="active">Active</option>
+                    <option value="suspended">Suspended</option>
+                </select>
+                <button id="addUserBtn" class="btn btn-primary"><i class="fas fa-user-plus"></i> Add User</button>
+            </div>
+        </div>
+
+        <!-- Users Table -->
+        <div class="card">
+            <div class="card-header">
+                <h3>Users</h3>
+                <span class="muted" id="userCount">0 users</span>
+            </div>
+            <div class="table-responsive">
+                <table class="users-table" id="usersTable">
+                    <thead>
+                        <tr>
+                            <th><input type="checkbox" id="selectAll"></th>
+                            <th>Name</th>
+                            <th>Email</th>
+                            <th>Role</th>
+                            <th>Status</th>
+                            <th>Joined</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <!-- Sample rows -->
+                        <tr>
+                            <td><input type="checkbox" class="row-select"></td>
+                            <td>
+                                <div class="user-cell">
+                                    <img src="https://i.pravatar.cc/150?img=5" alt="">
+                                    <div>
+                                        <div class="name">Sarah Ahmed</div>
+                                        <div class="sub">@sarah.a</div>
+                                    </div>
+                                </div>
+                            </td>
+                            <td>sarah@example.com</td>
+                            <td><span class="badge role employee" data-role="employee">Employee</span></td>
+                            <td><span class="badge status active" data-status="active">Active</span></td>
+                            <td>2024-03-12</td>
+                            <td>
+                                <div class="row-actions">
+                                    <button class="icon-btn view" data-action="view" title="View"><i
+                                            class="fas fa-eye"></i></button>
+                                    <button class="icon-btn edit" data-action="edit" title="Edit"><i
+                                            class="fas fa-edit"></i></button>
+                                    <button class="icon-btn warn" data-action="suspend" title="Suspend"><i
+                                            class="fas fa-ban"></i></button>
+                                    <button class="icon-btn danger" data-action="delete" title="Delete"><i
+                                            class="fas fa-trash"></i></button>
+                                </div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td><input type="checkbox" class="row-select"></td>
+                            <td>
+                                <div class="user-cell">
+                                    <img src="https://i.pravatar.cc/150?img=11" alt="">
+                                    <div>
+                                        <div class="name">Ahmed Mohamed</div>
+                                        <div class="sub">@ahmed.m</div>
+                                    </div>
+                                </div>
+                            </td>
+                            <td>ahmed@example.com</td>
+                            <td><span class="badge role customer" data-role="customer">Customer</span></td>
+                            <td><span class="badge status suspended" data-status="suspended">Suspended</span></td>
+                            <td>2023-11-02</td>
+                            <td>
+                                <div class="row-actions">
+                                    <button class="icon-btn view" data-action="view" title="View"><i
+                                            class="fas fa-eye"></i></button>
+                                    <button class="icon-btn edit" data-action="edit" title="Edit"><i
+                                            class="fas fa-edit"></i></button>
+                                    <button class="icon-btn success" data-action="activate" title="Activate"><i
+                                            class="fas fa-check"></i></button>
+                                    <button class="icon-btn danger" data-action="delete" title="Delete"><i
+                                            class="fas fa-trash"></i></button>
+                                </div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td><input type="checkbox" class="row-select"></td>
+                            <td>
+                                <div class="user-cell">
+                                    <img src="https://i.pravatar.cc/150?img=3" alt="">
+                                    <div>
+                                        <div class="name">Mona Ali</div>
+                                        <div class="sub">@mona.a</div>
+                                    </div>
+                                </div>
+                            </td>
+                            <td>mona@example.com</td>
+                            <td><span class="badge role admin" data-role="admin">Admin</span></td>
+                            <td><span class="badge status active" data-status="active">Active</span></td>
+                            <td>2025-01-22</td>
+                            <td>
+                                <div class="row-actions">
+                                    <button class="icon-btn view" data-action="view" title="View"><i
+                                            class="fas fa-eye"></i></button>
+                                    <button class="icon-btn edit" data-action="edit" title="Edit"><i
+                                            class="fas fa-edit"></i></button>
+                                    <button class="icon-btn warn" data-action="suspend" title="Suspend"><i
+                                            class="fas fa-ban"></i></button>
+                                    <button class="icon-btn danger" data-action="delete" title="Delete"><i
+                                            class="fas fa-trash"></i></button>
+                                </div>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+    <!-- Templates -->
+    <template id="user-row-template">
+        <tr>
+            <td><input type="checkbox" class="row-select"></td>
+            <td>
+                <div class="user-cell">
+                    <img src="" alt="">
+                    <div>
+                        <div class="name"></div>
+                        <div class="sub"></div>
+                    </div>
+                </div>
+            </td>
+            <td class="email"></td>
+            <td><span class="badge role" data-role="">Role</span></td>
+            <td><span class="badge status" data-status="">Status</span></td>
+            <td class="joined"></td>
+            <td>
+                <div class="row-actions">
+                    <button class="icon-btn view" data-action="view" title="View"><i class="fas fa-eye"></i></button>
+                    <button class="icon-btn edit" data-action="edit" title="Edit"><i class="fas fa-edit"></i></button>
+                    <button class="icon-btn warn" data-action="suspend" title="Suspend"><i
+                            class="fas fa-ban"></i></button>
+                    <button class="icon-btn danger" data-action="delete" title="Delete"><i
+                            class="fas fa-trash"></i></button>
+                </div>
+            </td>
+        </tr>
+    </template>
+
+    <!-- Toast Notifications -->
+    <div class="toast-container"></div>
+
+    <!-- Static toast template -->
+    <template id="toast-template">
+        <div class="toast">
+            <div class="toast-icon">
+                <i class=""></i>
+            </div>
+            <div class="toast-content">
+                <div class="toast-title"></div>
+                <div class="toast-message"></div>
+            </div>
+            <button class="toast-close">
+                <i class="fas fa-times"></i>
+            </button>
+        </div>
+    </template>
+
+    <!-- Add/Edit User Modal -->
+    <div class="modal-overlay" id="userModal" aria-hidden="true" role="dialog" aria-modal="true">
+        <div class="modal" role="document">
+            <h3 id="userModalTitle"><i class="fas fa-user" style="color: var(--bright-blue);"></i> User</h3>
+            <form id="userForm">
+                <input type="hidden" id="editingRowId" value="">
+                <div class="form-grid">
+                    <div class="form-field">
+                        <label for="fullName">Full Name</label>
+                        <input type="text" id="fullName" required>
+                    </div>
+                    <div class="form-field">
+                        <label for="username">Username</label>
+                        <input type="text" id="username" required>
+                    </div>
+                    <div class="form-field">
+                        <label for="email">Email</label>
+                        <input type="email" id="email" required>
+                    </div>
+                    <div class="form-field">
+                        <label for="role">Role</label>
+                        <select id="role" required>
+                            <option value="customer">Customer</option>
+                            <option value="employee">Employee</option>
+                            <option value="admin">Admin</option>
+                        </select>
+                    </div>
+                    <div class="form-field">
+                        <label for="status">Status</label>
+                        <select id="status" required>
+                            <option value="active">Active</option>
+                            <option value="suspended">Suspended</option>
+                        </select>
+                    </div>
+                    <div class="form-field">
+                        <label for="avatarUrl">Avatar URL</label>
+                        <input type="url" id="avatarUrl" placeholder="https://...">
+                    </div>
+                </div>
+                <div class="modal-actions">
+                    <button type="button" class="btn btn-secondary" id="cancelUser">Cancel</button>
+                    <button type="submit" class="btn btn-primary" id="saveUser">Save</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- View User Modal -->
+    <div class="modal-overlay" id="viewUserModal" aria-hidden="true" role="dialog" aria-modal="true">
+        <div class="modal" role="document">
+            <h3><i class="fas fa-id-card" style="color: var(--sky-blue);"></i> User details</h3>
+            <div class="view-user">
+                <div class="view-user-header">
+                    <img id="viewAvatar" src="" alt=""
+                        style="width:64px;height:64px;border-radius:50%;object-fit:cover;margin-right:12px;">
+                    <div>
+                        <div id="viewName" style="font-weight:700;font-size:1.1rem;">Name</div>
+                        <div id="viewUsername" class="muted">@username</div>
+                    </div>
+                </div>
+                <div class="view-user-grid"
+                    style="display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:14px;">
+                    <div>
+                        <div class="muted">Email</div>
+                        <div id="viewEmail"></div>
+                    </div>
+                    <div>
+                        <div class="muted">Role</div>
+                        <div id="viewRole"></div>
+                    </div>
+                    <div>
+                        <div class="muted">Status</div>
+                        <div id="viewStatus"></div>
+                    </div>
+                    <div>
+                        <div class="muted">Joined</div>
+                        <div id="viewJoined"></div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-actions">
+                <button class="btn btn-secondary" id="closeViewUser" type="button">Close</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Sign Out Confirm Modal -->
+    <div class="modal-overlay" id="signOutModal" aria-hidden="true" role="dialog" aria-modal="true">
+        <div class="modal" role="document">
+            <h3><i class="fas fa-sign-out-alt" style="color: var(--pink);"></i> Sign out</h3>
+            <p>Are you sure you want to sign out?</p>
+            <div class="modal-actions">
+                <button class="btn btn-secondary" id="cancelSignOut">Cancel</button>
+                <button class="btn btn-primary" id="confirmSignOut">Sign Out</button>
+            </div>
+        </div>
+    </div>
+
+    <script src="../js/users.js"></script>
+</body>
+
+</html>

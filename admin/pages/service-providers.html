@@ -1,0 +1,294 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Dashboard - Service Providers</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="../css/service-providers.css">
+</head>
+
+<body>
+    <!-- Sidebar -->
+    <div class="sidebar">
+        <div class="sidebar-header">
+            <img class="logo" src="../../images/logo.png">
+        </div>
+        <nav class="sidebar-menu">
+            <ul>
+                <li><a href="../overview.html"><i class="fas fa-chart-pie"></i> <span>Overview</span></a></li>
+                <li><a href="users.html"><i class="fas fa-users"></i> <span>User Management</span></a></li>
+                <li class="active"><a href="#"><i class="fas fa-user-tie"></i> <span>Service Providers</span></a></li>
+                <li><a href="financials.html"><i class="fas fa-chart-line"></i> <span>Financials</span></a></li>
+                <li><a href="ads.html"><i class="fas fa-ad"></i> <span>Ads Management</span></a></li>
+                <li><a href="themes.html"><i class="fas fa-palette"></i> <span>Themes Management</span></a></li>
+                <li><a href="sales.html"><i class="fas fa-shopping-cart"></i> <span>Sales Statistics</span></a></li>
+                <li><a href="feedback.html"><i class="fas fa-star"></i> <span>Feedback Management</span></a></li>
+                <li><a href="products.html"><i class="fas fa-box"></i> <span>Product Management</span></a></li>
+                <li><a href="#"><i class="fas fa-clipboard-list"></i> <span>Order Management</span></a></li>
+                <li><a href="support.html"><i class="fas fa-headset"></i> <span>Support & Contact</span></a></li>
+            </ul>
+        </nav>
+    </div>
+
+    <!-- Main Content -->
+    <div class="main-content">
+        <div class="header">
+            <h1>Service Providers</h1>
+            <div class="user-info">
+                <img src="https://i.pravatar.cc/150?img=12" alt="Admin User">
+                <span>Admin User</span>
+                <a href="#" class="profile-link"><i class="fas fa-user"></i> Profile</a>
+                <button class="signout-btn" id="openSignOut"><i class="fas fa-sign-out-alt"></i> Sign Out</button>
+            </div>
+        </div>
+
+        <!-- Filters & Actions -->
+        <div class="sp-toolbar">
+            <div class="search-wrap">
+                <i class="fas fa-search"></i>
+                <input id="spSearch" type="text" placeholder="Search by provider ID, user ID, store or description">
+            </div>
+            <div class="toolbar-actions">
+                <select id="typeFilter">
+                    <option value="">All Types</option>
+                    <option value="flowers">Flowers Seller</option>
+                    <option value="cakes">Chef Cakes</option>
+                </select>
+                <select id="statusFilter">
+                    <option value="">All Status</option>
+                    <option value="active">Active</option>
+                    <option value="suspended">Suspended</option>
+                </select>
+                <button id="addProviderBtn" class="btn btn-primary"><i class="fas fa-user-plus"></i> Add
+                    Provider</button>
+            </div>
+        </div>
+
+        <!-- Providers Table -->
+        <div class="card">
+            <div class="card-header">
+                <h3>Providers</h3>
+                <span class="muted" id="spCount">0 providers</span>
+            </div>
+            <div class="table-responsive">
+                <table class="sp-table" id="spTable">
+                    <thead>
+                        <tr>
+                            <th><input type="checkbox" id="selectAll"></th>
+                            <th>Provider ID</th>
+                            <th>User ID</th>
+                            <th>Store</th>
+                            <th>Type</th>
+                            <th>Description</th>
+                            <th>Status</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <!-- Sample rows -->
+                        <tr>
+                            <td><input type="checkbox" class="row-select"></td>
+                            <td class="provider-id">SP-1001</td>
+                            <td class="user-id">U-501</td>
+                            <td>
+                                <div class="sp-cell">
+                                    <img class="logo" src="https://i.pravatar.cc/150?img=15" alt="">
+                                    <div>
+                                        <div class="store">Floral Dreams Boutique</div>
+                                    </div>
+                                </div>
+                            </td>
+                            <td><span class="badge type flowers" data-type="flowers">Flowers Seller</span></td>
+                            <td class="description">Floral arrangements and events</td>
+                            <td><span class="badge status active" data-status="active">Active</span></td>
+                            <td>
+                                <div class="row-actions">
+                                    <button class="icon-btn view" data-action="view" title="View"><i
+                                            class="fas fa-eye"></i></button>
+                                    <button class="icon-btn edit" data-action="edit" title="Edit"><i
+                                            class="fas fa-edit"></i></button>
+                                    <button class="icon-btn warn" data-action="suspend" title="Suspend"><i
+                                            class="fas fa-ban"></i></button>
+                                    <button class="icon-btn danger" data-action="delete" title="Delete"><i
+                                            class="fas fa-trash"></i></button>
+                                </div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td><input type="checkbox" class="row-select"></td>
+                            <td class="provider-id">SP-1002</td>
+                            <td class="user-id">U-502</td>
+                            <td>
+                                <div class="sp-cell">
+                                    <img class="logo" src="https://i.pravatar.cc/150?img=22" alt="">
+                                    <div>
+                                        <div class="store">SweetCakes Kitchen</div>
+                                    </div>
+                                </div>
+                            </td>
+                            <td><span class="badge type cakes" data-type="cakes">Chef Cakes</span></td>
+                            <td class="description">Custom cakes for all occasions</td>
+                            <td><span class="badge status active" data-status="active">Active</span></td>
+                            <td>
+                                <div class="row-actions">
+                                    <button class="icon-btn view" data-action="view" title="View"><i
+                                            class="fas fa-eye"></i></button>
+                                    <button class="icon-btn edit" data-action="edit" title="Edit"><i
+                                            class="fas fa-edit"></i></button>
+                                    <button class="icon-btn success" data-action="activate" title="Activate"><i
+                                            class="fas fa-check"></i></button>
+                                    <button class="icon-btn danger" data-action="delete" title="Delete"><i
+                                            class="fas fa-trash"></i></button>
+                                </div>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+    <!-- Templates -->
+    <template id="sp-row-template">
+        <tr>
+            <td><input type="checkbox" class="row-select"></td>
+            <td class="provider-id"></td>
+            <td class="user-id"></td>
+            <td>
+                <div class="sp-cell">
+                    <img class="logo" src="" alt="">
+                    <div>
+                        <div class="store"></div>
+                    </div>
+                </div>
+            </td>
+            <td><span class="badge type" data-type="">Type</span></td>
+            <td class="description"></td>
+            <td><span class="badge status" data-status="">Status</span></td>
+            <td>
+                <div class="row-actions">
+                    <button class="icon-btn view" data-action="view" title="View"><i class="fas fa-eye"></i></button>
+                    <button class="icon-btn edit" data-action="edit" title="Edit"><i class="fas fa-edit"></i></button>
+                    <button class="icon-btn warn" data-action="suspend" title="Suspend"><i
+                            class="fas fa-ban"></i></button>
+                    <button class="icon-btn danger" data-action="delete" title="Delete"><i
+                            class="fas fa-trash"></i></button>
+                </div>
+            </td>
+        </tr>
+    </template>
+
+    <!-- Toast Notifications -->
+    <div class="toast-container"></div>
+    <template id="toast-template">
+        <div class="toast">
+            <div class="toast-icon"><i class=""></i></div>
+            <div class="toast-content">
+                <div class="toast-title"></div>
+                <div class="toast-message"></div>
+            </div>
+            <button class="toast-close"><i class="fas fa-times"></i></button>
+        </div>
+    </template>
+
+    <!-- Add/Edit Provider Modal -->
+    <div class="modal-overlay" id="spModal" aria-hidden="true" role="dialog" aria-modal="true">
+        <div class="modal" role="document">
+            <h3 id="spModalTitle"><i class="fas fa-user-tie" style="color: var(--bright-blue);"></i> Provider</h3>
+            <form id="spForm">
+                <div class="form-grid">
+                    <div class="form-field">
+                        <label for="spProviderId">Provider ID</label>
+                        <input type="text" id="spProviderId" required>
+                    </div>
+                    <div class="form-field">
+                        <label for="spUserId">User ID</label>
+                        <input type="text" id="spUserId" required>
+                    </div>
+                    <div class="form-field">
+                        <label for="spStore">Store Name</label>
+                        <input type="text" id="spStore" required>
+                    </div>
+                    <div class="form-field">
+                        <label for="spType">Type</label>
+                        <select id="spType" required>
+                            <option value="flowers">Flowers Seller</option>
+                            <option value="cakes">Chef Cakes</option>
+                        </select>
+                    </div>
+                    <div class="form-field">
+                        <label for="spStatus">Status</label>
+                        <select id="spStatus" required>
+                            <option value="active">Active</option>
+                            <option value="suspended">Suspended</option>
+                        </select>
+                    </div>
+                    <div class="form-field">
+                        <label for="spDescription">Description</label>
+                        <input type="text" id="spDescription" placeholder="Short description">
+                    </div>
+                    <div class="form-field">
+                        <label for="spLogo">Logo URL</label>
+                        <input type="url" id="spLogo" placeholder="https://...">
+                    </div>
+                </div>
+                <div class="modal-actions">
+                    <button type="button" class="btn btn-secondary" id="cancelSp">Cancel</button>
+                    <button type="submit" class="btn btn-primary" id="saveSp">Save</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- View Provider Modal -->
+    <div class="modal-overlay" id="viewSpModal" aria-hidden="true" role="dialog" aria-modal="true">
+        <div class="modal" role="document">
+            <h3><i class="fas fa-id-badge" style="color: var(--sky-blue);"></i> Provider details</h3>
+            <div class="view-sp">
+                <div class="view-sp-header">
+                    <img id="viewSpAvatar" src="" alt=""
+                        style="width:64px;height:64px;border-radius:50%;object-fit:cover;margin-right:12px;">
+                    <div>
+                        <div id="viewSpStore" style="font-weight:700;font-size:1.1rem;">Store</div>
+                        <div class="muted"><span id="viewSpProviderId"></span> • <span id="viewSpUserId"></span></div>
+                    </div>
+                </div>
+                <div class="view-sp-grid" style="display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:14px;">
+                    <div>
+                        <div class="muted">Type</div>
+                        <div id="viewSpType"></div>
+                    </div>
+                    <div>
+                        <div class="muted">Status</div>
+                        <div id="viewSpStatus"></div>
+                    </div>
+                    <div style="grid-column: 1 / -1;">
+                        <div class="muted">Description</div>
+                        <div id="viewSpDescription"></div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-actions">
+                <button class="btn btn-secondary" id="closeViewSp" type="button">Close</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Sign Out Confirm Modal -->
+    <div class="modal-overlay" id="signOutModal" aria-hidden="true" role="dialog" aria-modal="true">
+        <div class="modal" role="document">
+            <h3><i class="fas fa-sign-out-alt" style="color: var(--pink);"></i> Sign out</h3>
+            <p>Are you sure you want to sign out?</p>
+            <div class="modal-actions">
+                <button class="btn btn-secondary" id="cancelSignOut">Cancel</button>
+                <button class="btn btn-primary" id="confirmSignOut">Sign Out</button>
+            </div>
+        </div>
+    </div>
+
+    <script src="../js/service-providers.js"></script>
+</body>
+
+</html>
