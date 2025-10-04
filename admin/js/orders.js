@@ -287,7 +287,6 @@ const orderCount = document.getElementById('orderCount');
 const orderDetailsModal = document.getElementById('orderDetailsModal');
 const confirmModal = document.getElementById('confirmModal');
 const signOutModal = document.getElementById('signOutModal');
-const exportOrdersBtn = document.getElementById('exportOrdersBtn');
 
 // Statistics elements
 const pendingOrders = document.getElementById('pendingOrders');
@@ -300,7 +299,7 @@ let currentOrder = null;
 let currentAction = null;
 
 // Initialize the page
-document.addEventListener('DOMContentLoaded', function() {
+document.addEventListener('DOMContentLoaded', function () {
     initializeOrders();
     setupEventListeners();
     updateStatistics();
@@ -319,7 +318,7 @@ function setupEventListeners() {
 
     // Table actions
     ordersTable.addEventListener('click', handleTableClick);
-    
+
     // Enhanced table head sorting
     setupTableSorting();
 
@@ -328,7 +327,7 @@ function setupEventListeners() {
     const cancelOrderDetailsBtn = document.getElementById('cancelOrderDetails');
     const cancelConfirmBtn = document.getElementById('cancelConfirm');
     const confirmActionBtn = document.getElementById('confirmAction');
-    
+
     if (closeOrderDetailsBtn) closeOrderDetailsBtn.addEventListener('click', closeOrderDetails);
     if (cancelOrderDetailsBtn) cancelOrderDetailsBtn.addEventListener('click', closeOrderDetails);
     if (cancelConfirmBtn) cancelConfirmBtn.addEventListener('click', closeConfirmModal);
@@ -339,7 +338,7 @@ function setupEventListeners() {
     const rejectOrderBtn = document.getElementById('rejectOrderBtn');
     const requestCancelBtn = document.getElementById('requestCancelBtn');
     const completeOrderBtn = document.getElementById('completeOrderBtn');
-    
+
     if (acceptOrderBtn) acceptOrderBtn.addEventListener('click', () => showConfirmModal('accept', 'Accept Order'));
     if (rejectOrderBtn) rejectOrderBtn.addEventListener('click', () => showConfirmModal('reject', 'Reject Order'));
     if (requestCancelBtn) requestCancelBtn.addEventListener('click', () => showConfirmModal('cancel-request', 'Request Cancellation'));
@@ -348,7 +347,7 @@ function setupEventListeners() {
     // New cancellation handling buttons
     const approveCancelBtn = document.getElementById('approveCancelBtn');
     const rejectCancelBtn = document.getElementById('rejectCancelBtn');
-    
+
     if (approveCancelBtn) {
         approveCancelBtn.addEventListener('click', () => showConfirmModal('approve-cancellation', 'Approve Cancellation'));
     }
@@ -360,35 +359,35 @@ function setupEventListeners() {
     const openSignOutBtn = document.getElementById('openSignOut');
     const cancelSignOutBtn = document.getElementById('cancelSignOut');
     const confirmSignOutBtn = document.getElementById('confirmSignOut');
-    
+
     if (openSignOutBtn) {
         openSignOutBtn.addEventListener('click', () => {
             if (signOutModal) {
-        signOutModal.setAttribute('aria-hidden', 'false');
-        signOutModal.style.display = 'flex';
+                signOutModal.setAttribute('aria-hidden', 'false');
+                signOutModal.style.display = 'flex';
             }
         });
     }
     if (cancelSignOutBtn) cancelSignOutBtn.addEventListener('click', closeSignOutModal);
     if (confirmSignOutBtn) {
         confirmSignOutBtn.addEventListener('click', () => {
-        window.location.href = '../../auth/login.html';
-    });
+            window.location.href = '../../auth/login.html';
+        });
     }
 
     // View toggle functionality
     const viewButtons = document.querySelectorAll('.view-btn');
     const tableView = document.getElementById('tableView');
     const cardView = document.getElementById('cardView');
-    
+
     viewButtons.forEach(btn => {
         btn.addEventListener('click', () => {
             const view = btn.dataset.view;
-            
+
             // Update active button
             viewButtons.forEach(b => b.classList.remove('active'));
             btn.classList.add('active');
-            
+
             // Toggle views
             if (view === 'table') {
                 tableView.style.display = 'block';
@@ -403,7 +402,7 @@ function setupEventListeners() {
 
     // Close modals on overlay click
     document.querySelectorAll('.modal-overlay').forEach(overlay => {
-        overlay.addEventListener('click', function(e) {
+        overlay.addEventListener('click', function (e) {
             if (e.target === this) {
                 this.setAttribute('aria-hidden', 'true');
                 this.style.display = 'none';
@@ -412,7 +411,7 @@ function setupEventListeners() {
     });
 
     // Keyboard navigation support
-    document.addEventListener('keydown', function(e) {
+    document.addEventListener('keydown', function (e) {
         // Close modals with Escape key
         if (e.key === 'Escape') {
             if (orderDetailsModal && orderDetailsModal.style.display === 'flex') {
@@ -430,13 +429,13 @@ function setupEventListeners() {
 
 function handleSearch() {
     if (!orderSearch) return;
-    
+
     const searchTerm = orderSearch.value.toLowerCase();
-    const filteredOrders = ordersData.filter(order => 
+    const filteredOrders = ordersData.filter(order =>
         order.orderNumber.toLowerCase().includes(searchTerm) ||
         order.userNumber.toLowerCase().includes(searchTerm) ||
         order.customer.name.toLowerCase().includes(searchTerm) ||
-        order.orderDetails.some(detail => 
+        order.orderDetails.some(detail =>
             detail.productType.toLowerCase().includes(searchTerm) ||
             detail.productNumber.toLowerCase().includes(searchTerm)
         )
@@ -447,20 +446,20 @@ function handleSearch() {
 
 function handleFilter() {
     if (!statusFilter || !orderTypeFilter) return;
-    
+
     const status = statusFilter.value;
     const orderType = orderTypeFilter.value;
-    
+
     let filteredOrders = ordersData;
-    
+
     if (status) {
         filteredOrders = filteredOrders.filter(order => order.status === status);
     }
-    
+
     if (orderType) {
         filteredOrders = filteredOrders.filter(order => order.orderType === orderType);
     }
-    
+
     renderOrdersTable(filteredOrders);
     updateOrderCount(filteredOrders.length);
 }
@@ -468,20 +467,20 @@ function handleFilter() {
 
 function handleTableClick(e) {
     if (!ordersTable) return;
-    
+
     const button = e.target.closest('button');
     if (!button) return;
-    
+
     const action = button.dataset.action;
     const row = button.closest('tr');
     if (!row) return;
-    
+
     const orderId = row.dataset.orderId;
     if (!orderId) return;
-    
+
     currentOrder = ordersData.find(order => order.orderNumber === orderId);
     if (!currentOrder) return;
-    
+
     switch (action) {
         case 'view':
             showOrderDetails(currentOrder);
@@ -509,7 +508,7 @@ function handleTableClick(e) {
 
 function showOrderDetails(order) {
     if (!order || !orderDetailsModal) return;
-    
+
     // Simple order details population
     const orderIdEl = document.getElementById('orderId');
     const orderStatusEl = document.getElementById('orderStatus');
@@ -518,7 +517,7 @@ function showOrderDetails(order) {
     const customerNameEl = document.getElementById('customerName');
     const customerEmailEl = document.getElementById('customerEmail');
     const customerPhoneEl = document.getElementById('customerPhone');
-    
+
     if (orderIdEl) orderIdEl.textContent = `#${order.orderNumber}`;
     if (orderStatusEl) {
         orderStatusEl.textContent = formatStatusText(order.status);
@@ -529,29 +528,29 @@ function showOrderDetails(order) {
     if (customerNameEl) customerNameEl.textContent = order.customer.name;
     if (customerEmailEl) customerEmailEl.textContent = order.customer.email;
     if (customerPhoneEl) customerPhoneEl.textContent = order.customer.phone;
-    
+
     // Populate order items
     setupSimpleOrderItems(order.orderDetails);
-    
+
     // Show/hide action buttons based on status
     updateSimpleActionButtons(order.status);
-    
+
     // Show modal
     if (orderDetailsModal) {
-    orderDetailsModal.setAttribute('aria-hidden', 'false');
-    orderDetailsModal.style.display = 'flex';
+        orderDetailsModal.setAttribute('aria-hidden', 'false');
+        orderDetailsModal.style.display = 'flex';
     }
 }
 
 function setupImageGallery(images) {
     const mainImage = document.getElementById('mainImage');
     const thumbnailsContainer = document.getElementById('illustrativeImages');
-    
+
     // Set main image
     if (images.length > 0) {
         mainImage.src = images[0];
     }
-    
+
     // Clear and populate thumbnails
     thumbnailsContainer.innerHTML = '';
     images.forEach((imageSrc, index) => {
@@ -572,20 +571,20 @@ function setupImageGallery(images) {
 function setupSimpleOrderItems(orderDetails) {
     const orderItemsContainer = document.getElementById('orderItems');
     if (!orderItemsContainer) return;
-    
+
     // Clear existing items
     orderItemsContainer.innerHTML = '';
-    
+
     orderDetails.forEach(detail => {
         const orderItem = document.createElement('div');
         orderItem.className = 'order-item';
-        
+
         orderItem.innerHTML = `
             <div class="item-name">${detail.productType}</div>
             <div class="item-quantity">Qty: ${detail.quantity}</div>
             <div class="item-price">$${detail.total.toFixed(2)}</div>
         `;
-        
+
         orderItemsContainer.appendChild(orderItem);
     });
 }
@@ -594,12 +593,12 @@ function updateSimpleActionButtons(status) {
     const acceptBtn = document.getElementById('acceptOrderBtn');
     const rejectBtn = document.getElementById('rejectOrderBtn');
     const completeBtn = document.getElementById('completeOrderBtn');
-    
+
     // Hide all buttons first
     [acceptBtn, rejectBtn, completeBtn].forEach(btn => {
         if (btn) btn.style.display = 'none';
     });
-    
+
     // Show relevant buttons based on status
     switch (status) {
         case 'pending':
@@ -623,12 +622,12 @@ function updateActionButtons(status) {
     const completeBtn = document.getElementById('completeOrderBtn');
     const approveCancelBtn = document.getElementById('approveCancelBtn');
     const rejectCancelBtn = document.getElementById('rejectCancelBtn');
-    
+
     // Hide all buttons first
     [acceptBtn, rejectBtn, requestCancelBtn, completeBtn, approveCancelBtn, rejectCancelBtn].forEach(btn => {
         btn.style.display = 'none';
     });
-    
+
     // Show relevant buttons based on status
     switch (status) {
         case 'pending':
@@ -659,7 +658,7 @@ function updateActionButtons(status) {
 function showConfirmModal(action, title) {
     currentAction = action;
     document.getElementById('confirmTitle').innerHTML = `<i class="fas fa-question-circle" style="color: var(--orange);"></i> ${title}`;
-    
+
     let message = '';
     switch (action) {
         case 'accept':
@@ -681,7 +680,7 @@ function showConfirmModal(action, title) {
             message = 'Are you sure you want to reject the cancellation request? The order will continue as normal.';
             break;
     }
-    
+
     document.getElementById('confirmMessage').textContent = message;
     confirmModal.setAttribute('aria-hidden', 'false');
     confirmModal.style.display = 'flex';
@@ -689,7 +688,7 @@ function showConfirmModal(action, title) {
 
 function executeAction() {
     if (!currentOrder || !currentAction) return;
-    
+
     switch (currentAction) {
         case 'accept':
             updateOrderStatus(currentOrder.orderNumber, 'in-progress');
@@ -716,7 +715,7 @@ function executeAction() {
             showToast('success', 'Cancellation Rejected', `Cancellation request for order ${currentOrder.orderNumber} has been rejected. Order continues as normal.`);
             break;
     }
-    
+
     closeConfirmModal();
     closeOrderDetails();
     updateStatistics();
@@ -726,17 +725,17 @@ function updateOrderStatus(orderNumber, newStatus) {
     const order = ordersData.find(o => o.orderNumber === orderNumber);
     if (order) {
         order.status = newStatus;
-        
+
         // If approving cancellation, remove the cancellation request
         if (newStatus === 'cancelled' && currentAction === 'approve-cancellation') {
             order.cancellationRequest = null;
         }
-        
+
         // If rejecting cancellation, remove the cancellation request but keep the order in progress
         if (newStatus === 'in-progress' && currentAction === 'reject-cancellation') {
             order.cancellationRequest = null;
         }
-        
+
         renderOrdersTable(ordersData);
     }
 }
@@ -759,17 +758,17 @@ function closeSignOutModal() {
 
 function renderOrdersTable(orders) {
     if (!ordersTable || !Array.isArray(orders)) return;
-    
+
     const tbody = ordersTable.querySelector('tbody');
     if (!tbody) return;
-    
+
     tbody.innerHTML = '';
-    
+
     orders.forEach(order => {
         if (order && order.orderNumber) {
-        const row = createOrderRow(order);
+            const row = createOrderRow(order);
             if (row) {
-        tbody.appendChild(row);
+                tbody.appendChild(row);
             }
         }
     });
@@ -780,15 +779,15 @@ function createOrderRow(order) {
         console.error('Invalid order data:', order);
         return null;
     }
-    
+
     const row = document.createElement('tr');
     row.dataset.orderId = order.orderNumber;
-    
+
     const statusClass = order.status;
     const statusText = formatStatusText(order.status);
     const initialStatusClass = order.initialStatus;
     const initialStatusText = formatStatusText(order.initialStatus);
-    
+
     let actionButtons = '';
     switch (order.status) {
         case 'pending':
@@ -826,10 +825,10 @@ function createOrderRow(order) {
             `;
             break;
     }
-    
+
     // Get primary product info for display
     const primaryProduct = order.orderDetails[0];
-    
+
     row.innerHTML = `
         <td>
             <div class="order-number-cell">
@@ -874,19 +873,49 @@ function createOrderRow(order) {
             </div>
         </td>
     `;
-    
+
     return row;
 }
 
 function formatStatusText(status) {
-    return status.split('-').map(word => 
+    return status.split('-').map(word =>
         word.charAt(0).toUpperCase() + word.slice(1)
     ).join(' ');
 }
 
+function getFilteredOrders() {
+    let filteredOrders = ordersData;
+
+    // Apply search filter
+    if (orderSearch && orderSearch.value) {
+        const searchTerm = orderSearch.value.toLowerCase();
+        filteredOrders = filteredOrders.filter(order =>
+            order.orderNumber.toLowerCase().includes(searchTerm) ||
+            order.userNumber.toLowerCase().includes(searchTerm) ||
+            order.customer.name.toLowerCase().includes(searchTerm) ||
+            order.orderDetails.some(detail =>
+                detail.productType.toLowerCase().includes(searchTerm) ||
+                detail.productNumber.toLowerCase().includes(searchTerm)
+            )
+        );
+    }
+
+    // Apply status filter
+    if (statusFilter && statusFilter.value) {
+        filteredOrders = filteredOrders.filter(order => order.status === statusFilter.value);
+    }
+
+    // Apply order type filter
+    if (orderTypeFilter && orderTypeFilter.value) {
+        filteredOrders = filteredOrders.filter(order => order.orderType === orderTypeFilter.value);
+    }
+
+    return filteredOrders;
+}
+
 function updateOrderCount(count) {
     if (!orderCount) return;
-    
+
     const validCount = typeof count === 'number' && count >= 0 ? count : 0;
     orderCount.textContent = `${validCount} orders`;
 }
@@ -896,7 +925,7 @@ function updateStatistics() {
         acc[order.status] = (acc[order.status] || 0) + 1;
         return acc;
     }, {});
-    
+
     pendingOrders.textContent = stats.pending || 0;
     processingOrders.textContent = stats.processing || 0;
     completedOrders.textContent = stats.completed || 0;
@@ -906,16 +935,16 @@ function updateStatistics() {
 function renderOrderCards() {
     const ordersGrid = document.getElementById('ordersGrid');
     if (!ordersGrid) return;
-    
+
     const orders = getFilteredOrders();
-    
+
     ordersGrid.innerHTML = '';
-    
+
     orders.forEach(order => {
         const card = document.createElement('div');
         card.className = 'order-card';
         card.onclick = () => showOrderDetails(order);
-        
+
         card.innerHTML = `
             <div class="order-card-header">
                 <div class="order-card-id">${order.orderNumber}</div>
@@ -941,23 +970,23 @@ function renderOrderCards() {
                 </button>
             </div>
         `;
-        
+
         ordersGrid.appendChild(card);
     });
 }
 
 function setupTableSorting() {
     const sortableHeaders = document.querySelectorAll('.enhanced-table th.sortable');
-    
+
     sortableHeaders.forEach(header => {
         header.addEventListener('click', (e) => {
             e.preventDefault();
             e.stopPropagation();
-            
+
             const sortField = header.dataset.sort;
-            const currentSort = header.classList.contains('sort-asc') ? 'asc' : 
-                               header.classList.contains('sort-desc') ? 'desc' : 'none';
-            
+            const currentSort = header.classList.contains('sort-asc') ? 'asc' :
+                header.classList.contains('sort-desc') ? 'desc' : 'none';
+
             // Remove active class from all headers
             sortableHeaders.forEach(h => {
                 h.classList.remove('active', 'sort-asc', 'sort-desc');
@@ -965,18 +994,18 @@ function setupTableSorting() {
                 h.querySelector('.sort-asc').style.display = 'none';
                 h.querySelector('.sort-desc').style.display = 'none';
             });
-            
+
             // Determine new sort direction
             let newDirection = 'asc';
             if (currentSort === 'asc') {
                 newDirection = 'desc';
             }
-            
+
             // Apply new sort
             header.classList.add('active', `sort-${newDirection}`);
             header.querySelector('.sort-icon').style.display = 'none';
             header.querySelector(`.sort-${newDirection}`).style.display = 'block';
-            
+
             // Sort the data
             sortOrders(sortField, newDirection);
         });
@@ -985,10 +1014,10 @@ function setupTableSorting() {
 
 function sortOrders(field, direction) {
     const orders = getFilteredOrders();
-    
+
     orders.sort((a, b) => {
         let valueA, valueB;
-        
+
         switch (field) {
             case 'orderNumber':
                 valueA = a.orderNumber;
@@ -1017,12 +1046,12 @@ function sortOrders(field, direction) {
             default:
                 return 0;
         }
-        
+
         if (valueA < valueB) return direction === 'asc' ? -1 : 1;
         if (valueA > valueB) return direction === 'asc' ? 1 : -1;
         return 0;
     });
-    
+
     renderOrdersTable(orders);
 }
 
@@ -1031,13 +1060,13 @@ function showToast(type, title, message) {
     const toastContainer = document.querySelector('.toast-container');
     const toastTemplate = document.getElementById('toast-template');
     const toast = toastTemplate.content.cloneNode(true);
-    
+
     const toastElement = toast.querySelector('.toast');
     const icon = toast.querySelector('.toast-icon i');
     const titleElement = toast.querySelector('.toast-title');
     const messageElement = toast.querySelector('.toast-message');
     const closeBtn = toast.querySelector('.toast-close');
-    
+
     // Set icon and colors based on type
     const iconMap = {
         success: 'fas fa-check-circle',
@@ -1045,19 +1074,19 @@ function showToast(type, title, message) {
         warning: 'fas fa-exclamation-triangle',
         info: 'fas fa-info-circle'
     };
-    
+
     icon.className = iconMap[type] || iconMap.info;
     toastElement.classList.add(type);
-    
+
     titleElement.textContent = title;
     messageElement.textContent = message;
-    
+
     closeBtn.addEventListener('click', () => {
         toastElement.remove();
     });
-    
+
     toastContainer.appendChild(toastElement);
-    
+
     // Auto remove after 5 seconds
     setTimeout(() => {
         if (toastElement.parentNode) {

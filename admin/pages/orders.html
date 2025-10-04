@@ -28,7 +28,8 @@
                 <li><a href="sales.html"><i class="fas fa-shopping-cart"></i> <span>Sales Statistics</span></a></li>
                 <li><a href="feedback.html"><i class="fas fa-star"></i> <span>Feedback Management</span></a></li>
                 <li><a href="products.html"><i class="fas fa-box"></i> <span>Product Management</span></a></li>
-                <li class="active"><a href="#"><i class="fas fa-clipboard-list"></i> <span>Order Management</span></a></li>
+                <li class="active"><a href="#"><i class="fas fa-clipboard-list"></i> <span>Order Management</span></a>
+                </li>
                 <li><a href="support.html"><i class="fas fa-headset"></i> <span>Support & Contact</span></a></li>
             </ul>
         </nav>
@@ -90,9 +91,10 @@
         <div class="orders-toolbar">
             <div class="search-wrap">
                 <i class="fas fa-search" aria-hidden="true"></i>
-                <input id="orderSearch" type="text" placeholder="Search by order ID, customer name, or product..." aria-label="Search orders">
+                <input id="orderSearch" type="text" placeholder="Search by order ID, customer name, or product..."
+                    aria-label="Search orders">
             </div>
-            
+
             <div class="toolbar-actions">
                 <select id="statusFilter" aria-label="Filter by status">
                     <option value="">All Statuses</option>
@@ -105,13 +107,13 @@
                     <option value="paid">Paid</option>
                     <option value="unpaid">Unpaid</option>
                 </select>
-                
+
                 <select id="orderTypeFilter" aria-label="Filter by order type">
                     <option value="">All Types</option>
                     <option value="custom">Custom</option>
                     <option value="products">Products</option>
                 </select>
-                
+
             </div>
         </div>
 
@@ -119,11 +121,13 @@
         <div class="card enhanced-orders-card">
             <div class="card-header">
                 <div class="header-content">
-                    
-                     
+                    <h3><i class="fas fa-clipboard-list"></i> Orders</h3>
+                    <div class="header-stats">
+                        <span id="orderCount">0 orders</span>
+                    </div>
                 </div>
             </div>
-            
+
             <!-- Table View -->
             <div class="table-view" id="tableView">
                 <div class="table-responsive">
@@ -224,7 +228,7 @@
                     </table>
                 </div>
             </div>
-            
+
             <!-- Card View -->
             <div class="card-view" id="cardView" style="display: none;">
                 <div class="orders-grid" id="ordersGrid">
@@ -234,28 +238,29 @@
         </div>
     </div>
 
-<!-- Add cancellation request section in the order details modal -->
-<div class="order-section" id="cancellationRequestSection" style="display: none;">
-    <div class="section-header">
-        <h5><i class="fas fa-ban" style="color: #e74c3c;"></i> Cancellation Request</h5>
-    </div>
-    <div class="cancellation-request">
-        <div class="request-info">
-            <div class="info-item">
-                <label>Requested Date:</label>
-                <span id="cancellationRequestDate">2025-01-16</span>
-            </div>
-            <div class="info-item">
-                <label>Reason:</label>
-                <span id="cancellationReason">Change of plans</span>
-            </div>
-            <div class="info-item">
-                <label>Customer Notes:</label>
-                <span id="cancellationCustomerNotes">I need to cancel this order due to unexpected circumstances.</span>
+    <!-- Add cancellation request section in the order details modal -->
+    <div class="order-section" id="cancellationRequestSection" style="display: none;">
+        <div class="section-header">
+            <h5><i class="fas fa-ban" style="color: #e74c3c;"></i> Cancellation Request</h5>
+        </div>
+        <div class="cancellation-request">
+            <div class="request-info">
+                <div class="info-item">
+                    <label>Requested Date:</label>
+                    <span id="cancellationRequestDate">2025-01-16</span>
+                </div>
+                <div class="info-item">
+                    <label>Reason:</label>
+                    <span id="cancellationReason">Change of plans</span>
+                </div>
+                <div class="info-item">
+                    <label>Customer Notes:</label>
+                    <span id="cancellationCustomerNotes">I need to cancel this order due to unexpected
+                        circumstances.</span>
+                </div>
             </div>
         </div>
     </div>
-</div>
     <!-- Simple Order Details Modal -->
     <div class="modal-overlay" id="orderDetailsModal" aria-hidden="true" role="dialog" aria-modal="true">
         <div class="modal simple-order-modal" role="document">
@@ -324,7 +329,8 @@
     <!-- Confirmation Modals -->
     <div class="modal-overlay" id="confirmModal" aria-hidden="true" role="dialog" aria-modal="true">
         <div class="modal confirm-modal" role="document">
-            <h3 id="confirmTitle"><i class="fas fa-question-circle" style="color: var(--orange);"></i> Confirm Action</h3>
+            <h3 id="confirmTitle"><i class="fas fa-question-circle" style="color: var(--orange);"></i> Confirm Action
+            </h3>
             <p id="confirmMessage">Are you sure you want to perform this action?</p>
             <div class="modal-actions">
                 <button class="btn btn-secondary" id="cancelConfirm">Cancel</button>

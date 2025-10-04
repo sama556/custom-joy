@@ -27,7 +27,7 @@
                 <li><a href="sales.html"><i class="fas fa-shopping-cart"></i> <span>Sales Statistics</span></a></li>
                 <li><a href="feedback.html"><i class="fas fa-star"></i> <span>Feedback Management</span></a></li>
                 <li class="active"><a href="#"><i class="fas fa-box"></i> <span>Product Management</span></a></li>
-                <li><a href="#"><i class="fas fa-clipboard-list"></i> <span>Order Management</span></a></li>
+                <li><a href="orders.html"><i class="fas fa-clipboard-list"></i> <span>Order Management</span></a></li>
                 <li><a href="support.html"><i class="fas fa-headset"></i> <span>Support & Contact</span></a></li>
             </ul>
         </nav>
@@ -45,117 +45,138 @@
             </div>
         </div>
 
-        <!-- Tabs -->
-        <div class="tabs">
-            <button class="tab-btn active" data-tab="cakes"><i class="fas fa-birthday-cake"></i> Cakes</button>
-            <button class="tab-btn" data-tab="cake-addons"><i class="fas fa-plus-circle"></i> Cake Add-ons</button>
-            <button class="tab-btn" data-tab="flowers"><i class="fas fa-seedling"></i> Flowers</button>
-            <button class="tab-btn" data-tab="flower-addons"><i class="fas fa-plus"></i> Flower Add-ons</button>
-            <button class="tab-btn" data-tab="balloons"><i class="fas fa-balloon"></i> Balloons</button>
-        </div>
-
-        <!-- Toolbars per tab -->
-        <div class="tab-content active" id="tab-cakes">
-            <div class="toolbar">
-                <div class="search-wrap">
-                    <i class="fas fa-search"></i>
-                    <input id="cakeSearch" type="text" placeholder="Search cakes...">
+        <!-- Enhanced Product Management Header -->
+        <div class="product-header">
+            <!-- Row 1: Quick Stats & Actions -->
+            <div class="stats-row">
+                <div class="stats-cards">
+                    <div class="stat-card">
+                        <div class="stat-icon">
+                            <i class="fas fa-box"></i>
+                        </div>
+                        <div class="stat-content">
+                            <div class="stat-value" id="totalProductsStat">0</div>
+                            <div class="stat-label">Total Products</div>
+                        </div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-icon available">
+                            <i class="fas fa-check-circle"></i>
+                        </div>
+                        <div class="stat-content">
+                            <div class="stat-value" id="availableProductsStat">0</div>
+                            <div class="stat-label">Available</div>
+                        </div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-icon warning">
+                            <i class="fas fa-exclamation-triangle"></i>
+                        </div>
+                        <div class="stat-content">
+                            <div class="stat-value" id="unavailableProductsStat">0</div>
+                            <div class="stat-label">Unavailable</div>
+                        </div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-icon success">
+                            <i class="fas fa-dollar-sign"></i>
+                        </div>
+                        <div class="stat-content">
+                            <div class="stat-value" id="averagePriceStat">$0</div>
+                            <div class="stat-label">Avg Price</div>
+                        </div>
+                    </div>
                 </div>
-                <div class="toolbar-actions">
-                    <button id="addCakeBtn" class="btn btn-primary"><i class="fas fa-plus"></i> Add Cake</button>
+                <div class="quick-actions">
+                    <button id="bulkImportBtn" class="btn btn-secondary">
+                        <i class="fas fa-upload"></i> Import CSV
+                    </button>
+                    <button id="bulkExportBtn" class="btn btn-secondary">
+                        <i class="fas fa-download"></i> Export CSV
+                    </button>
+                    <button id="refreshDataBtn" class="btn btn-secondary">
+                        <i class="fas fa-sync-alt"></i> Refresh
+                    </button>
+                    <div class="add-product-dropdown">
+                        <button id="addProductBtn" class="btn btn-primary">
+                            <i class="fas fa-plus"></i> Add Product
+                        </button>
+                        <div class="dropdown-menu" id="addProductDropdown">
+                            <a href="#" data-type="cake"><i class="fas fa-birthday-cake"></i> Add Cake</a>
+                            <a href="#" data-type="cakeAddon"><i class="fas fa-plus-circle"></i> Add Cake Add-on</a>
+                            <a href="#" data-type="flower"><i class="fas fa-seedling"></i> Add Flower</a>
+                            <a href="#" data-type="flowerAddon"><i class="fas fa-plus"></i> Add Flower Add-on</a>
+                            <a href="#" data-type="balloon"><i class="fas fa-balloon"></i> Add Balloon</a>
+                        </div>
+                    </div>
                 </div>
             </div>
+
+            <!-- Row 2: Product Type Filter -->
+            <div class="product-type-filter">
+                <div class="filter-header">
+                    <h3><i class="fas fa-filter"></i> Filter by Product Type</h3>
+                    <div class="filter-actions">
+                        <button id="clearAllFilters" class="btn btn-sm btn-outline">
+                            <i class="fas fa-times"></i> Clear All
+                        </button>
+                    </div>
+                </div>
+                <div class="filter-buttons">
+                    <button class="filter-btn active" data-type="all">
+                        <i class="fas fa-th"></i>
+                        <span>All Products</span>
+                        <span class="count" id="allCount">0</span>
+                    </button>
+                    <button class="filter-btn" data-type="cake">
+                        <i class="fas fa-birthday-cake"></i>
+                        <span>Cakes</span>
+                        <span class="count" id="cakeCount">0</span>
+                    </button>
+                    <button class="filter-btn" data-type="cakeAddon">
+                        <i class="fas fa-plus-circle"></i>
+                        <span>Cake Add-ons</span>
+                        <span class="count" id="cakeAddonCount">0</span>
+                    </button>
+                    <button class="filter-btn" data-type="flower">
+                        <i class="fas fa-seedling"></i>
+                        <span>Flowers</span>
+                        <span class="count" id="flowerCount">0</span>
+                    </button>
+                    <button class="filter-btn" data-type="flowerAddon">
+                        <i class="fas fa-plus"></i>
+                        <span>Flower Add-ons</span>
+                        <span class="count" id="flowerAddonCount">0</span>
+                    </button>
+                    <button class="filter-btn" data-type="balloon">
+                        <i class="fas fa-balloon"></i>
+                        <span>Balloons</span>
+                        <span class="count" id="balloonCount">0</span>
+                    </button>
+                </div>
+            </div>
+
+        </div>
+
+        <!-- Unified Product Management -->
+        <div class="unified-products">
             <div class="card">
                 <div class="card-header">
-                    <h3>Cakes</h3>
-                    <span class="muted" id="cakeCount">0 items</span>
+                    <h3>All Products</h3>
                 </div>
                 <div class="table-responsive">
-                    <table class="data-table" id="cakesTable">
+                    <table class="data-table" id="productsTable">
                         <thead>
                             <tr>
-                                <th>ID</th>
-                                <th>Name</th>
+                                <th class="sortable" data-sort="id">ID</th>
+                                <th class="sortable" data-sort="type">Type</th>
+                                <th class="sortable" data-sort="name">Name</th>
                                 <th>Description</th>
-                                <th>Base Price</th>
+                                <th class="sortable" data-sort="price">Price</th>
                                 <th>Image</th>
-                                <th>Size</th>
-                                <th>Layers</th>
-                                <th>Available</th>
-                                <th>Supplier ID</th>
-                                <th>Scope</th>
-                                <th>Type</th>
-                                <th>Actions</th>
-                            </tr>
-                        </thead>
-                        <tbody></tbody>
-                    </table>
-                </div>
-            </div>
-        </div>
-
-        <div class="tab-content" id="tab-cake-addons">
-            <div class="toolbar">
-                <div class="search-wrap">
-                    <i class="fas fa-search"></i>
-                    <input id="cakeAddonSearch" type="text" placeholder="Search cake add-ons...">
-                </div>
-                <div class="toolbar-actions">
-                    <button id="addCakeAddonBtn" class="btn btn-primary"><i class="fas fa-plus"></i> Add Add-on</button>
-                </div>
-            </div>
-            <div class="card">
-                <div class="card-header">
-                    <h3>Cake Add-ons</h3>
-                    <span class="muted" id="cakeAddonCount">0 items</span>
-                </div>
-                <div class="table-responsive">
-                    <table class="data-table" id="cakeAddonsTable">
-                        <thead>
-                            <tr>
-                                <th>ID</th>
-                                <th>Cake ID</th>
-                                <th>Option Group</th>
-                                <th>Option Name</th>
-                                <th>Extra Price</th>
-                                <th>Image</th>
-                                <th>Enabled</th>
-                                <th>Actions</th>
-                            </tr>
-                        </thead>
-                        <tbody></tbody>
-                    </table>
-                </div>
-            </div>
-        </div>
-
-        <div class="tab-content" id="tab-flowers">
-            <div class="toolbar">
-                <div class="search-wrap">
-                    <i class="fas fa-search"></i>
-                    <input id="flowerSearch" type="text" placeholder="Search flowers...">
-                </div>
-                <div class="toolbar-actions">
-                    <button id="addFlowerBtn" class="btn btn-primary"><i class="fas fa-plus"></i> Add Flower</button>
-                </div>
-            </div>
-            <div class="card">
-                <div class="card-header">
-                    <h3>Flowers</h3>
-                    <span class="muted" id="flowerCount">0 items</span>
-                </div>
-                <div class="table-responsive">
-                    <table class="data-table" id="flowersTable">
-                        <thead>
-                            <tr>
-                                <th>ID</th>
-                                <th>Name</th>
-                                <th>Category</th>
-                                <th>Size</th>
-                                <th>Base Price</th>
-                                <th>Image</th>
-                                <th>Available</th>
-                                <th>Supplier ID</th>
+                                <th>Details</th>
+                                <th class="sortable" data-sort="available">Status</th>
+                                <th>Supplier</th>
                                 <th>Scope</th>
                                 <th>Actions</th>
                             </tr>
@@ -163,81 +184,19 @@
                         <tbody></tbody>
                     </table>
                 </div>
-            </div>
-        </div>
-
-        <div class="tab-content" id="tab-flower-addons">
-            <div class="toolbar">
-                <div class="search-wrap">
-                    <i class="fas fa-search"></i>
-                    <input id="flowerAddonSearch" type="text" placeholder="Search flower add-ons...">
-                </div>
-                <div class="toolbar-actions">
-                    <button id="addFlowerAddonBtn" class="btn btn-primary"><i class="fas fa-plus"></i> Add
-                        Add-on</button>
-                </div>
-            </div>
-            <div class="card">
-                <div class="card-header">
-                    <h3>Flower Add-ons</h3>
-                    <span class="muted" id="flowerAddonCount">0 items</span>
-                </div>
-                <div class="table-responsive">
-                    <table class="data-table" id="flowerAddonsTable">
-                        <thead>
-                            <tr>
-                                <th>ID</th>
-                                <th>Flower ID</th>
-                                <th>Option Group</th>
-                                <th>Option Name</th>
-                                <th>Extra Price</th>
-                                <th>Image</th>
-                                <th>Actions</th>
-                            </tr>
-                        </thead>
-                        <tbody></tbody>
-                    </table>
+                <!-- Pagination -->
+                <div class="pagination" id="productPagination">
+                    <button id="productPrevPage" disabled>
+                        <i class="fas fa-chevron-left"></i> Previous
+                    </button>
+                    <span class="page-info" id="productPageInfo">Page 1 of 1</span>
+                    <button id="productNextPage" disabled>
+                        Next <i class="fas fa-chevron-right"></i>
+                    </button>
                 </div>
             </div>
         </div>
 
-        <div class="tab-content" id="tab-balloons">
-            <div class="toolbar">
-                <div class="search-wrap">
-                    <i class="fas fa-search"></i>
-                    <input id="balloonSearch" type="text" placeholder="Search balloons...">
-                </div>
-                <div class="toolbar-actions">
-                    <button id="addBalloonBtn" class="btn btn-primary"><i class="fas fa-plus"></i> Add Balloon</button>
-                </div>
-            </div>
-            <div class="card">
-                <div class="card-header">
-                    <h3>Balloons</h3>
-                    <span class="muted" id="balloonCount">0 items</span>
-                </div>
-                <div class="table-responsive">
-                    <table class="data-table" id="balloonsTable">
-                        <thead>
-                            <tr>
-                                <th>ID</th>
-                                <th>Name</th>
-                                <th>Balloon Type</th>
-                                <th>Color</th>
-                                <th>Size</th>
-                                <th>Price</th>
-                                <th>Image</th>
-                                <th>Available</th>
-                                <th>Extra Description</th>
-                                <th>Supplier ID</th>
-                                <th>Actions</th>
-                            </tr>
-                        </thead>
-                        <tbody></tbody>
-                    </table>
-                </div>
-            </div>
-        </div>
 
     </div>
 
@@ -485,104 +444,39 @@
         </div>
     </div>
 
-    <!-- Row Templates -->
-    <template id="tmpl-cake-row">
+    <!-- Unified Product Row Template -->
+    <template id="tmpl-product-row">
         <tr>
             <td class="cell-id"></td>
+            <td class="cell-type">
+                <span class="type-badge"></span>
+            </td>
             <td class="cell-name"></td>
             <td class="cell-description"></td>
-            <td class="cell-basePrice"></td>
+            <td class="cell-price price-cell"></td>
             <td class="cell-image"></td>
-            <td class="cell-size"></td>
-            <td class="cell-layers"></td>
-            <td class="cell-available"></td>
-            <td class="cell-supplierId"></td>
-            <td class="cell-scope"></td>
-            <td class="cell-type"></td>
-            <td>
-                <div class="row-actions">
-                    <button class="icon-btn edit"><i class="fas fa-edit"></i></button>
-                    <button class="icon-btn danger" data-action="delete"><i class="fas fa-trash"></i></button>
-                </div>
+            <td class="cell-details"></td>
+            <td class="cell-available">
+                <span class="status-badge"></span>
             </td>
-        </tr>
-    </template>
-
-    <template id="tmpl-cakeAddon-row">
-        <tr>
-            <td class="cell-id"></td>
-            <td class="cell-cakeId"></td>
-            <td class="cell-optionGroup"></td>
-            <td class="cell-optionName"></td>
-            <td class="cell-extraPrice"></td>
-            <td class="cell-image"></td>
-            <td class="cell-enabled"></td>
-            <td>
-                <div class="row-actions">
-                    <button class="icon-btn edit"><i class="fas fa-edit"></i></button>
-                    <button class="icon-btn danger" data-action="delete"><i class="fas fa-trash"></i></button>
-                </div>
-            </td>
-        </tr>
-    </template>
-
-    <template id="tmpl-flower-row">
-        <tr>
-            <td class="cell-id"></td>
-            <td class="cell-name"></td>
-            <td class="cell-category"></td>
-            <td class="cell-size"></td>
-            <td class="cell-basePrice"></td>
-            <td class="cell-image"></td>
-            <td class="cell-available"></td>
-            <td class="cell-supplierId"></td>
+            <td class="cell-supplier"></td>
             <td class="cell-scope"></td>
             <td>
                 <div class="row-actions">
-                    <button class="icon-btn edit"><i class="fas fa-edit"></i></button>
-                    <button class="icon-btn danger" data-action="delete"><i class="fas fa-trash"></i></button>
+                    <button class="icon-btn view" data-action="view" title="View Details">
+                        <i class="fas fa-eye"></i>
+                    </button>
+                    <button class="icon-btn edit" data-action="edit" title="Edit">
+                        <i class="fas fa-edit"></i>
+                    </button>
+                    <button class="icon-btn danger" data-action="delete" title="Delete">
+                        <i class="fas fa-trash"></i>
+                    </button>
                 </div>
             </td>
         </tr>
     </template>
 
-    <template id="tmpl-flowerAddon-row">
-        <tr>
-            <td class="cell-id"></td>
-            <td class="cell-flowerId"></td>
-            <td class="cell-optionGroup"></td>
-            <td class="cell-optionName"></td>
-            <td class="cell-extraPrice"></td>
-            <td class="cell-image"></td>
-            <td>
-                <div class="row-actions">
-                    <button class="icon-btn edit"><i class="fas fa-edit"></i></button>
-                    <button class="icon-btn danger" data-action="delete"><i class="fas fa-trash"></i></button>
-                </div>
-            </td>
-        </tr>
-    </template>
-
-    <template id="tmpl-balloon-row">
-        <tr>
-            <td class="cell-id"></td>
-            <td class="cell-name"></td>
-            <td class="cell-balloonType"></td>
-            <td class="cell-color"></td>
-            <td class="cell-size"></td>
-            <td class="cell-price"></td>
-            <td class="cell-image"></td>
-            <td class="cell-available"></td>
-            <td class="cell-extraDescription"></td>
-            <td class="cell-supplierId"></td>
-            <td>
-                <div class="row-actions">
-                    <button class="icon-btn edit"><i class="fas fa-edit"></i></button>
-                    <button class="icon-btn danger" data-action="delete"><i class="fas fa-trash"></i></button>
-                </div>
-            </td>
-        </tr>
-    </template>
 
     <!-- Sign Out Confirm Modal -->
     <div class="modal-overlay" id="signOutModal" aria-hidden="true" role="dialog" aria-modal="true">
