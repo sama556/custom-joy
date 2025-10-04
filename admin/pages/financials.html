@@ -27,7 +27,7 @@
                 <li><a href="sales.html"><i class="fas fa-shopping-cart"></i> <span>Sales Statistics</span></a></li>
                 <li><a href="feedback.html"><i class="fas fa-star"></i> <span>Feedback Management</span></a></li>
                 <li><a href="#"><i class="fas fa-box"></i> <span>Product Management</span></a></li>
-                <li><a href="#"><i class="fas fa-clipboard-list"></i> <span>Order Management</span></a></li>
+                <li><a href="orders.html"><i class="fas fa-clipboard-list"></i> <span>Order Management</span></a></li>
                 <li><a href="support.html"><i class="fas fa-headset"></i> <span>Support & Contact</span></a></li>
             </ul>
         </nav>
@@ -45,9 +45,63 @@
             </div>
         </div>
 
+        <!-- Commission Information Cards -->
+        <div class="commission-cards-grid">
+            <div class="commission-card">
+                <div class="card-header">
+                    <h3><i class="fas fa-percentage"></i> Current Commission</h3>
+                    <span class="muted">Active commission rate</span>
+                </div>
+                <div class="commission-content">
+                    <div class="commission-value" id="currentCommission">15.5%</div>
+                    <div class="commission-details">
+                        <div class="detail-item">
+                            <span class="label">Commission Number:</span>
+                            <span class="value" id="commissionNumber">COM-2025-001</span>
+                        </div>
+                        <div class="detail-item">
+                            <span class="label">Last Updated:</span>
+                            <span class="value" id="lastUpdated">2025-01-15</span>
+                        </div>
+                        <div class="detail-item">
+                            <span class="label">Effective Since:</span>
+                            <span class="value" id="effectiveSince">2025-12-01</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="commission-card">
+                <div class="card-header">
+                    <h3><i class="fas fa-chart-line"></i> Commission History</h3>
+                    <span class="muted">Recent commission changes</span>
+                </div>
+                <div class="commission-content">
+                    <div class="history-list" id="commissionHistory">
+                        <div class="history-item">
+                            <div class="history-rate">15.5%</div>
+                            <div class="history-details">
+                                <div class="history-date">2025-01-15</div>
+                                <div class="history-number">COM-2025-001</div>
+                            </div>
+                        </div>
+                        <div class="history-item">
+                            <div class="history-rate">12.0%</div>
+                            <div class="history-details">
+                                <div class="history-date">2025-12-01</div>
+                                <div class="history-number">COM-2025-012</div>
+                            </div>
+                        </div>
+                        
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Commission Settings Card -->
         <div class="card">
             <div class="card-header">
-                <h3>Commission Settings</h3>
+                <h3><i class="fas fa-cog"></i> Commission Settings</h3>
                 <span class="muted">Set the platform commission percentage applied to all orders</span>
             </div>
             <div style="padding:16px;">

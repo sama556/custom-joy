@@ -31,7 +31,6 @@ document.addEventListener('DOMContentLoaded', function () {
     const spType = document.getElementById('spType');
     const spStatus = document.getElementById('spStatus');
     const spDescription = document.getElementById('spDescription');
-    const spLogo = document.getElementById('spLogo');
     let editingRow = null;
 
     // View modal
@@ -41,13 +40,17 @@ document.addEventListener('DOMContentLoaded', function () {
     const viewSpProviderId = document.getElementById('viewSpProviderId');
     const viewSpUserId = document.getElementById('viewSpUserId');
     const viewSpType = document.getElementById('viewSpType');
+    const viewSpTypeDetail = document.getElementById('viewSpTypeDetail');
     const viewSpStatus = document.getElementById('viewSpStatus');
     const viewSpDescription = document.getElementById('viewSpDescription');
+    const viewSpStatusIndicator = document.getElementById('viewSpStatusIndicator');
     const closeViewSp = document.getElementById('closeViewSp');
 
     function openSpModal(title) { spModalTitle.innerHTML = title; spModal.classList.add('open'); spModal.setAttribute('aria-hidden', 'false'); }
     function closeSpModal() { spModal.classList.remove('open'); spModal.setAttribute('aria-hidden', 'true'); spForm.reset(); editingRow = null; }
+    const cancelSpBtn = document.getElementById('cancelSpBtn');
     if (cancelSp) cancelSp.addEventListener('click', closeSpModal);
+    if (cancelSpBtn) cancelSpBtn.addEventListener('click', closeSpModal);
     if (spModal) spModal.addEventListener('click', (e) => { if (e.target === spModal) closeSpModal(); });
 
     function openViewSp() { viewSpModal.classList.add('open'); viewSpModal.setAttribute('aria-hidden', 'false'); }
@@ -61,13 +64,12 @@ document.addEventListener('DOMContentLoaded', function () {
         const status = statusFilter.value;
         let visible = 0;
         [...spTable.tBodies[0].rows].forEach(row => {
-            const providerId = (row.querySelector('.provider-id')?.textContent || '').toLowerCase();
             const userId = (row.querySelector('.user-id')?.textContent || '').toLowerCase();
             const store = (row.querySelector('.store')?.textContent || '').toLowerCase();
             const description = (row.querySelector('.description')?.textContent || '').toLowerCase();
             const rowType = row.querySelector('.badge.type')?.getAttribute('data-type');
             const rowStatus = row.querySelector('.badge.status')?.getAttribute('data-status');
-            const matchesQuery = !q || [providerId, userId, store, description].some(v => v.includes(q));
+            const matchesQuery = !q || [userId, store, description].some(v => v.includes(q));
             const matchesType = !type || rowType === type;
             const matchesStatus = !status || rowStatus === status;
             const show = matchesQuery && matchesType && matchesStatus;
@@ -97,7 +99,7 @@ document.addEventListener('DOMContentLoaded', function () {
         span.setAttribute('data-type', type);
         if (type === 'flowers') span.classList.add('flowers');
         if (type === 'cakes') span.classList.add('cakes');
-        span.textContent = type === 'flowers' ? 'Flowers Seller' : 'Chef Cakes';
+        span.textContent = type === 'flowers' ? 'Florist' : 'Chef';
     }
     function setStatusBadge(span, status) {
         span.className = 'badge status';
@@ -107,9 +109,7 @@ document.addEventListener('DOMContentLoaded', function () {
         span.textContent = status.charAt(0).toUpperCase() + status.slice(1);
     }
     function fillRow(row, data) {
-        row.querySelector('.provider-id').textContent = data.providerId;
         row.querySelector('.user-id').textContent = data.userId;
-        row.querySelector('.sp-cell .logo').src = data.logo;
         row.querySelector('.sp-cell .store').textContent = data.store;
         setTypeBadge(row.querySelector('.badge.type'), data.type);
         setStatusBadge(row.querySelector('.badge.status'), data.status);
@@ -117,9 +117,9 @@ document.addEventListener('DOMContentLoaded', function () {
     }
     function getRowData(row) {
         return {
-            providerId: row.querySelector('.provider-id')?.textContent || '',
+            providerId: `SP-${String(Date.now()).slice(-3)}`, // Auto-generate provider ID
             userId: row.querySelector('.user-id')?.textContent || '',
-            logo: row.querySelector('.sp-cell .logo')?.getAttribute('src') || '',
+            logo: `../../images/ceek4.jpg`, // Auto-generate logo
             store: row.querySelector('.sp-cell .store')?.textContent || '',
             type: row.querySelector('.badge.type')?.getAttribute('data-type') || 'flowers',
             description: row.querySelector('.description')?.textContent || '',
@@ -139,8 +139,18 @@ document.addEventListener('DOMContentLoaded', function () {
             if (viewSpStore) viewSpStore.textContent = data.store;
             if (viewSpProviderId) viewSpProviderId.textContent = data.providerId;
             if (viewSpUserId) viewSpUserId.textContent = data.userId;
-            if (viewSpType) viewSpType.textContent = data.type === 'flowers' ? 'Flowers Seller' : 'Chef Cakes';
-            if (viewSpStatus) viewSpStatus.textContent = data.status.charAt(0).toUpperCase() + data.status.slice(1);
+            if (viewSpType) {
+                viewSpType.textContent = data.type === 'flowers' ? 'Florist' : 'Chef';
+                viewSpType.className = `sp-type-badge ${data.type}`;
+            }
+            if (viewSpTypeDetail) viewSpTypeDetail.textContent = data.type === 'flowers' ? 'Florist' : 'Chef';
+            if (viewSpStatus) {
+                viewSpStatus.textContent = data.status.charAt(0).toUpperCase() + data.status.slice(1);
+                viewSpStatus.className = `detail-value status-badge ${data.status}`;
+            }
+            if (viewSpStatusIndicator) {
+                viewSpStatusIndicator.className = `sp-status-indicator ${data.status}`;
+            }
             if (viewSpDescription) viewSpDescription.textContent = data.description;
             openViewSp();
         } else if (action === 'edit') {
@@ -150,7 +160,6 @@ document.addEventListener('DOMContentLoaded', function () {
             spType.value = data.type;
             spStatus.value = data.status;
             spDescription.value = data.description;
-            spLogo.value = data.logo.startsWith('http') ? data.logo : '';
             editingRow = row;
             openSpModal('<i class="fas fa-user-edit" style="color: var(--orange-yellow);"></i> Edit provider');
         } else if (action === 'suspend') {
@@ -171,21 +180,20 @@ document.addEventListener('DOMContentLoaded', function () {
     const addProviderBtn = document.getElementById('addProviderBtn');
     if (addProviderBtn) addProviderBtn.addEventListener('click', () => {
         spForm.reset();
-        spLogo.value = '';
         editingRow = null;
-        openSpModal('<i class="fas fa-user-plus" style="color: var(--bright-blue);"></i> Add provider');
+        openSpModal('<i class="fas fa-user-plus" style="color: var(--bright-blue);"></i> Add supplier');
     });
 
     if (spForm) spForm.addEventListener('submit', (e) => {
         e.preventDefault();
         const data = {
-            providerId: spProviderId.value.trim(),
+            providerId: editingRow ? getRowData(editingRow).providerId : `SP-${String(Date.now()).slice(-3)}`,
             userId: spUserId.value.trim(),
             store: spStore.value.trim(),
             type: spType.value,
             status: spStatus.value,
             description: spDescription.value.trim(),
-            logo: spLogo.value.trim() || `https://i.pravatar.cc/150?img=${Math.floor(Math.random() * 70) + 1}`
+            logo: `../../images/flower1.jpg}`
         };
         if (editingRow) {
             fillRow(editingRow, data);

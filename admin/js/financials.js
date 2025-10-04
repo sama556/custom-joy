@@ -15,21 +15,85 @@ document.addEventListener('DOMContentLoaded', function () {
     const commission = document.getElementById('commission');
     const effectiveFrom = document.getElementById('effectiveFrom');
     const resetBtn = document.getElementById('resetCommission');
+    
+    // Commission display elements
+    const currentCommission = document.getElementById('currentCommission');
+    const commissionNumber = document.getElementById('commissionNumber');
+    const lastUpdated = document.getElementById('lastUpdated');
+    const effectiveSince = document.getElementById('effectiveSince');
+    const commissionHistory = document.getElementById('commissionHistory');
+
+    // Commission data structure
+    let commissionData = {
+        current: {
+            rate: 15.5,
+            number: 'COM-2025-001',
+            lastUpdated: '2025-01-15',
+            effectiveSince: '2025-01-01'
+        },
+        history: [
+            { rate: 15.5, date: '2025-01-15', number: 'COM-2025-001' },
+            { rate: 12.0, date: '2025-12-01', number: 'COM-2025-012' },
+            { rate: 10.0, date: '2025-10-15', number: 'COM-2025-010' }
+        ]
+    };
 
     function load() {
-        commission.value = localStorage.getItem('financials_commission') || '';
-        effectiveFrom.value = localStorage.getItem('financials_effectiveFrom') || '';
+        commission.value = localStorage.getItem('financials_commission') || commissionData.current.rate;
+        effectiveFrom.value = localStorage.getItem('financials_effectiveFrom') || commissionData.current.effectiveSince;
+        updateCommissionDisplay();
     }
+    
     function save() {
         localStorage.setItem('financials_commission', commission.value.trim());
         localStorage.setItem('financials_effectiveFrom', effectiveFrom.value.trim());
+    }
+    
+    function updateCommissionDisplay() {
+        if (currentCommission) currentCommission.textContent = `${commissionData.current.rate}%`;
+        if (commissionNumber) commissionNumber.textContent = commissionData.current.number;
+        if (lastUpdated) lastUpdated.textContent = commissionData.current.lastUpdated;
+        if (effectiveSince) effectiveSince.textContent = commissionData.current.effectiveSince;
+        
+        if (commissionHistory) {
+            commissionHistory.innerHTML = commissionData.history.map(item => `
+                <div class="history-item">
+                    <div class="history-rate">${item.rate}%</div>
+                    <div class="history-details">
+                        <div class="history-date">${item.date}</div>
+                        <div class="history-number">${item.number}</div>
+                    </div>
+                </div>
+            `).join('');
+        }
     }
 
     if (form) form.addEventListener('submit', (e) => {
         e.preventDefault();
         const val = parseFloat(commission.value);
         if (isNaN(val) || val < 0 || val > 100) { showToast('Invalid commission', 'Enter a value between 0 and 100.', 'warning'); return; }
+        
+        // Update commission data
+        const newCommissionNumber = `COM-${new Date().getFullYear()}-${String(Date.now()).slice(-3)}`;
+        const today = new Date().toISOString().slice(0, 10);
+        
+        // Add to history
+        commissionData.history.unshift({
+            rate: val,
+            date: today,
+            number: newCommissionNumber
+        });
+        
+        // Update current
+        commissionData.current = {
+            rate: val,
+            number: newCommissionNumber,
+            lastUpdated: today,
+            effectiveSince: effectiveFrom.value || today
+        };
+        
         save();
+        updateCommissionDisplay();
         showToast('Saved', 'Commission settings updated.', 'success');
     });
     if (resetBtn) resetBtn.addEventListener('click', () => {

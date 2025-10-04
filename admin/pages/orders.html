@@ -1,0 +1,364 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Dashboard - Order Management</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="../css/overview.css">
+    <link rel="stylesheet" href="../css/orders.css">
+</head>
+
+<body>
+    <!-- Sidebar -->
+    <div class="sidebar">
+        <div class="sidebar-header">
+            <img class="logo" src="../../images/logo.png">
+        </div>
+        <nav class="sidebar-menu">
+            <ul>
+                <li><a href="../overview.html"><i class="fas fa-chart-pie"></i> <span>Overview</span></a></li>
+                <li><a href="users.html"><i class="fas fa-users"></i> <span>User Management</span></a></li>
+                <li><a href="service-providers.html"><i class="fas fa-user-tie"></i> <span>Service Providers</span></a>
+                </li>
+                <li><a href="financials.html"><i class="fas fa-chart-line"></i> <span>Financials</span></a></li>
+                <li><a href="ads.html"><i class="fas fa-ad"></i> <span>Ads Management</span></a></li>
+                <li><a href="themes.html"><i class="fas fa-palette"></i> <span>Themes Management</span></a></li>
+                <li><a href="sales.html"><i class="fas fa-shopping-cart"></i> <span>Sales Statistics</span></a></li>
+                <li><a href="feedback.html"><i class="fas fa-star"></i> <span>Feedback Management</span></a></li>
+                <li><a href="products.html"><i class="fas fa-box"></i> <span>Product Management</span></a></li>
+                <li class="active"><a href="#"><i class="fas fa-clipboard-list"></i> <span>Order Management</span></a></li>
+                <li><a href="support.html"><i class="fas fa-headset"></i> <span>Support & Contact</span></a></li>
+            </ul>
+        </nav>
+    </div>
+
+    <!-- Main Content -->
+    <div class="main-content">
+        <div class="header">
+            <h1>Order Management</h1>
+            <div class="user-info">
+                <img src="../../images/avater4.jpg" alt="Admin User">
+                <span>Admin User</span>
+                <a href="#" class="profile-link"><i class="fas fa-user"></i> Profile</a>
+                <button class="signout-btn" id="openSignOut"><i class="fas fa-sign-out-alt"></i> Sign Out</button>
+            </div>
+        </div>
+
+        <!-- Order Statistics Cards -->
+        <div class="stats-grid">
+            <div class="stat-card">
+                <div class="stat-icon pending">
+                    <i class="fas fa-clock"></i>
+                </div>
+                <div class="stat-content">
+                    <div class="stat-number" id="pendingOrders">12</div>
+                    <div class="stat-label">Pending Orders</div>
+                </div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-icon processing">
+                    <i class="fas fa-cog"></i>
+                </div>
+                <div class="stat-content">
+                    <div class="stat-number" id="processingOrders">8</div>
+                    <div class="stat-label">Processing</div>
+                </div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-icon completed">
+                    <i class="fas fa-check-circle"></i>
+                </div>
+                <div class="stat-content">
+                    <div class="stat-number" id="completedOrders">156</div>
+                    <div class="stat-label">Completed</div>
+                </div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-icon cancelled">
+                    <i class="fas fa-times-circle"></i>
+                </div>
+                <div class="stat-content">
+                    <div class="stat-number" id="cancelledOrders">3</div>
+                    <div class="stat-label">Cancelled</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Filters & Actions -->
+        <div class="orders-toolbar">
+            <div class="search-wrap">
+                <i class="fas fa-search" aria-hidden="true"></i>
+                <input id="orderSearch" type="text" placeholder="Search by order ID, customer name, or product..." aria-label="Search orders">
+            </div>
+            
+            <div class="toolbar-actions">
+                <select id="statusFilter" aria-label="Filter by status">
+                    <option value="">All Statuses</option>
+                    <option value="pending">Pending</option>
+                    <option value="processing">Processing</option>
+                    <option value="in-progress">In Progress</option>
+                    <option value="completed">Completed</option>
+                    <option value="cancelled">Cancelled</option>
+                    <option value="cancellation-requested">Cancellation Requested</option>
+                    <option value="paid">Paid</option>
+                    <option value="unpaid">Unpaid</option>
+                </select>
+                
+                <select id="orderTypeFilter" aria-label="Filter by order type">
+                    <option value="">All Types</option>
+                    <option value="custom">Custom</option>
+                    <option value="products">Products</option>
+                </select>
+                
+            </div>
+        </div>
+
+        <!-- Enhanced Orders Table -->
+        <div class="card enhanced-orders-card">
+            <div class="card-header">
+                <div class="header-content">
+                    
+                     
+                </div>
+            </div>
+            
+            <!-- Table View -->
+            <div class="table-view" id="tableView">
+                <div class="table-responsive">
+                    <table class="orders-table enhanced-table" id="ordersTable" role="table" aria-label="Orders table">
+                        <thead>
+                            <tr role="row" class="enhanced-header-row">
+                                <th scope="col" role="columnheader" class="sortable" data-sort="orderNumber">
+                                    <div class="th-content">
+                                        <div class="th-title">
+                                            <i class="fas fa-hashtag th-icon"></i>
+                                            <span>Order Details</span>
+                                        </div>
+                                        <div class="sort-controls">
+                                            <i class="fas fa-sort sort-icon"></i>
+                                            <i class="fas fa-sort-up sort-asc" style="display: none;"></i>
+                                            <i class="fas fa-sort-down sort-desc" style="display: none;"></i>
+                                        </div>
+                                    </div>
+                                </th>
+                                <th scope="col" role="columnheader" class="sortable" data-sort="customer">
+                                    <div class="th-content">
+                                        <div class="th-title">
+                                            <i class="fas fa-user th-icon"></i>
+                                            <span>Customer</span>
+                                        </div>
+                                        <div class="sort-controls">
+                                            <i class="fas fa-sort sort-icon"></i>
+                                            <i class="fas fa-sort-up sort-asc" style="display: none;"></i>
+                                            <i class="fas fa-sort-down sort-desc" style="display: none;"></i>
+                                        </div>
+                                    </div>
+                                </th>
+                                <th scope="col" role="columnheader" class="sortable" data-sort="orderType">
+                                    <div class="th-content">
+                                        <div class="th-title">
+                                            <i class="fas fa-tag th-icon"></i>
+                                            <span>Type</span>
+                                        </div>
+                                        <div class="sort-controls">
+                                            <i class="fas fa-sort sort-icon"></i>
+                                            <i class="fas fa-sort-up sort-asc" style="display: none;"></i>
+                                            <i class="fas fa-sort-down sort-desc" style="display: none;"></i>
+                                        </div>
+                                    </div>
+                                </th>
+                                <th scope="col" role="columnheader" class="sortable" data-sort="total">
+                                    <div class="th-content">
+                                        <div class="th-title">
+                                            <i class="fas fa-dollar-sign th-icon"></i>
+                                            <span>Amount</span>
+                                        </div>
+                                        <div class="sort-controls">
+                                            <i class="fas fa-sort sort-icon"></i>
+                                            <i class="fas fa-sort-up sort-asc" style="display: none;"></i>
+                                            <i class="fas fa-sort-down sort-desc" style="display: none;"></i>
+                                        </div>
+                                    </div>
+                                </th>
+                                <th scope="col" role="columnheader" class="sortable" data-sort="status">
+                                    <div class="th-content">
+                                        <div class="th-title">
+                                            <i class="fas fa-flag th-icon"></i>
+                                            <span>Status</span>
+                                        </div>
+                                        <div class="sort-controls">
+                                            <i class="fas fa-sort sort-icon"></i>
+                                            <i class="fas fa-sort-up sort-asc" style="display: none;"></i>
+                                            <i class="fas fa-sort-down sort-desc" style="display: none;"></i>
+                                        </div>
+                                    </div>
+                                </th>
+                                <th scope="col" role="columnheader" class="sortable" data-sort="date">
+                                    <div class="th-content">
+                                        <div class="th-title">
+                                            <i class="fas fa-calendar th-icon"></i>
+                                            <span>Date</span>
+                                        </div>
+                                        <div class="sort-controls">
+                                            <i class="fas fa-sort sort-icon"></i>
+                                            <i class="fas fa-sort-up sort-asc" style="display: none;"></i>
+                                            <i class="fas fa-sort-down sort-desc" style="display: none;"></i>
+                                        </div>
+                                    </div>
+                                </th>
+                                <th scope="col" role="columnheader" class="actions-header">
+                                    <div class="th-content">
+                                        <div class="th-title">
+                                            <i class="fas fa-cogs th-icon"></i>
+                                            <span>Actions</span>
+                                        </div>
+                                    </div>
+                                </th>
+                            </tr>
+                        </thead>
+                        <tbody role="rowgroup">
+                            <!-- Sample orders will be populated by JavaScript -->
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            
+            <!-- Card View -->
+            <div class="card-view" id="cardView" style="display: none;">
+                <div class="orders-grid" id="ordersGrid">
+                    <!-- Order cards will be populated by JavaScript -->
+                </div>
+            </div>
+        </div>
+    </div>
+
+<!-- Add cancellation request section in the order details modal -->
+<div class="order-section" id="cancellationRequestSection" style="display: none;">
+    <div class="section-header">
+        <h5><i class="fas fa-ban" style="color: #e74c3c;"></i> Cancellation Request</h5>
+    </div>
+    <div class="cancellation-request">
+        <div class="request-info">
+            <div class="info-item">
+                <label>Requested Date:</label>
+                <span id="cancellationRequestDate">2025-01-16</span>
+            </div>
+            <div class="info-item">
+                <label>Reason:</label>
+                <span id="cancellationReason">Change of plans</span>
+            </div>
+            <div class="info-item">
+                <label>Customer Notes:</label>
+                <span id="cancellationCustomerNotes">I need to cancel this order due to unexpected circumstances.</span>
+            </div>
+        </div>
+    </div>
+</div>
+    <!-- Simple Order Details Modal -->
+    <div class="modal-overlay" id="orderDetailsModal" aria-hidden="true" role="dialog" aria-modal="true">
+        <div class="modal simple-order-modal" role="document">
+            <div class="modal-header">
+                <h3><i class="fas fa-clipboard-list"></i> Order Details</h3>
+                <button class="modal-close" id="closeOrderDetails" type="button">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            <div class="modal-content">
+                <!-- Order Summary -->
+                <div class="order-summary">
+                    <div class="order-info">
+                        <div class="order-id">
+                            <span class="label">Order ID:</span>
+                            <span id="orderId">#ORD-001</span>
+                        </div>
+                        <div class="order-status">
+                            <span class="label">Status:</span>
+                            <span id="orderStatus" class="status-badge">Processing</span>
+                        </div>
+                        <div class="order-date">
+                            <span class="label">Date:</span>
+                            <span id="orderDate">2025-01-15</span>
+                        </div>
+                        <div class="order-total">
+                            <span class="label">Total:</span>
+                            <span id="orderTotal">$95.98</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Customer Info -->
+                <div class="customer-section">
+                    <h4><i class="fas fa-user"></i> Customer</h4>
+                    <div class="customer-info">
+                        <div class="customer-name" id="customerName">Sarah Ahmed</div>
+                        <div class="customer-email" id="customerEmail">sarah@example.com</div>
+                        <div class="customer-phone" id="customerPhone">+966501234567</div>
+                    </div>
+                </div>
+
+                <!-- Order Items -->
+                <div class="items-section">
+                    <h4><i class="fas fa-box"></i> Items</h4>
+                    <div class="order-items" id="orderItems">
+                        <div class="order-item">
+                            <div class="item-name">Custom Birthday Cake</div>
+                            <div class="item-quantity">Qty: 1</div>
+                            <div class="item-price">$89.99</div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Actions -->
+                <div class="modal-actions">
+                    <button class="btn btn-secondary" id="cancelOrderDetails">Close</button>
+                    <button class="btn btn-primary" id="acceptOrderBtn" style="display: none;">Accept Order</button>
+                    <button class="btn btn-danger" id="rejectOrderBtn" style="display: none;">Reject Order</button>
+                    <button class="btn btn-success" id="completeOrderBtn" style="display: none;">Mark Complete</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Confirmation Modals -->
+    <div class="modal-overlay" id="confirmModal" aria-hidden="true" role="dialog" aria-modal="true">
+        <div class="modal confirm-modal" role="document">
+            <h3 id="confirmTitle"><i class="fas fa-question-circle" style="color: var(--orange);"></i> Confirm Action</h3>
+            <p id="confirmMessage">Are you sure you want to perform this action?</p>
+            <div class="modal-actions">
+                <button class="btn btn-secondary" id="cancelConfirm">Cancel</button>
+                <button class="btn btn-primary" id="confirmAction">Confirm</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Toast Notifications -->
+    <div class="toast-container"></div>
+    <template id="toast-template">
+        <div class="toast">
+            <div class="toast-icon"><i class=""></i></div>
+            <div class="toast-content">
+                <div class="toast-title"></div>
+                <div class="toast-message"></div>
+            </div>
+            <button class="toast-close"><i class="fas fa-times"></i></button>
+        </div>
+    </template>
+
+    <!-- Sign Out Confirm Modal -->
+    <div class="modal-overlay" id="signOutModal" aria-hidden="true" role="dialog" aria-modal="true">
+        <div class="modal" role="document">
+            <h3><i class="fas fa-sign-out-alt" style="color: var(--pink);"></i> Sign out</h3>
+            <p>Are you sure you want to sign out?</p>
+            <div class="modal-actions">
+                <button class="btn btn-secondary" id="cancelSignOut">Cancel</button>
+                <button class="btn btn-primary" id="confirmSignOut">Sign Out</button>
+            </div>
+        </div>
+    </div>
+
+    <script src="../js/orders.js"></script>
+</body>
+
+</html>

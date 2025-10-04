@@ -37,9 +37,9 @@ document.addEventListener('DOMContentLoaded', function () {
     const fullNameInput = document.getElementById('fullName');
     const usernameInput = document.getElementById('username');
     const emailInput = document.getElementById('email');
+    const mobileInput = document.getElementById('mobile');
     const roleInput = document.getElementById('role');
     const statusInput = document.getElementById('status');
-    const avatarUrlInput = document.getElementById('avatarUrl');
     const rowTemplate = document.getElementById('user-row-template');
 
     // View modal elements
@@ -48,9 +48,12 @@ document.addEventListener('DOMContentLoaded', function () {
     const viewName = document.getElementById('viewName');
     const viewUsername = document.getElementById('viewUsername');
     const viewEmail = document.getElementById('viewEmail');
+    const viewMobile = document.getElementById('viewMobile');
     const viewRole = document.getElementById('viewRole');
     const viewStatus = document.getElementById('viewStatus');
+    const viewUserId = document.getElementById('viewUserId');
     const viewJoined = document.getElementById('viewJoined');
+    const viewStatusIndicator = document.getElementById('viewStatusIndicator');
     const closeViewUser = document.getElementById('closeViewUser');
 
     let currentEditingRow = null;
@@ -63,13 +66,14 @@ document.addEventListener('DOMContentLoaded', function () {
         const status = statusFilter.value;
         let visible = 0;
         [...usersTable.tBodies[0].rows].forEach(row => {
-            const name = normalize(row.querySelector('.user-cell .name')?.textContent);
-            const sub = normalize(row.querySelector('.user-cell .sub')?.textContent);
-            const email = normalize(row.cells[2]?.textContent);
-            const roleVal = row.querySelector('.badge.role')?.getAttribute('data-role');
-            const statusVal = row.querySelector('.badge.status')?.getAttribute('data-status');
+        const name = normalize(row.querySelector('.user-cell .name')?.textContent);
+        const sub = normalize(row.querySelector('.user-cell .sub')?.textContent);
+        const email = normalize(row.cells[3]?.textContent);
+        const mobile = normalize(row.cells[4]?.textContent);
+        const roleVal = row.querySelector('.badge.role')?.getAttribute('data-role');
+        const statusVal = row.querySelector('.badge.status')?.getAttribute('data-status');
 
-            const matchesQuery = !q || [name, sub, email].some(v => v && v.includes(q));
+        const matchesQuery = !q || [name, sub, email, mobile].some(v => v && v.includes(q));
             const matchesRole = !role || roleVal === role;
             const matchesStatus = !status || statusVal === status;
 
@@ -112,18 +116,22 @@ document.addEventListener('DOMContentLoaded', function () {
         currentEditingRow = null;
     }
 
+    const cancelUserBtnNew = document.getElementById('cancelUserBtn');
     if (cancelUserBtn) cancelUserBtn.addEventListener('click', closeUserModal);
+    if (cancelUserBtnNew) cancelUserBtnNew.addEventListener('click', closeUserModal);
     if (userModal) userModal.addEventListener('click', (e) => { if (e.target === userModal) closeUserModal(); });
 
     function getFormData() {
         return {
+            id: currentEditingRow ? currentEditingRow.querySelector('.user-id')?.textContent || `#${String(Date.now()).slice(-3)}` : `#${String(Date.now()).slice(-3)}`,
             name: fullNameInput.value.trim(),
             username: usernameInput.value.trim().startsWith('@') ? usernameInput.value.trim() : `@${usernameInput.value.trim()}`,
             email: emailInput.value.trim(),
+            mobile: mobileInput.value.trim(),
             role: roleInput.value,
             status: statusInput.value,
-            avatar: avatarUrlInput.value.trim() || `https://i.pravatar.cc/150?img=${Math.floor(Math.random() * 70) + 1}`,
-            joined: new Date().toISOString().slice(0, 10)
+            avatar: `https://i.pravatar.cc/150?img=${Math.floor(Math.random() * 70) + 1}`,
+            joined: currentEditingRow ? currentEditingRow.querySelector('.joined')?.textContent || new Date().toISOString().slice(0, 10) : new Date().toISOString().slice(0, 10)
         };
     }
 
@@ -149,7 +157,9 @@ document.addEventListener('DOMContentLoaded', function () {
         const nameEl = row.querySelector('.user-cell .name');
         const subEl = row.querySelector('.user-cell .sub');
         const emailEl = row.querySelector('.email');
-        const joinedEl = row.querySelector('.joined') || row.querySelector('td:nth-child(6)');
+        const mobileEl = row.querySelector('.mobile');
+        const userIdEl = row.querySelector('.user-id');
+        const joinedEl = row.querySelector('.joined') || row.querySelector('td:nth-child(8)');
         const roleSpan = row.querySelector('.badge.role');
         const statusSpan = row.querySelector('.badge.status');
 
@@ -157,6 +167,8 @@ document.addEventListener('DOMContentLoaded', function () {
         if (nameEl) nameEl.textContent = data.name;
         if (subEl) subEl.textContent = data.username;
         if (emailEl) emailEl.textContent = data.email;
+        if (mobileEl) mobileEl.textContent = data.mobile;
+        if (userIdEl) userIdEl.textContent = data.id;
         if (joinedEl) joinedEl.textContent = data.joined;
         if (roleSpan) applyRoleBadge(roleSpan, data.role);
         if (statusSpan) applyStatusBadge(statusSpan, data.status);
@@ -164,13 +176,15 @@ document.addEventListener('DOMContentLoaded', function () {
 
     function getDataFromRow(row) {
         return {
+            id: row.querySelector('.user-id')?.textContent || row.cells[1]?.textContent || '',
             name: row.querySelector('.user-cell .name')?.textContent || '',
             username: row.querySelector('.user-cell .sub')?.textContent || '',
-            email: row.querySelector('.email')?.textContent || row.cells[2]?.textContent || '',
+            email: row.querySelector('.email')?.textContent || row.cells[3]?.textContent || '',
+            mobile: row.querySelector('.mobile')?.textContent || row.cells[4]?.textContent || '',
             role: row.querySelector('.badge.role')?.getAttribute('data-role') || 'customer',
             status: row.querySelector('.badge.status')?.getAttribute('data-status') || 'active',
             avatar: row.querySelector('.user-cell img')?.getAttribute('src') || '',
-            joined: row.querySelector('.joined')?.textContent || row.cells[5]?.textContent || new Date().toISOString().slice(0, 10)
+            joined: row.querySelector('.joined')?.textContent || row.cells[7]?.textContent || new Date().toISOString().slice(0, 10)
         };
     }
 
@@ -193,8 +207,19 @@ document.addEventListener('DOMContentLoaded', function () {
             if (viewName) viewName.textContent = data.name;
             if (viewUsername) viewUsername.textContent = data.username;
             if (viewEmail) viewEmail.textContent = data.email;
-            if (viewRole) viewRole.textContent = data.role.charAt(0).toUpperCase() + data.role.slice(1);
-            if (viewStatus) viewStatus.textContent = data.status.charAt(0).toUpperCase() + data.status.slice(1);
+            if (viewMobile) viewMobile.textContent = data.mobile;
+            if (viewUserId) viewUserId.textContent = data.id;
+            if (viewRole) {
+                viewRole.textContent = data.role.charAt(0).toUpperCase() + data.role.slice(1);
+                viewRole.className = `user-role-badge ${data.role}`;
+            }
+            if (viewStatus) {
+                viewStatus.textContent = data.status.charAt(0).toUpperCase() + data.status.slice(1);
+                viewStatus.className = `detail-value status-badge ${data.status}`;
+            }
+            if (viewStatusIndicator) {
+                viewStatusIndicator.className = `user-status-indicator ${data.status}`;
+            }
             if (viewJoined) viewJoined.textContent = data.joined;
             if (viewUserModal) {
                 viewUserModal.classList.add('open');
@@ -205,9 +230,9 @@ document.addEventListener('DOMContentLoaded', function () {
             fullNameInput.value = data.name;
             usernameInput.value = data.username.replace(/^@/, '');
             emailInput.value = data.email;
+            mobileInput.value = data.mobile;
             roleInput.value = data.role;
             statusInput.value = data.status;
-            avatarUrlInput.value = data.avatar.startsWith('http') ? data.avatar : '';
             currentEditingRow = row;
             openUserModal('<i class="fas fa-user-edit" style="color: var(--orange-yellow);"></i> Edit user');
         } else if (action === 'suspend') {
@@ -243,7 +268,6 @@ document.addEventListener('DOMContentLoaded', function () {
     const addUserBtn = document.getElementById('addUserBtn');
     if (addUserBtn) addUserBtn.addEventListener('click', () => {
         userForm.reset();
-        avatarUrlInput.value = '';
         currentEditingRow = null;
         openUserModal('<i class="fas fa-user-plus" style="color: var(--bright-blue);"></i> Add user');
     });
