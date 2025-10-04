@@ -1,6 +1,34 @@
 
 // Enhanced Orders Management JavaScript
 
+// Mobile menu toggle functionality
+document.addEventListener('DOMContentLoaded', function () {
+    const mobileMenuToggle = document.getElementById('mobileMenuToggle');
+    const sidebar = document.querySelector('.sidebar');
+
+    if (mobileMenuToggle && sidebar) {
+        mobileMenuToggle.addEventListener('click', function () {
+            sidebar.classList.toggle('open');
+        });
+
+        // Close sidebar when clicking outside
+        document.addEventListener('click', function (event) {
+            if (window.innerWidth <= 768) {
+                if (!sidebar.contains(event.target) && !mobileMenuToggle.contains(event.target)) {
+                    sidebar.classList.remove('open');
+                }
+            }
+        });
+
+        // Close sidebar on window resize
+        window.addEventListener('resize', function () {
+            if (window.innerWidth > 768) {
+                sidebar.classList.remove('open');
+            }
+        });
+    }
+});
+
 // Comprehensive sample orders data
 const ordersData = [
     {

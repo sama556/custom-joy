@@ -48,6 +48,75 @@ document.addEventListener('DOMContentLoaded', function () {
     if (closeViewFb) closeViewFb.addEventListener('click', closeViewModal);
     if (viewFbModal) viewFbModal.addEventListener('click', (e) => { if (e.target === viewFbModal) closeViewModal(); });
 
+    // Quick action buttons in view modal
+    const quickReplyFeedback = document.getElementById('quickReplyFeedback');
+    const quickToggleStatus = document.getElementById('quickToggleStatus');
+    const quickSetPriority = document.getElementById('quickSetPriority');
+    const quickArchiveFeedback = document.getElementById('quickArchiveFeedback');
+    const viewCustomerProfile = document.getElementById('viewCustomerProfile');
+
+    if (quickReplyFeedback) {
+        quickReplyFeedback.addEventListener('click', () => {
+            closeViewModal();
+            // Trigger reply action on the current feedback row
+            const currentRow = document.querySelector('tr[data-current="true"]');
+            if (currentRow) {
+                const replyBtn = currentRow.querySelector('button[data-action="reply"]');
+                if (replyBtn) replyBtn.click();
+            }
+        });
+    }
+
+    if (quickToggleStatus) {
+        quickToggleStatus.addEventListener('click', () => {
+            const currentRow = document.querySelector('tr[data-current="true"]');
+            if (currentRow) {
+                const statusBtn = currentRow.querySelector('button[data-action="resolve"], button[data-action="reopen"]');
+                if (statusBtn) statusBtn.click();
+                closeViewModal();
+            }
+        });
+    }
+
+    if (quickSetPriority) {
+        quickSetPriority.addEventListener('click', () => {
+            const currentRow = document.querySelector('tr[data-current="true"]');
+            if (currentRow) {
+                const priority = prompt('Set priority (High/Medium/Low):', 'High');
+                if (priority && ['High', 'Medium', 'Low'].includes(priority)) {
+                    currentRow.setAttribute('data-priority', priority.toLowerCase());
+                    showToast('Priority Updated', `Feedback priority set to ${priority}`, 'success');
+                }
+            }
+        });
+    }
+
+    if (quickArchiveFeedback) {
+        quickArchiveFeedback.addEventListener('click', () => {
+            if (confirm('Are you sure you want to archive this feedback?')) {
+                const currentRow = document.querySelector('tr[data-current="true"]');
+                if (currentRow) {
+                    currentRow.style.opacity = '0.5';
+                    currentRow.style.textDecoration = 'line-through';
+                    showToast('Feedback Archived', 'Feedback has been archived', 'info');
+                    closeViewModal();
+                }
+            }
+        });
+    }
+
+    if (viewCustomerProfile) {
+        viewCustomerProfile.addEventListener('click', () => {
+            const currentRow = document.querySelector('tr[data-current="true"]');
+            if (currentRow) {
+                const data = getRowData(currentRow);
+                showToast('Customer Profile', `Opening profile for ${data.name}`, 'info');
+                // Here you would typically navigate to customer profile page
+            }
+        });
+    }
+
+
     function setStatusBadge(span, status) {
         span.className = 'badge status';
         span.setAttribute('data-status', status);
@@ -135,6 +204,31 @@ document.addEventListener('DOMContentLoaded', function () {
                     viewProducts.appendChild(li);
                 });
             }
+
+            // Update status badge class for simplified modal
+            const statusBadge = document.getElementById('viewStatus');
+            if (statusBadge) {
+                statusBadge.className = `status-badge ${data.status}`;
+            }
+
+            // Mark current row for quick actions
+            document.querySelectorAll('tr[data-current]').forEach(r => r.removeAttribute('data-current'));
+            row.setAttribute('data-current', 'true');
+
+            // Update quick action button text based on current status
+            const quickToggleBtn = document.getElementById('quickToggleStatus');
+            if (quickToggleBtn) {
+                const icon = quickToggleBtn.querySelector('i');
+                const text = quickToggleBtn.querySelector('span') || quickToggleBtn.childNodes[quickToggleBtn.childNodes.length - 1];
+                if (data.status === 'resolved') {
+                    if (icon) icon.className = 'fas fa-undo';
+                    if (text) text.textContent = 'Reopen';
+                } else {
+                    if (icon) icon.className = 'fas fa-check-circle';
+                    if (text) text.textContent = 'Mark as Resolved';
+                }
+            }
+
             openViewModal();
         } else if (action === 'reply') {
             replyingRow = row;
@@ -171,21 +265,57 @@ document.addEventListener('DOMContentLoaded', function () {
 function showToast(title, message, type) {
     const toastContainer = document.querySelector('.toast-container');
     const template = document.getElementById('toast-template');
+
+    // Check if required elements exist
+    if (!toastContainer) {
+        console.error('Toast container not found');
+        return;
+    }
+
+    if (!template) {
+        console.error('Toast template not found');
+        return;
+    }
+
     const toast = template.content.firstElementChild.cloneNode(true);
     let iconClass = 'fas fa-info-circle';
     let iconColor = '#368BFF';
     if (type === 'success') { iconClass = 'fas fa-check-circle'; iconColor = '#2ecc71'; }
     else if (type === 'warning') { iconClass = 'fas fa-exclamation-triangle'; iconColor = '#FFB11B'; }
     else if (type === 'error') { iconClass = 'fas fa-times-circle'; iconColor = '#e74c3c'; }
+
     const iconWrap = toast.querySelector('.toast-icon');
     const iconEl = toast.querySelector('.toast-icon i');
     const titleEl = toast.querySelector('.toast-title');
     const msgEl = toast.querySelector('.toast-message');
     const closeBtn = toast.querySelector('.toast-close');
-    iconWrap.style.backgroundColor = iconColor; iconEl.className = iconClass; titleEl.textContent = title; msgEl.textContent = message;
-    toastContainer.appendChild(toast);
-    setTimeout(() => { if (toast.parentNode) { toast.style.animation = 'slideIn .3s ease-out reverse'; setTimeout(() => { if (toast.parentNode) toast.parentNode.remove(); }, 300); } }, 5000);
-    closeBtn.addEventListener('click', () => { toast.style.animation = 'slideIn .3s ease-out reverse'; setTimeout(() => { if (toast.parentNode) toast.parentNode.remove(); }, 300); });
+
+    if (iconWrap && iconEl && titleEl && msgEl && closeBtn) {
+        iconWrap.style.backgroundColor = iconColor;
+        iconEl.className = iconClass;
+        titleEl.textContent = title;
+        msgEl.textContent = message;
+
+        toastContainer.appendChild(toast);
+
+        setTimeout(() => {
+            if (toast.parentNode) {
+                toast.style.animation = 'slideIn .3s ease-out reverse';
+                setTimeout(() => {
+                    if (toast.parentNode) toast.parentNode.remove();
+                }, 300);
+            }
+        }, 5000);
+
+        closeBtn.addEventListener('click', () => {
+            toast.style.animation = 'slideIn .3s ease-out reverse';
+            setTimeout(() => {
+                if (toast.parentNode) toast.parentNode.remove();
+            }, 300);
+        });
+    } else {
+        console.error('Toast template elements not found');
+    }
 }
 
 

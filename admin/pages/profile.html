@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -8,6 +9,7 @@
     <link rel="stylesheet" href="../css/overview.css">
     <link rel="stylesheet" href="../css/profile.css">
 </head>
+
 <body>
     <!-- Sidebar -->
     <div class="sidebar">
@@ -18,7 +20,8 @@
             <ul>
                 <li><a href="../overview.html"><i class="fas fa-chart-pie"></i> <span>Overview</span></a></li>
                 <li><a href="users.html"><i class="fas fa-users"></i> <span>User Management</span></a></li>
-                <li><a href="service-providers.html"><i class="fas fa-user-tie"></i> <span>Service Providers</span></a></li>
+                <li><a href="service-providers.html"><i class="fas fa-user-tie"></i> <span>Service Providers</span></a>
+                </li>
                 <li><a href="financials.html"><i class="fas fa-chart-line"></i> <span>Financials</span></a></li>
                 <li><a href="ads.html"><i class="fas fa-ad"></i> <span>Ads Management</span></a></li>
                 <li><a href="themes.html"><i class="fas fa-palette"></i> <span>Themes Management</span></a></li>
@@ -39,12 +42,11 @@
             <div class="user-info">
                 <img src="../../images/avater.jpg" alt="Admin User">
                 <span>Admin User</span>
-                <a href="profile.html" class="profile-link"><i class="fas fa-user"></i> Profile</a>
                 <button class="signout-btn" id="openSignOut"><i class="fas fa-sign-out-alt"></i> Sign Out</button>
             </div>
         </div>
 
-       
+
 
         <!-- Profile Header Card -->
         <div class="card profile-header-card">
@@ -55,7 +57,8 @@
                 <div class="profile-header">
                     <div class="profile-avatar-section">
                         <div class="profile-avatar-container">
-                            <img src="../../images/avater.jpg" alt="Profile Avatar" class="profile-avatar" id="profileAvatar">
+                            <img src="../../images/avater.jpg" alt="Profile Avatar" class="profile-avatar"
+                                id="profileAvatar">
                             <button class="avatar-edit-btn" id="avatarEditBtn">
                                 <i class="fas fa-camera"></i>
                             </button>
@@ -79,7 +82,7 @@
             </div>
         </div>
 
- 
+
         <!-- Personal Information -->
         <div class="card">
             <div class="card-header">
@@ -170,79 +173,80 @@
             </div>
         </div>
 
-   
 
-    <!-- Image Upload Modal -->
-    <div class="modal-overlay" id="imageUploadModal" aria-hidden="true">
-        <div class="modal">
-            <div class="modal-header">
-                <h3>Change Profile Picture</h3>
-                <button class="modal-close" id="closeImageModal">
-                    <i class="fas fa-times"></i>
-                </button>
-            </div>
-            <div class="modal-content">
-                <div class="image-upload-area" id="imageUploadArea">
-                    <div class="upload-placeholder">
-                        <i class="fas fa-cloud-upload-alt"></i>
-                        <p>Click to upload or drag and drop</p>
-                        <span>PNG, JPG, GIF up to 10MB</span>
-                    </div>
-                    <input type="file" id="imageInput" accept="image/*" style="display: none;">
-                </div>
-                <div class="image-preview" id="imagePreview" style="display: none;">
-                    <img id="previewImage" alt="Preview">
-                    <button class="btn btn-danger btn-sm" id="removeImage">
-                        <i class="fas fa-trash"></i>
-                        Remove
+
+        <!-- Image Upload Modal -->
+        <div class="modal-overlay" id="imageUploadModal" aria-hidden="true">
+            <div class="modal">
+                <div class="modal-header">
+                    <h3>Change Profile Picture</h3>
+                    <button class="modal-close" id="closeImageModal">
+                        <i class="fas fa-times"></i>
                     </button>
                 </div>
-            </div>
-            <div class="modal-actions">
-                <button class="btn btn-secondary" id="cancelImageUpload">Cancel</button>
-                <button class="btn btn-primary" id="saveImageUpload" disabled>Save Changes</button>
-            </div>
-        </div>
-    </div>
-
-    <!-- Sign Out Modal -->
-    <div class="modal-overlay" id="signOutModal" aria-hidden="true">
-        <div class="modal">
-            <div class="modal-header">
-                <h3>Sign Out</h3>
-                <button class="modal-close" id="closeSignOutModal">
-                    <i class="fas fa-times"></i>
-                </button>
-            </div>
-            <div class="modal-content">
-                <p>Are you sure you want to sign out?</p>
-            </div>
-            <div class="modal-actions">
-                <button class="btn btn-secondary" id="cancelSignOut">Cancel</button>
-                <button class="btn btn-danger" id="confirmSignOut">Sign Out</button>
+                <div class="modal-content">
+                    <div class="image-upload-area" id="imageUploadArea">
+                        <div class="upload-placeholder">
+                            <i class="fas fa-cloud-upload-alt"></i>
+                            <p>Click to upload or drag and drop</p>
+                            <span>PNG, JPG, GIF up to 10MB</span>
+                        </div>
+                        <input type="file" id="imageInput" accept="image/*" style="display: none;">
+                    </div>
+                    <div class="image-preview" id="imagePreview" style="display: none;">
+                        <img id="previewImage" alt="Preview">
+                        <button class="btn btn-danger btn-sm" id="removeImage">
+                            <i class="fas fa-trash"></i>
+                            Remove
+                        </button>
+                    </div>
+                </div>
+                <div class="modal-actions">
+                    <button class="btn btn-secondary" id="cancelImageUpload">Cancel</button>
+                    <button class="btn btn-primary" id="saveImageUpload" disabled>Save Changes</button>
+                </div>
             </div>
         </div>
-    </div>
 
-    <!-- Sign Out Modal -->
-    <div class="modal-overlay" id="signOutModal" aria-hidden="true">
-        <div class="modal">
-            <div class="modal-header">
-                <h3>Sign Out</h3>
-                <button class="modal-close" id="closeSignOutModal">
-                    <i class="fas fa-times"></i>
-                </button>
-            </div>
-            <div class="modal-content">
-                <p>Are you sure you want to sign out?</p>
-            </div>
-            <div class="modal-actions">
-                <button class="btn btn-secondary" id="cancelSignOut">Cancel</button>
-                <button class="btn btn-danger" id="confirmSignOut">Sign Out</button>
+        <!-- Sign Out Modal -->
+        <div class="modal-overlay" id="signOutModal" aria-hidden="true">
+            <div class="modal">
+                <div class="modal-header">
+                    <h3>Sign Out</h3>
+                    <button class="modal-close" id="closeSignOutModal">
+                        <i class="fas fa-times"></i>
+                    </button>
+                </div>
+                <div class="modal-content">
+                    <p>Are you sure you want to sign out?</p>
+                </div>
+                <div class="modal-actions">
+                    <button class="btn btn-secondary" id="cancelSignOut">Cancel</button>
+                    <button class="btn btn-danger" id="confirmSignOut">Sign Out</button>
+                </div>
             </div>
         </div>
-    </div>
 
-    <script src="../js/profile.js"></script>
+        <!-- Sign Out Modal -->
+        <div class="modal-overlay" id="signOutModal" aria-hidden="true">
+            <div class="modal">
+                <div class="modal-header">
+                    <h3>Sign Out</h3>
+                    <button class="modal-close" id="closeSignOutModal">
+                        <i class="fas fa-times"></i>
+                    </button>
+                </div>
+                <div class="modal-content">
+                    <p>Are you sure you want to sign out?</p>
+                </div>
+                <div class="modal-actions">
+                    <button class="btn btn-secondary" id="cancelSignOut">Cancel</button>
+                    <button class="btn btn-danger" id="confirmSignOut">Sign Out</button>
+                </div>
+            </div>
+        </div>
+
+        <script src="../js/profile.js"></script>
 </body>
+
 </html>

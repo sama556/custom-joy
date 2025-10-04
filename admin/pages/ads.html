@@ -41,7 +41,6 @@
             <div class="user-info">
                 <img src="../../images/avater6.jpg" alt="Admin User">
                 <span>Admin User</span>
-                <a href="profile.html" class="profile-link"><i class="fas fa-user"></i> Profile</a>
                 <button class="signout-btn" id="openSignOut"><i class="fas fa-sign-out-alt"></i> Sign Out</button>
             </div>
         </div>
@@ -203,7 +202,8 @@
                         </div>
                         <div class="form-field full-width">
                             <label for="adDescription">Description</label>
-                            <textarea id="adDescription" required placeholder="Enter ad description..." rows="3"></textarea>
+                            <textarea id="adDescription" required placeholder="Enter ad description..."
+                                rows="3"></textarea>
                         </div>
                         <div class="form-field">
                             <label for="adStatus">Status</label>
@@ -217,6 +217,10 @@
                         <div class="form-field">
                             <label for="adDuration">Duration/Timing</label>
                             <input type="text" id="adDuration" placeholder="Ends in 3 days, Oct 1 - Oct 15, ...">
+                        </div>
+                        <div class="form-field">
+                            <label for="adImage">Image URL</label>
+                            <input type="url" id="adImage" placeholder="https://example.com/image.jpg">
                         </div>
                         <div class="form-field">
                             <label for="adStartDate">Start Date</label>

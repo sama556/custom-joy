@@ -27,6 +27,11 @@ document.addEventListener('DOMContentLoaded', function () {
     const adTitle = document.getElementById('adTitle');
     const adDescription = document.getElementById('adDescription');
     const adImage = document.getElementById('adImage');
+    const adImageFile = document.getElementById('adImageFile');
+    const uploadArea = document.getElementById('uploadArea');
+    const imagePreview = document.getElementById('imagePreview');
+    const previewImage = document.getElementById('previewImage');
+    const removeImage = document.getElementById('removeImage');
     const adStatus = document.getElementById('adStatus');
     const adDuration = document.getElementById('adDuration');
     let editingCard = null;
@@ -42,7 +47,13 @@ document.addEventListener('DOMContentLoaded', function () {
     const closeViewAd = document.getElementById('closeViewAd');
 
     function openAdModal(title) { adModalTitle.innerHTML = title; adModal.classList.add('open'); adModal.setAttribute('aria-hidden', 'false'); }
-    function closeAdModal() { adModal.classList.remove('open'); adModal.setAttribute('aria-hidden', 'true'); adForm.reset(); editingCard = null; }
+    function closeAdModal() {
+        adModal.classList.remove('open');
+        adModal.setAttribute('aria-hidden', 'true');
+        adForm.reset();
+        hideImagePreview();
+        editingCard = null;
+    }
     if (cancelAd) cancelAd.addEventListener('click', closeAdModal);
     if (adModal) adModal.addEventListener('click', (e) => { if (e.target === adModal) closeAdModal(); });
 
@@ -50,6 +61,60 @@ document.addEventListener('DOMContentLoaded', function () {
     function closeViewAdModal() { viewAdModal.classList.remove('open'); viewAdModal.setAttribute('aria-hidden', 'true'); }
     if (closeViewAd) closeViewAd.addEventListener('click', closeViewAdModal);
     if (viewAdModal) viewAdModal.addEventListener('click', (e) => { if (e.target === viewAdModal) closeViewAdModal(); });
+
+    // Image handling
+    function showImagePreview(src) {
+        previewImage.src = src;
+        uploadArea.style.display = 'none';
+        imagePreview.style.display = 'block';
+    }
+
+    function hideImagePreview() {
+        uploadArea.style.display = 'block';
+        imagePreview.style.display = 'none';
+        previewImage.src = '';
+        if (adImageFile) adImageFile.value = '';
+        if (adImage) adImage.value = '';
+    }
+
+    if (uploadArea) {
+        uploadArea.addEventListener('click', () => adImageFile?.click());
+        uploadArea.addEventListener('dragover', (e) => { e.preventDefault(); uploadArea.classList.add('dragover'); });
+        uploadArea.addEventListener('dragleave', () => uploadArea.classList.remove('dragover'));
+        uploadArea.addEventListener('drop', (e) => {
+            e.preventDefault();
+            uploadArea.classList.remove('dragover');
+            const files = e.dataTransfer.files;
+            if (files.length > 0) handleImageFile(files[0]);
+        });
+    }
+
+    function handleImageFile(file) {
+        if (!file.type.startsWith('image/')) {
+            showToast('Invalid file', 'Please select an image file.', 'error');
+            return;
+        }
+        const reader = new FileReader();
+        reader.onload = (e) => {
+            showImagePreview(e.target.result);
+            if (adImage) adImage.value = e.target.result;
+        };
+        reader.readAsDataURL(file);
+    }
+
+    if (adImageFile) adImageFile.addEventListener('change', (e) => {
+        if (e.target.files.length > 0) handleImageFile(e.target.files[0]);
+    });
+
+    if (removeImage) removeImage.addEventListener('click', hideImagePreview);
+
+    if (adImage) adImage.addEventListener('input', (e) => {
+        if (e.target.value) {
+            showImagePreview(e.target.value);
+        } else {
+            hideImagePreview();
+        }
+    });
 
     function setStatusBadge(span, status) {
         span.className = 'badge status';
@@ -134,6 +199,11 @@ document.addEventListener('DOMContentLoaded', function () {
             adImage.value = data.image.startsWith('http') || data.image.startsWith('/') ? data.image : '';
             adStatus.value = data.status;
             adDuration.value = data.duration;
+            if (data.image) {
+                showImagePreview(data.image);
+            } else {
+                hideImagePreview();
+            }
             editingCard = card;
             openAdModal('<i class="fas fa-pen" style="color: var(--orange-yellow);"></i> Edit ad');
         } else if (action === 'hide') {
@@ -156,7 +226,7 @@ document.addEventListener('DOMContentLoaded', function () {
     const addAdBtn = document.getElementById('addAdBtn');
     if (addAdBtn) addAdBtn.addEventListener('click', () => {
         adForm.reset();
-        adImage.value = '';
+        hideImagePreview();
         editingCard = null;
         openAdModal('<i class="fas fa-plus" style="color: var(--bright-blue);"></i> Add ad');
     });

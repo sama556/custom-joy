@@ -1,6 +1,6 @@
 
 // Initialize Charts
-document.addEventListener('DOMContentLoaded', function() {
+document.addEventListener('DOMContentLoaded', function () {
     // Sign out modal wiring
     const openSignOutBtn = document.getElementById('openSignOut');
     const signOutModal = document.getElementById('signOutModal');
@@ -159,7 +159,7 @@ function showToast(title, message, type) {
     msgEl.textContent = message;
 
     toastContainer.appendChild(toast);
-    
+
     // Auto remove after 5 seconds
     setTimeout(() => {
         if (toast.parentNode) {
@@ -171,7 +171,7 @@ function showToast(title, message, type) {
             }, 300);
         }
     }, 5000);
-    
+
     // Close button functionality
     closeBtn.addEventListener('click', () => {
         toast.style.animation = 'slideIn 0.3s ease-out reverse';

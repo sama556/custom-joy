@@ -41,7 +41,6 @@
             <div class="user-info">
                 <img src="https://i.pravatar.cc/150?img=12" alt="Admin User">
                 <span>Admin User</span>
-                <a href="profile.html" class="profile-link"><i class="fas fa-user"></i> Profile</a>
                 <button class="signout-btn" id="openSignOut"><i class="fas fa-sign-out-alt"></i> Sign Out</button>
             </div>
         </div>
@@ -210,50 +209,73 @@
 
     <!-- View Feedback Modal -->
     <div class="modal-overlay" id="viewFbModal" aria-hidden="true" role="dialog" aria-modal="true">
-        <div class="modal" role="document">
-            <h3><i class="fas fa-eye" style="color: var(--sky-blue);"></i> Feedback details</h3>
-            <div class="view-fb">
-                <div class="view-fb-header">
-                    <img id="viewAvatar" src="" alt=""
-                        style="width:56px;height:56px;border-radius:50%;object-fit:cover;margin-right:12px;">
-                    <div>
-                        <div id="viewName" style="font-weight:700;font-size:1.05rem;">Name</div>
-                        <div class="muted" id="viewSub">@username</div>
-                    </div>
-                </div>
-                <div class="view-fb-grid" style="display:grid;grid-template-columns:1fr;gap:12px;margin-top:14px;">
-                    <div>
-                        <div class="muted">Order</div>
-                        <div id="viewOrder"></div>
-                    </div>
-                    <div>
-                        <div class="muted">Provider</div>
-                        <div id="viewProvider"></div>
-                    </div>
-                    <div>
-                        <div class="muted">Products</div>
-                        <ul id="viewProducts" style="padding-left:18px;margin:0;list-style:disc;"></ul>
-                    </div>
-                    <div>
-                        <div class="muted">Rating</div>
-                        <div id="viewRating"></div>
-                    </div>
-                    <div>
-                        <div class="muted">Comment</div>
-                        <div id="viewComment"></div>
-                    </div>
-                    <div>
-                        <div class="muted">Status</div>
-                        <div id="viewStatus"></div>
-                    </div>
-                    <div>
-                        <div class="muted">Date</div>
-                        <div id="viewDate"></div>
-                    </div>
-                </div>
+        <div class="modal simple-feedback-modal" role="document">
+            <!-- Modal Header -->
+            <div class="simple-modal-header">
+                <h3><i class="fas fa-star"></i> Feedback Details</h3>
+                <button class="modal-close" id="closeViewFb" type="button" aria-label="Close modal">
+                    <i class="fas fa-times"></i>
+                </button>
             </div>
-            <div class="modal-actions">
-                <button class="btn btn-secondary" id="closeViewFb" type="button">Close</button>
+
+            <!-- Modal Content -->
+            <div class="simple-modal-content">
+                <!-- Customer Info -->
+                <div class="customer-info">
+                    <img id="viewAvatar" src="" alt="Customer" class="customer-avatar">
+                    <div class="customer-details">
+                        <h4 id="viewName">Customer Name</h4>
+                        <p id="viewSub">@username</p>
+                        <div class="rating-status">
+                            <span class="rating" id="viewRating">★★★★★</span>
+                            <span class="status-badge" id="viewStatus">New</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Feedback Comment -->
+                <div class="feedback-comment">
+                    <h5>Customer Feedback</h5>
+                    <p id="viewComment">Customer feedback comment will appear here...</p>
+                </div>
+
+                <!-- Order Info -->
+                <div class="order-info">
+                    <div class="info-row">
+                        <span class="label">Order ID:</span>
+                        <span id="viewOrder">ORD-12345</span>
+                    </div>
+                    <div class="info-row">
+                        <span class="label">Provider:</span>
+                        <span id="viewProvider">Provider Name</span>
+                    </div>
+                    <div class="info-row">
+                        <span class="label">Date:</span>
+                        <span id="viewDate">Dec 15, 2023</span>
+                    </div>
+                </div>
+
+                <!-- Products -->
+                <div class="products-info">
+                    <h5>Products</h5>
+                    <ul id="viewProducts" class="products-list">
+                        <li>Custom Chocolate Cake × 1</li>
+                        <li>Candles Set × 1</li>
+                    </ul>
+                </div>
+
+                <!-- Actions -->
+                <div class="modal-actions">
+                    <button class="btn btn-primary" id="quickReplyFeedback">
+                        <i class="fas fa-reply"></i> Reply
+                    </button>
+                    <button class="btn btn-success" id="quickToggleStatus">
+                        <i class="fas fa-check-circle"></i> Resolve
+                    </button>
+                    <button class="btn btn-secondary" id="quickArchiveFeedback">
+                        <i class="fas fa-archive"></i> Archive
+                    </button>
+                </div>
             </div>
         </div>
     </div>

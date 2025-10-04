@@ -41,7 +41,6 @@
             <div class="user-info">
                 <img src="../../images/avater6.jpg" alt="Admin User">
                 <span>Admin User</span>
-                <a href="profile.html" class="profile-link"><i class="fas fa-user"></i> Profile</a>
                 <button class="signout-btn" id="openSignOut"><i class="fas fa-sign-out-alt"></i> Sign Out</button>
             </div>
         </div>
@@ -156,33 +155,63 @@
     <div class="modal-overlay" id="themeModal" aria-hidden="true" role="dialog" aria-modal="true">
         <div class="modal theme-modal" role="document">
             <div class="modal-header">
-                <h3 id="themeModalTitle"><i class="fas fa-palette"></i> Theme</h3>
-                <button class="modal-close" id="cancelTheme" type="button" aria-label="Close modal">
-                    <i class="fas fa-times"></i>
-                </button>
+                <div class="modal-header-content">
+                    <div class="modal-title-section">
+                        <h3 id="themeModalTitle"><i class="fas fa-palette"></i> Theme</h3>
+                        <div class="modal-subtitle" id="themeModalSubtitle">Create a new theme for your collection</div>
+                    </div>
+                    <div class="modal-actions-header">
+                        <div class="form-progress" id="formProgress">
+                            <div class="progress-bar">
+                                <div class="progress-fill" id="progressFill"></div>
+                            </div>
+                            <span class="progress-text" id="progressText">0% Complete</span>
+                        </div>
+                        <button class="modal-close" id="cancelTheme" type="button" aria-label="Close modal">
+                            <i class="fas fa-times"></i>
+                        </button>
+                    </div>
+                </div>
             </div>
             <form id="themeForm">
                 <div class="form-content">
                     <!-- Image Upload Section -->
                     <div class="image-upload-section">
-                        <label class="upload-label">
-                            <div class="upload-area" id="themeUploadArea">
-                                <div class="upload-icon">
-                                    <i class="fas fa-cloud-upload-alt"></i>
+                        <div class="section-header">
+                            <h4><i class="fas fa-image"></i> Theme Image</h4>
+                            <span class="section-required">Required</span>
+                        </div>
+                        <div class="upload-container">
+                            <label class="upload-label">
+                                <div class="upload-area" id="themeUploadArea">
+                                    <div class="upload-content">
+                                        <div class="upload-icon">
+                                            <i class="fas fa-cloud-upload-alt"></i>
+                                        </div>
+                                        <div class="upload-text">
+                                            <span class="upload-title">Upload Theme Image</span>
+                                            <span class="upload-subtitle">Click to browse or drag & drop your image
+                                                here</span>
+                                            <span class="upload-formats">Supports: JPG, PNG, GIF (Max 5MB)</span>
+                                        </div>
+                                        <div class="upload-hint">
+                                            <i class="fas fa-lightbulb"></i>
+                                            <span>Tip: Use high-quality images for better presentation</span>
+                                        </div>
+                                    </div>
+                                    <input type="file" id="themeImageFile" accept="image/*" hidden>
                                 </div>
-                                <div class="upload-text">
-                                    <span class="upload-title">Upload Theme Image</span>
-                                    <span class="upload-subtitle">Click to browse or drag & drop</span>
-                                    <span class="upload-formats">Supports: JPG, PNG, GIF (Max 5MB)</span>
+                            </label>
+                            <div class="image-preview" id="themeImagePreview" style="display: none;">
+                                <div class="preview-header">
+                                    <span class="preview-label">Image Preview</span>
+                                    <button type="button" class="remove-image" id="removeThemeImage">
+                                        <i class="fas fa-times"></i>
+                                        Remove
+                                    </button>
                                 </div>
-                                <input type="file" id="themeImageFile" accept="image/*" hidden>
+                                <img id="themePreviewImage" src="" alt="Preview">
                             </div>
-                        </label>
-                        <div class="image-preview" id="themeImagePreview" style="display: none;">
-                            <img id="themePreviewImage" src="" alt="Preview">
-                            <button type="button" class="remove-image" id="removeThemeImage">
-                                <i class="fas fa-times"></i>
-                            </button>
                         </div>
                     </div>
 
@@ -198,7 +227,8 @@
                         </div>
                         <div class="form-field full-width">
                             <label for="themeDescription">Description</label>
-                            <textarea id="themeDescription" required placeholder="Enter theme description..." rows="3"></textarea>
+                            <textarea id="themeDescription" required placeholder="Enter theme description..."
+                                rows="3"></textarea>
                         </div>
                         <div class="form-field">
                             <label for="themeStatus">Status</label>
@@ -248,30 +278,125 @@
 
     <!-- View Theme Modal -->
     <div class="modal-overlay" id="viewThemeModal" aria-hidden="true" role="dialog" aria-modal="true">
-        <div class="modal" role="document">
-            <h3><i class="fas fa-eye" style="color: var(--sky-blue);"></i> Theme details</h3>
-            <div class="view-theme">
-                <div class="view-theme-header">
-                    <img id="viewThemeImage" src="" alt=""
-                        style="width:64px;height:64px;border-radius:8px;object-fit:cover;margin-right:12px;">
-                    <div>
-                        <div id="viewThemeTitle" style="font-weight:700;font-size:1.1rem;">Title</div>
-                        <div class="muted"><span id="viewThemeId"></span></div>
+        <div class="modal view-theme-modal" role="document">
+            <div class="view-modal-header">
+                <div class="view-header-content">
+                    <div class="view-title-section">
+                        <h3><i class="fas fa-eye"></i> Theme Details</h3>
+                        <div class="view-subtitle">Complete theme information and settings</div>
                     </div>
-                </div>
-                <div class="view-theme-grid" style="display:grid;grid-template-columns:1fr;gap:12px;margin-top:14px;">
-                    <div>
-                        <div class="muted">Description</div>
-                        <div id="viewThemeDescription"></div>
-                    </div>
-                    <div>
-                        <div class="muted">Status</div>
-                        <div id="viewThemeStatus"></div>
-                    </div>
+                    <button class="modal-close" id="closeViewTheme" type="button" aria-label="Close modal">
+                        <i class="fas fa-times"></i>
+                    </button>
                 </div>
             </div>
-            <div class="modal-actions">
-                <button class="btn btn-secondary" id="closeViewTheme" type="button">Close</button>
+
+            <div class="view-modal-content">
+                <!-- Theme Header Section -->
+                <div class="theme-header-section">
+                    <div class="theme-image-container">
+                        <img id="viewThemeImage" src="" alt="Theme Image" class="theme-main-image">
+                        <div class="image-overlay">
+                            <button class="btn-icon" id="viewFullImage" title="View full image">
+                                <i class="fas fa-expand"></i>
+                            </button>
+                        </div>
+                    </div>
+                    <div class="theme-basic-info">
+                        <div class="theme-title-section">
+                            <h2 id="viewThemeTitle">Theme Title</h2>
+                            <div class="theme-id-badge" id="viewThemeId">TH-1001</div>
+                        </div>
+                        <div class="theme-status-section">
+                            <div class="status-badge" id="viewThemeStatus">Active</div>
+                            <div class="theme-category" id="viewThemeCategory">Birthday</div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Theme Details Grid -->
+                <div class="theme-details-grid">
+                    <div class="detail-section">
+                        <div class="detail-header">
+                            <i class="fas fa-align-left"></i>
+                            <h4>Description</h4>
+                        </div>
+                        <div class="detail-content">
+                            <p id="viewThemeDescription">Theme description will appear here...</p>
+                        </div>
+                    </div>
+
+                    <div class="detail-section">
+                        <div class="detail-header">
+                            <i class="fas fa-tag"></i>
+                            <h4>Category & Tags</h4>
+                        </div>
+                        <div class="detail-content">
+                            <div class="category-info">
+                                <span class="label">Category:</span>
+                                <span class="value" id="viewThemeCategoryDetail">Birthday</span>
+                            </div>
+                            <div class="tags-info">
+                                <span class="label">Tags:</span>
+                                <div class="tags-container" id="viewThemeTags">colorful, balloons, fun</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="detail-section">
+                        <div class="detail-header">
+                            <i class="fas fa-dollar-sign"></i>
+                            <h4>Pricing</h4>
+                        </div>
+                        <div class="detail-content">
+                            <div class="price-info">
+                                <span class="price-amount" id="viewThemePrice">$0.00</span>
+                                <span class="price-label">per theme</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="detail-section">
+                        <div class="detail-header">
+                            <i class="fas fa-palette"></i>
+                            <h4>Theme Colors</h4>
+                        </div>
+                        <div class="detail-content">
+                            <div class="color-info">
+                                <span class="label">Primary Color:</span>
+                                <div class="color-preview">
+                                    <div class="color-swatch" id="viewThemeColorSwatch"></div>
+                                    <span class="color-value" id="viewThemeColorValue">#368BFF</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Quick Actions -->
+                <div class="theme-actions-section">
+                    <div class="actions-header">
+                        <h4><i class="fas fa-bolt"></i> Quick Actions</h4>
+                    </div>
+                    <div class="action-buttons">
+                        <button class="action-btn edit-btn" id="quickEditTheme">
+                            <i class="fas fa-edit"></i>
+                            Edit Theme
+                        </button>
+                        <button class="action-btn status-btn" id="quickToggleStatus">
+                            <i class="fas fa-eye-slash"></i>
+                            Hide Theme
+                        </button>
+                        <button class="action-btn duplicate-btn" id="quickDuplicateTheme">
+                            <i class="fas fa-copy"></i>
+                            Duplicate
+                        </button>
+                        <button class="action-btn delete-btn" id="quickDeleteTheme">
+                            <i class="fas fa-trash"></i>
+                            Delete
+                        </button>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
