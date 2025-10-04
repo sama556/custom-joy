@@ -29,6 +29,7 @@
                 <li><a href="products.html"><i class="fas fa-box"></i> <span>Product Management</span></a></li>
                 <li><a href="orders.html"><i class="fas fa-clipboard-list"></i> <span>Order Management</span></a></li>
                 <li><a href="support.html"><i class="fas fa-headset"></i> <span>Support & Contact</span></a></li>
+                <li><a href="profile.html"><i class="fas fa-user"></i> <span>Profile</span></a></li>
             </ul>
         </nav>
     </div>
@@ -38,9 +39,9 @@
         <div class="header">
             <h1>Ads Management</h1>
             <div class="user-info">
-                <img src="https://i.pravatar.cc/150?img=12" alt="Admin User">
+                <img src="../../images/avater6.jpg" alt="Admin User">
                 <span>Admin User</span>
-                <a href="#" class="profile-link"><i class="fas fa-user"></i> Profile</a>
+                <a href="profile.html" class="profile-link"><i class="fas fa-user"></i> Profile</a>
                 <button class="signout-btn" id="openSignOut"><i class="fas fa-sign-out-alt"></i> Sign Out</button>
             </div>
         </div>
@@ -158,43 +159,97 @@
 
     <!-- Add/Edit Ad Modal -->
     <div class="modal-overlay" id="adModal" aria-hidden="true" role="dialog" aria-modal="true">
-        <div class="modal" role="document">
-            <h3 id="adModalTitle"><i class="fas fa-ad" style="color: var(--bright-blue);"></i> Ad</h3>
+        <div class="modal ad-modal" role="document">
+            <div class="modal-header">
+                <h3 id="adModalTitle"><i class="fas fa-ad"></i> Ad</h3>
+                <button class="modal-close" id="cancelAd" type="button" aria-label="Close modal">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
             <form id="adForm">
-                <div class="form-grid">
-                    <div class="form-field">
-                        <label for="adId">Ad ID</label>
-                        <input type="text" id="adId" required>
+                <div class="form-content">
+                    <!-- Image Upload Section -->
+                    <div class="image-upload-section">
+                        <label class="upload-label">
+                            <div class="upload-area" id="uploadArea">
+                                <div class="upload-icon">
+                                    <i class="fas fa-cloud-upload-alt"></i>
+                                </div>
+                                <div class="upload-text">
+                                    <span class="upload-title">Upload Ad Image</span>
+                                    <span class="upload-subtitle">Click to browse or drag & drop</span>
+                                    <span class="upload-formats">Supports: JPG, PNG, GIF (Max 5MB)</span>
+                                </div>
+                                <input type="file" id="adImageFile" accept="image/*" hidden>
+                            </div>
+                        </label>
+                        <div class="image-preview" id="imagePreview" style="display: none;">
+                            <img id="previewImage" src="" alt="Preview">
+                            <button type="button" class="remove-image" id="removeImage">
+                                <i class="fas fa-times"></i>
+                            </button>
+                        </div>
                     </div>
-                    <div class="form-field">
-                        <label for="adTitle">Title</label>
-                        <input type="text" id="adTitle" required>
-                    </div>
-                    <div class="form-field" style="grid-column: 1 / -1;">
-                        <label for="adDescription">Description</label>
-                        <input type="text" id="adDescription" required>
-                    </div>
-                    <div class="form-field">
-                        <label for="adImage">Image URL</label>
-                        <input type="url" id="adImage" placeholder="https://...">
-                    </div>
-                    <div class="form-field">
-                        <label for="adStatus">Status</label>
-                        <select id="adStatus" required>
-                            <option value="active">Active</option>
-                            <option value="scheduled">Scheduled</option>
-                            <option value="expired">Expired</option>
-                            <option value="hidden">Hidden</option>
-                        </select>
-                    </div>
-                    <div class="form-field">
-                        <label for="adDuration">Duration/Timing</label>
-                        <input type="text" id="adDuration" placeholder="Ends in 3 days, Oct 1 - Oct 15, ...">
+
+                    <!-- Form Fields -->
+                    <div class="form-grid">
+                        <div class="form-field">
+                            <label for="adId">Ad ID</label>
+                            <input type="text" id="adId" required placeholder="AD-1001">
+                        </div>
+                        <div class="form-field">
+                            <label for="adTitle">Title</label>
+                            <input type="text" id="adTitle" required placeholder="Enter ad title">
+                        </div>
+                        <div class="form-field full-width">
+                            <label for="adDescription">Description</label>
+                            <textarea id="adDescription" required placeholder="Enter ad description..." rows="3"></textarea>
+                        </div>
+                        <div class="form-field">
+                            <label for="adStatus">Status</label>
+                            <select id="adStatus" required>
+                                <option value="active">Active</option>
+                                <option value="scheduled">Scheduled</option>
+                                <option value="expired">Expired</option>
+                                <option value="hidden">Hidden</option>
+                            </select>
+                        </div>
+                        <div class="form-field">
+                            <label for="adDuration">Duration/Timing</label>
+                            <input type="text" id="adDuration" placeholder="Ends in 3 days, Oct 1 - Oct 15, ...">
+                        </div>
+                        <div class="form-field">
+                            <label for="adStartDate">Start Date</label>
+                            <input type="date" id="adStartDate">
+                        </div>
+                        <div class="form-field">
+                            <label for="adEndDate">End Date</label>
+                            <input type="date" id="adEndDate">
+                        </div>
+                        <div class="form-field">
+                            <label for="adBudget">Budget</label>
+                            <input type="number" id="adBudget" placeholder="0.00" step="0.01" min="0">
+                        </div>
+                        <div class="form-field">
+                            <label for="adTargetAudience">Target Audience</label>
+                            <select id="adTargetAudience">
+                                <option value="all">All Users</option>
+                                <option value="new">New Users</option>
+                                <option value="returning">Returning Users</option>
+                                <option value="premium">Premium Users</option>
+                            </select>
+                        </div>
                     </div>
                 </div>
                 <div class="modal-actions">
-                    <button type="button" class="btn btn-secondary" id="cancelAd">Cancel</button>
-                    <button type="submit" class="btn btn-primary" id="saveAd">Save</button>
+                    <button type="button" class="btn btn-secondary" id="cancelAdBottom">
+                        <i class="fas fa-times"></i>
+                        Cancel
+                    </button>
+                    <button type="submit" class="btn btn-primary" id="saveAd">
+                        <i class="fas fa-save"></i>
+                        Save Ad
+                    </button>
                 </div>
             </form>
         </div>
@@ -203,33 +258,40 @@
     <!-- View Ad Modal -->
     <div class="modal-overlay" id="viewAdModal" aria-hidden="true" role="dialog" aria-modal="true">
         <div class="modal" role="document">
-            <h3><i class="fas fa-eye" style="color: var(--sky-blue);"></i> Ad details</h3>
+            <div class="modal-header">
+                <h3><i class="fas fa-eye"></i> Ad Details</h3>
+                <button class="modal-close" id="closeViewAd" type="button" aria-label="Close modal">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
             <div class="view-ad">
                 <div class="view-ad-header">
-                    <img id="viewAdImage" src="" alt=""
-                        style="width:64px;height:64px;border-radius:8px;object-fit:cover;margin-right:12px;">
+                    <img id="viewAdImage" src="" alt="Ad Image">
                     <div>
-                        <div id="viewAdTitle" style="font-weight:700;font-size:1.1rem;">Title</div>
-                        <div class="muted"><span id="viewAdId"></span></div>
+                        <div id="viewAdTitle">Ad Title</div>
+                        <div class="muted">Ad ID: <span id="viewAdId"></span></div>
                     </div>
                 </div>
-                <div class="view-ad-grid" style="display:grid;grid-template-columns:1fr;gap:12px;margin-top:14px;">
-                    <div>
+                <div class="view-ad-grid">
+                    <div class="info-card">
                         <div class="muted">Description</div>
-                        <div id="viewAdDescription"></div>
+                        <div id="viewAdDescription">Ad description will appear here...</div>
                     </div>
-                    <div>
+                    <div class="info-card">
                         <div class="muted">Status</div>
-                        <div id="viewAdStatus"></div>
+                        <div id="viewAdStatus">Active</div>
                     </div>
-                    <div>
+                    <div class="info-card">
                         <div class="muted">Duration/Timing</div>
-                        <div id="viewAdDuration"></div>
+                        <div id="viewAdDuration">Ends in 3 days</div>
                     </div>
                 </div>
             </div>
             <div class="modal-actions">
-                <button class="btn btn-secondary" id="closeViewAd" type="button">Close</button>
+                <button class="btn btn-secondary" id="closeViewAdBottom" type="button">
+                    <i class="fas fa-times"></i>
+                    Close
+                </button>
             </div>
         </div>
     </div>

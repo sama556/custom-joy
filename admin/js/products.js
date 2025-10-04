@@ -2,11 +2,56 @@ document.addEventListener('DOMContentLoaded', function () {
     // Enhanced Product Management System
     console.log('Enhanced Product Management System Initialized');
 
-    // Basic sign out modal wiring (reuse pattern from overview.js)
-    const openSignOutBtn = document.getElementById('openSignOut');
-    const signOutModal = document.getElementById('signOutModal');
-    const cancelSignOutBtn = document.getElementById('cancelSignOut');
-    const confirmSignOutBtn = document.getElementById('confirmSignOut');
+    // Mobile Navigation
+    const mobileMenuToggle = document.getElementById('mobileMenuToggle');
+    const sidebar = document.getElementById('sidebar');
+    
+    if (mobileMenuToggle && sidebar) {
+        mobileMenuToggle.addEventListener('click', function() {
+            sidebar.classList.toggle('open');
+            mobileMenuToggle.classList.toggle('active');
+            
+            // Update icon
+            const icon = mobileMenuToggle.querySelector('i');
+            if (sidebar.classList.contains('open')) {
+                icon.className = 'fas fa-times';
+            } else {
+                icon.className = 'fas fa-bars';
+            }
+        });
+        
+        // Close sidebar when clicking outside
+        document.addEventListener('click', function(event) {
+            if (window.innerWidth <= 768 && 
+                !sidebar.contains(event.target) && 
+                !mobileMenuToggle.contains(event.target) && 
+                sidebar.classList.contains('open')) {
+                sidebar.classList.remove('open');
+                mobileMenuToggle.classList.remove('active');
+                const icon = mobileMenuToggle.querySelector('i');
+                icon.className = 'fas fa-bars';
+            }
+        });
+        
+        // Close sidebar when window is resized to desktop
+        window.addEventListener('resize', function() {
+            if (window.innerWidth > 768) {
+                sidebar.classList.remove('open');
+                mobileMenuToggle.classList.remove('active');
+                const icon = mobileMenuToggle.querySelector('i');
+                icon.className = 'fas fa-bars';
+            }
+        });
+    }
+
+    // Product Details Modal
+    const productDetailsModal = document.getElementById('productDetailsModal');
+    const productDetailsContent = document.getElementById('productDetailsContent');
+    const productDetailsTitle = document.getElementById('productDetailsTitle');
+    const closeProductDetailsBtn = document.getElementById('closeProductDetailsBtn');
+    const closeProductDetails = document.getElementById('closeProductDetails');
+    const editProductFromDetails = document.getElementById('editProductFromDetails');
+    
 
     function openModal(modal) {
         modal.classList.add('open');
@@ -16,10 +61,525 @@ document.addEventListener('DOMContentLoaded', function () {
         modal.classList.remove('open');
         modal.setAttribute('aria-hidden', 'true');
     }
+
+    // Product Details Modal Functions
+    function showProductDetails(product) {
+        const productType = product.productType || 'product';
+        
+        // Helper function to get product image
+        function getProductImage(product) {
+            const image = product.primaryImage || product.image || (product.images && product.images.length > 0 ? product.images[0] : null);
+            return image;
+        }
+        
+        // Helper function to check if product has image
+        function hasProductImage(product) {
+            return !!(product.primaryImage || product.image || (product.images && product.images.length > 0));
+        }
+        
+        // Update modal header with dynamic icon and title
+        const iconMap = {
+            'cake': 'fas fa-birthday-cake',
+            'cakeAddon': 'fas fa-plus-circle',
+            'flower': 'fas fa-seedling',
+            'flowerAddon': 'fas fa-plus-circle',
+            'balloon': 'fas fa-balloon'
+        };
+        
+        const icon = iconMap[productType] || 'fas fa-box';
+        const iconElement = document.getElementById('productDetailsIcon');
+        if (iconElement) {
+            iconElement.className = icon;
+        }
+        
+        productDetailsTitle.textContent = `${productType.charAt(0).toUpperCase() + productType.slice(1)} Details`;
+        
+        const subtitle = document.getElementById('productDetailsSubtitle');
+        if (subtitle) {
+            subtitle.textContent = `View and manage ${productType} information`;
+        }
+        
+        let detailsHTML = `
+            <div class="product-hero-section">
+                <div class="product-image-container">
+                    <div class="product-image-wrapper">
+                        <img src="${getProductImage(product) || 'https://via.placeholder.com/300x300?text=No+Image'}" 
+                             alt="${product.name}" class="product-main-image">
+                        <div class="image-overlay">
+                            <div class="product-type-indicator">
+                                <i class="fas ${iconMap[productType] || 'fa-box'}"></i>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="product-summary">
+                    <div class="product-title-section">
+                        <h1 class="product-title">${product.name || 'Unnamed Product'}</h1>
+                        <div class="product-meta">
+                            <span class="product-id">ID: ${product.id || 'N/A'}</span>
+                            <span class="product-type-tag ${productType}">
+                                <i class="fas ${iconMap[productType] || 'fa-box'}"></i>
+                                ${productType.charAt(0).toUpperCase() + productType.slice(1)}
+                            </span>
+                        </div>
+                    </div>
+                    <div class="product-pricing">
+                        <div class="price-main">$${Number(product.price || product.basePrice || 0).toFixed(2)}</div>
+                        <div class="price-label">Base Price</div>
+                    </div>
+                    <div class="product-status-section">
+                        <div class="status-indicator ${product.available === true || product.available === 'true' ? 'available' : 'unavailable'}">
+                            <i class="fas fa-${product.available === true || product.available === 'true' ? 'check-circle' : 'times-circle'}"></i>
+                            <span>${product.available === true || product.available === 'true' ? 'Available' : 'Unavailable'}</span>
+                        </div>
+                        ${product.scope ? `
+                        <div class="scope-indicator ${product.scope}">
+                            <i class="fas fa-${product.scope === 'private' ? 'lock' : 'globe'}"></i>
+                            <span>${product.scope === 'private' ? 'Private' : 'Public'}</span>
+                        </div>
+                        ` : ''}
+                    </div>
+                </div>
+            </div>
+            
+            <div class="product-details-sections">
+        `;
+
+        // Add specific details based on product type
+           if (productType === 'cake') {
+               detailsHTML += `
+                   <div class="detail-section modern-section">
+                       <div class="section-header">
+                           <div class="section-icon">
+                               <i class="fas fa-birthday-cake"></i>
+                           </div>
+                           <div class="section-title">
+                               <h3>Cake Information</h3>
+                               <p>Complete cake details and specifications</p>
+                           </div>
+                       </div>
+                       <div class="section-content">
+                           <div class="info-grid">
+                               <div class="info-item">
+                                   <div class="info-label">Description</div>
+                                   <div class="info-value">${product.description || 'No description available'}</div>
+                               </div>
+                               <div class="info-item">
+                                   <div class="info-label">Size</div>
+                                   <div class="info-value">${product.size || 'N/A'}</div>
+                               </div>
+                               <div class="info-item">
+                                   <div class="info-label">Number of Layers</div>
+                                   <div class="info-value">${product.layers || 'N/A'}</div>
+                               </div>
+                               <div class="info-item">
+                                   <div class="info-label">Image Status</div>
+                                   <div class="info-value ${hasProductImage(product) ? 'has-image' : 'no-image'}">
+                                       <i class="fas fa-${hasProductImage(product) ? 'check-circle' : 'times-circle'}"></i>
+                                       ${hasProductImage(product) ? 'Image uploaded' : 'No image'}
+                                   </div>
+                               </div>
+                           </div>
+                       </div>
+                   </div>
+               `;
+               
+               // Add Cake Add-ons section
+               if (product.addons && product.addons.length > 0) {
+                   detailsHTML += `
+                       <div class="detail-section modern-section addons-section">
+                           <div class="section-header">
+                               <div class="section-icon">
+                                   <i class="fas fa-plus-circle"></i>
+                               </div>
+                               <div class="section-title">
+                                   <h3>Cake Add-ons</h3>
+                                   <p>${product.addons.length} add-on${product.addons.length !== 1 ? 's' : ''} available</p>
+                               </div>
+                           </div>
+                           <div class="section-content">
+                               <div class="addons-grid">
+                   `;
+                   product.addons.forEach(addon => {
+                       detailsHTML += `
+                           <div class="addon-card">
+                               <div class="addon-header">
+                                   <div class="addon-title">
+                                       <h4>${addon.name || 'Unnamed Add-on'}</h4>
+                                       <span class="addon-id">ID: ${addon.id || 'N/A'}</span>
+                                   </div>
+                                   <div class="addon-price">
+                                       <span class="price-amount">+$${Number(addon.price || 0).toFixed(2)}</span>
+                                       <span class="price-label">Additional</span>
+                                   </div>
+                               </div>
+                               <div class="addon-details">
+                                   <div class="addon-info-grid">
+                                       <div class="addon-info-item">
+                                           <span class="info-label">Option Type</span>
+                                           <span class="info-value">${addon.optionTypeName || 'N/A'}</span>
+                                       </div>
+                                       <div class="addon-info-item">
+                                           <span class="info-label">Status</span>
+                                           <span class="info-value status-${addon.active === true || addon.active === 'true' ? 'active' : 'inactive'}">
+                                               <i class="fas fa-${addon.active === true || addon.active === 'true' ? 'check-circle' : 'times-circle'}"></i>
+                                               ${addon.active === true || addon.active === 'true' ? 'Active' : 'Inactive'}
+                                           </span>
+                                       </div>
+                                       <div class="addon-info-item">
+                                           <span class="info-label">Image</span>
+                                           <span class="info-value ${addon.image ? 'has-image' : 'no-image'}">
+                                               <i class="fas fa-${addon.image ? 'check-circle' : 'times-circle'}"></i>
+                                               ${addon.image ? 'Available' : 'Not available'}
+                                           </span>
+                                       </div>
+                                   </div>
+                               </div>
+                           </div>
+                       `;
+                   });
+                   detailsHTML += `
+                               </div>
+                           </div>
+                       </div>
+                   `;
+               }
+           } else if (productType === 'cakeAddon') {
+            detailsHTML += `
+                <div class="detail-section modern-section">
+                    <div class="section-header">
+                        <div class="section-icon">
+                            <i class="fas fa-plus-circle"></i>
+                        </div>
+                        <div class="section-title">
+                            <h3>Cake Add-on Information</h3>
+                            <p>Add-on details and specifications</p>
+                        </div>
+                    </div>
+                    <div class="section-content">
+                        <div class="info-grid">
+                            <div class="info-item">
+                                <div class="info-label">Add-on ID</div>
+                                <div class="info-value">${product.id || 'N/A'}</div>
+                            </div>
+                            <div class="info-item">
+                                <div class="info-label">Cake ID</div>
+                                <div class="info-value">${product.cakeId || 'N/A'}</div>
+                            </div>
+                            <div class="info-item">
+                                <div class="info-label">Option Type Name</div>
+                                <div class="info-value">${product.optionTypeName || 'N/A'}</div>
+                            </div>
+                            <div class="info-item">
+                                <div class="info-label">Option Name</div>
+                                <div class="info-value">${product.optionName || 'N/A'}</div>
+                            </div>
+                            <div class="info-item">
+                                <div class="info-label">Additional Price</div>
+                                <div class="info-value price-highlight">$${Number(product.additionalPrice || 0).toFixed(2)}</div>
+                            </div>
+                            <div class="info-item">
+                                <div class="info-label">Image Status</div>
+                                <div class="info-value ${product.image ? 'has-image' : 'no-image'}">
+                                    <i class="fas fa-${product.image ? 'check-circle' : 'times-circle'}"></i>
+                                    ${product.image ? 'Image uploaded' : 'No image'}
+                                </div>
+                            </div>
+                            <div class="info-item">
+                                <div class="info-label">Status</div>
+                                <div class="info-value status-${product.active === true || product.active === 'true' ? 'active' : 'inactive'}">
+                                    <i class="fas fa-${product.active === true || product.active === 'true' ? 'check-circle' : 'times-circle'}"></i>
+                                    ${product.active === true || product.active === 'true' ? 'Active' : 'Inactive'}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            `;
+        } else if (productType === 'flower') {
+            detailsHTML += `
+                <div class="detail-section modern-section">
+                    <div class="section-header">
+                        <div class="section-icon">
+                            <i class="fas fa-seedling"></i>
+                        </div>
+                        <div class="section-title">
+                            <h3>Flower Information</h3>
+                            <p>Complete flower details and specifications</p>
+                        </div>
+                    </div>
+                    <div class="section-content">
+                        <div class="info-grid">
+                            <div class="info-item">
+                                <div class="info-label">Type</div>
+                                <div class="info-value">${product.type || 'N/A'}</div>
+                            </div>
+                            <div class="info-item">
+                                <div class="info-label">Size</div>
+                                <div class="info-value">${product.size || 'N/A'}</div>
+                            </div>
+                            <div class="info-item">
+                                <div class="info-label">Image Status</div>
+                                <div class="info-value ${hasProductImage(product) ? 'has-image' : 'no-image'}">
+                                    <i class="fas fa-${hasProductImage(product) ? 'check-circle' : 'times-circle'}"></i>
+                                    ${hasProductImage(product) ? 'Image uploaded' : 'No image'}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            `;
+            
+            // Add Flower Add-ons section
+            if (product.addons && product.addons.length > 0) {
+                detailsHTML += `
+                    <div class="detail-section modern-section addons-section">
+                        <div class="section-header">
+                            <div class="section-icon">
+                                <i class="fas fa-plus-circle"></i>
+                            </div>
+                            <div class="section-title">
+                                <h3>Flower Add-ons</h3>
+                                <p>${product.addons.length} add-on${product.addons.length !== 1 ? 's' : ''} available</p>
+                            </div>
+                        </div>
+                        <div class="section-content">
+                            <div class="addons-grid">
+                `;
+                product.addons.forEach(addon => {
+                    detailsHTML += `
+                        <div class="addon-card">
+                            <div class="addon-header">
+                                <div class="addon-title">
+                                    <h4>${addon.name || 'Unnamed Add-on'}</h4>
+                                    <span class="addon-id">ID: ${addon.id || 'N/A'}</span>
+                                </div>
+                                <div class="addon-price">
+                                    <span class="price-amount">+$${Number(addon.price || 0).toFixed(2)}</span>
+                                    <span class="price-label">Additional</span>
+                                </div>
+                            </div>
+                            <div class="addon-details">
+                                <div class="addon-info-grid">
+                                    <div class="addon-info-item">
+                                        <span class="info-label">Option Type</span>
+                                        <span class="info-value">${addon.optionTypeName || 'N/A'}</span>
+                                    </div>
+                                    <div class="addon-info-item">
+                                        <span class="info-label">Image</span>
+                                        <span class="info-value ${addon.image ? 'has-image' : 'no-image'}">
+                                            <i class="fas fa-${addon.image ? 'check-circle' : 'times-circle'}"></i>
+                                            ${addon.image ? 'Available' : 'Not available'}
+                                        </span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    `;
+                });
+                detailsHTML += `
+                            </div>
+                        </div>
+                    </div>
+                `;
+            }
+        } else if (productType === 'flowerAddon') {
+            detailsHTML += `
+                <div class="detail-section modern-section">
+                    <div class="section-header">
+                        <div class="section-icon">
+                            <i class="fas fa-plus"></i>
+                        </div>
+                        <div class="section-title">
+                            <h3>Flower Add-on Information</h3>
+                            <p>Add-on details and specifications</p>
+                        </div>
+                    </div>
+                    <div class="section-content">
+                        <div class="info-grid">
+                            <div class="info-item">
+                                <div class="info-label">Add-on ID</div>
+                                <div class="info-value">${product.id || 'N/A'}</div>
+                            </div>
+                            <div class="info-item">
+                                <div class="info-label">Flower ID</div>
+                                <div class="info-value">${product.flowerId || 'N/A'}</div>
+                            </div>
+                            <div class="info-item">
+                                <div class="info-label">Option Type Name</div>
+                                <div class="info-value">${product.optionTypeName || 'N/A'}</div>
+                            </div>
+                            <div class="info-item">
+                                <div class="info-label">Option Name</div>
+                                <div class="info-value">${product.optionName || 'N/A'}</div>
+                            </div>
+                            <div class="info-item">
+                                <div class="info-label">Additional Price</div>
+                                <div class="info-value price-highlight">$${Number(product.additionalPrice || 0).toFixed(2)}</div>
+                            </div>
+                            <div class="info-item">
+                                <div class="info-label">Image Status</div>
+                                <div class="info-value ${product.image ? 'has-image' : 'no-image'}">
+                                    <i class="fas fa-${product.image ? 'check-circle' : 'times-circle'}"></i>
+                                    ${product.image ? 'Image uploaded' : 'No image'}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            `;
+        } else if (productType === 'balloon') {
+            detailsHTML += `
+                <div class="detail-section modern-section">
+                    <div class="section-header">
+                        <div class="section-icon">
+                            <i class="fas fa-balloon"></i>
+                        </div>
+                        <div class="section-title">
+                            <h3>Balloon Information</h3>
+                            <p>Complete balloon details and specifications</p>
+                        </div>
+                    </div>
+                    <div class="section-content">
+                        <div class="info-grid">
+                            <div class="info-item">
+                                <div class="info-label">Balloon Type</div>
+                                <div class="info-value">${product.balloonType || 'N/A'}</div>
+                            </div>
+                            <div class="info-item">
+                                <div class="info-label">Color</div>
+                                <div class="info-value">${product.color || 'N/A'}</div>
+                            </div>
+                            <div class="info-item">
+                                <div class="info-label">Size</div>
+                                <div class="info-value">${product.size || 'N/A'}</div>
+                            </div>
+                            <div class="info-item">
+                                <div class="info-label">Image Status</div>
+                                <div class="info-value ${hasProductImage(product) ? 'has-image' : 'no-image'}">
+                                    <i class="fas fa-${hasProductImage(product) ? 'check-circle' : 'times-circle'}"></i>
+                                    ${hasProductImage(product) ? 'Image uploaded' : 'No image'}
+                                </div>
+                            </div>
+                            <div class="info-item full-width">
+                                <div class="info-label">Additional Description</div>
+                                <div class="info-value">${product.extraDescription || 'No additional description'}</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            `;
+            
+            // Add Balloon Add-ons section
+            if (product.addons && product.addons.length > 0) {
+                detailsHTML += `
+                    <div class="detail-section modern-section addons-section">
+                        <div class="section-header">
+                            <div class="section-icon">
+                                <i class="fas fa-plus-circle"></i>
+                            </div>
+                            <div class="section-title">
+                                <h3>Balloon Add-ons</h3>
+                                <p>${product.addons.length} add-on${product.addons.length !== 1 ? 's' : ''} available</p>
+                            </div>
+                        </div>
+                        <div class="section-content">
+                            <div class="addons-grid">
+                `;
+                product.addons.forEach(addon => {
+                    detailsHTML += `
+                        <div class="addon-card">
+                            <div class="addon-header">
+                                <div class="addon-title">
+                                    <h4>${addon.name || 'Unnamed Add-on'}</h4>
+                                    <span class="addon-id">ID: ${addon.id || 'N/A'}</span>
+                                </div>
+                                <div class="addon-price">
+                                    <span class="price-amount">+$${Number(addon.price || 0).toFixed(2)}</span>
+                                    <span class="price-label">Additional</span>
+                                </div>
+                            </div>
+                            <div class="addon-details">
+                                <div class="addon-info-grid">
+                                    <div class="addon-info-item">
+                                        <span class="info-label">Option Type</span>
+                                        <span class="info-value">${addon.optionTypeName || 'N/A'}</span>
+                                    </div>
+                                    <div class="addon-info-item">
+                                        <span class="info-label">Image</span>
+                                        <span class="info-value ${addon.image ? 'has-image' : 'no-image'}">
+                                            <i class="fas fa-${addon.image ? 'check-circle' : 'times-circle'}"></i>
+                                            ${addon.image ? 'Available' : 'Not available'}
+                                        </span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    `;
+                });
+                detailsHTML += `
+                            </div>
+                        </div>
+                    </div>
+                `;
+            }
+        }
+
+        detailsHTML += `</div>`;
+        productDetailsContent.innerHTML = detailsHTML;
+        
+        // Set data attributes for edit button
+        if (editProductFromDetails) {
+            editProductFromDetails.dataset.productId = product.id;
+            editProductFromDetails.dataset.productType = productType;
+        }
+        
+        openModal(productDetailsModal);
+    }
+
+    // Basic sign out modal wiring (reuse pattern from overview.js)
+    const openSignOutBtn = document.getElementById('openSignOut');
+    const signOutModal = document.getElementById('signOutModal');
+    const cancelSignOutBtn = document.getElementById('cancelSignOut');
+    const confirmSignOutBtn = document.getElementById('confirmSignOut');
+
     if (openSignOutBtn) openSignOutBtn.addEventListener('click', (e) => { e.preventDefault(); openModal(signOutModal); });
     if (cancelSignOutBtn) cancelSignOutBtn.addEventListener('click', () => closeModal(signOutModal));
     if (signOutModal) signOutModal.addEventListener('click', (e) => { if (e.target === signOutModal) closeModal(signOutModal); });
     if (confirmSignOutBtn) confirmSignOutBtn.addEventListener('click', () => { closeModal(signOutModal); showToast('Signed out', 'You have been signed out successfully.', 'success'); });
+
+    // Product Details Modal Event Listeners
+    if (closeProductDetailsBtn) {
+        closeProductDetailsBtn.addEventListener('click', () => {
+            closeModal(productDetailsModal);
+        });
+    }
+    if (closeProductDetails) {
+        closeProductDetails.addEventListener('click', () => {
+            closeModal(productDetailsModal);
+        });
+    }
+    
+    // Fallback: Use event delegation for close buttons
+    document.addEventListener('click', (e) => {
+        if (e.target.closest('#closeProductDetails') || e.target.closest('#closeProductDetailsBtn')) {
+            if (productDetailsModal) {
+                closeModal(productDetailsModal);
+            }
+        }
+    });
+    if (productDetailsModal) productDetailsModal.addEventListener('click', (e) => { if (e.target === productDetailsModal) closeModal(productDetailsModal); });
+    if (editProductFromDetails) editProductFromDetails.addEventListener('click', () => {
+        closeModal(productDetailsModal);
+        // Trigger edit functionality
+        const productId = editProductFromDetails.dataset.productId;
+        const productType = editProductFromDetails.dataset.productType;
+        if (productId && productType) {
+            // Find and trigger edit
+            const editBtn = document.querySelector(`[data-action="edit"][data-id="${productId}"][data-entity="${productType}"]`);
+            if (editBtn) editBtn.click();
+        }
+    });
 
     // Product Type Filter switching
     const filterButtons = document.querySelectorAll('.filter-btn');
@@ -189,19 +749,22 @@ document.addEventListener('DOMContentLoaded', function () {
         const filteredCount = filtered.length;
 
         // Update header stats
-        document.getElementById('totalProductsStat').textContent = totalProducts;
-        document.getElementById('availableProductsStat').textContent = availableProducts;
-        document.getElementById('unavailableProductsStat').textContent = unavailableProducts;
-        document.getElementById('averagePriceStat').textContent = `$${averagePrice}`;
+        const totalProductsEl = document.getElementById('totalProductsStat');
+        const availableProductsEl = document.getElementById('availableProductsStat');
+        const unavailableProductsEl = document.getElementById('unavailableProductsStat');
+        const averagePriceEl = document.getElementById('averagePriceStat');
+        
+        if (totalProductsEl) totalProductsEl.textContent = totalProducts;
+        if (availableProductsEl) availableProductsEl.textContent = availableProducts;
+        if (unavailableProductsEl) unavailableProductsEl.textContent = unavailableProducts;
+        if (averagePriceEl) averagePriceEl.textContent = `$${averagePrice}`;
 
 
         // Update type counts
         const typeCounts = {
             all: totalProducts,
             cake: allItems.filter(item => item.productType === 'cake').length,
-            cakeAddon: allItems.filter(item => item.productType === 'cakeAddon').length,
             flower: allItems.filter(item => item.productType === 'flower').length,
-            flowerAddon: allItems.filter(item => item.productType === 'flowerAddon').length,
             balloon: allItems.filter(item => item.productType === 'balloon').length
         };
 
@@ -223,7 +786,7 @@ document.addEventListener('DOMContentLoaded', function () {
         if (paginated.items.length === 0) {
             productsTbody.innerHTML = `
                 <tr>
-                    <td colspan="12" class="empty-state">
+                    <td colspan="7" class="empty-state">
                         <i class="fas fa-search"></i>
                         <h3>No products found</h3>
                         <p>Try adjusting your search criteria or add a new product.</p>
@@ -236,9 +799,6 @@ document.addEventListener('DOMContentLoaded', function () {
         paginated.items.forEach(item => {
             const row = productTemplate.content.firstElementChild.cloneNode(true);
 
-            // Populate data
-            row.querySelector('.cell-id').textContent = item.id;
-
             // Type badge
             const typeBadge = row.querySelector('.type-badge');
             typeBadge.textContent = item.productType;
@@ -248,22 +808,16 @@ document.addEventListener('DOMContentLoaded', function () {
             row.querySelector('.cell-description').textContent = (item.description || '').substring(0, 50) + (item.description?.length > 50 ? '...' : '');
             row.querySelector('.cell-price').textContent = `$${Number(item.price || 0).toFixed(2)}`;
 
-            // Enhanced image handling
-            const firstImg = (Array.isArray(item.images) && item.images[0]) || item.image || '';
-            row.querySelector('.cell-image').innerHTML = firstImg ?
-                `<img src="${firstImg}" alt="${item.name}" onerror="this.style.display='none'">` :
-                '<div style="width:50px;height:50px;background:#f0f0f0;border-radius:8px;display:flex;align-items:center;justify-content:center;color:#999;"><i class="fas fa-image"></i></div>';
-
             // Details based on product type
             let details = '';
             if (item.productType === 'cake') {
                 details = `Size: ${item.size || 'N/A'} | Layers: ${item.layers || 'N/A'}`;
             } else if (item.productType === 'cakeAddon') {
-                details = `Group: ${item.optionGroup || 'N/A'} | Extra: +$${Number(item.extraPrice || 0).toFixed(2)}`;
+                details = `Type: ${item.optionTypeName || 'N/A'} | Extra: +$${Number(item.additionalPrice || 0).toFixed(2)}`;
             } else if (item.productType === 'flower') {
-                details = `Category: ${item.category || 'N/A'} | Size: ${item.size || 'N/A'}`;
+                details = `Type: ${item.type || 'N/A'} | Size: ${item.size || 'N/A'}`;
             } else if (item.productType === 'flowerAddon') {
-                details = `Group: ${item.optionGroup || 'N/A'} | Extra: +$${Number(item.extraPrice || 0).toFixed(2)}`;
+                details = `Type: ${item.optionTypeName || 'N/A'} | Extra: +$${Number(item.additionalPrice || 0).toFixed(2)}`;
             } else if (item.productType === 'balloon') {
                 details = `Type: ${item.balloonType || 'N/A'} | Color: ${item.color || 'N/A'}`;
             }
@@ -274,9 +828,6 @@ document.addEventListener('DOMContentLoaded', function () {
             const isAvailable = item.available === true || item.available === 'true';
             statusBadge.textContent = isAvailable ? 'Available' : 'Unavailable';
             statusBadge.className = `status-badge ${isAvailable ? 'available' : 'unavailable'}`;
-
-            row.querySelector('.cell-supplier').textContent = item.supplierId || '';
-            row.querySelector('.cell-scope').textContent = item.scope || '';
 
             // Set up actions
             row.querySelector('.edit').dataset.entity = item.productType;
@@ -361,7 +912,9 @@ document.addEventListener('DOMContentLoaded', function () {
         if (values) {
             Object.keys(values).forEach(k => {
                 const input = form.querySelector(`[name="${k}"]`);
-                if (input) input.value = String(values[k]);
+                if (input && input.type !== 'file') {
+                    input.value = String(values[k]);
+                }
             });
             // Populate primary/gallery images for products that support multiple images
             if (['cake', 'flower', 'balloon'].includes(entity)) {
@@ -372,8 +925,9 @@ document.addEventListener('DOMContentLoaded', function () {
                 const gallery = merged.slice(1).join(', ');
                 const primaryEl = form.querySelector('[name="primaryImage"]');
                 const galleryEl = form.querySelector('[name="galleryImages"]');
-                if (primaryEl) primaryEl.value = primary;
-                if (galleryEl) galleryEl.value = gallery;
+                // Skip file inputs - they can't be set programmatically
+                if (primaryEl && primaryEl.type !== 'file') primaryEl.value = primary;
+                if (galleryEl && galleryEl.type !== 'file') galleryEl.value = gallery;
             }
         }
         openModal(productModal);
@@ -382,147 +936,6 @@ document.addEventListener('DOMContentLoaded', function () {
     function closeProductForm() { closeModal(productModal); editing = { entity: null, id: null }; }
     if (cancelProduct) cancelProduct.addEventListener('click', closeProductForm);
 
-    // Product details modal
-    function showProductDetails(entity, item) {
-        if (!item) return;
-
-        // Create a detailed view of the product
-        const details = `
-            <div class="product-details">
-                <div class="product-header-info">
-                    <div class="product-image">
-                        ${item.images && item.images.length > 0 ?
-                `<img src="${item.images[0]}" alt="${item.name}" style="width: 220px; height: 220px; object-fit: cover;">` :
-                '<div style="width: 220px; height: 220px; background: linear-gradient(135deg, #f0f0f0, #e0e0e0); display: flex; align-items: center; justify-content: center; color: #999; border-radius: 16px;"><i class="fas fa-image" style="font-size: 48px;"></i></div>'
-            }
-                    </div>
-                    <div class="product-basic-info">
-                        <h2>${item.name || 'Unnamed Product'}</h2>
-                        <div class="product-type-badge">
-                            <span class="type-badge ${entity}">${entity}</span>
-                        </div>
-                        <div class="product-price">
-                            <strong>$${Number(item.price || item.basePrice || 0).toFixed(2)}</strong>
-                        </div>
-                        <div class="product-status">
-                            <span class="status-badge ${item.available ? 'available' : 'unavailable'}">
-                                <i class="fas fa-${item.available ? 'check-circle' : 'times-circle'}"></i>
-                                ${item.available ? 'Available' : 'Unavailable'}
-                            </span>
-                        </div>
-                    </div>
-                </div>
-                
-                <div class="product-details-grid">
-                    <div class="detail-section">
-                        <h4><i class="fas fa-info-circle"></i> Basic Information</h4>
-                        <div class="detail-row">
-                            <strong><i class="fas fa-hashtag"></i> ID:</strong> ${item.id}
-                        </div>
-                        <div class="detail-row">
-                            <strong><i class="fas fa-align-left"></i> Description:</strong> ${item.description || 'No description available'}
-                        </div>
-                        ${item.category ? `<div class="detail-row"><strong><i class="fas fa-tag"></i> Category:</strong> ${item.category}</div>` : ''}
-                        ${item.size ? `<div class="detail-row"><strong><i class="fas fa-expand-arrows-alt"></i> Size:</strong> ${item.size}</div>` : ''}
-                        ${item.layers ? `<div class="detail-row"><strong><i class="fas fa-layer-group"></i> Layers:</strong> ${item.layers}</div>` : ''}
-                        ${item.type ? `<div class="detail-row"><strong><i class="fas fa-tags"></i> Type:</strong> ${item.type}</div>` : ''}
-                    </div>
-                    
-                    ${entity === 'cakeAddon' || entity === 'flowerAddon' ? `
-                    <div class="detail-section">
-                        <h4><i class="fas fa-plus-circle"></i> Add-on Information</h4>
-                        <div class="detail-row">
-                            <strong><i class="fas fa-layer-group"></i> Option Group:</strong> ${item.optionGroup || 'N/A'}
-                        </div>
-                        <div class="detail-row">
-                            <strong><i class="fas fa-tag"></i> Option Name:</strong> ${item.optionName || 'N/A'}
-                        </div>
-                        <div class="detail-row">
-                            <strong><i class="fas fa-dollar-sign"></i> Extra Price:</strong> +$${Number(item.extraPrice || 0).toFixed(2)}
-                        </div>
-                        ${item.enabled !== undefined ? `<div class="detail-row"><strong><i class="fas fa-toggle-${item.enabled ? 'on' : 'off'}"></i> Enabled:</strong> ${item.enabled ? 'Yes' : 'No'}</div>` : ''}
-                    </div>
-                    ` : ''}
-                    
-                    ${entity === 'balloon' ? `
-                    <div class="detail-section">
-                        <h4><i class="fas fa-balloon"></i> Balloon Details</h4>
-                        <div class="detail-row">
-                            <strong><i class="fas fa-shapes"></i> Balloon Type:</strong> ${item.balloonType || 'N/A'}
-                        </div>
-                        <div class="detail-row">
-                            <strong><i class="fas fa-palette"></i> Color:</strong> ${item.color || 'N/A'}
-                        </div>
-                        <div class="detail-row">
-                            <strong><i class="fas fa-expand-arrows-alt"></i> Size:</strong> ${item.size || 'N/A'}
-                        </div>
-                        ${item.extraDescription ? `<div class="detail-row"><strong><i class="fas fa-align-left"></i> Description:</strong> ${item.extraDescription}</div>` : ''}
-                    </div>
-                    ` : ''}
-                    
-                    <div class="detail-section">
-                        <h4><i class="fas fa-cog"></i> System Information</h4>
-                        <div class="detail-row">
-                            <strong><i class="fas fa-truck"></i> Supplier ID:</strong> ${item.supplierId || 'N/A'}
-                        </div>
-                        <div class="detail-row">
-                            <strong><i class="fas fa-globe"></i> Scope:</strong> ${item.scope || 'N/A'}
-                        </div>
-                        <div class="detail-row">
-                            <strong><i class="fas fa-calendar-alt"></i> Created:</strong> ${item.created ? new Date(item.created).toLocaleDateString() : 'N/A'}
-                        </div>
-                    </div>
-                </div>
-                
-                ${item.images && item.images.length > 1 ? `
-                <div class="product-gallery">
-                    <h4><i class="fas fa-images"></i> Gallery</h4>
-                    <div class="gallery-images">
-                        ${item.images.slice(1).map(img => `<img src="${img}" alt="${item.name}" style="width: 80px; height: 80px; object-fit: cover; border-radius: 4px; margin: 4px;">`).join('')}
-                    </div>
-                </div>
-                ` : ''}
-            </div>
-        `;
-
-        // Create and show modal
-        const modal = document.createElement('div');
-        modal.className = 'modal-overlay open';
-        modal.setAttribute('aria-hidden', 'false');
-        modal.innerHTML = `
-            <div class="modal product-details-modal" role="document" style="max-width: 800px; max-height: 90vh; overflow-y: auto;">
-                <div class="modal-header">
-                    <h3><i class="fas fa-eye"></i> Product Details</h3>
-                    <button class="modal-close" onclick="this.closest('.modal-overlay').remove()">
-                        <i class="fas fa-times"></i>
-                    </button>
-                </div>
-                <div class="modal-content">
-                    ${details}
-                </div>
-                <div class="modal-actions">
-                    <button class="btn btn-secondary" onclick="this.closest('.modal-overlay').remove()">Close</button>
-                    <button class="btn btn-primary" onclick="
-                        this.closest('.modal-overlay').remove();
-                        // Trigger edit
-                        const editBtn = document.querySelector('[data-action=\"edit\"][data-entity=\"${entity}\"][data-id=\"${item.id}\"]');
-                        if (editBtn) editBtn.click();
-                    ">
-                        <i class="fas fa-edit"></i> Edit Product
-                    </button>
-                </div>
-            </div>
-        `;
-
-        document.body.appendChild(modal);
-
-        // Close on backdrop click
-        modal.addEventListener('click', (e) => {
-            if (e.target === modal) {
-                modal.remove();
-            }
-        });
-    }
 
     // Add product dropdown
     const addProductBtn = document.getElementById('addProductBtn');
@@ -577,7 +990,7 @@ document.addEventListener('DOMContentLoaded', function () {
             const map = { cake: KEYS.cakes, cakeAddon: KEYS.cakeAddons, flower: KEYS.flowers, flowerAddon: KEYS.flowerAddons, balloon: KEYS.balloons };
             const key = map[entity];
             const item = load(key).find(i => Number(i.id) === id);
-            showProductDetails(entity, item);
+            showProductDetails(item);
         }
     });
 
@@ -596,17 +1009,17 @@ document.addEventListener('DOMContentLoaded', function () {
         let data = {};
         if (editing.entity === 'cake') {
             const imgs = [val('primaryImage'), ...val('galleryImages').split(',').map(s => s.trim()).filter(Boolean)].filter(Boolean);
-            data = { id: editing.id || nextId(arr), name: val('name'), description: val('description'), basePrice: Number(val('basePrice') || 0), images: imgs, size: val('size'), layers: Number(val('layers') || 0), available: boolVal('available'), supplierId: val('supplierId'), scope: val('scope'), type: val('type') };
+            data = { id: editing.id || nextId(arr), name: val('name'), description: val('description'), basePrice: Number(val('basePrice') || 0), images: imgs, size: val('size'), layers: Number(val('layers') || 0), available: boolVal('available'), supplierId: val('supplierId'), scope: val('scope'), type: val('type'), addons: currentAddons.filter(addon => addon.type === 'cake') };
         } else if (editing.entity === 'cakeAddon') {
-            data = { id: editing.id || nextId(arr), cakeId: val('cakeId'), optionGroup: val('optionGroup'), optionName: val('optionName'), extraPrice: Number(val('extraPrice') || 0), image: val('image'), enabled: boolVal('enabled') };
+            data = { id: editing.id || nextId(arr), cakeId: val('cakeId'), optionTypeName: val('optionTypeName'), optionName: val('optionName'), additionalPrice: Number(val('additionalPrice') || 0), image: val('image'), active: boolVal('active') };
         } else if (editing.entity === 'flower') {
             const imgs = [val('primaryImage'), ...val('galleryImages').split(',').map(s => s.trim()).filter(Boolean)].filter(Boolean);
-            data = { id: editing.id || nextId(arr), name: val('name'), category: val('category'), size: val('size'), basePrice: Number(val('basePrice') || 0), images: imgs, available: boolVal('available'), supplierId: val('supplierId'), scope: val('scope') };
+            data = { id: editing.id || nextId(arr), name: val('name'), type: val('type'), size: val('size'), basePrice: Number(val('basePrice') || 0), images: imgs, available: boolVal('available'), supplierId: val('supplierId'), scope: val('scope'), addons: currentAddons.filter(addon => addon.type === 'flower') };
         } else if (editing.entity === 'flowerAddon') {
-            data = { id: editing.id || nextId(arr), flowerId: val('flowerId'), optionGroup: val('optionGroup'), optionName: val('optionName'), extraPrice: Number(val('extraPrice') || 0), image: val('image') };
+            data = { id: editing.id || nextId(arr), flowerId: val('flowerId'), optionTypeName: val('optionTypeName'), optionName: val('optionName'), additionalPrice: Number(val('additionalPrice') || 0), image: val('image') };
         } else if (editing.entity === 'balloon') {
             const imgs = [val('primaryImage'), ...val('galleryImages').split(',').map(s => s.trim()).filter(Boolean)].filter(Boolean);
-            data = { id: editing.id || nextId(arr), name: val('name'), balloonType: val('balloonType'), color: val('color'), size: val('size'), price: Number(val('price') || 0), images: imgs, available: boolVal('available'), extraDescription: val('extraDescription'), supplierId: val('supplierId') };
+            data = { id: editing.id || nextId(arr), name: val('name'), balloonType: val('balloonType'), color: val('color'), size: val('size'), price: Number(val('price') || 0), images: imgs, available: boolVal('available'), extraDescription: val('extraDescription'), supplierId: val('supplierId'), addons: currentAddons.filter(addon => addon.type === 'balloon') };
         }
 
         if (editing.id) {
@@ -630,49 +1043,52 @@ document.addEventListener('DOMContentLoaded', function () {
         if (!localStorage.getItem('admin_products_seeded')) {
             // Cakes
             save(KEYS.cakes, [
-                { id: 1, name: 'Chocolate Birthday Cake', description: 'Rich chocolate cake with vanilla cream frosting, perfect for birthdays', basePrice: 85, images: ['../../images/ceek1.jpg', '../../images/ceek2.jpg'], size: 'Medium', layers: 2, available: true, supplierId: 'SUP-1', scope: 'public', type: 'Birthday' },
-                { id: 2, name: 'Strawberry Delight', description: 'Fresh strawberry cake with cream cheese frosting', basePrice: 95, images: ['../../images/ceek3.jpg', '../../images/ceek4.jpg'], size: 'Large', layers: 3, available: true, supplierId: 'SUP-1', scope: 'public', type: 'Wedding' },
-                { id: 3, name: 'Red Velvet Classic', description: 'Traditional red velvet cake with cream cheese frosting', basePrice: 75, images: ['../../images/ceek5.jpg'], size: 'Small', layers: 2, available: false, supplierId: 'SUP-1', scope: 'public', type: 'Anniversary' },
-                { id: 4, name: 'Vanilla Dream', description: 'Light and fluffy vanilla cake with buttercream frosting', basePrice: 65, images: ['../../images/ceek6.jpg'], size: 'Medium', layers: 2, available: true, supplierId: 'SUP-2', scope: 'public', type: 'General' }
+               
+                { id: 2, name: 'Strawberry Dream Cake', description: 'Fresh strawberry cake with cream cheese frosting', basePrice: 95, images: ['../images/ceek3.jpg', '../images/ceek4.jpg'], size: 'Large', layers: 3, available: true, scope: 'public' },
+
+                { id: 5, name: 'Lemon Zest Cake', description: 'Tangy lemon cake with citrus glaze', basePrice: 70, images: ['../images/ceek1.jpg'], size: 'Medium', layers: 2, available: true, scope: 'private' },
+                { id: 6, name: 'Carrot Spice Cake', description: 'Moist carrot cake with cream cheese frosting', basePrice: 80, images: ['../images/ceek2.jpg'], size: 'Large', layers: 3, available: true, scope: 'public' }
             ]);
 
             // Cake Add-ons
             save(KEYS.cakeAddons, [
-                { id: 1, cakeId: 1, name: 'Chocolate Ganache Frosting', description: 'Rich and smooth chocolate ganache frosting for your cake', optionGroup: 'Frosting', optionName: 'Chocolate Ganache', extraPrice: 15, image: '../../images/ceek1.jpg', enabled: true },
-                { id: 2, cakeId: 1, name: 'Vanilla Buttercream Frosting', description: 'Classic vanilla buttercream frosting, light and creamy', optionGroup: 'Frosting', optionName: 'Vanilla Buttercream', extraPrice: 10, image: '../../images/ceek2.jpg', enabled: true },
-                { id: 3, cakeId: 2, name: 'Fresh Strawberry Topping', description: 'Fresh, sweet strawberries as a beautiful cake topping', optionGroup: 'Toppings', optionName: 'Fresh Strawberries', extraPrice: 20, image: '../../images/ceek3.jpg', enabled: true },
-                { id: 4, cakeId: 2, name: 'Edible Flower Decoration', description: 'Beautiful edible flowers to decorate your cake', optionGroup: 'Decoration', optionName: 'Edible Flowers', extraPrice: 25, image: '../../images/ceek4.jpg', enabled: true },
-                { id: 5, cakeId: 3, name: 'Cream Cheese Frosting', description: 'Traditional cream cheese frosting, perfect for red velvet', optionGroup: 'Frosting', optionName: 'Cream Cheese', extraPrice: 12, image: '../../images/ceek5.jpg', enabled: true },
-                { id: 6, cakeId: 4, name: 'Colorful Sprinkles', description: 'Fun and colorful sprinkles to make your cake festive', optionGroup: 'Decoration', optionName: 'Sprinkles', extraPrice: 8, image: '../../images/ceek6.jpg', enabled: true }
+                { id: 1, cakeId: 1, name: 'Chocolate Ganache Frosting', description: 'Rich and smooth chocolate ganache frosting for your cake', optionTypeName: 'Frosting', optionName: 'Chocolate Ganache', additionalPrice: 15, image: '../images/ceek1.jpg', active: true },
+                { id: 2, cakeId: 1, name: 'Vanilla Buttercream Frosting', description: 'Classic vanilla buttercream frosting, light and creamy', optionTypeName: 'Frosting', optionName: 'Vanilla Buttercream', additionalPrice: 10, image: '../images/ceek2.jpg', active: true },
+                { id: 3, cakeId: 2, name: 'Fresh Strawberry Topping', description: 'Fresh, sweet strawberries as a beautiful cake topping', optionTypeName: 'Toppings', optionName: 'Fresh Strawberries', additionalPrice: 20, image: '../images/ceek3.jpg', active: true },
+                { id: 4, cakeId: 2, name: 'Edible Flower Decoration', description: 'Beautiful edible flowers to decorate your cake', optionTypeName: 'Decoration', optionName: 'Edible Flowers', additionalPrice: 25, image: '../images/ceek4.jpg', active: true },
+                { id: 5, cakeId: 3, name: 'Cream Cheese Frosting', description: 'Traditional cream cheese frosting, perfect for red velvet', optionTypeName: 'Frosting', optionName: 'Cream Cheese', additionalPrice: 12, image: '../images/ceek5.jpg', active: true },
+                { id: 6, cakeId: 4, name: 'Colorful Sprinkles', description: 'Fun and colorful sprinkles to make your cake festive', optionTypeName: 'Decoration', optionName: 'Sprinkles', additionalPrice: 8, image: '../images/ceek6.jpg', active: true }
             ]);
 
             // Flowers
             save(KEYS.flowers, [
-                { id: 1, name: 'Red Rose Bouquet', description: 'Classic red roses arranged in a beautiful bouquet, perfect for romantic occasions', category: 'Rose', size: 'Large', basePrice: 120, images: ['../../images/rose.jpg', '../../images/rose2.jpg'], available: true, supplierId: 'SUP-2', scope: 'public' },
-                { id: 2, name: 'Mixed Spring Bouquet', description: 'Fresh spring flowers in a colorful mixed arrangement, bringing joy and freshness', category: 'Mixed', size: 'Medium', basePrice: 85, images: ['../../images/flower1.jpg', '../../images/flower2.jpg'], available: true, supplierId: 'SUP-2', scope: 'public' },
-                { id: 3, name: 'White Lily Arrangement', description: 'Elegant white lilies in a sophisticated arrangement, perfect for special occasions', category: 'Lily', size: 'Large', basePrice: 95, images: ['../../images/ceek1.jpg'], available: true, supplierId: 'SUP-3', scope: 'public' },
-                { id: 4, name: 'Sunflower Bouquet', description: 'Bright and cheerful sunflowers that bring sunshine to any room', category: 'Sunflower', size: 'Medium', basePrice: 75, images: ['../../images/ceek2.jpg'], available: false, supplierId: 'SUP-2', scope: 'public' },
-                { id: 5, name: 'Tulip Collection', description: 'Beautiful tulips in various colors, a perfect spring gift', category: 'Tulip', size: 'Small', basePrice: 65, images: ['../../images/ceek3.jpg'], available: true, supplierId: 'SUP-3', scope: 'public' }
+                { id: 1, name: 'Red Rose Bouquet', description: 'Classic red roses arranged in a beautiful bouquet, perfect for romantic occasions', type: 'Rose', size: 'Large', basePrice: 120, images: ['../../images/rose.jpg', '../../images/rose2.jpg'], available: true, scope: 'public' },
+                { id: 2, name: 'Mixed Spring Bouquet', description: 'Fresh spring flowers in a colorful mixed arrangement, bringing joy and freshness', type: 'Mixed', size: 'Medium', basePrice: 85, images: ['../../images/flower1.jpg', '../../images/flower2.jpg'], available: true, scope: 'public' },
+                { id: 3, name: 'White Lily Arrangement', description: 'Elegant white lilies in a sophisticated arrangement, perfect for special occasions', type: 'Lily', size: 'Large', basePrice: 95, images: ['../../images/ceek1.jpg'], available: true, scope: 'public' },
+                { id: 4, name: 'Sunflower Bouquet', description: 'Bright and cheerful sunflowers that bring sunshine to any room', type: 'Sunflower', size: 'Medium', basePrice: 75, images: ['../../images/ceek2.jpg'], available: false, scope: 'public' },
+                { id: 5, name: 'Tulip Collection', description: 'Beautiful tulips in various colors, a perfect spring gift', type: 'Tulip', size: 'Small', basePrice: 65, images: ['../../images/ceek3.jpg'], available: true, scope: 'public' },
+                { id: 6, name: 'Orchid Elegance', description: 'Exotic orchids in a stunning arrangement for special occasions', type: 'Orchid', size: 'Medium', basePrice: 110, images: ['../../images/ceek4.jpg'], available: true, scope: 'private' }
             ]);
 
             // Flower Add-ons
             save(KEYS.flowerAddons, [
-                { id: 1, flowerId: 1, name: 'Silk Ribbon Wrap', description: 'Elegant silk ribbon to beautifully wrap your flower bouquet', optionGroup: 'Wrap', optionName: 'Silk Ribbon', extraPrice: 15, image: '../../images/rose.jpg' },
-                { id: 2, flowerId: 1, name: 'Lace Wrap', description: 'Delicate lace wrap for a romantic and elegant presentation', optionGroup: 'Wrap', optionName: 'Lace Wrap', extraPrice: 20, image: '../../images/rose2.jpg' },
-                { id: 3, flowerId: 2, name: 'Glass Vase', description: 'Crystal clear glass vase to display your beautiful flowers', optionGroup: 'Vase', optionName: 'Glass Vase', extraPrice: 25, image: '../../images/flower1.jpg' },
-                { id: 4, flowerId: 2, name: 'Ceramic Vase', description: 'Handcrafted ceramic vase for a unique and artistic touch', optionGroup: 'Vase', optionName: 'Ceramic Vase', extraPrice: 30, image: '../../images/flower2.jpg' },
-                { id: 5, flowerId: 3, name: 'Greeting Card', description: 'Personalized greeting card to accompany your flower delivery', optionGroup: 'Card', optionName: 'Greeting Card', extraPrice: 5, image: '../../images/ceek1.jpg' },
-                { id: 6, flowerId: 4, name: 'Same Day Delivery', description: 'Express same-day delivery service for urgent flower orders', optionGroup: 'Delivery', optionName: 'Same Day Delivery', extraPrice: 35, image: '../../images/ceek2.jpg' }
+                { id: 1, flowerId: 1, name: 'Silk Ribbon Wrap', description: 'Elegant silk ribbon to beautifully wrap your flower bouquet', optionTypeName: 'Wrap', optionName: 'Silk Ribbon', additionalPrice: 15, image: '../images/rose.jpg' },
+                { id: 2, flowerId: 1, name: 'Lace Wrap', description: 'Delicate lace wrap for a romantic and elegant presentation', optionTypeName: 'Wrap', optionName: 'Lace Wrap', additionalPrice: 20, image: '../images/rose2.jpg' },
+                { id: 3, flowerId: 2, name: 'Glass Vase', description: 'Crystal clear glass vase to display your beautiful flowers', optionTypeName: 'Vase', optionName: 'Glass Vase', additionalPrice: 25, image: '../images/flower1.jpg' },
+                { id: 4, flowerId: 2, name: 'Ceramic Vase', description: 'Handcrafted ceramic vase for a unique and artistic touch', optionTypeName: 'Vase', optionName: 'Ceramic Vase', additionalPrice: 30, image: '../images/flower2.jpg' },
+                { id: 5, flowerId: 3, name: 'Greeting Card', description: 'Personalized greeting card to accompany your flower delivery', optionTypeName: 'Card', optionName: 'Greeting Card', additionalPrice: 5, image: '../images/ceek1.jpg' },
+                { id: 6, flowerId: 4, name: 'Same Day Delivery', description: 'Express same-day delivery service for urgent flower orders', optionTypeName: 'Delivery', optionName: 'Same Day Delivery', additionalPrice: 35, image: '../images/ceek2.jpg' }
             ]);
 
             // Balloons
             save(KEYS.balloons, [
-                { id: 1, name: 'Happy Birthday Balloon Set', description: 'Colorful birthday balloons with helium, perfect for celebrating special moments', balloonType: 'Latex', color: 'Multi', size: 'L', price: 25, images: ['../../images/ballon.jpg'], available: true, extraDescription: 'Colorful birthday balloons with helium', supplierId: 'SUP-3' },
-                { id: 2, name: 'Heart Shaped Balloon', description: 'Romantic heart-shaped balloon, perfect for anniversaries and Valentine\'s Day', balloonType: 'Foil', color: 'Red', size: 'M', price: 18, images: ['../../images/ceek4.jpg'], available: true, extraDescription: 'Perfect for anniversaries and Valentine\'s Day', supplierId: 'SUP-3' },
-                { id: 3, name: 'Number Balloon 1', description: 'Large gold number balloon, perfect for milestone birthdays and celebrations', balloonType: 'Foil', color: 'Gold', size: 'XL', price: 22, images: ['../../images/ceek5.jpg'], available: true, extraDescription: 'Large gold number balloon', supplierId: 'SUP-4' },
-                { id: 4, name: 'Confetti Balloon', description: 'Clear balloon filled with colorful confetti for a festive surprise', balloonType: 'Latex', color: 'Clear', size: 'L', price: 20, images: ['../../images/ceek6.jpg'], available: true, extraDescription: 'Clear balloon filled with confetti', supplierId: 'SUP-3' },
-                { id: 5, name: 'Star Balloon', description: 'Shiny silver star balloon that adds sparkle to any celebration', balloonType: 'Foil', color: 'Silver', size: 'M', price: 15, images: ['../../images/ceek1.jpg'], available: false, extraDescription: 'Shiny silver star balloon', supplierId: 'SUP-4' },
-                { id: 6, name: 'Animal Balloon Set', description: 'Adorable set of animal-shaped balloons that kids will love', balloonType: 'Latex', color: 'Multi', size: 'S', price: 30, images: ['../../images/ceek2.jpg'], available: true, extraDescription: 'Set of animal-shaped balloons for kids', supplierId: 'SUP-3' }
+                { id: 1, name: 'Happy Birthday Balloon Set', description: 'Colorful birthday balloons with helium, perfect for celebrating special moments', balloonType: 'Latex', color: 'Multi', size: 'L', price: 25, images: ['../../images/ballon.jpg'], available: true, extraDescription: 'Colorful birthday balloons with helium' },
+                { id: 2, name: 'Heart Shaped Balloon', description: 'Romantic heart-shaped balloon, perfect for anniversaries and Valentine\'s Day', balloonType: 'Foil', color: 'Red', size: 'M', price: 18, images: ['../../images/ceek4.jpg'], available: true, extraDescription: 'Perfect for anniversaries and Valentine\'s Day' },
+                { id: 3, name: 'Number Balloon 1', description: 'Large gold number balloon, perfect for milestone birthdays and celebrations', balloonType: 'Foil', color: 'Gold', size: 'XL', price: 22, images: ['../../images/ceek5.jpg'], available: true, extraDescription: 'Large gold number balloon' },
+                { id: 4, name: 'Confetti Balloon', description: 'Clear balloon filled with colorful confetti for a festive surprise', balloonType: 'Latex', color: 'Clear', size: 'L', price: 20, images: ['../../images/ceek6.jpg'], available: true, extraDescription: 'Clear balloon filled with confetti' },
+                { id: 5, name: 'Star Balloon', description: 'Shiny silver star balloon that adds sparkle to any celebration', balloonType: 'Foil', color: 'Silver', size: 'M', price: 15, images: ['../../images/ceek1.jpg'], available: false, extraDescription: 'Shiny silver star balloon' },
+                { id: 6, name: 'Animal Balloon Set', description: 'Adorable set of animal-shaped balloons that kids will love', balloonType: 'Latex', color: 'Multi', size: 'S', price: 30, images: ['../../images/ceek2.jpg'], available: true, extraDescription: 'Set of animal-shaped balloons for kids' },
+                { id: 7, name: 'Rainbow Balloon Bouquet', description: 'Beautiful rainbow-colored balloon bouquet for any celebration', balloonType: 'Latex', color: 'Rainbow', size: 'L', price: 35, images: ['../../images/ceek3.jpg'], available: true, extraDescription: 'Rainbow balloon bouquet for celebrations' }
             ]);
 
             localStorage.setItem('admin_products_seeded', '1');
@@ -719,16 +1135,207 @@ document.addEventListener('DOMContentLoaded', function () {
         showToast('Data Reset', 'Product data has been reset and reseeded with new sample products!', 'success');
     }
 
-    // Add reset button functionality (for development)
-    const resetBtn = document.createElement('button');
-    resetBtn.textContent = 'Reset Data';
-    resetBtn.className = 'btn btn-warning btn-sm';
-    resetBtn.style.position = 'fixed';
-    resetBtn.style.bottom = '20px';
-    resetBtn.style.right = '20px';
-    resetBtn.style.zIndex = '1000';
-    resetBtn.addEventListener('click', resetAndReseed);
-    document.body.appendChild(resetBtn);
+    // Regenerate Products Button
+    const regenerateBtn = document.getElementById('regenerateProductsBtn');
+    if (regenerateBtn) {
+        regenerateBtn.addEventListener('click', () => {
+            if (confirm('Are you sure you want to regenerate all products? This will replace all existing data with fresh sample products.')) {
+                resetAndReseed();
+            }
+        });
+    }
+
+    // Addon Management Functions
+    let currentAddons = [];
+
+    function addAddon(type) {
+        // Get form inputs based on type
+        const nameInput = document.getElementById(type === 'cake' ? 'addon-name' : `${type}-addon-name`);
+        const descriptionInput = document.getElementById(type === 'cake' ? 'addon-description' : `${type}-addon-description`);
+        const priceInput = document.getElementById(type === 'cake' ? 'addon-price' : `${type}-addon-price`);
+        
+        const name = nameInput.value.trim();
+        const description = descriptionInput.value.trim();
+        const price = parseFloat(priceInput.value) || 0;
+        
+        if (!name) {
+            showToast('Error', 'Please enter an add-on name', 'error');
+            return;
+        }
+        
+        const addonData = {
+            id: Date.now(),
+            name: name,
+            description: description,
+            price: price,
+            type: type
+        };
+        
+        currentAddons.push(addonData);
+        renderAddons(type);
+        
+        // Clear form inputs
+        nameInput.value = '';
+        descriptionInput.value = '';
+        priceInput.value = '';
+        
+        showToast('Success', 'Add-on added successfully', 'success');
+    }
+
+    function removeAddon(type, addonId) {
+        currentAddons = currentAddons.filter(addon => addon.id !== addonId);
+        renderAddons(type);
+    }
+
+    function updateAddon(type, addonId, field, value) {
+        const addon = currentAddons.find(addon => addon.id === addonId);
+        if (addon) {
+            addon[field] = value;
+        }
+    }
+
+    function renderAddons(type) {
+        const addonsList = document.getElementById(`${type}AddonsList`);
+        if (!addonsList) return;
+
+        addonsList.innerHTML = '';
+        
+        const typeAddons = currentAddons.filter(addon => addon.type === type);
+        
+        typeAddons.forEach(addon => {
+            const addonItem = document.createElement('div');
+            addonItem.className = 'addon-item';
+            addonItem.setAttribute('data-addon-id', addon.id);
+            addonItem.innerHTML = `
+                <div class="addon-details">
+                    <h4>${addon.name || 'New Add-on'}</h4>
+                    <p>${addon.description || 'No description'}</p>
+                    <p><strong>Price:</strong> $${addon.price}</p>
+                </div>
+                <div class="addon-actions">
+                    <button type="button" class="btn btn-sm btn-outline" onclick="editAddon('${type}', ${addon.id})">
+                        <i class="fas fa-edit"></i>
+                    </button>
+                    <button type="button" class="btn btn-sm btn-danger" onclick="removeAddon('${type}', ${addon.id})">
+                        <i class="fas fa-trash"></i>
+                    </button>
+                </div>
+            `;
+            addonsList.appendChild(addonItem);
+        });
+    }
+
+    function editAddon(type, addonId) {
+        const addon = currentAddons.find(addon => addon.id === addonId);
+        if (!addon) return;
+
+        // Create inline edit form
+        const addonItem = document.querySelector(`[data-addon-id="${addonId}"]`);
+        if (!addonItem) return;
+
+        const editForm = document.createElement('div');
+        editForm.className = 'addon-edit-form';
+        editForm.innerHTML = `
+            <div class="edit-form-container">
+                <div class="edit-input-group">
+                    <div class="form-field">
+                        <label>Name</label>
+                        <input type="text" value="${addon.name}" class="edit-name">
+                    </div>
+                    <div class="form-field">
+                        <label>Description</label>
+                        <input type="text" value="${addon.description}" class="edit-description">
+                    </div>
+                    <div class="form-field">
+                        <label>Price</label>
+                        <input type="number" step="0.01" value="${addon.price}" class="edit-price">
+                    </div>
+                    <div class="form-field">
+                        <button type="button" class="btn btn-success btn-sm" onclick="saveAddonEdit('${type}', ${addonId})">
+                            <i class="fas fa-save"></i> Save
+                        </button>
+                        <button type="button" class="btn btn-secondary btn-sm" onclick="cancelAddonEdit('${type}', ${addonId})">
+                            <i class="fas fa-times"></i> Cancel
+                        </button>
+                    </div>
+                </div>
+            </div>
+        `;
+
+        // Replace addon item with edit form
+        addonItem.style.display = 'none';
+        addonItem.parentNode.insertBefore(editForm, addonItem.nextSibling);
+    }
+
+    function saveAddonEdit(type, addonId) {
+        const addon = currentAddons.find(addon => addon.id === addonId);
+        if (!addon) return;
+
+        const editForm = document.querySelector(`[data-addon-id="${addonId}"]`).nextElementSibling;
+        const nameInput = editForm.querySelector('.edit-name');
+        const descriptionInput = editForm.querySelector('.edit-description');
+        const priceInput = editForm.querySelector('.edit-price');
+
+        const name = nameInput.value.trim();
+        const description = descriptionInput.value.trim();
+        const price = parseFloat(priceInput.value) || 0;
+
+        if (!name) {
+            showToast('Error', 'Please enter an add-on name', 'error');
+            return;
+        }
+
+        addon.name = name;
+        addon.description = description;
+        addon.price = price;
+
+        renderAddons(type);
+        showToast('Success', 'Add-on updated successfully', 'success');
+    }
+
+    function cancelAddonEdit(type, addonId) {
+        const addonItem = document.querySelector(`[data-addon-id="${addonId}"]`);
+        const editForm = addonItem.nextElementSibling;
+        
+        addonItem.style.display = 'block';
+        editForm.remove();
+    }
+
+    // Add event listeners for addon buttons
+    document.getElementById('addCakeAddon')?.addEventListener('click', () => addAddon('cake'));
+    document.getElementById('addFlowerAddon')?.addEventListener('click', () => addAddon('flower'));
+    document.getElementById('addBalloonAddon')?.addEventListener('click', () => addAddon('balloon'));
+
+    // Make functions globally available
+    window.addAddon = addAddon;
+    window.removeAddon = removeAddon;
+    window.editAddon = editAddon;
+    window.saveAddonEdit = saveAddonEdit;
+    window.cancelAddonEdit = cancelAddonEdit;
+
+    // Clear addons when opening a new form
+    function clearAddons() {
+        currentAddons = [];
+        renderAddons('cake');
+        renderAddons('flower');
+        renderAddons('balloon');
+    }
+
+    // Update the openProductForm function to clear addons
+    const originalOpenProductForm = window.openProductForm;
+    window.openProductForm = function(entity, item) {
+        clearAddons();
+        
+        // Load existing addons if editing
+        if (item && item.addons && item.addons.length > 0) {
+            currentAddons = [...item.addons];
+            renderAddons(entity);
+        }
+        
+        if (originalOpenProductForm) {
+            originalOpenProductForm(entity, item);
+        }
+    };
 
     // Enhanced functionality for new header features
     const clearSearch = document.getElementById('clearSearch');
