@@ -24,11 +24,12 @@
                 </li>
                 <li class="active"><a href="financials.html"><i class="fas fa-chart-line"></i> <span>Commission</span></a></li>
                 <li><a href="ads.html"><i class="fas fa-ad"></i> <span>Ads Management</span></a></li>
-                <li><a href="themes.html"><i class="fas fa-palette"></i> <span>Themes Management</span></a></li>
+                
                 <li><a href="sales.html"><i class="fas fa-shopping-cart"></i> <span>Sales Statistics</span></a></li>
                 <li><a href="feedback.html"><i class="fas fa-star"></i> <span>Feedback Management</span></a></li>
                 <li><a href="inquiries.html"><i class="fas fa-question-circle"></i> <span>Inquiries</span></a></li>
-                <li><a href="products.html"><i class="fas fa-box"></i> <span>Product Management</span></a></li>
+                <li ><a href="products.html"><i class="fas fa-box"></i> <span>Product
+                            Management</span></a></li>
                 <li><a href="orders.html"><i class="fas fa-clipboard-list"></i> <span>Order Management</span></a></li>
                 <li><a href="support.html"><i class="fas fa-headset"></i> <span>Support & Contact</span></a></li>
                 <li><a href="profile.html"><i class="fas fa-user"></i> <span>Profile</span></a></li>
@@ -41,45 +42,95 @@
         <div class="header">
             <h1>Commission</h1>
             <div class="user-info">
-                <img src="../../images/avater.jpg" alt="Admin User">
+                <img src="../../images/avater6.jpg" alt="Admin User">
                 <span>Admin User</span>
                 <button class="signout-btn" id="openSignOut"><i class="fas fa-sign-out-alt"></i> Sign Out</button>
             </div>
         </div>
 
-        <!-- Commission Records Management -->
-        <div class="card">
-            <div class="card-header" style="display:flex;align-items:center;justify-content:space-between;gap:12px;">
-                <div>
-                    <h3>Commission Records</h3>
-                    <span class="muted" id="cmCount">0 items</span>
+        <div class="commission-cards-grid">
+            <div class="commission-card">
+                <div class="card-header">
+                    <h3><i class="fas fa-percentage"></i> Current Commission</h3>
+                    <span class="muted">Active commission rate</span>
                 </div>
-                <button class="btn btn-primary" id="addCommissionBtn"><i class="fas fa-plus"></i> Add</button>
+                <div class="commission-content">
+                    <div class="commission-value" id="currentCommission">15.5%</div>
+                    <div class="commission-details">
+                        <div class="detail-item">
+                            <span class="label">Commission Number:</span>
+                            <span class="value" id="commissionNumber">COM-2025-001</span>
+                        </div>
+                        <div class="detail-item">
+                            <span class="label">Last Updated:</span>
+                            <span class="value" id="lastUpdated">2025-01-15</span>
+                        </div>
+                        <div class="detail-item">
+                            <span class="label">Effective Since:</span>
+                            <span class="value" id="effectiveSince">2025-12-01</span>
+                        </div>
+                    </div>
+                </div>
             </div>
-            <div class="table-responsive">
-                <table class="fb-table" id="commissionTable">
-                    <thead>
-                        <tr>
-                            <th>Commission ID</th>
-                            <th>Price</th>
-                            <th>Last Updated Date</th>
-                            <th>Actions</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr data-commission-id="COM-2025-001" data-price="15.5%" data-date="2025-01-15">
-                            <td class="cm-id">COM-2025-001</td>
-                            <td class="cm-price">15.5%</td>
-                            <td class="cm-date">2025-01-15</td>
-                            <td>
-                                <div class="row-actions">
-                                    <button class="icon-btn view" data-action="view" title="View"><i class="fas fa-eye"></i></button>
-                                    <button class="icon-btn danger" data-action="delete" title="Delete"><i class="fas fa-trash"></i></button>
-                                </div>
-                            </td>
-                        </tr>
-                    </tbody>
-                </table>
+
+            <div class="commission-card">
+                <div class="card-header">
+                    <h3><i class="fas fa-chart-line"></i> Commission History</h3>
+                    <span class="muted">Recent commission changes</span>
+                </div>
+                <div class="commission-content">
+                    <div class="history-list" id="commissionHistory">
+                        <div class="history-item">
+                            <div class="history-rate">15.5%</div>
+                            <div class="history-details">
+                                <div class="history-date">2025-01-15</div>
+                                <div class="history-number">COM-2025-001</div>
+                            </div>
+                        </div>
+                        <div class="history-item">
+                            <div class="history-rate">12.0%</div>
+                            <div class="history-details">
+                                <div class="history-date">2025-12-01</div>
+                                <div class="history-number">COM-2025-012</div>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Commission Settings Card -->
+        <div class="card">
+            <div class="card-header">
+                <h3><i class="fas fa-cog"></i> Commission Settings</h3>
+                <span class="muted">Set the platform commission percentage applied to all orders</span>
+            </div>
+            <div style="padding:16px;">
+                <form id="commissionForm">
+                    <div class="form-grid" style="grid-template-columns:1fr 1fr;">
+                        <div class="form-field">
+                            <label for="commission">Commission Percentage</label>
+                            <div class="input-wrap" style="display:flex;align-items:center;gap:8px;">
+                                <input type="number" id="commission" min="0" max="100" step="0.1" placeholder="10.0"
+                                    required>
+                                <span style="font-weight:700;">%</span>
+                            </div>
+                            <div class="muted" style="font-size:.85rem;">This percentage will be applied to the subtotal
+                                of each order.</div>
+                        </div>
+                        <div class="form-field">
+                            <label for="effectiveFrom">Effective From</label>
+                            <input type="date" id="effectiveFrom">
+                            <div class="muted" style="font-size:.85rem;">Optional: date from which the commission
+                                applies.</div>
+                        </div>
+                    </div>
+                    <div class="modal-actions">
+                        <button type="button" class="btn btn-secondary" id="resetCommission">Reset</button>
+                        <button type="submit" class="btn btn-primary" id="saveCommission">Save</button>
+                    </div>
+                </form>
             </div>
         </div>
     </div>

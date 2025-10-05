@@ -64,6 +64,10 @@ document.addEventListener('DOMContentLoaded', function () {
 
     // Product Details Modal Functions
     function showProductDetails(product) {
+        if (!product) {
+            showToast('Not found', 'Product not found.', 'error');
+            return;
+        }
         const productType = product.productType || 'product';
         
         // Helper function to get product image
@@ -736,7 +740,8 @@ document.addEventListener('DOMContentLoaded', function () {
         flowers: 'admin_products_flowers',
         flowerAddons: 'admin_products_flower_addons',
         balloons: 'admin_products_balloons',
-        parties: 'admin_products_parties'
+        parties: 'admin_products_parties',
+        themes: 'admin_products_themes'
     };
 
     // Enhanced State Management
@@ -770,7 +775,8 @@ document.addEventListener('DOMContentLoaded', function () {
             [KEYS.flowers]: 'flower',
             [KEYS.flowerAddons]: 'flowerAddon',
             [KEYS.balloons]: 'balloon',
-            [KEYS.parties]: 'party'
+            [KEYS.parties]: 'party',
+            [KEYS.themes]: 'theme'
         };
 
         Object.values(KEYS).forEach(storageKey => {
@@ -911,7 +917,8 @@ document.addEventListener('DOMContentLoaded', function () {
             cake: allItems.filter(item => item.productType === 'cake').length,
             flower: allItems.filter(item => item.productType === 'flower').length,
             balloon: allItems.filter(item => item.productType === 'balloon').length,
-            party: allItems.filter(item => item.productType === 'party').length
+            party: allItems.filter(item => item.productType === 'party').length,
+            theme: allItems.filter(item => item.productType === 'theme').length
         };
 
         Object.keys(typeCounts).forEach(type => {
@@ -1123,23 +1130,27 @@ document.addEventListener('DOMContentLoaded', function () {
         if (!entity || !id) return;
 
         if (action === 'delete') {
-            const map = { cake: KEYS.cakes, cakeAddon: KEYS.cakeAddons, flower: KEYS.flowers, flowerAddon: KEYS.flowerAddons, balloon: KEYS.balloons, party: KEYS.parties };
+            const map = { cake: KEYS.cakes, cakeAddon: KEYS.cakeAddons, flower: KEYS.flowers, flowerAddon: KEYS.flowerAddons, balloon: KEYS.balloons, party: KEYS.parties, theme: KEYS.themes };
             const key = map[entity];
             const arr = load(key).filter(i => Number(i.id) !== id);
             save(key, arr);
             showToast('Deleted', `${entity} #${id} removed`, 'success');
             refreshAll();
         } else if (action === 'edit') {
-            const map = { cake: KEYS.cakes, cakeAddon: KEYS.cakeAddons, flower: KEYS.flowers, flowerAddon: KEYS.flowerAddons, balloon: KEYS.balloons, party: KEYS.parties };
+            const map = { cake: KEYS.cakes, cakeAddon: KEYS.cakeAddons, flower: KEYS.flowers, flowerAddon: KEYS.flowerAddons, balloon: KEYS.balloons, party: KEYS.parties, theme: KEYS.themes };
             const key = map[entity];
             const item = load(key).find(i => Number(i.id) === id);
             openProductForm(entity, item);
         } else if (action === 'view') {
-            const map = { cake: KEYS.cakes, cakeAddon: KEYS.cakeAddons, flower: KEYS.flowers, flowerAddon: KEYS.flowerAddons, balloon: KEYS.balloons, party: KEYS.parties };
+            const map = { cake: KEYS.cakes, cakeAddon: KEYS.cakeAddons, flower: KEYS.flowers, flowerAddon: KEYS.flowerAddons, balloon: KEYS.balloons, party: KEYS.parties, theme: KEYS.themes };
             const key = map[entity];
             const item = load(key).find(i => Number(i.id) === id);
-            if (item) item.productType = entity; // ensure productType is present for static modal routing
-            showProductDetails(item);
+            if (item) {
+                item.productType = entity; // ensure productType is present for static modal routing
+                showProductDetails(item);
+            } else {
+                showToast('Not found', `${entity} #${id} was not found`, 'error');
+            }
         }
     });
 
@@ -1153,6 +1164,23 @@ document.addEventListener('DOMContentLoaded', function () {
 
         const form = getFormByEntity(editing.entity);
         function val(name) { const el = form?.querySelector(`[name="${name}"]`); return el ? el.value : ''; }
+        function valMulti(name) {
+            // checkbox groups use name like fillings[]
+            const checkboxes = form?.querySelectorAll(`input[name="${name}[]"]`);
+            if (checkboxes && checkboxes.length) {
+                const vals = Array.from(checkboxes).filter(cb => cb.checked).map(cb => cb.value);
+                if (vals.includes('nothing')) return '';
+                return vals.join(', ');
+            }
+            // fallback to multi-selects if any remain
+            const el = form?.querySelector(`[name="${name}"]`);
+            if (el && el.multiple) {
+                const values = Array.from(el.selectedOptions).map(o => o.value).filter(Boolean);
+                if (values.includes('nothing')) return '';
+                return values.join(', ');
+            }
+            return el ? el.value : '';
+        }
         function boolVal(name) { return val(name) === 'true'; }
 
         let data = {};
@@ -1172,13 +1200,13 @@ document.addEventListener('DOMContentLoaded', function () {
                 type: val('cakeType'),
                 // addons/customization
                 mainFlavor: val('mainFlavor'),
-                fillings: val('fillings'),
+                fillings: valMulti('fillings'),
                 frosting: val('frosting'),
                 shape: val('shape'),
                 sizeDiameter: val('sizeDiameter'),
                 layersAlt: val('layersAlt'),
                 baseColors: val('baseColors'),
-                decorations: val('decorations'),
+                decorations: valMulti('decorations'),
                 writingText: val('writingText'),
                 writingColor: val('writingColor'),
                 candles: val('candles'),
@@ -1202,12 +1230,12 @@ document.addEventListener('DOMContentLoaded', function () {
                 // new flower fields
                 flowerColor: val('flowerColor'),
                 stemCount: val('stemCount'),
-                fillersGreens: val('fillersGreens'),
+                fillersGreens: valMulti('fillersGreens'),
                 packaging: val('packaging'),
                 ribbonColor: val('ribbonColor'),
                 greetingCard: val('greetingCard'),
                 greetingText: val('greetingText'),
-                accessories: val('accessories'),
+                accessories: valMulti('accessories'),
                 arrangementStyle: val('arrangementStyle'),
                 addons: currentAddons.filter(addon => addon.type === 'flower')
             };

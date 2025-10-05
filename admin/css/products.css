@@ -1328,6 +1328,118 @@ tbody td:first-child {
 }
 
 
+/* Enhanced multi-select styling for product forms */
+.product-form select[multiple] {
+    min-height: 140px;
+    padding: 10px 12px;
+    border: 2px solid #e9ecef;
+    border-radius: 12px;
+    background: #fff;
+    color: #2c3e50;
+    font-size: 0.95rem;
+    outline: none;
+    transition: box-shadow 0.2s ease, border-color 0.2s ease;
+}
+
+.product-form select[multiple]:focus {
+    border-color: #667eea;
+    box-shadow: 0 0 0 4px rgba(102, 126, 234, 0.12);
+}
+
+/* Options */
+.product-form select[multiple] option {
+    padding: 8px 10px;
+    border-radius: 8px;
+    margin: 4px 0;
+}
+
+.product-form select[multiple] option:hover {
+    background: #f1f4ff;
+}
+
+.product-form select[multiple] option:checked {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    color: #fff;
+}
+
+/* Scrollbar for multi-select */
+.product-form select[multiple]::-webkit-scrollbar {
+    width: 10px;
+}
+.product-form select[multiple]::-webkit-scrollbar-track {
+    background: #f1f3f5;
+    border-radius: 10px;
+}
+.product-form select[multiple]::-webkit-scrollbar-thumb {
+    background: #cfd3d8;
+    border-radius: 10px;
+    border: 2px solid #f1f3f5;
+}
+.product-form select[multiple]::-webkit-scrollbar-thumb:hover {
+    background: #b8bdc4;
+}
+
+/* Helper text under multi-selects */
+.product-form .form-field .select-hint {
+    display: block;
+    margin-top: 6px;
+    font-size: 12px;
+    color: #6c757d;
+}
+
+/* Checkbox group styling (multi-select alternative) */
+.checkbox-group {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+    gap: 10px 14px;
+    padding: 12px;
+    border: 1px dashed #e9ecef;
+    border-radius: 12px;
+    background: #fff;
+    max-height: 55px;
+    overflow: auto;
+}
+
+.checkbox-group label {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    background: #f8f9fb;
+    padding: 8px 10px;
+    border-radius: 10px;
+    border: 1px solid transparent;
+    cursor: pointer;
+    transition: var(--transition);
+}
+
+.checkbox-group label:hover {
+    border-color: #dfe3ea;
+    background: #f1f4ff;
+}
+
+.checkbox-group input[type="checkbox"] {
+    width: 16px;
+    height: 16px;
+    accent-color: #667eea;
+}
+
+/* Scrollbar for checkbox-group */
+.checkbox-group::-webkit-scrollbar {
+    width: 10px;
+}
+.checkbox-group::-webkit-scrollbar-track {
+    background: #f1f3f5;
+    border-radius: 10px;
+}
+.checkbox-group::-webkit-scrollbar-thumb {
+    background: #cfd3d8;
+    border-radius: 10px;
+    border: 2px solid #f1f3f5;
+}
+.checkbox-group::-webkit-scrollbar-thumb:hover {
+    background: #b8bdc4;
+}
+
 .status-badge {
     padding: 4px 8px;
     border-radius: 12px;
