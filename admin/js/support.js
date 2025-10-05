@@ -51,6 +51,79 @@ document.addEventListener('DOMContentLoaded', function () {
     });
 
     loadData();
+
+    // Contact table interactions
+    const contactTable = document.getElementById('contactTable');
+    const msgCount = document.getElementById('msgCount');
+    const viewModal = document.getElementById('viewMsgModal');
+    const closeViewMsg = document.getElementById('closeViewMsg');
+    const closeViewMsgBottom = document.getElementById('closeViewMsgBottom');
+    const vm = {
+        id: document.getElementById('vm_message_id'),
+        name: document.getElementById('vm_name'),
+        email: document.getElementById('vm_email'),
+        phone: document.getElementById('vm_phone'),
+        subject: document.getElementById('vm_subject'),
+        text: document.getElementById('vm_text'),
+        date: document.getElementById('vm_date'),
+        status: document.getElementById('vm_status')
+    };
+
+    function openViewModal() { if (viewModal) { viewModal.classList.add('open'); viewModal.setAttribute('aria-hidden','false'); } }
+    function closeViewModal() { if (viewModal) { viewModal.classList.remove('open'); viewModal.setAttribute('aria-hidden','true'); } }
+
+    function getRowData(tr){
+        return {
+            id: tr.getAttribute('data-message-id') || tr.querySelector('.msg-id')?.textContent?.trim() || '',
+            name: tr.getAttribute('data-name') || tr.querySelector('.msg-name')?.textContent?.trim() || '',
+            email: tr.getAttribute('data-email') || tr.querySelector('.msg-email')?.textContent?.trim() || '',
+            phone: tr.getAttribute('data-phone') || tr.querySelector('.msg-phone')?.textContent?.trim() || '',
+            subject: tr.getAttribute('data-subject') || tr.querySelector('.msg-subject')?.textContent?.trim() || '',
+            text: tr.getAttribute('data-text') || tr.querySelector('.msg-text')?.textContent?.trim() || '',
+            date: tr.getAttribute('data-date') || tr.querySelector('.msg-date')?.textContent?.trim() || '',
+            status: tr.getAttribute('data-status') || tr.querySelector('.msg-status')?.textContent?.trim() || ''
+        };
+    }
+
+    function populateView(data){
+        if (!vm.id) return;
+        vm.id.textContent = data.id || '—';
+        vm.name.textContent = data.name || '—';
+        vm.email.textContent = data.email || '—';
+        vm.phone.textContent = data.phone || '—';
+        vm.subject.textContent = data.subject || '—';
+        vm.text.textContent = data.text || '—';
+        vm.date.textContent = data.date || '—';
+        vm.status.textContent = data.status || '—';
+    }
+
+    function updateCount(){
+        if (!contactTable || !msgCount) return;
+        const rows = contactTable.querySelectorAll('tbody tr');
+        msgCount.textContent = `${rows.length} item${rows.length !== 1 ? 's' : ''}`;
+    }
+    updateCount();
+
+    if (contactTable) contactTable.addEventListener('click', (e) => {
+        const btn = e.target.closest('button');
+        if (!btn) return;
+        const action = btn.getAttribute('data-action');
+        const tr = btn.closest('tr');
+        if (!action || !tr) return;
+        if (action === 'view'){
+            const data = getRowData(tr);
+            populateView(data);
+            openViewModal();
+        } else if (action === 'delete'){
+            tr.remove();
+            updateCount();
+            showToast('Deleted', 'Message removed.', 'warning');
+        }
+    });
+
+    if (closeViewMsg) closeViewMsg.addEventListener('click', closeViewModal);
+    if (closeViewMsgBottom) closeViewMsgBottom.addEventListener('click', closeViewModal);
+    if (viewModal) viewModal.addEventListener('click', (e) => { if (e.target === viewModal) closeViewModal(); });
 });
 
 function showToast(title, message, type) {

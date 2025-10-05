@@ -39,14 +39,14 @@ document.addEventListener('DOMContentLoaded', function () {
     };
 
     function load() {
-        commission.value = localStorage.getItem('financials_commission') || commissionData.current.rate;
-        effectiveFrom.value = localStorage.getItem('financials_effectiveFrom') || commissionData.current.effectiveSince;
+        if (commission) commission.value = localStorage.getItem('financials_commission') || commissionData.current.rate;
+        if (effectiveFrom) effectiveFrom.value = localStorage.getItem('financials_effectiveFrom') || commissionData.current.effectiveSince;
         updateCommissionDisplay();
     }
     
     function save() {
-        localStorage.setItem('financials_commission', commission.value.trim());
-        localStorage.setItem('financials_effectiveFrom', effectiveFrom.value.trim());
+        if (commission) localStorage.setItem('financials_commission', (commission.value || '').trim());
+        if (effectiveFrom) localStorage.setItem('financials_effectiveFrom', (effectiveFrom.value || '').trim());
     }
     
     function updateCommissionDisplay() {
@@ -104,6 +104,80 @@ document.addEventListener('DOMContentLoaded', function () {
     });
 
     load();
+
+    // Commission management table & modals
+    const table = document.getElementById('commissionTable');
+    const cmCount = document.getElementById('cmCount');
+    const addBtn = document.getElementById('addCommissionBtn');
+    const addModal = document.getElementById('addCommissionModal');
+    const addForm = document.getElementById('addCommissionForm');
+    const cancelAdd = document.getElementById('cancelAddCommission');
+    const viewModal = document.getElementById('viewCommissionModal');
+    const closeViewTop = document.getElementById('closeViewCommission');
+    const closeViewBottom = document.getElementById('closeViewCommissionBottom');
+    const vc = { id: document.getElementById('vc_id'), price: document.getElementById('vc_price'), date: document.getElementById('vc_date') };
+
+    function open(el){ if (!el) return; el.classList.add('open'); el.setAttribute('aria-hidden','false'); }
+    function close(el){ if (!el) return; el.classList.remove('open'); el.setAttribute('aria-hidden','true'); }
+
+    function updateCount(){ if (table && cmCount){ const rows = table.querySelectorAll('tbody tr'); cmCount.textContent = `${rows.length} item${rows.length !== 1 ? 's' : ''}`; } }
+    updateCount();
+
+    function getRowData(tr){
+        return {
+            id: tr.getAttribute('data-commission-id') || tr.querySelector('.cm-id')?.textContent?.trim() || '—',
+            price: tr.getAttribute('data-price') || tr.querySelector('.cm-price')?.textContent?.trim() || '—',
+            date: tr.getAttribute('data-date') || tr.querySelector('.cm-date')?.textContent?.trim() || '—'
+        };
+    }
+    function populateView(data){ if (vc.id){ vc.id.textContent = data.id; vc.price.textContent = data.price; vc.date.textContent = data.date; } }
+
+    if (table) table.addEventListener('click', (e) => {
+        const btn = e.target.closest('button');
+        if (!btn) return;
+        const action = btn.getAttribute('data-action');
+        const tr = btn.closest('tr');
+        if (!action || !tr) return;
+        if (action === 'view') { populateView(getRowData(tr)); open(viewModal); }
+        else if (action === 'delete') { tr.remove(); updateCount(); showToast('Deleted', 'Commission removed.', 'warning'); }
+    });
+
+    if (addBtn) addBtn.addEventListener('click', () => { open(addModal); });
+    if (cancelAdd) cancelAdd.addEventListener('click', () => { close(addModal); });
+    if (addModal) addModal.addEventListener('click', (e) => { if (e.target === addModal) close(addModal); });
+    if (viewModal) viewModal.addEventListener('click', (e) => { if (e.target === viewModal) close(viewModal); });
+    if (closeViewTop) closeViewTop.addEventListener('click', () => close(viewModal));
+    if (closeViewBottom) closeViewBottom.addEventListener('click', () => close(viewModal));
+
+    if (addForm) addForm.addEventListener('submit', (e) => {
+        e.preventDefault();
+        const idEl = document.getElementById('cmId');
+        const priceEl = document.getElementById('cmPrice');
+        const dateEl = document.getElementById('cmDate');
+        const id = (idEl?.value?.trim()) || `COM-${new Date().getFullYear()}-${String(Date.now()).slice(-3)}`;
+        const price = priceEl?.value?.trim() || '';
+        const date = dateEl?.value || '';
+        if (!price || !date){ showToast('Missing fields', 'Please enter price and date.', 'warning'); return; }
+        const tr = document.createElement('tr');
+        tr.setAttribute('data-commission-id', id);
+        tr.setAttribute('data-price', price);
+        tr.setAttribute('data-date', date);
+        tr.innerHTML = `
+            <td class="cm-id">${id}</td>
+            <td class="cm-price">${price}</td>
+            <td class="cm-date">${date}</td>
+            <td>
+                <div class="row-actions">
+                    <button class="icon-btn view" data-action="view" title="View"><i class="fas fa-eye"></i></button>
+                    <button class="icon-btn danger" data-action="delete" title="Delete"><i class="fas fa-trash"></i></button>
+                </div>
+            </td>`;
+        table.querySelector('tbody').prepend(tr);
+        updateCount();
+        showToast('Added', 'Commission record added.', 'success');
+        close(addModal);
+        addForm.reset();
+    });
 });
 
 function showToast(title, message, type) {

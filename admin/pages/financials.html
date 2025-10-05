@@ -4,8 +4,9 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Admin Dashboard - Financials</title>
+    <title>Admin Dashboard - Commission</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="../css/feedback.css">
     <link rel="stylesheet" href="../css/financials.css">
 </head>
 
@@ -21,11 +22,12 @@
                 <li><a href="users.html"><i class="fas fa-users"></i> <span>User Management</span></a></li>
                 <li><a href="service-providers.html"><i class="fas fa-user-tie"></i> <span>Service Providers</span></a>
                 </li>
-                <li class="active"><a href="#"><i class="fas fa-chart-line"></i> <span>Financials</span></a></li>
+                <li class="active"><a href="financials.html"><i class="fas fa-chart-line"></i> <span>Commission</span></a></li>
                 <li><a href="ads.html"><i class="fas fa-ad"></i> <span>Ads Management</span></a></li>
                 <li><a href="themes.html"><i class="fas fa-palette"></i> <span>Themes Management</span></a></li>
                 <li><a href="sales.html"><i class="fas fa-shopping-cart"></i> <span>Sales Statistics</span></a></li>
                 <li><a href="feedback.html"><i class="fas fa-star"></i> <span>Feedback Management</span></a></li>
+                <li><a href="inquiries.html"><i class="fas fa-question-circle"></i> <span>Inquiries</span></a></li>
                 <li><a href="products.html"><i class="fas fa-box"></i> <span>Product Management</span></a></li>
                 <li><a href="orders.html"><i class="fas fa-clipboard-list"></i> <span>Order Management</span></a></li>
                 <li><a href="support.html"><i class="fas fa-headset"></i> <span>Support & Contact</span></a></li>
@@ -37,98 +39,47 @@
     <!-- Main Content -->
     <div class="main-content">
         <div class="header">
-            <h1>Financials</h1>
+            <h1>Commission</h1>
             <div class="user-info">
-                <img src="https://i.pravatar.cc/150?img=12" alt="Admin User">
+                <img src="../../images/avater.jpg" alt="Admin User">
                 <span>Admin User</span>
                 <button class="signout-btn" id="openSignOut"><i class="fas fa-sign-out-alt"></i> Sign Out</button>
             </div>
         </div>
 
-        <!-- Commission Information Cards -->
-        <div class="commission-cards-grid">
-            <div class="commission-card">
-                <div class="card-header">
-                    <h3><i class="fas fa-percentage"></i> Current Commission</h3>
-                    <span class="muted">Active commission rate</span>
-                </div>
-                <div class="commission-content">
-                    <div class="commission-value" id="currentCommission">15.5%</div>
-                    <div class="commission-details">
-                        <div class="detail-item">
-                            <span class="label">Commission Number:</span>
-                            <span class="value" id="commissionNumber">COM-2025-001</span>
-                        </div>
-                        <div class="detail-item">
-                            <span class="label">Last Updated:</span>
-                            <span class="value" id="lastUpdated">2025-01-15</span>
-                        </div>
-                        <div class="detail-item">
-                            <span class="label">Effective Since:</span>
-                            <span class="value" id="effectiveSince">2025-12-01</span>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <div class="commission-card">
-                <div class="card-header">
-                    <h3><i class="fas fa-chart-line"></i> Commission History</h3>
-                    <span class="muted">Recent commission changes</span>
-                </div>
-                <div class="commission-content">
-                    <div class="history-list" id="commissionHistory">
-                        <div class="history-item">
-                            <div class="history-rate">15.5%</div>
-                            <div class="history-details">
-                                <div class="history-date">2025-01-15</div>
-                                <div class="history-number">COM-2025-001</div>
-                            </div>
-                        </div>
-                        <div class="history-item">
-                            <div class="history-rate">12.0%</div>
-                            <div class="history-details">
-                                <div class="history-date">2025-12-01</div>
-                                <div class="history-number">COM-2025-012</div>
-                            </div>
-                        </div>
-
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <!-- Commission Settings Card -->
+        <!-- Commission Records Management -->
         <div class="card">
-            <div class="card-header">
-                <h3><i class="fas fa-cog"></i> Commission Settings</h3>
-                <span class="muted">Set the platform commission percentage applied to all orders</span>
+            <div class="card-header" style="display:flex;align-items:center;justify-content:space-between;gap:12px;">
+                <div>
+                    <h3>Commission Records</h3>
+                    <span class="muted" id="cmCount">0 items</span>
+                </div>
+                <button class="btn btn-primary" id="addCommissionBtn"><i class="fas fa-plus"></i> Add</button>
             </div>
-            <div style="padding:16px;">
-                <form id="commissionForm">
-                    <div class="form-grid" style="grid-template-columns:1fr 1fr;">
-                        <div class="form-field">
-                            <label for="commission">Commission Percentage</label>
-                            <div class="input-wrap" style="display:flex;align-items:center;gap:8px;">
-                                <input type="number" id="commission" min="0" max="100" step="0.1" placeholder="10.0"
-                                    required>
-                                <span style="font-weight:700;">%</span>
-                            </div>
-                            <div class="muted" style="font-size:.85rem;">This percentage will be applied to the subtotal
-                                of each order.</div>
-                        </div>
-                        <div class="form-field">
-                            <label for="effectiveFrom">Effective From</label>
-                            <input type="date" id="effectiveFrom">
-                            <div class="muted" style="font-size:.85rem;">Optional: date from which the commission
-                                applies.</div>
-                        </div>
-                    </div>
-                    <div class="modal-actions">
-                        <button type="button" class="btn btn-secondary" id="resetCommission">Reset</button>
-                        <button type="submit" class="btn btn-primary" id="saveCommission">Save</button>
-                    </div>
-                </form>
+            <div class="table-responsive">
+                <table class="fb-table" id="commissionTable">
+                    <thead>
+                        <tr>
+                            <th>Commission ID</th>
+                            <th>Price</th>
+                            <th>Last Updated Date</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr data-commission-id="COM-2025-001" data-price="15.5%" data-date="2025-01-15">
+                            <td class="cm-id">COM-2025-001</td>
+                            <td class="cm-price">15.5%</td>
+                            <td class="cm-date">2025-01-15</td>
+                            <td>
+                                <div class="row-actions">
+                                    <button class="icon-btn view" data-action="view" title="View"><i class="fas fa-eye"></i></button>
+                                    <button class="icon-btn danger" data-action="delete" title="Delete"><i class="fas fa-trash"></i></button>
+                                </div>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
             </div>
         </div>
     </div>
@@ -155,6 +106,68 @@
                 <button class="btn btn-secondary" id="cancelSignOut">Cancel</button>
                 <button class="btn btn-primary" id="confirmSignOut">Sign Out</button>
             </div>
+        </div>
+    </div>
+
+    <!-- View Commission Modal -->
+    <div class="modal-overlay" id="viewCommissionModal" aria-hidden="true" role="dialog" aria-modal="true">
+        <div class="modal simple-feedback-modal" role="document">
+            <style>
+                #viewCommissionModal .modal { padding:0; overflow:hidden; }
+                #viewCommissionModal .simple-modal-header { display:flex; align-items:center; justify-content:space-between; padding:16px 18px; background:linear-gradient(135deg, rgba(255,79,161,.08), rgba(54,139,255,.08)); border-bottom:1px solid var(--light-gray); }
+                #viewCommissionModal .simple-modal-header h3 { display:flex; align-items:center; gap:10px; margin:0; font-size:1.1rem; }
+                #viewCommissionModal .simple-modal-header h3 i { color: var(--bright-blue); }
+                #viewCommissionModal .modal-close { background:transparent; border:none; color:var(--dark-gray); cursor:pointer; }
+                #viewCommissionModal .simple-modal-content { padding:18px; }
+                #viewCommissionModal .details-grid { display:grid; grid-template-columns:1fr 1fr; gap:12px; }
+                #viewCommissionModal .detail-item { background:#fff; border:1px solid var(--light-gray); border-radius:10px; padding:12px 12px; display:flex; flex-direction:column; gap:6px; }
+                #viewCommissionModal .label { font-size:.8rem; color:var(--dark-gray); letter-spacing:.2px; text-transform:uppercase; font-weight:700; }
+                #viewCommissionModal .value { font-size:.98rem; color:#111; word-break:break-word; }
+                @media (max-width: 640px){ #viewCommissionModal .details-grid { grid-template-columns:1fr; } }
+            </style>
+            <div class="simple-modal-header">
+                <h3><i class="fas fa-percentage"></i> Commission Details</h3>
+                <button class="modal-close" id="closeViewCommission" type="button" aria-label="Close modal">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            <div class="simple-modal-content">
+                <div class="details-grid">
+                    <div class="detail-item"><span class="label">Commission ID</span><span class="value" id="vc_id">—</span></div>
+                    <div class="detail-item"><span class="label">Price</span><span class="value" id="vc_price">—</span></div>
+                    <div class="detail-item"><span class="label">Last Updated Date</span><span class="value" id="vc_date">—</span></div>
+                </div>
+                <div class="modal-actions">
+                    <button class="btn btn-secondary" id="closeViewCommissionBottom">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Add Commission Modal -->
+    <div class="modal-overlay" id="addCommissionModal" aria-hidden="true" role="dialog" aria-modal="true">
+        <div class="modal" role="document">
+            <h3><i class="fas fa-plus" style="color: var(--bright-blue);"></i> Add Commission</h3>
+            <form id="addCommissionForm">
+                <div class="form-grid" style="grid-template-columns:1fr 1fr;">
+                    <div class="form-field">
+                        <label for="cmPrice">Price</label>
+                        <input type="text" id="cmPrice" placeholder="e.g. 15.5%">
+                    </div>
+                    <div class="form-field">
+                        <label for="cmDate">Last Updated Date</label>
+                        <input type="date" id="cmDate">
+                    </div>
+                    <div class="form-field" style="grid-column:1/-1;">
+                        <label for="cmId">Commission ID (auto or manual)</label>
+                        <input type="text" id="cmId" placeholder="Auto-generated if left empty">
+                    </div>
+                </div>
+                <div class="modal-actions">
+                    <button type="button" class="btn btn-secondary" id="cancelAddCommission">Cancel</button>
+                    <button type="submit" class="btn btn-primary" id="saveCommissionRecord">Save</button>
+                </div>
+            </form>
         </div>
     </div>
 

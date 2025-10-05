@@ -83,7 +83,8 @@ document.addEventListener('DOMContentLoaded', function () {
             'cakeAddon': 'fas fa-plus-circle',
             'flower': 'fas fa-seedling',
             'flowerAddon': 'fas fa-plus-circle',
-            'balloon': 'fas fa-balloon'
+            'balloon': 'fas fa-balloon',
+            'party': 'fas fa-calendar-check'
         };
         
         const icon = iconMap[productType] || 'fas fa-box';
@@ -97,6 +98,73 @@ document.addEventListener('DOMContentLoaded', function () {
         const subtitle = document.getElementById('productDetailsSubtitle');
         if (subtitle) {
             subtitle.textContent = `View and manage ${productType} information`;
+        }
+        
+        // If static modals exist, populate and show them, else fallback to dynamic rendering
+        const staticIds = { cake: 'cakeDetailsModal', flower: 'flowerDetailsModal', balloon: 'balloonDetailsModal' };
+        if (staticIds[productType]) {
+            const modalId = staticIds[productType];
+            const modal = document.getElementById(modalId);
+            if (modal) {
+                if (productType === 'cake') {
+                    const setText = (id, v) => { const el = document.getElementById(id); if (el) el.textContent = v || 'N/A'; };
+                    const setImg = (id, v) => { const el = document.getElementById(id); if (el) el.src = v || 'https://via.placeholder.com/300x300?text=No+Image'; };
+                    setImg('cakeDetImage', getProductImage(product));
+                    setText('cakeDetName', product.name);
+                    setText('cakeDetId', `ID: ${product.id || 'N/A'}`);
+                    setText('cakeDetPrice', `﷼${Number(product.basePrice || product.price || 0).toFixed(2)}`);
+                    const avail = document.getElementById('cakeDetAvailability'); if (avail) avail.innerHTML = `<i class="fas fa-${product.available ? 'check-circle' : 'times-circle'}"></i> ${product.available ? 'Available' : 'Unavailable'}`;
+                    const scope = document.getElementById('cakeDetScope'); if (scope && product.scope) scope.innerHTML = `<i class="fas fa-${product.scope === 'private' ? 'lock' : 'globe'}"></i> ${product.scope === 'private' ? 'Private' : 'Public'}`;
+                    setText('cakeDetDescription', product.description);
+                    setText('cakeDetType', product.type);
+                    setText('cakeDetSize', product.size);
+                    setText('cakeDetLayers', product.layers);
+                    setText('cakeDetMainFlavor', product.mainFlavor);
+                    setText('cakeDetFillings', product.fillings);
+                    setText('cakeDetFrosting', product.frosting);
+                    setText('cakeDetShape', product.shape);
+                    setText('cakeDetSizeDiameter', product.sizeDiameter);
+                    setText('cakeDetLayersAlt', product.layersAlt);
+                    setText('cakeDetBaseColors', product.baseColors);
+                    setText('cakeDetDecorations', product.decorations);
+                    setText('cakeDetWriting', product.writingText ? `${product.writingText} (${product.writingColor || 'Default'})` : 'None');
+                    setText('cakeDetCandles', product.candles);
+                    setText('cakeDetTopper', product.topper ? `${product.topper}${product.topperText ? ' - ' + product.topperText : ''}` : 'None');
+                    setText('cakeDetEdibleImage', product.edibleImage || 'No');
+                } else if (productType === 'flower') {
+                    const setText = (id, v) => { const el = document.getElementById(id); if (el) el.textContent = v || 'N/A'; };
+                    const setImg = (id, v) => { const el = document.getElementById(id); if (el) el.src = v || 'https://via.placeholder.com/300x300?text=No+Image'; };
+                    setImg('flowerDetImage', getProductImage(product));
+                    setText('flowerDetName', product.name);
+                    setText('flowerDetId', `ID: ${product.id || 'N/A'}`);
+                    setText('flowerDetPrice', `﷼${Number(product.basePrice || 0).toFixed(2)}`);
+                    const avail = document.getElementById('flowerDetAvailability'); if (avail) avail.innerHTML = `<i class="fas fa-${product.available ? 'check-circle' : 'times-circle'}"></i> ${product.available ? 'Available' : 'Unavailable'}`;
+                    const scope = document.getElementById('flowerDetScope'); if (scope && product.scope) scope.innerHTML = `<i class="fas fa-${product.scope === 'private' ? 'lock' : 'globe'}"></i> ${product.scope === 'private' ? 'Private' : 'Public'}`;
+                    setText('flowerDetType', product.type);
+                    setText('flowerDetColor', product.flowerColor);
+                    setText('flowerDetStem', product.stemCount);
+                    setText('flowerDetFillers', product.fillersGreens);
+                    setText('flowerDetPackaging', product.packaging);
+                    setText('flowerDetRibbon', product.ribbonColor);
+                    setText('flowerDetCard', product.greetingCard ? (product.greetingText ? `${product.greetingCard} - ${product.greetingText}` : product.greetingCard) : 'No');
+                    setText('flowerDetAccessories', product.accessories);
+                    setText('flowerDetArrangement', product.arrangementStyle);
+                } else if (productType === 'balloon') {
+                    const setText = (id, v) => { const el = document.getElementById(id); if (el) el.textContent = v || 'N/A'; };
+                    const setImg = (id, v) => { const el = document.getElementById(id); if (el) el.src = v || 'https://via.placeholder.com/300x300?text=No+Image'; };
+                    setImg('balloonDetImage', getProductImage(product));
+                    setText('balloonDetName', product.name);
+                    setText('balloonDetId', `ID: ${product.id || 'N/A'}`);
+                    setText('balloonDetPrice', `﷼${Number(product.price || 0).toFixed(2)}`);
+                    const avail = document.getElementById('balloonDetAvailability'); if (avail) avail.innerHTML = `<i class="fas fa-${product.available ? 'check-circle' : 'times-circle'}"></i> ${product.available ? 'Available' : 'Unavailable'}`;
+                    setText('balloonDetType', product.balloonType);
+                    setText('balloonDetColor', product.color);
+                    setText('balloonDetSize', product.size);
+                    setText('balloonDetExtra', product.extraDescription);
+                }
+                openModal(modal);
+                return;
+            }
         }
         
         let detailsHTML = `
@@ -124,7 +192,7 @@ document.addEventListener('DOMContentLoaded', function () {
                         </div>
                     </div>
                     <div class="product-pricing">
-                        <div class="price-main">$${Number(product.price || product.basePrice || 0).toFixed(2)}</div>
+                        <div class="price-main">﷼${Number(product.price || product.basePrice || 0).toFixed(2)}</div>
                         <div class="price-label">Base Price</div>
                     </div>
                     <div class="product-status-section">
@@ -171,6 +239,58 @@ document.addEventListener('DOMContentLoaded', function () {
                                <div class="info-item">
                                    <div class="info-label">Number of Layers</div>
                                    <div class="info-value">${product.layers || 'N/A'}</div>
+                               </div>
+                               <div class="info-item">
+                                   <div class="info-label">Cake Type</div>
+                                   <div class="info-value">${product.type || 'N/A'}</div>
+                               </div>
+                               <div class="info-item">
+                                   <div class="info-label">Main Flavor</div>
+                                   <div class="info-value">${product.mainFlavor || 'N/A'}</div>
+                               </div>
+                               <div class="info-item">
+                                   <div class="info-label">Fillings</div>
+                                   <div class="info-value">${product.fillings || 'N/A'}</div>
+                               </div>
+                               <div class="info-item">
+                                   <div class="info-label">Frosting</div>
+                                   <div class="info-value">${product.frosting || 'N/A'}</div>
+                               </div>
+                               <div class="info-item">
+                                   <div class="info-label">Shape</div>
+                                   <div class="info-value">${product.shape || 'N/A'}</div>
+                               </div>
+                               <div class="info-item">
+                                   <div class="info-label">Size/Diameter</div>
+                                   <div class="info-value">${product.sizeDiameter || 'N/A'}</div>
+                               </div>
+                               <div class="info-item">
+                                   <div class="info-label">Layers (Detailed)</div>
+                                   <div class="info-value">${product.layersAlt || 'N/A'}</div>
+                               </div>
+                               <div class="info-item">
+                                   <div class="info-label">Base Colors</div>
+                                   <div class="info-value">${product.baseColors || 'N/A'}</div>
+                               </div>
+                               <div class="info-item">
+                                   <div class="info-label">Decorations</div>
+                                   <div class="info-value">${product.decorations || 'N/A'}</div>
+                               </div>
+                               <div class="info-item">
+                                   <div class="info-label">Writing</div>
+                                   <div class="info-value">${product.writingText ? product.writingText + ' (' + (product.writingColor || 'Default') + ')' : 'None'}</div>
+                               </div>
+                               <div class="info-item">
+                                   <div class="info-label">Candles</div>
+                                   <div class="info-value">${product.candles || 'None'}</div>
+                               </div>
+                               <div class="info-item">
+                                   <div class="info-label">Topper</div>
+                                   <div class="info-value">${product.topper || 'None'}${product.topperText ? ' - ' + product.topperText : ''}</div>
+                               </div>
+                               <div class="info-item">
+                                   <div class="info-label">Edible Image</div>
+                                   <div class="info-value">${product.edibleImage || 'No'}</div>
                                </div>
                                <div class="info-item">
                                    <div class="info-label">Image Status</div>
@@ -315,8 +435,36 @@ document.addEventListener('DOMContentLoaded', function () {
                                 <div class="info-value">${product.type || 'N/A'}</div>
                             </div>
                             <div class="info-item">
-                                <div class="info-label">Size</div>
-                                <div class="info-value">${product.size || 'N/A'}</div>
+                                <div class="info-label">Color</div>
+                                <div class="info-value">${product.flowerColor || 'N/A'}</div>
+                            </div>
+                            <div class="info-item">
+                                <div class="info-label">Stem Count / Size</div>
+                                <div class="info-value">${product.stemCount || 'N/A'}</div>
+                            </div>
+                            <div class="info-item">
+                                <div class="info-label">Fillers & Greens</div>
+                                <div class="info-value">${product.fillersGreens || 'N/A'}</div>
+                            </div>
+                            <div class="info-item">
+                                <div class="info-label">Packaging</div>
+                                <div class="info-value">${product.packaging || 'N/A'}</div>
+                            </div>
+                            <div class="info-item">
+                                <div class="info-label">Ribbon Color</div>
+                                <div class="info-value">${product.ribbonColor || 'N/A'}</div>
+                            </div>
+                            <div class="info-item">
+                                <div class="info-label">Greeting Card</div>
+                                <div class="info-value">${product.greetingCard || 'No'}${product.greetingText ? ' - ' + product.greetingText : ''}</div>
+                            </div>
+                            <div class="info-item">
+                                <div class="info-label">Accessories</div>
+                                <div class="info-value">${product.accessories || 'None'}</div>
+                            </div>
+                            <div class="info-item">
+                                <div class="info-label">Arrangement Style</div>
+                                <div class="info-value">${product.arrangementStyle || 'N/A'}</div>
                             </div>
                             <div class="info-item">
                                 <div class="info-label">Image Status</div>
@@ -355,7 +503,7 @@ document.addEventListener('DOMContentLoaded', function () {
                                     <span class="addon-id">ID: ${addon.id || 'N/A'}</span>
                                 </div>
                                 <div class="addon-price">
-                                    <span class="price-amount">+$${Number(addon.price || 0).toFixed(2)}</span>
+                                    <span class="price-amount">+﷼${Number(addon.price || 0).toFixed(2)}</span>
                                     <span class="price-label">Additional</span>
                                 </div>
                             </div>
@@ -415,7 +563,7 @@ document.addEventListener('DOMContentLoaded', function () {
                             </div>
                             <div class="info-item">
                                 <div class="info-label">Additional Price</div>
-                                <div class="info-value price-highlight">$${Number(product.additionalPrice || 0).toFixed(2)}</div>
+                                <div class="info-value price-highlight">﷼${Number(product.additionalPrice || 0).toFixed(2)}</div>
                             </div>
                             <div class="info-item">
                                 <div class="info-label">Image Status</div>
@@ -470,59 +618,27 @@ document.addEventListener('DOMContentLoaded', function () {
                 </div>
             `;
             
-            // Add Balloon Add-ons section
-            if (product.addons && product.addons.length > 0) {
+          
+        } else if (productType === 'party') {
                 detailsHTML += `
-                    <div class="detail-section modern-section addons-section">
+                <div class="detail-section modern-section">
                         <div class="section-header">
-                            <div class="section-icon">
-                                <i class="fas fa-plus-circle"></i>
-                            </div>
-                            <div class="section-title">
-                                <h3>Balloon Add-ons</h3>
-                                <p>${product.addons.length} add-on${product.addons.length !== 1 ? 's' : ''} available</p>
-                            </div>
+                        <div class="section-icon"><i class="fas fa-calendar-check"></i></div>
+                        <div class="section-title"><h3>Party Planning Information</h3><p>Complete package details</p></div>
                         </div>
                         <div class="section-content">
-                            <div class="addons-grid">
-                `;
-                product.addons.forEach(addon => {
-                    detailsHTML += `
-                        <div class="addon-card">
-                            <div class="addon-header">
-                                <div class="addon-title">
-                                    <h4>${addon.name || 'Unnamed Add-on'}</h4>
-                                    <span class="addon-id">ID: ${addon.id || 'N/A'}</span>
-                                </div>
-                                <div class="addon-price">
-                                    <span class="price-amount">+$${Number(addon.price || 0).toFixed(2)}</span>
-                                    <span class="price-label">Additional</span>
-                                </div>
-                            </div>
-                            <div class="addon-details">
-                                <div class="addon-info-grid">
-                                    <div class="addon-info-item">
-                                        <span class="info-label">Option Type</span>
-                                        <span class="info-value">${addon.optionTypeName || 'N/A'}</span>
-                                    </div>
-                                    <div class="addon-info-item">
-                                        <span class="info-label">Image</span>
-                                        <span class="info-value ${addon.image ? 'has-image' : 'no-image'}">
-                                            <i class="fas fa-${addon.image ? 'check-circle' : 'times-circle'}"></i>
-                                            ${addon.image ? 'Available' : 'Not available'}
-                                        </span>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    `;
-                });
-                detailsHTML += `
+                        <div class="info-grid">
+                            <div class="info-item"><div class="info-label">Service Number</div><div class="info-value">${product.serviceNumber || 'N/A'}</div></div>
+                            <div class="info-item"><div class="info-label">Package Name</div><div class="info-value">${product.name || 'N/A'}</div></div>
+                            <div class="info-item full-width"><div class="info-label">Package Description</div><div class="info-value">${product.description || 'N/A'}</div></div>
+                            <div class="info-item full-width"><div class="info-label">Package Contents</div><div class="info-value">${product.contents || 'N/A'}</div></div>
+                            <div class="info-item"><div class="info-label">Category</div><div class="info-value">${product.category || 'N/A'}</div></div>
+                            <div class="info-item"><div class="info-label">Duration</div><div class="info-value">${product.duration || 'N/A'}</div></div>
+                            <div class="info-item"><div class="info-label">Availability</div><div class="info-value">${product.available ? 'Available' : 'Unavailable'}</div></div>
                             </div>
                         </div>
                     </div>
                 `;
-            }
         }
 
         detailsHTML += `</div>`;
@@ -569,6 +685,26 @@ document.addEventListener('DOMContentLoaded', function () {
         }
     });
     if (productDetailsModal) productDetailsModal.addEventListener('click', (e) => { if (e.target === productDetailsModal) closeModal(productDetailsModal); });
+    // Close handlers for static modals via data-close
+    document.querySelectorAll('[data-close]')?.forEach(btn => {
+        btn.addEventListener('click', () => {
+            const id = btn.getAttribute('data-close');
+            const modal = document.getElementById(id);
+            if (modal) closeModal(modal);
+        });
+    });
+    // Generic close: any .modal-close or .enhanced-close inside a .modal-overlay
+    document.addEventListener('click', (e) => {
+        const closeBtn = e.target.closest('.modal-close, .enhanced-close');
+        if (!closeBtn) return;
+        const overlay = closeBtn.closest('.modal-overlay');
+        if (overlay) closeModal(overlay);
+    });
+    // Click outside to close for static overlays as well
+    ['cakeDetailsModal', 'flowerDetailsModal', 'balloonDetailsModal'].forEach(id => {
+        const overlay = document.getElementById(id);
+        if (overlay) overlay.addEventListener('click', (e) => { if (e.target === overlay) closeModal(overlay); });
+    });
     if (editProductFromDetails) editProductFromDetails.addEventListener('click', () => {
         closeModal(productDetailsModal);
         // Trigger edit functionality
@@ -599,7 +735,8 @@ document.addEventListener('DOMContentLoaded', function () {
         cakeAddons: 'admin_products_cake_addons',
         flowers: 'admin_products_flowers',
         flowerAddons: 'admin_products_flower_addons',
-        balloons: 'admin_products_balloons'
+        balloons: 'admin_products_balloons',
+        parties: 'admin_products_parties'
     };
 
     // Enhanced State Management
@@ -627,10 +764,18 @@ document.addEventListener('DOMContentLoaded', function () {
     function getAllProducts() {
         const allProducts = [];
 
-        // Load all product types and add type identifier
-        Object.keys(KEYS).forEach(key => {
-            const items = load(KEYS[key]);
-            const type = key.replace('s', '').replace('Addon', 'Addon'); // Normalize type names
+        const keyToType = {
+            [KEYS.cakes]: 'cake',
+            [KEYS.cakeAddons]: 'cakeAddon',
+            [KEYS.flowers]: 'flower',
+            [KEYS.flowerAddons]: 'flowerAddon',
+            [KEYS.balloons]: 'balloon',
+            [KEYS.parties]: 'party'
+        };
+
+        Object.values(KEYS).forEach(storageKey => {
+            const items = load(storageKey);
+            const type = keyToType[storageKey] || 'product';
             items.forEach(item => {
                 allProducts.push({
                     ...item,
@@ -765,7 +910,8 @@ document.addEventListener('DOMContentLoaded', function () {
             all: totalProducts,
             cake: allItems.filter(item => item.productType === 'cake').length,
             flower: allItems.filter(item => item.productType === 'flower').length,
-            balloon: allItems.filter(item => item.productType === 'balloon').length
+            balloon: allItems.filter(item => item.productType === 'balloon').length,
+            party: allItems.filter(item => item.productType === 'party').length
         };
 
         Object.keys(typeCounts).forEach(type => {
@@ -811,15 +957,17 @@ document.addEventListener('DOMContentLoaded', function () {
             // Details based on product type
             let details = '';
             if (item.productType === 'cake') {
-                details = `Size: ${item.size || 'N/A'} | Layers: ${item.layers || 'N/A'}`;
+                details = `Type: ${item.type || 'N/A'} | Size: ${item.size || 'N/A'} | Layers: ${item.layers || 'N/A'}`;
             } else if (item.productType === 'cakeAddon') {
                 details = `Type: ${item.optionTypeName || 'N/A'} | Extra: +$${Number(item.additionalPrice || 0).toFixed(2)}`;
             } else if (item.productType === 'flower') {
-                details = `Type: ${item.type || 'N/A'} | Size: ${item.size || 'N/A'}`;
+                details = `Type: ${item.type || 'N/A'} | Color: ${item.flowerColor || 'N/A'} | Stems: ${item.stemCount || 'N/A'}`;
             } else if (item.productType === 'flowerAddon') {
                 details = `Type: ${item.optionTypeName || 'N/A'} | Extra: +$${Number(item.additionalPrice || 0).toFixed(2)}`;
             } else if (item.productType === 'balloon') {
                 details = `Type: ${item.balloonType || 'N/A'} | Color: ${item.color || 'N/A'}`;
+            } else if (item.productType === 'party') {
+                details = `Service: ${item.serviceNumber || 'N/A'} | Category: ${item.category || 'N/A'} | Duration: ${item.duration || 'N/A'}`;
             }
             row.querySelector('.cell-details').textContent = details;
 
@@ -975,21 +1123,22 @@ document.addEventListener('DOMContentLoaded', function () {
         if (!entity || !id) return;
 
         if (action === 'delete') {
-            const map = { cake: KEYS.cakes, cakeAddon: KEYS.cakeAddons, flower: KEYS.flowers, flowerAddon: KEYS.flowerAddons, balloon: KEYS.balloons };
+            const map = { cake: KEYS.cakes, cakeAddon: KEYS.cakeAddons, flower: KEYS.flowers, flowerAddon: KEYS.flowerAddons, balloon: KEYS.balloons, party: KEYS.parties };
             const key = map[entity];
             const arr = load(key).filter(i => Number(i.id) !== id);
             save(key, arr);
             showToast('Deleted', `${entity} #${id} removed`, 'success');
             refreshAll();
         } else if (action === 'edit') {
-            const map = { cake: KEYS.cakes, cakeAddon: KEYS.cakeAddons, flower: KEYS.flowers, flowerAddon: KEYS.flowerAddons, balloon: KEYS.balloons };
+            const map = { cake: KEYS.cakes, cakeAddon: KEYS.cakeAddons, flower: KEYS.flowers, flowerAddon: KEYS.flowerAddons, balloon: KEYS.balloons, party: KEYS.parties };
             const key = map[entity];
             const item = load(key).find(i => Number(i.id) === id);
             openProductForm(entity, item);
         } else if (action === 'view') {
-            const map = { cake: KEYS.cakes, cakeAddon: KEYS.cakeAddons, flower: KEYS.flowers, flowerAddon: KEYS.flowerAddons, balloon: KEYS.balloons };
+            const map = { cake: KEYS.cakes, cakeAddon: KEYS.cakeAddons, flower: KEYS.flowers, flowerAddon: KEYS.flowerAddons, balloon: KEYS.balloons, party: KEYS.parties };
             const key = map[entity];
             const item = load(key).find(i => Number(i.id) === id);
+            if (item) item.productType = entity; // ensure productType is present for static modal routing
             showProductDetails(item);
         }
     });
@@ -998,7 +1147,7 @@ document.addEventListener('DOMContentLoaded', function () {
     saveProduct?.addEventListener('click', (e) => {
         e.preventDefault();
         if (!editing.entity) return closeProductForm();
-        const map = { cake: KEYS.cakes, cakeAddon: KEYS.cakeAddons, flower: KEYS.flowers, flowerAddon: KEYS.flowerAddons, balloon: KEYS.balloons };
+        const map = { cake: KEYS.cakes, cakeAddon: KEYS.cakeAddons, flower: KEYS.flowers, flowerAddon: KEYS.flowerAddons, balloon: KEYS.balloons, party: KEYS.parties };
         const key = map[editing.entity];
         const arr = load(key);
 
@@ -1009,17 +1158,79 @@ document.addEventListener('DOMContentLoaded', function () {
         let data = {};
         if (editing.entity === 'cake') {
             const imgs = [val('primaryImage'), ...val('galleryImages').split(',').map(s => s.trim()).filter(Boolean)].filter(Boolean);
-            data = { id: editing.id || nextId(arr), name: val('name'), description: val('description'), basePrice: Number(val('basePrice') || 0), images: imgs, size: val('size'), layers: Number(val('layers') || 0), available: boolVal('available'), supplierId: val('supplierId'), scope: val('scope'), type: val('type'), addons: currentAddons.filter(addon => addon.type === 'cake') };
+            data = {
+                id: editing.id || nextId(arr),
+                cakeId: val('cakeId'),
+                name: val('name'),
+                description: val('description'),
+                basePrice: Number(val('basePrice') || 0),
+                images: imgs,
+                size: val('size'),
+                layers: val('layers'),
+                available: boolVal('available'),
+                scope: val('scope'),
+                type: val('cakeType'),
+                // addons/customization
+                mainFlavor: val('mainFlavor'),
+                fillings: val('fillings'),
+                frosting: val('frosting'),
+                shape: val('shape'),
+                sizeDiameter: val('sizeDiameter'),
+                layersAlt: val('layersAlt'),
+                baseColors: val('baseColors'),
+                decorations: val('decorations'),
+                writingText: val('writingText'),
+                writingColor: val('writingColor'),
+                candles: val('candles'),
+                topper: val('topper'),
+                topperText: val('topperText'),
+                edibleImage: val('edibleImage'),
+                addons: currentAddons.filter(addon => addon.type === 'cake')
+            };
         } else if (editing.entity === 'cakeAddon') {
             data = { id: editing.id || nextId(arr), cakeId: val('cakeId'), optionTypeName: val('optionTypeName'), optionName: val('optionName'), additionalPrice: Number(val('additionalPrice') || 0), image: val('image'), active: boolVal('active') };
         } else if (editing.entity === 'flower') {
             const imgs = [val('primaryImage'), ...val('galleryImages').split(',').map(s => s.trim()).filter(Boolean)].filter(Boolean);
-            data = { id: editing.id || nextId(arr), name: val('name'), type: val('type'), size: val('size'), basePrice: Number(val('basePrice') || 0), images: imgs, available: boolVal('available'), supplierId: val('supplierId'), scope: val('scope'), addons: currentAddons.filter(addon => addon.type === 'flower') };
+            data = {
+                id: editing.id || nextId(arr),
+                name: val('name'),
+                type: val('type'),
+                basePrice: Number(val('basePrice') || 0),
+                images: imgs,
+                available: boolVal('available'),
+                scope: val('scope'),
+                // new flower fields
+                flowerColor: val('flowerColor'),
+                stemCount: val('stemCount'),
+                fillersGreens: val('fillersGreens'),
+                packaging: val('packaging'),
+                ribbonColor: val('ribbonColor'),
+                greetingCard: val('greetingCard'),
+                greetingText: val('greetingText'),
+                accessories: val('accessories'),
+                arrangementStyle: val('arrangementStyle'),
+                addons: currentAddons.filter(addon => addon.type === 'flower')
+            };
         } else if (editing.entity === 'flowerAddon') {
             data = { id: editing.id || nextId(arr), flowerId: val('flowerId'), optionTypeName: val('optionTypeName'), optionName: val('optionName'), additionalPrice: Number(val('additionalPrice') || 0), image: val('image') };
         } else if (editing.entity === 'balloon') {
             const imgs = [val('primaryImage'), ...val('galleryImages').split(',').map(s => s.trim()).filter(Boolean)].filter(Boolean);
             data = { id: editing.id || nextId(arr), name: val('name'), balloonType: val('balloonType'), color: val('color'), size: val('size'), price: Number(val('price') || 0), images: imgs, available: boolVal('available'), extraDescription: val('extraDescription'), supplierId: val('supplierId'), addons: currentAddons.filter(addon => addon.type === 'balloon') };
+        } else if (editing.entity === 'party') {
+            const imgs = [val('primaryImage')].filter(Boolean);
+            data = {
+                id: editing.id || nextId(arr),
+                serviceNumber: val('serviceNumber'),
+                name: val('name'),
+                description: val('description'),
+                contents: val('contents'),
+                price: Number(val('price') || 0),
+                images: imgs,
+                category: val('category'),
+                duration: val('duration'),
+                available: boolVal('available'),
+                scope: val('scope')
+            };
         }
 
         if (editing.id) {
@@ -1091,6 +1302,12 @@ document.addEventListener('DOMContentLoaded', function () {
                 { id: 7, name: 'Rainbow Balloon Bouquet', description: 'Beautiful rainbow-colored balloon bouquet for any celebration', balloonType: 'Latex', color: 'Rainbow', size: 'L', price: 35, images: ['../../images/ceek3.jpg'], available: true, extraDescription: 'Rainbow balloon bouquet for celebrations' }
             ]);
 
+            // Parties (Party Planning)
+            save(KEYS.parties, [
+                { id: 1, serviceNumber: 'PP-1001', name: 'Kids Birthday Basic', description: '2-hour kids party with games and snacks', contents: 'Decorations, Games Host, Music, Snacks', price: 150, images: ['../../images/ballon.jpg'], category: 'Kids', duration: '2 hours', available: true, scope: 'public' },
+                { id: 2, serviceNumber: 'PP-2001', name: 'Corporate Mixer', description: '4-hour corporate gathering with light catering', contents: 'Venue Setup, Light Catering, Background Music', price: 600, images: ['../../images/boxjpg.jpg'], category: 'Corporate', duration: '4 hours', available: true, scope: 'private' }
+            ]);
+
             localStorage.setItem('admin_products_seeded', '1');
         }
     }
@@ -1124,6 +1341,17 @@ document.addEventListener('DOMContentLoaded', function () {
         if (changed) localStorage.setItem('admin_products_migrated_images', '1');
     }
 
+    // Ensure Party data exists even if seeded previously without it
+    function ensurePartiesIfMissing() {
+        const existing = load(KEYS.parties);
+        if (!Array.isArray(existing) || existing.length === 0) {
+            save(KEYS.parties, [
+                { id: 1, serviceNumber: 'PP-1001', name: 'Kids Birthday Basic', description: '2-hour kids party with games and snacks', contents: 'Decorations, Games Host, Music, Snacks', price: 150, images: ['../../images/ballon.jpg'], category: 'Kids', duration: '2 hours', available: true, scope: 'public' },
+                { id: 2, serviceNumber: 'PP-2001', name: 'Corporate Mixer', description: '4-hour corporate gathering with light catering', contents: 'Venue Setup, Light Catering, Background Music', price: 600, images: ['../../images/boxjpg.jpg'], category: 'Corporate', duration: '4 hours', available: true, scope: 'private' }
+            ]);
+        }
+    }
+
     // Function to reset and reseed data (for development)
     function resetAndReseed() {
         localStorage.removeItem('admin_products_seeded');
@@ -1149,36 +1377,19 @@ document.addEventListener('DOMContentLoaded', function () {
     let currentAddons = [];
 
     function addAddon(type) {
-        // Get form inputs based on type
         const nameInput = document.getElementById(type === 'cake' ? 'addon-name' : `${type}-addon-name`);
         const descriptionInput = document.getElementById(type === 'cake' ? 'addon-description' : `${type}-addon-description`);
         const priceInput = document.getElementById(type === 'cake' ? 'addon-price' : `${type}-addon-price`);
-        
-        const name = nameInput.value.trim();
-        const description = descriptionInput.value.trim();
-        const price = parseFloat(priceInput.value) || 0;
-        
-        if (!name) {
-            showToast('Error', 'Please enter an add-on name', 'error');
-            return;
-        }
-        
-        const addonData = {
-            id: Date.now(),
-            name: name,
-            description: description,
-            price: price,
-            type: type
-        };
-        
+        const name = (nameInput?.value || '').trim();
+        const description = (descriptionInput?.value || '').trim();
+        const price = parseFloat(priceInput?.value || '0') || 0;
+        if (!name) { showToast('Error', 'Please enter an add-on name', 'error'); return; }
+        const addonData = { id: Date.now(), name, description, price, type };
         currentAddons.push(addonData);
         renderAddons(type);
-        
-        // Clear form inputs
-        nameInput.value = '';
-        descriptionInput.value = '';
-        priceInput.value = '';
-        
+        if (nameInput) nameInput.value = '';
+        if (descriptionInput) descriptionInput.value = '';
+        if (priceInput) priceInput.value = '';
         showToast('Success', 'Add-on added successfully', 'success');
     }
 
@@ -1189,82 +1400,57 @@ document.addEventListener('DOMContentLoaded', function () {
 
     function updateAddon(type, addonId, field, value) {
         const addon = currentAddons.find(addon => addon.id === addonId);
-        if (addon) {
-            addon[field] = value;
-        }
+        if (addon) { addon[field] = value; }
     }
 
     function renderAddons(type) {
         const addonsList = document.getElementById(`${type}AddonsList`);
         if (!addonsList) return;
-
         addonsList.innerHTML = '';
-        
         const typeAddons = currentAddons.filter(addon => addon.type === type);
-        
         typeAddons.forEach(addon => {
-            const addonItem = document.createElement('div');
-            addonItem.className = 'addon-item';
-            addonItem.setAttribute('data-addon-id', addon.id);
-            addonItem.innerHTML = `
+            const container = document.createElement('div');
+            container.className = 'addon-item';
+            container.setAttribute('data-addon-id', String(addon.id));
+            container.innerHTML = `
                 <div class="addon-details">
                     <h4>${addon.name || 'New Add-on'}</h4>
                     <p>${addon.description || 'No description'}</p>
-                    <p><strong>Price:</strong> $${addon.price}</p>
+                    <p><strong>Price:</strong> $${Number(addon.price).toFixed(2)}</p>
                 </div>
                 <div class="addon-actions">
-                    <button type="button" class="btn btn-sm btn-outline" onclick="editAddon('${type}', ${addon.id})">
-                        <i class="fas fa-edit"></i>
-                    </button>
-                    <button type="button" class="btn btn-sm btn-danger" onclick="removeAddon('${type}', ${addon.id})">
-                        <i class="fas fa-trash"></i>
-                    </button>
+                    <button type="button" class="btn btn-sm btn-outline" onclick="editAddon('${type}', ${addon.id})"><i class="fas fa-edit"></i></button>
+                    <button type="button" class="btn btn-sm btn-danger" onclick="removeAddon('${type}', ${addon.id})"><i class="fas fa-trash"></i></button>
                 </div>
             `;
-            addonsList.appendChild(addonItem);
+            addonsList.appendChild(container);
         });
     }
 
     function editAddon(type, addonId) {
-        const addon = currentAddons.find(addon => addon.id === addonId);
+        const addonsList = document.getElementById(`${type}AddonsList`);
+        if (!addonsList) return;
+        const addon = currentAddons.find(a => a.id === addonId);
         if (!addon) return;
-
-        // Create inline edit form
-        const addonItem = document.querySelector(`[data-addon-id="${addonId}"]`);
+        const addonItem = addonsList.querySelector(`[data-addon-id="${addonId}"]`);
         if (!addonItem) return;
-
         const editForm = document.createElement('div');
         editForm.className = 'addon-edit-form';
         editForm.innerHTML = `
             <div class="edit-form-container">
                 <div class="edit-input-group">
+                    <div class="form-field"><label>Name</label><input type="text" value="${addon.name}" class="edit-name"></div>
+                    <div class="form-field"><label>Description</label><input type="text" value="${addon.description}" class="edit-description"></div>
+                    <div class="form-field"><label>Price</label><input type="number" step="0.01" value="${addon.price}" class="edit-price"></div>
                     <div class="form-field">
-                        <label>Name</label>
-                        <input type="text" value="${addon.name}" class="edit-name">
-                    </div>
-                    <div class="form-field">
-                        <label>Description</label>
-                        <input type="text" value="${addon.description}" class="edit-description">
-                    </div>
-                    <div class="form-field">
-                        <label>Price</label>
-                        <input type="number" step="0.01" value="${addon.price}" class="edit-price">
-                    </div>
-                    <div class="form-field">
-                        <button type="button" class="btn btn-success btn-sm" onclick="saveAddonEdit('${type}', ${addonId})">
-                            <i class="fas fa-save"></i> Save
-                        </button>
-                        <button type="button" class="btn btn-secondary btn-sm" onclick="cancelAddonEdit('${type}', ${addonId})">
-                            <i class="fas fa-times"></i> Cancel
-                        </button>
+                        <button type="button" class="btn btn-success btn-sm" onclick="saveAddonEdit('${type}', ${addonId})"><i class="fas fa-save"></i> Save</button>
+                        <button type="button" class="btn btn-secondary btn-sm" onclick="cancelAddonEdit('${type}', ${addonId})"><i class="fas fa-times"></i> Cancel</button>
                     </div>
                 </div>
             </div>
         `;
-
-        // Replace addon item with edit form
         addonItem.style.display = 'none';
-        addonItem.parentNode.insertBefore(editForm, addonItem.nextSibling);
+        addonItem.parentNode?.insertBefore(editForm, addonItem.nextSibling);
     }
 
     function saveAddonEdit(type, addonId) {
@@ -1450,6 +1636,7 @@ document.addEventListener('DOMContentLoaded', function () {
     // Initialize the unified product system
     seedOnce();
     migrateImagesIfEmpty();
+    ensurePartiesIfMissing();
     renderAllProducts();
 });
 

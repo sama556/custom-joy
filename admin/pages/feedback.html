@@ -21,11 +21,12 @@
                 <li><a href="users.html"><i class="fas fa-users"></i> <span>User Management</span></a></li>
                 <li><a href="service-providers.html"><i class="fas fa-user-tie"></i> <span>Service Providers</span></a>
                 </li>
-                <li><a href="financials.html"><i class="fas fa-chart-line"></i> <span>Financials</span></a></li>
+                <li><a href="financials.html"><i class="fas fa-chart-line"></i> <span>Commission</span></a></li>
                 <li><a href="ads.html"><i class="fas fa-ad"></i> <span>Ads Management</span></a></li>
                 <li><a href="themes.html"><i class="fas fa-palette"></i> <span>Themes Management</span></a></li>
                 <li><a href="sales.html"><i class="fas fa-shopping-cart"></i> <span>Sales Statistics</span></a></li>
                 <li class="active"><a href="#"><i class="fas fa-star"></i> <span>Feedback Management</span></a></li>
+                <li><a href="inquiries.html"><i class="fas fa-question-circle"></i> <span>Inquiries</span></a></li>
                 <li><a href="products.html"><i class="fas fa-box"></i> <span>Product Management</span></a></li>
                 <li><a href="orders.html"><i class="fas fa-clipboard-list"></i> <span>Order Management</span></a></li>
                 <li><a href="support.html"><i class="fas fa-headset"></i> <span>Support & Contact</span></a></li>
@@ -39,36 +40,13 @@
         <div class="header">
             <h1>Feedback Management</h1>
             <div class="user-info">
-                <img src="https://i.pravatar.cc/150?img=12" alt="Admin User">
+                <img src="../../images/avater6.jpg" alt="Admin User">
                 <span>Admin User</span>
                 <button class="signout-btn" id="openSignOut"><i class="fas fa-sign-out-alt"></i> Sign Out</button>
             </div>
         </div>
 
-        <!-- Filters & Actions -->
-        <div class="fb-toolbar">
-            <div class="search-wrap">
-                <i class="fas fa-search"></i>
-                <input id="fbSearch" type="text" placeholder="Search by customer, order, or content...">
-            </div>
-            <div class="toolbar-actions">
-                <select id="ratingFilter">
-                    <option value="">All Ratings</option>
-                    <option value="5">5 Stars</option>
-                    <option value="4">4 Stars</option>
-                    <option value="3">3 Stars</option>
-                    <option value="2">2 Stars</option>
-                    <option value="1">1 Star</option>
-                </select>
-                <select id="statusFilter">
-                    <option value="">All Status</option>
-                    <option value="open">Open</option>
-                    <option value="replied">Replied</option>
-                    <option value="resolved">Resolved</option>
-                    <option value="flagged">Flagged</option>
-                </select>
-            </div>
-        </div>
+        <!-- Toolbar removed: no filters/search -->
 
         <!-- Feedback List -->
         <div class="card">
@@ -80,76 +58,45 @@
                 <table class="fb-table" id="fbTable">
                     <thead>
                         <tr>
-                            <th><input type="checkbox" id="selectAll"></th>
-                            <th>Customer</th>
-                            <th>Order</th>
+                            <th>User ID</th>
+                            <th>Vendor ID</th>
+                            <th>Order ID</th>
                             <th>Rating</th>
                             <th>Comment</th>
-                            <th>Status</th>
                             <th>Date</th>
                             <th>Actions</th>
                         </tr>
                     </thead>
                     <tbody>
-                        <tr data-provider="SweetCakes Kitchen"
-                            data-products='[{"name":"Custom Chocolate Cake","qty":1},{"name":"Candles Set","qty":1}]'>
-                            <td><input type="checkbox" class="row-select"></td>
-                            <td>
-                                <div class="user-cell">
-                                    <img src="https://i.pravatar.cc/150?img=7" alt="">
-                                    <div>
-                                        <div class="name">Sarah Ahmed</div>
-                                        <div class="sub">@sarah.a</div>
-                                    </div>
-                                </div>
-                            </td>
+                        <tr data-user-id="#USR-1001" data-vendor-id="#VEN-22" data-order-id="ORD-7842" data-rating="5" data-comment="Cake was delicious and delivery was on time!" data-date="2025-10-01">
+                            <td class="user-id">#USR-1001</td>
+                            <td class="vendor-id">#VEN-22</td>
                             <td class="order-id">ORD-7842</td>
                             <td><span class="rating" data-rating="5">★★★★★</span></td>
                             <td class="comment">Cake was delicious and delivery was on time!</td>
-                            <td><span class="badge status open" data-status="open">Open</span></td>
                             <td class="date">2025-10-01</td>
                             <td>
                                 <div class="row-actions">
                                     <button class="icon-btn view" data-action="view" title="View"><i
                                             class="fas fa-eye"></i></button>
-                                    <button class="icon-btn edit" data-action="reply" title="Reply"><i
-                                            class="fas fa-reply"></i></button>
-                                    <button class="icon-btn success" data-action="resolve" title="Resolve"><i
-                                            class="fas fa-check"></i></button>
-                                    <button class="icon-btn warn" data-action="flag" title="Flag"><i
-                                            class="fas fa-flag"></i></button>
+                                    <button class="icon-btn edit" data-action="reply" title="Reply"><i class="fas fa-reply"></i></button>
                                     <button class="icon-btn danger" data-action="delete" title="Delete"><i
                                             class="fas fa-trash"></i></button>
                                 </div>
                             </td>
                         </tr>
-                        <tr data-provider="Balloons & More"
-                            data-products='[{"name":"Balloon Arch","qty":1},{"name":"Helium Balloons","qty":10}]'>
-                            <td><input type="checkbox" class="row-select"></td>
-                            <td>
-                                <div class="user-cell">
-                                    <img src="https://i.pravatar.cc/150?img=18" alt="">
-                                    <div>
-                                        <div class="name">Ahmed Mohamed</div>
-                                        <div class="sub">@ahmed.m</div>
-                                    </div>
-                                </div>
-                            </td>
+                        <tr data-user-id="#USR-1002" data-vendor-id="#VEN-35" data-order-id="ORD-7839" data-rating="3" data-comment="Good service, but the balloons were fewer than expected." data-date="2025-09-27">
+                            <td class="user-id">#USR-1002</td>
+                            <td class="vendor-id">#VEN-35</td>
                             <td class="order-id">ORD-7839</td>
                             <td><span class="rating" data-rating="3">★★★☆☆</span></td>
                             <td class="comment">Good service, but the balloons were fewer than expected.</td>
-                            <td><span class="badge status replied" data-status="replied">Replied</span></td>
                             <td class="date">2025-09-27</td>
                             <td>
                                 <div class="row-actions">
                                     <button class="icon-btn view" data-action="view" title="View"><i
                                             class="fas fa-eye"></i></button>
-                                    <button class="icon-btn edit" data-action="reply" title="Reply"><i
-                                            class="fas fa-reply"></i></button>
-                                    <button class="icon-btn success" data-action="resolve" title="Resolve"><i
-                                            class="fas fa-check"></i></button>
-                                    <button class="icon-btn warn" data-action="flag" title="Flag"><i
-                                            class="fas fa-flag"></i></button>
+                                    <button class="icon-btn edit" data-action="reply" title="Reply"><i class="fas fa-reply"></i></button>
                                     <button class="icon-btn danger" data-action="delete" title="Delete"><i
                                             class="fas fa-trash"></i></button>
                                 </div>
@@ -164,31 +111,17 @@
     <!-- Templates -->
     <template id="fb-row-template">
         <tr>
-            <td><input type="checkbox" class="row-select"></td>
-            <td>
-                <div class="user-cell">
-                    <img src="" alt="">
-                    <div>
-                        <div class="name"></div>
-                        <div class="sub"></div>
-                    </div>
-                </div>
-            </td>
+            <td class="user-id"></td>
+            <td class="vendor-id"></td>
             <td class="order-id"></td>
             <td><span class="rating" data-rating="">★★★★★</span></td>
             <td class="comment"></td>
-            <td><span class="badge status" data-status="">Status</span></td>
             <td class="date"></td>
             <td>
                 <div class="row-actions">
                     <button class="icon-btn view" data-action="view" title="View"><i class="fas fa-eye"></i></button>
-                    <button class="icon-btn edit" data-action="reply" title="Reply"><i
-                            class="fas fa-reply"></i></button>
-                    <button class="icon-btn success" data-action="resolve" title="Resolve"><i
-                            class="fas fa-check"></i></button>
-                    <button class="icon-btn warn" data-action="flag" title="Flag"><i class="fas fa-flag"></i></button>
-                    <button class="icon-btn danger" data-action="delete" title="Delete"><i
-                            class="fas fa-trash"></i></button>
+                    <button class="icon-btn edit" data-action="reply" title="Reply"><i class="fas fa-reply"></i></button>
+                    <button class="icon-btn danger" data-action="delete" title="Delete"><i class="fas fa-trash"></i></button>
                 </div>
             </td>
         </tr>
@@ -210,71 +143,23 @@
     <!-- View Feedback Modal -->
     <div class="modal-overlay" id="viewFbModal" aria-hidden="true" role="dialog" aria-modal="true">
         <div class="modal simple-feedback-modal" role="document">
-            <!-- Modal Header -->
             <div class="simple-modal-header">
                 <h3><i class="fas fa-star"></i> Feedback Details</h3>
                 <button class="modal-close" id="closeViewFb" type="button" aria-label="Close modal">
                     <i class="fas fa-times"></i>
                 </button>
             </div>
-
-            <!-- Modal Content -->
             <div class="simple-modal-content">
-                <!-- Customer Info -->
-                <div class="customer-info">
-                    <img id="viewAvatar" src="" alt="Customer" class="customer-avatar">
-                    <div class="customer-details">
-                        <h4 id="viewName">Customer Name</h4>
-                        <p id="viewSub">@username</p>
-                        <div class="rating-status">
-                            <span class="rating" id="viewRating">★★★★★</span>
-                            <span class="status-badge" id="viewStatus">New</span>
-                        </div>
-                    </div>
+                <div class="details-grid" style="display:grid; grid-template-columns:1fr 1fr; gap:12px;">
+                    <div class="detail-item"><span class="label">User ID</span><span id="vf_user_id">#USR-1001</span></div>
+                    <div class="detail-item"><span class="label">Vendor ID</span><span id="vf_vendor_id">#VEN-22</span></div>
+                    <div class="detail-item"><span class="label">Order ID</span><span id="vf_order_id">ORD-7842</span></div>
+                    <div class="detail-item"><span class="label">Rating</span><span id="vf_rating">★★★★★</span></div>
+                    <div class="detail-item" style="grid-column:1/-1;"><span class="label">Comment</span><span id="vf_comment">Good service, but the balloons were fewer than expected.</span></div>
+                    <div class="detail-item"><span class="label">Date</span><span id="vf_date">2025-10-01</span></div>
                 </div>
-
-                <!-- Feedback Comment -->
-                <div class="feedback-comment">
-                    <h5>Customer Feedback</h5>
-                    <p id="viewComment">Customer feedback comment will appear here...</p>
-                </div>
-
-                <!-- Order Info -->
-                <div class="order-info">
-                    <div class="info-row">
-                        <span class="label">Order ID:</span>
-                        <span id="viewOrder">ORD-12345</span>
-                    </div>
-                    <div class="info-row">
-                        <span class="label">Provider:</span>
-                        <span id="viewProvider">Provider Name</span>
-                    </div>
-                    <div class="info-row">
-                        <span class="label">Date:</span>
-                        <span id="viewDate">Dec 15, 2023</span>
-                    </div>
-                </div>
-
-                <!-- Products -->
-                <div class="products-info">
-                    <h5>Products</h5>
-                    <ul id="viewProducts" class="products-list">
-                        <li>Custom Chocolate Cake × 1</li>
-                        <li>Candles Set × 1</li>
-                    </ul>
-                </div>
-
-                <!-- Actions -->
                 <div class="modal-actions">
-                    <button class="btn btn-primary" id="quickReplyFeedback">
-                        <i class="fas fa-reply"></i> Reply
-                    </button>
-                    <button class="btn btn-success" id="quickToggleStatus">
-                        <i class="fas fa-check-circle"></i> Resolve
-                    </button>
-                    <button class="btn btn-secondary" id="quickArchiveFeedback">
-                        <i class="fas fa-archive"></i> Archive
-                    </button>
+                    <button class="btn btn-secondary" id="closeViewFbBottom">Close</button>
                 </div>
             </div>
         </div>

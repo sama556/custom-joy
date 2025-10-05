@@ -27,11 +27,8 @@ document.addEventListener('DOMContentLoaded', function () {
     const themeTitle = document.getElementById('themeTitle');
     const themeDescription = document.getElementById('themeDescription');
     const themeImageFile = document.getElementById('themeImageFile');
-    const themeStatus = document.getElementById('themeStatus');
     const themeCategory = document.getElementById('themeCategory');
-    const themePrice = document.getElementById('themePrice');
-    const themeColor = document.getElementById('themeColor');
-    const themeTags = document.getElementById('themeTags');
+    const themeAvailable = document.getElementById('themeAvailable');
     let editingRow = null;
 
     // View modal
@@ -40,21 +37,18 @@ document.addEventListener('DOMContentLoaded', function () {
     const viewThemeTitle = document.getElementById('viewThemeTitle');
     const viewThemeId = document.getElementById('viewThemeId');
     const viewThemeDescription = document.getElementById('viewThemeDescription');
-    const viewThemeStatus = document.getElementById('viewThemeStatus');
+    const viewThemeAvailable = document.getElementById('viewThemeAvailable');
     const closeViewTheme = document.getElementById('closeViewTheme');
 
     // Form persistence
     function saveFormDraft() {
         const formData = {
-            id: themeId.value,
-            title: themeTitle.value,
-            description: themeDescription.value,
-            status: themeStatus.value,
+            id: themeId ? themeId.value : '',
+            title: themeTitle ? themeTitle.value : '',
+            description: themeDescription ? themeDescription.value : '',
             category: themeCategory ? themeCategory.value : 'birthday',
-            price: themePrice ? themePrice.value : '',
-            color: themeColor ? themeColor.value : '#368BFF',
-            tags: themeTags ? themeTags.value : '',
-            image: themePreviewImage ? themePreviewImage.src : ''
+            available: themeAvailable ? themeAvailable.value : 'false',
+            image: (function(){ const img = document.getElementById('themePreviewImage'); return img ? img.src : ''; })()
         };
         localStorage.setItem('themeFormDraft', JSON.stringify(formData));
         showAutoSaveIndicator();
@@ -83,15 +77,14 @@ document.addEventListener('DOMContentLoaded', function () {
         if (!progressFill || !progressText) return;
 
         let completedFields = 0;
-        let totalFields = 7; // ID, Title, Description, Status, Category, Price, Image
+        let totalFields = 6; // ID, Title, Description, Category, Available, Image
 
         // Check required fields
         if (themeId && themeId.value.trim()) completedFields++;
         if (themeTitle && themeTitle.value.trim()) completedFields++;
         if (themeDescription && themeDescription.value.trim()) completedFields++;
-        if (themeStatus && themeStatus.value) completedFields++;
         if (themeCategory && themeCategory.value) completedFields++;
-        if (themePrice && themePrice.value) completedFields++;
+        if (themeAvailable && themeAvailable.value) completedFields++;
 
         // Check if image is uploaded
         const previewImg = document.getElementById('themePreviewImage');
@@ -122,11 +115,8 @@ document.addEventListener('DOMContentLoaded', function () {
                 if (themeId) themeId.value = formData.id || '';
                 if (themeTitle) themeTitle.value = formData.title || '';
                 if (themeDescription) themeDescription.value = formData.description || '';
-                if (themeStatus) themeStatus.value = formData.status || 'active';
                 if (themeCategory) themeCategory.value = formData.category || 'birthday';
-                if (themePrice) themePrice.value = formData.price || '';
-                if (themeColor) themeColor.value = formData.color || '#368BFF';
-                if (themeTags) themeTags.value = formData.tags || '';
+                if (themeAvailable) themeAvailable.value = formData.available || 'false';
 
                 if (formData.image && themePreviewImage) {
                     themePreviewImage.src = formData.image;
@@ -151,11 +141,7 @@ document.addEventListener('DOMContentLoaded', function () {
         themeModal.classList.add('open');
         themeModal.setAttribute('aria-hidden', 'false');
 
-        // Update subtitle based on mode
-        const subtitle = document.getElementById('themeModalSubtitle');
-        if (subtitle) {
-            subtitle.textContent = editingRow ? 'Edit theme details and settings' : 'Create a new theme for your collection';
-        }
+        // subtitle removed in markup
 
         // Load draft if not editing
         if (!editingRow) {
@@ -423,35 +409,12 @@ document.addEventListener('DOMContentLoaded', function () {
             if (viewThemeId) viewThemeId.textContent = data.id;
             if (viewThemeDescription) viewThemeDescription.textContent = data.description;
 
-            // Status with proper styling
-            if (viewThemeStatus) {
-                viewThemeStatus.textContent = data.status.charAt(0).toUpperCase() + data.status.slice(1);
-                viewThemeStatus.className = `status-badge ${data.status}`;
-            }
-
             // Additional fields
-            const viewThemeCategory = document.getElementById('viewThemeCategory');
             const viewThemeCategoryDetail = document.getElementById('viewThemeCategoryDetail');
-            const viewThemePrice = document.getElementById('viewThemePrice');
-            const viewThemeColorSwatch = document.getElementById('viewThemeColorSwatch');
-            const viewThemeColorValue = document.getElementById('viewThemeColorValue');
-            const viewThemeTags = document.getElementById('viewThemeTags');
+            if (viewThemeAvailable) viewThemeAvailable.textContent = (data.status === 'active') ? 'Yes' : 'No';
 
-            if (viewThemeCategory) viewThemeCategory.textContent = data.category.charAt(0).toUpperCase() + data.category.slice(1);
             if (viewThemeCategoryDetail) viewThemeCategoryDetail.textContent = data.category.charAt(0).toUpperCase() + data.category.slice(1);
-            if (viewThemePrice) viewThemePrice.textContent = `$${data.price.toFixed(2)}`;
-            if (viewThemeColorSwatch) viewThemeColorSwatch.style.backgroundColor = data.color;
-            if (viewThemeColorValue) viewThemeColorValue.textContent = data.color;
-
-            // Handle tags
-            if (viewThemeTags && data.tags) {
-                const tags = data.tags.split(',').map(tag => tag.trim()).filter(tag => tag);
-                if (tags.length > 0) {
-                    viewThemeTags.innerHTML = tags.map(tag => `<span class="tag">${tag}</span>`).join('');
-                } else {
-                    viewThemeTags.innerHTML = '<span class="muted">No tags</span>';
-                }
-            }
+            
 
             // Mark current card for quick actions
             document.querySelectorAll('.theme-card').forEach(card => card.removeAttribute('data-current'));
@@ -486,11 +449,8 @@ document.addEventListener('DOMContentLoaded', function () {
                     document.getElementById('themeUploadArea').style.display = 'none';
                 }
             }
-            themeStatus.value = data.status;
             if (themeCategory) themeCategory.value = data.category || 'birthday';
-            if (themePrice) themePrice.value = data.price || 0;
-            if (themeColor) themeColor.value = data.color || '#368BFF';
-            if (themeTags) themeTags.value = data.tags || '';
+            if (themeAvailable) themeAvailable.value = data.status === 'active' ? 'true' : 'false';
             editingRow = card;
             openThemeModal('<i class="fas fa-edit" style="color: var(--orange-yellow);"></i> Edit theme');
         } else if (action === 'hide') {
@@ -578,13 +538,7 @@ document.addEventListener('DOMContentLoaded', function () {
             }
         }
 
-        // Price validation
-        if (themePrice && themePrice.value && (isNaN(parseFloat(themePrice.value)) || parseFloat(themePrice.value) < 0)) {
-            errors.push('Price must be a valid positive number');
-            themePrice.classList.add('error');
-        } else if (themePrice) {
-            themePrice.classList.remove('error');
-        }
+        // no price validation in simplified form
 
         return errors;
     }
@@ -628,22 +582,10 @@ document.addEventListener('DOMContentLoaded', function () {
         });
     }
 
-    if (themePrice) {
-        themePrice.addEventListener('input', () => {
-            const value = parseFloat(themePrice.value);
-            if (isNaN(value) || value < 0) {
-                themePrice.classList.add('error');
-                showFieldError(themePrice, 'Price must be a valid positive number');
-            } else {
-                themePrice.classList.remove('error');
-                clearFieldError(themePrice);
-            }
-            saveFormDraft();
-        });
-    }
+    // removed price input listeners
 
     // Auto-save form data
-    const formFields = [themeId, themeTitle, themeDescription, themeStatus, themeCategory, themePrice, themeColor, themeTags];
+    const formFields = [themeId, themeTitle, themeDescription, themeCategory, themeAvailable];
     formFields.forEach(field => {
         if (field) {
             field.addEventListener('input', () => {
@@ -704,11 +646,8 @@ document.addEventListener('DOMContentLoaded', function () {
             title: themeTitle.value.trim(),
             description: themeDescription.value.trim(),
             image: imageUrl,
-            status: themeStatus.value,
-            category: themeCategory ? themeCategory.value : 'birthday',
-            price: themePrice ? parseFloat(themePrice.value) || 0 : 0,
-            color: themeColor ? themeColor.value : '#368BFF',
-            tags: themeTags ? themeTags.value.trim() : ''
+            status: (themeAvailable && themeAvailable.value === 'true') ? 'active' : 'hidden',
+            category: themeCategory ? themeCategory.value : 'birthday'
         };
 
         if (editingRow) {

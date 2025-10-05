@@ -118,6 +118,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
 
     function setStatusBadge(span, status) {
+        if (!span) return; // table no longer shows a status badge; guard if absent
         span.className = 'badge status';
         span.setAttribute('data-status', status);
         if (status === 'open') span.classList.add('open');
@@ -128,25 +129,33 @@ document.addEventListener('DOMContentLoaded', function () {
     }
 
     function applyFilters() {
-        const q = (fbSearch.value || '').toLowerCase();
-        const ratingVal = ratingFilter.value;
-        const statusVal = statusFilter.value;
+        if (!fbTable) return;
+        const q = fbSearch ? (fbSearch.value || '').toLowerCase() : '';
+        const ratingVal = ratingFilter ? ratingFilter.value : '';
+        const statusVal = statusFilter ? statusFilter.value : '';
         let visible = 0;
         [...fbTable.tBodies[0].rows].forEach(row => {
-            const name = (row.querySelector('.user-cell .name')?.textContent || '').toLowerCase();
-            const sub = (row.querySelector('.user-cell .sub')?.textContent || '').toLowerCase();
+            // New simplified table: filter only by text if a search box exists; otherwise show all
+            if (!fbSearch) {
+                row.style.display = '';
+                visible++;
+                return;
+            }
+            const userId = (row.querySelector('.user-id')?.textContent || '').toLowerCase();
+            const vendorId = (row.querySelector('.vendor-id')?.textContent || '').toLowerCase();
             const orderId = (row.querySelector('.order-id')?.textContent || '').toLowerCase();
             const comment = (row.querySelector('.comment')?.textContent || '').toLowerCase();
+            const matchesQuery = !q || [userId, vendorId, orderId, comment].some(v => v.includes(q));
+            // rating/status filters only if present
             const rowRating = row.querySelector('.rating')?.getAttribute('data-rating');
             const rowStatus = row.querySelector('.badge.status')?.getAttribute('data-status');
-            const matchesQuery = !q || [name, sub, orderId, comment].some(v => v.includes(q));
             const matchesRating = !ratingVal || rowRating === ratingVal;
             const matchesStatus = !statusVal || rowStatus === statusVal;
             const show = matchesQuery && matchesRating && matchesStatus;
             row.style.display = show ? '' : 'none';
             if (show) visible++;
         });
-        fbCount.textContent = `${visible} item${visible === 1 ? '' : 's'}`;
+        if (fbCount) fbCount.textContent = `${visible} item${visible === 1 ? '' : 's'}`;
     }
 
     if (fbSearch) fbSearch.addEventListener('input', applyFilters);

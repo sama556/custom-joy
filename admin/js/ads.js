@@ -25,15 +25,14 @@ document.addEventListener('DOMContentLoaded', function () {
     const cancelAd = document.getElementById('cancelAd');
     const adId = document.getElementById('adId');
     const adTitle = document.getElementById('adTitle');
-    const adDescription = document.getElementById('adDescription');
-    const adImage = document.getElementById('adImage');
+    const adLink = document.getElementById('adLink');
+    const adDate = document.getElementById('adDate');
+    const adActive = document.getElementById('adActive');
     const adImageFile = document.getElementById('adImageFile');
     const uploadArea = document.getElementById('uploadArea');
     const imagePreview = document.getElementById('imagePreview');
     const previewImage = document.getElementById('previewImage');
     const removeImage = document.getElementById('removeImage');
-    const adStatus = document.getElementById('adStatus');
-    const adDuration = document.getElementById('adDuration');
     let editingCard = null;
 
     // View modal
@@ -74,7 +73,6 @@ document.addEventListener('DOMContentLoaded', function () {
         imagePreview.style.display = 'none';
         previewImage.src = '';
         if (adImageFile) adImageFile.value = '';
-        if (adImage) adImage.value = '';
     }
 
     if (uploadArea) {
@@ -95,10 +93,7 @@ document.addEventListener('DOMContentLoaded', function () {
             return;
         }
         const reader = new FileReader();
-        reader.onload = (e) => {
-            showImagePreview(e.target.result);
-            if (adImage) adImage.value = e.target.result;
-        };
+        reader.onload = (e) => { showImagePreview(e.target.result); };
         reader.readAsDataURL(file);
     }
 
@@ -108,13 +103,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
     if (removeImage) removeImage.addEventListener('click', hideImagePreview);
 
-    if (adImage) adImage.addEventListener('input', (e) => {
-        if (e.target.value) {
-            showImagePreview(e.target.value);
-        } else {
-            hideImagePreview();
-        }
-    });
+    // No direct URL input anymore
 
     function setStatusBadge(span, status) {
         span.className = 'badge status';
@@ -136,20 +125,21 @@ document.addEventListener('DOMContentLoaded', function () {
         if (thumb) thumb.style.backgroundImage = `url('${data.image}')`;
         if (idEl) idEl.textContent = data.id;
         if (titleEl) titleEl.textContent = data.title;
-        if (descEl) descEl.textContent = data.description;
-        if (durationEl) durationEl.innerHTML = `<i class="far fa-clock"></i> ${data.duration || ''}`;
-        if (statusEl) setStatusBadge(statusEl, data.status);
-        card.setAttribute('data-status', data.status);
+        if (descEl) descEl.textContent = data.link || '';
+        if (durationEl) durationEl.innerHTML = `<i class="far fa-clock"></i> ${data.date || ''}`;
+        const status = data.active === true || data.active === 'true' ? 'active' : 'hidden';
+        if (statusEl) setStatusBadge(statusEl, status);
+        card.setAttribute('data-status', status);
     }
 
     function getCardData(card) {
         return {
             id: card.querySelector('.ad-id')?.textContent || '',
             title: card.querySelector('.ad-title')?.textContent || '',
-            description: card.querySelector('.ad-desc')?.textContent || '',
+            link: card.querySelector('.ad-desc')?.textContent || '',
             image: (card.querySelector('.ad-thumb')?.getAttribute('style') || '').replace(/^.*url\(['"]?/, '').replace(/["']?\).*$/, ''),
-            status: card.querySelector('.badge.status')?.getAttribute('data-status') || 'active',
-            duration: (card.querySelector('.ad-duration')?.textContent || '').replace(/^\s*\w+\s*/, '').trim()
+            active: (card.getAttribute('data-status') === 'active'),
+            date: (card.querySelector('.ad-duration')?.textContent || '').replace(/^\s*\w+\s*/, '').trim()
         };
     }
 
@@ -188,17 +178,19 @@ document.addEventListener('DOMContentLoaded', function () {
             if (viewAdImage) viewAdImage.src = data.image;
             if (viewAdTitle) viewAdTitle.textContent = data.title;
             if (viewAdId) viewAdId.textContent = data.id;
-            if (viewAdDescription) viewAdDescription.textContent = data.description;
-            if (viewAdStatus) viewAdStatus.textContent = data.status.charAt(0).toUpperCase() + data.status.slice(1);
-            if (viewAdDuration) viewAdDuration.textContent = data.duration;
+            const viewAdLink = document.getElementById('viewAdLink');
+            const viewAdDate = document.getElementById('viewAdDate');
+            const viewAdActive = document.getElementById('viewAdActive');
+            if (viewAdLink) viewAdLink.textContent = data.link || '';
+            if (viewAdDate) viewAdDate.textContent = data.date || '';
+            if (viewAdActive) viewAdActive.textContent = (data.active ? 'Yes' : 'No');
             openViewAd();
         } else if (action === 'edit') {
-            adId.value = data.id;
-            adTitle.value = data.title;
-            adDescription.value = data.description;
-            adImage.value = data.image.startsWith('http') || data.image.startsWith('/') ? data.image : '';
-            adStatus.value = data.status;
-            adDuration.value = data.duration;
+            if (adId) adId.value = data.id;
+            if (adTitle) adTitle.value = data.title;
+            if (adLink) adLink.value = data.link || '';
+            if (adDate) adDate.value = data.date || '';
+            if (adActive) adActive.value = data.active ? 'true' : 'false';
             if (data.image) {
                 showImagePreview(data.image);
             } else {
@@ -233,13 +225,15 @@ document.addEventListener('DOMContentLoaded', function () {
 
     if (adForm) adForm.addEventListener('submit', (e) => {
         e.preventDefault();
+        // Compose data for six-field model
+        let imageSrc = previewImage && previewImage.src ? previewImage.src : '../../images/celebrate.jpg';
         const data = {
             id: adId.value.trim(),
             title: adTitle.value.trim(),
-            description: adDescription.value.trim(),
-            status: adStatus.value,
-            duration: adDuration.value.trim(),
-            image: adImage.value.trim() || '../../images/celebrate.jpg'
+            link: adLink ? adLink.value.trim() : '',
+            date: adDate ? adDate.value : '',
+            active: adActive ? adActive.value === 'true' : true,
+            image: imageSrc
         };
         if (editingCard) {
             fillCard(editingCard, data);

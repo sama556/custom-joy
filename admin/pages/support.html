@@ -6,7 +6,10 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Admin Dashboard - Support & Contact</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="../css/feedback.css">
     <link rel="stylesheet" href="../css/support.css">
+    
+    
 </head>
 
 <body>
@@ -21,11 +24,12 @@
                 <li><a href="users.html"><i class="fas fa-users"></i> <span>User Management</span></a></li>
                 <li><a href="service-providers.html"><i class="fas fa-user-tie"></i> <span>Service Providers</span></a>
                 </li>
-                <li><a href="financials.html"><i class="fas fa-chart-line"></i> <span>Financials</span></a></li>
+                <li><a href="financials.html"><i class="fas fa-chart-line"></i> <span>Commission</span></a></li>
                 <li><a href="ads.html"><i class="fas fa-ad"></i> <span>Ads Management</span></a></li>
                 <li><a href="themes.html"><i class="fas fa-palette"></i> <span>Themes Management</span></a></li>
                 <li><a href="sales.html"><i class="fas fa-shopping-cart"></i> <span>Sales Statistics</span></a></li>
                 <li><a href="feedback.html"><i class="fas fa-star"></i> <span>Feedback Management</span></a></li>
+                <li><a href="inquiries.html"><i class="fas fa-question-circle"></i> <span>Inquiries</span></a></li>
                 <li><a href="products.html"><i class="fas fa-box"></i> <span>Product Management</span></a></li>
                 <li><a href="orders.html"><i class="fas fa-clipboard-list"></i> <span>Order Management</span></a></li>
                 <li class="active"><a href="#"><i class="fas fa-headset"></i> <span>Support & Contact</span></a></li>
@@ -39,70 +43,70 @@
         <div class="header">
             <h1>Support & Contact</h1>
             <div class="user-info">
-                <img src="https://i.pravatar.cc/150?img=12" alt="Admin User">
+                <img src="../../images/avater.jpg" alt="Admin User">
                 <span>Admin User</span>
                 <button class="signout-btn" id="openSignOut"><i class="fas fa-sign-out-alt"></i> Sign Out</button>
             </div>
         </div>
 
+       
+
+        <!-- Contact Us Messages -->
         <div class="card">
             <div class="card-header">
-                <h3>Contact Information</h3>
-                <span class="muted">Update the information displayed publicly</span>
+                <h3>Contact Us Messages</h3>
+                <span class="muted" id="msgCount">0 items</span>
             </div>
-            <div style="padding:16px;">
-                <form id="contactForm">
-                    <div class="form-grid">
-                        <div class="form-field">
-                            <label for="supportEmail">Support Email</label>
-                            <input type="email" id="supportEmail" placeholder="support@customjoy.sa" required>
-                        </div>
-                        <div class="form-field">
-                            <label for="supportPhone">Support Phone</label>
-                            <input type="tel" id="supportPhone" placeholder="+966 5X XXX XXXX" required>
-                        </div>
-                        <div class="form-field">
-                            <label for="whatsapp">WhatsApp</label>
-                            <input type="tel" id="whatsapp" placeholder="+966 5X XXX XXXX">
-                        </div>
-                        <div class="form-field">
-                            <label for="website">Website</label>
-                            <input type="url" id="website" placeholder="https://customjoy.sa">
-                        </div>
-                        <div class="form-field" style="grid-column: 1 / -1;">
-                            <label for="address">Address</label>
-                            <input type="text" id="address" placeholder="Riyadh, Saudi Arabia">
-                        </div>
-                        <div class="form-field">
-                            <label for="twitter">Twitter (X)</label>
-                            <input type="url" id="twitter" placeholder="https://x.com/customjoy">
-                        </div>
-                        <div class="form-field">
-                            <label for="instagram">Instagram</label>
-                            <input type="url" id="instagram" placeholder="https://instagram.com/customjoy">
-                        </div>
-                        <div class="form-field">
-                            <label for="facebook">Facebook</label>
-                            <input type="url" id="facebook" placeholder="https://facebook.com/customjoy">
-                        </div>
-                        <div class="form-field">
-                            <label for="tiktok">TikTok</label>
-                            <input type="url" id="tiktok" placeholder="https://tiktok.com/@customjoy">
-                        </div>
-                        <div class="form-field" style="grid-column: 1 / -1;">
-                            <label for="hours">Working Hours</label>
-                            <input type="text" id="hours" placeholder="Sat-Thu 9:00 - 18:00, Fri Closed">
-                        </div>
-                        <div class="form-field" style="grid-column: 1 / -1;">
-                            <label for="notes">Notes</label>
-                            <textarea id="notes" rows="3" placeholder="Additional support notes"></textarea>
-                        </div>
-                    </div>
-                    <div class="modal-actions">
-                        <button type="button" class="btn btn-secondary" id="resetForm">Reset</button>
-                        <button type="submit" class="btn btn-primary" id="saveContact">Save</button>
-                    </div>
-                </form>
+            <div class="table-responsive">
+                <table class="fb-table" id="contactTable">
+                    <thead>
+                        <tr>
+                            <th>Message ID</th>
+                            <th>Name</th>
+                            <th>Email</th>
+                            <th>Phone Number</th>
+                            <th>Subject</th>
+                            <th>Message Text</th>
+                            <th>Submission Date</th>
+                            <th>Processing Status</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr data-message-id="#MSG-2001" data-name="Layla Alharbi" data-email="layla@example.com" data-phone="+966500000001" data-subject="Delivery Inquiry" data-text="When can I expect my delivery?" data-date="2025-10-02" data-status="Processed">
+                            <td class="msg-id">#MSG-2001</td>
+                            <td class="msg-name">Layla Alharbi</td>
+                            <td class="msg-email">layla@example.com</td>
+                            <td class="msg-phone">+966500000001</td>
+                            <td class="msg-subject">Delivery Inquiry</td>
+                            <td class="msg-text"><span class="truncate" title="When can I expect my delivery?">When can I expect my delivery?</span></td>
+                            <td class="msg-date">2025-10-02</td>
+                            <td class="msg-status"><span class="badge reply-status replied">Processed</span></td>
+                            <td>
+                                <div class="row-actions">
+                                    <button class="icon-btn view" data-action="view" title="View"><i class="fas fa-eye"></i></button>
+                                    <button class="icon-btn danger" data-action="delete" title="Delete"><i class="fas fa-trash"></i></button>
+                                </div>
+                            </td>
+                        </tr>
+                        <tr data-message-id="#MSG-2002" data-name="Omar Saleh" data-email="omar@example.com" data-phone="+966500000002" data-subject="Account Help" data-text="I can't access my account. Please assist." data-date="2025-10-03" data-status="Pending">
+                            <td class="msg-id">#MSG-2002</td>
+                            <td class="msg-name">Omar Saleh</td>
+                            <td class="msg-email">omar@example.com</td>
+                            <td class="msg-phone">+966500000002</td>
+                            <td class="msg-subject">Account Help</td>
+                            <td class="msg-text"><span class="truncate" title="I can't access my account. Please assist.">I can't access my account. Please assist.</span></td>
+                            <td class="msg-date">2025-10-03</td>
+                            <td class="msg-status"><span class="badge reply-status pending">Pending</span></td>
+                            <td>
+                                <div class="row-actions">
+                                    <button class="icon-btn view" data-action="view" title="View"><i class="fas fa-eye"></i></button>
+                                    <button class="icon-btn danger" data-action="delete" title="Delete"><i class="fas fa-trash"></i></button>
+                                </div>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
             </div>
         </div>
     </div>
@@ -128,6 +132,47 @@
             <div class="modal-actions">
                 <button class="btn btn-secondary" id="cancelSignOut">Cancel</button>
                 <button class="btn btn-primary" id="confirmSignOut">Sign Out</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- View Contact Message Modal -->
+    <div class="modal-overlay" id="viewMsgModal" aria-hidden="true" role="dialog" aria-modal="true">
+        <div class="modal simple-feedback-modal" role="document">
+            <style>
+                #viewMsgModal .modal { padding:0; overflow:hidden; }
+                #viewMsgModal .simple-modal-header { display:flex; align-items:center; justify-content:space-between; padding:16px 18px; background:linear-gradient(135deg, rgba(255,79,161,.08), rgba(54,139,255,.08)); border-bottom:1px solid var(--light-gray); }
+                #viewMsgModal .simple-modal-header h3 { display:flex; align-items:center; gap:10px; margin:0; font-size:1.1rem; }
+                #viewMsgModal .simple-modal-header h3 i { color: var(--bright-blue); }
+                #viewMsgModal .modal-close { background:transparent; border:none; color:var(--dark-gray); cursor:pointer; }
+                #viewMsgModal .simple-modal-content { padding:18px; }
+                #viewMsgModal .details-grid { display:grid; grid-template-columns:1fr 1fr; gap:12px; }
+                #viewMsgModal .detail-item { background:#fff; border:1px solid var(--light-gray); border-radius:10px; padding:12px 12px; display:flex; flex-direction:column; gap:6px; }
+                #viewMsgModal .detail-item.wide { grid-column:1/-1; }
+                #viewMsgModal .label { font-size:.8rem; color:var(--dark-gray); letter-spacing:.2px; text-transform:uppercase; font-weight:700; }
+                #viewMsgModal .value { font-size:.98rem; color:#111; word-break:break-word; }
+                @media (max-width: 640px){ #viewMsgModal .details-grid { grid-template-columns:1fr; } }
+            </style>
+            <div class="simple-modal-header">
+                <h3><i class="fas fa-envelope-open-text"></i> Message Details</h3>
+                <button class="modal-close" id="closeViewMsg" type="button" aria-label="Close modal">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            <div class="simple-modal-content">
+                <div class="details-grid">
+                    <div class="detail-item"><span class="label">Message ID</span><span class="value" id="vm_message_id">#MSG-2001</span></div>
+                    <div class="detail-item"><span class="label">Name</span><span class="value" id="vm_name">—</span></div>
+                    <div class="detail-item"><span class="label">Email</span><span class="value" id="vm_email">—</span></div>
+                    <div class="detail-item"><span class="label">Phone Number</span><span class="value" id="vm_phone">—</span></div>
+                    <div class="detail-item"><span class="label">Subject</span><span class="value" id="vm_subject">—</span></div>
+                    <div class="detail-item wide"><span class="label">Message Text</span><span class="value" id="vm_text">—</span></div>
+                    <div class="detail-item"><span class="label">Submission Date</span><span class="value" id="vm_date">—</span></div>
+                    <div class="detail-item"><span class="label">Processing Status</span><span class="value" id="vm_status">—</span></div>
+                </div>
+                <div class="modal-actions">
+                    <button class="btn btn-secondary" id="closeViewMsgBottom">Close</button>
+                </div>
             </div>
         </div>
     </div>

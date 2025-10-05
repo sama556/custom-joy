@@ -45,3 +45,6 @@
         .sidebar-header .logo{ width:80px; height:80px; margin:auto; }
 
 
+        badge.reply-status { padding:4px 8px; border-radius:999px; font-weight:700; font-size:.85rem; }
+        .badge.reply-status.replied{ background:rgba(46,204,113,.15); color:#2ecc71; }
+        .badge.reply-status.pending{ background:rgba(255,177,27,.15); color:#FFB11B; }

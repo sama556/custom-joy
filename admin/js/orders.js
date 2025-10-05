@@ -552,7 +552,7 @@ function showOrderDetails(order) {
         orderStatusEl.className = `status-badge ${order.status}`;
     }
     if (orderDateEl) orderDateEl.textContent = order.date;
-    if (orderTotalEl) orderTotalEl.textContent = `$${order.total.toFixed(2)}`;
+    if (orderTotalEl) orderTotalEl.textContent = `﷼${order.total.toFixed(2)}`;
     if (customerNameEl) customerNameEl.textContent = order.customer.name;
     if (customerEmailEl) customerEmailEl.textContent = order.customer.email;
     if (customerPhoneEl) customerPhoneEl.textContent = order.customer.phone;
@@ -610,7 +610,7 @@ function setupSimpleOrderItems(orderDetails) {
         orderItem.innerHTML = `
             <div class="item-name">${detail.productType}</div>
             <div class="item-quantity">Qty: ${detail.quantity}</div>
-            <div class="item-price">$${detail.total.toFixed(2)}</div>
+            <div class="item-price">﷼${detail.total.toFixed(2)}</div>
         `;
 
         orderItemsContainer.appendChild(orderItem);
@@ -886,10 +886,10 @@ function createOrderRow(order) {
         </td>
         <td>
             <div class="amount-cell">
-                <div class="total-amount">$${order.total.toFixed(2)}</div>
+                <div class="total-amount">﷼${order.total.toFixed(2)}</div>
                 <div class="amount-breakdown">
-                    <span class="subtotal">Sub: $${order.subtotal.toFixed(2)}</span>
-                    <span class="delivery">+ $${order.deliveryFee.toFixed(2)} delivery</span>
+                    <span class="subtotal">Sub: ﷼${order.subtotal.toFixed(2)}</span>
+                    <span class="delivery">+ ﷼${order.deliveryFee.toFixed(2)} delivery</span>
                 </div>
             </div>
         </td>
@@ -986,7 +986,7 @@ function renderOrderCards() {
                         <p>${order.customer.email}</p>
                     </div>
                 </div>
-                <div class="order-card-amount">$${order.total.toFixed(2)}</div>
+                <div class="order-card-amount">﷼${order.total.toFixed(2)}</div>
                 <div class="order-card-date">${order.date}</div>
             </div>
             <div class="order-card-actions">
