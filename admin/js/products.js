@@ -5,12 +5,12 @@ document.addEventListener('DOMContentLoaded', function () {
     // Mobile Navigation
     const mobileMenuToggle = document.getElementById('mobileMenuToggle');
     const sidebar = document.getElementById('sidebar');
-    
+
     if (mobileMenuToggle && sidebar) {
-        mobileMenuToggle.addEventListener('click', function() {
+        mobileMenuToggle.addEventListener('click', function () {
             sidebar.classList.toggle('open');
             mobileMenuToggle.classList.toggle('active');
-            
+
             // Update icon
             const icon = mobileMenuToggle.querySelector('i');
             if (sidebar.classList.contains('open')) {
@@ -19,12 +19,12 @@ document.addEventListener('DOMContentLoaded', function () {
                 icon.className = 'fas fa-bars';
             }
         });
-        
+
         // Close sidebar when clicking outside
-        document.addEventListener('click', function(event) {
-            if (window.innerWidth <= 768 && 
-                !sidebar.contains(event.target) && 
-                !mobileMenuToggle.contains(event.target) && 
+        document.addEventListener('click', function (event) {
+            if (window.innerWidth <= 768 &&
+                !sidebar.contains(event.target) &&
+                !mobileMenuToggle.contains(event.target) &&
                 sidebar.classList.contains('open')) {
                 sidebar.classList.remove('open');
                 mobileMenuToggle.classList.remove('active');
@@ -32,9 +32,9 @@ document.addEventListener('DOMContentLoaded', function () {
                 icon.className = 'fas fa-bars';
             }
         });
-        
+
         // Close sidebar when window is resized to desktop
-        window.addEventListener('resize', function() {
+        window.addEventListener('resize', function () {
             if (window.innerWidth > 768) {
                 sidebar.classList.remove('open');
                 mobileMenuToggle.classList.remove('active');
@@ -51,7 +51,7 @@ document.addEventListener('DOMContentLoaded', function () {
     const closeProductDetailsBtn = document.getElementById('closeProductDetailsBtn');
     const closeProductDetails = document.getElementById('closeProductDetails');
     const editProductFromDetails = document.getElementById('editProductFromDetails');
-    
+
 
     function openModal(modal) {
         modal.classList.add('open');
@@ -62,6 +62,180 @@ document.addEventListener('DOMContentLoaded', function () {
         modal.setAttribute('aria-hidden', 'true');
     }
 
+    // Reusable small multi-select modal logic for checkbox groups
+    const multiSelectModal = document.getElementById('multiSelectModal');
+    const multiSelectTitle = document.getElementById('multiSelectTitle');
+    const multiSelectContent = document.getElementById('multiSelectContent');
+    const cancelMultiSelect = document.getElementById('cancelMultiSelect');
+    const confirmMultiSelect = document.getElementById('confirmMultiSelect');
+    const multiSelectSearch = document.getElementById('multiSelectSearch');
+    const multiSelectSelectAll = document.getElementById('multiSelectSelectAll');
+    const multiSelectClear = document.getElementById('multiSelectClear');
+    let activeCheckboxGroup = null; // {form, groupEl, nameAttr}
+
+    function openMultiSelectForGroup(groupEl) {
+        if (!groupEl) return;
+        const form = groupEl.closest('form');
+        activeCheckboxGroup = { form, groupEl, nameAttr: (groupEl.querySelector('input[type="checkbox"]')?.getAttribute('name') || '') };
+        // Title from previous label sibling or fallback
+        const labelEl = groupEl.parentElement?.querySelector('label');
+        const title = (labelEl?.textContent?.trim() || 'Select Options');
+        const titleSpan = multiSelectTitle?.querySelector('span');
+        if (titleSpan) titleSpan.textContent = title; else multiSelectTitle.textContent = title;
+
+        // Build modal list
+        multiSelectContent.innerHTML = '';
+        const options = Array.from(groupEl.querySelectorAll('input[type="checkbox"]'));
+        options.forEach((cb, idx) => {
+            const id = `msel_${Date.now()}_${idx}`;
+            const wrapper = document.createElement('div');
+            wrapper.className = 'form-field';
+            const optionLabel = document.createElement('label');
+            const clone = cb.cloneNode(true);
+            clone.id = id;
+            optionLabel.setAttribute('for', id);
+            optionLabel.appendChild(clone);
+            optionLabel.appendChild(document.createTextNode(' ' + (cb.parentElement?.textContent?.trim() || cb.value)));
+            wrapper.appendChild(optionLabel);
+            multiSelectContent.appendChild(wrapper);
+        });
+        openModal(multiSelectModal);
+        if (multiSelectSearch) multiSelectSearch.value = '';
+    }
+
+    function applyMultiSelect() {
+        if (!activeCheckboxGroup) return;
+        const { groupEl, nameAttr } = activeCheckboxGroup;
+        if (!nameAttr) { closeModal(multiSelectModal); return; }
+        // Read selections from modal and sync back to original group checkboxes
+        const modalChecks = multiSelectContent.querySelectorAll(`input[type="checkbox"][name="${nameAttr}"]`);
+        const originalChecks = groupEl.querySelectorAll(`input[type="checkbox"][name="${nameAttr}"]`);
+        const selectedValues = new Set(Array.from(modalChecks).filter(cb => cb.checked).map(cb => cb.value));
+        originalChecks.forEach(cb => { cb.checked = selectedValues.has(cb.value); });
+        closeModal(multiSelectModal);
+        activeCheckboxGroup = null;
+    }
+
+    cancelMultiSelect?.addEventListener('click', () => { closeModal(multiSelectModal); activeCheckboxGroup = null; });
+    if (multiSelectModal) multiSelectModal.addEventListener('click', (e) => { if (e.target === multiSelectModal) { closeModal(multiSelectModal); activeCheckboxGroup = null; } });
+    confirmMultiSelect?.addEventListener('click', applyMultiSelect);
+
+    // Filtering inside modal
+    multiSelectSearch?.addEventListener('input', () => {
+        const term = multiSelectSearch.value.toLowerCase();
+        Array.from(multiSelectContent.children).forEach(row => {
+            const text = row.textContent?.toLowerCase() || '';
+            row.style.display = text.includes(term) ? '' : 'none';
+        });
+    });
+
+    // Bulk actions
+    multiSelectSelectAll?.addEventListener('click', () => {
+        multiSelectContent.querySelectorAll('input[type="checkbox"]').forEach(cb => { cb.checked = true; });
+    });
+    multiSelectClear?.addEventListener('click', () => {
+        multiSelectContent.querySelectorAll('input[type="checkbox"]').forEach(cb => { cb.checked = false; });
+    });
+
+    // Transform checkbox groups into modal pickers (show a field with icon + summary)
+    function getGroupLabel(groupEl) {
+        // The .checkbox-group is inside a .form-field; use its label
+        const field = groupEl.closest('.form-field');
+        const labelEl = field ? field.querySelector(':scope > label') : null;
+        return (labelEl?.textContent || '').trim() || 'Select Options';
+    }
+
+    function getSelectionsFromGroup(groupEl) {
+        return Array.from(groupEl.querySelectorAll('input[type="checkbox"]'))
+            .filter(cb => cb.checked)
+            .map(cb => cb.parentElement?.textContent?.trim() || cb.value);
+    }
+
+    function updatePickerSummary(picker, groupEl) {
+        const summary = picker.querySelector('.modal-picker-summary');
+        if (!summary) return;
+        const selected = getSelectionsFromGroup(groupEl);
+        if (selected.length === 0) {
+            summary.textContent = 'No selection';
+            summary.classList.add('empty');
+        } else if (selected.length <= 2) {
+            summary.textContent = selected.join(', ');
+            summary.classList.remove('empty');
+        } else {
+            summary.textContent = `${selected.length} selected`;
+            summary.classList.remove('empty');
+        }
+    }
+
+    function createModalPickerForGroup(groupEl) {
+        const field = groupEl.closest('.form-field');
+        if (!field || field.querySelector('.modal-picker')) return; // already created
+        // Hide the raw checkbox group
+        groupEl.style.display = 'none';
+        // Create picker UI
+        const picker = document.createElement('div');
+        picker.className = 'modal-picker';
+        picker.innerHTML = `
+            <button type="button" class="btn btn-outline modal-picker-trigger" aria-haspopup="dialog">
+                <i class="fas fa-list" style="margin-right:8px;"></i>
+                <span class="modal-picker-label">${getGroupLabel(groupEl)}</span>
+            </button>
+            <div class="modal-picker-summary" style="margin-top:6px;font-size:12px;color:#666;">No selection</div>
+        `;
+        field.appendChild(picker);
+        updatePickerSummary(picker, groupEl);
+
+        // Click to open modal
+        picker.querySelector('.modal-picker-trigger')?.addEventListener('click', (e) => {
+            e.preventDefault();
+            openMultiSelectForGroup(groupEl);
+        });
+    }
+
+    function setupModalPickersForCake() {
+        const cakeForm = document.querySelector('form.product-form[data-entity="cake"]');
+        if (!cakeForm) return;
+        cakeForm.querySelectorAll('.checkbox-group').forEach(createModalPickerForGroup);
+    }
+
+    function setupModalPickersForFlower() {
+        const flowerForm = document.querySelector('form.product-form[data-entity="flower"]');
+        if (!flowerForm) return;
+        flowerForm.querySelectorAll('.checkbox-group').forEach(createModalPickerForGroup);
+    }
+
+    // Build pickers on load
+    setupModalPickersForCake();
+    setupModalPickersForFlower();
+
+    // Also rebuild pickers whenever we open the cake form (in case of dynamic reset)
+    const originalOpenProductFormForPicker = window.openProductForm;
+    window.openProductForm = function (entity, item) {
+        if (originalOpenProductFormForPicker) originalOpenProductFormForPicker(entity, item);
+        if (entity === 'cake') {
+            setupModalPickersForCake();
+        }
+        if (entity === 'flower') {
+            setupModalPickersForFlower();
+        }
+    };
+
+    // After applying modal selection, refresh summaries
+    const originalApplyMulti = applyMultiSelect;
+    function applyMultiSelectAndRefresh() {
+        const groupRef = activeCheckboxGroup?.groupEl;
+        originalApplyMulti();
+        if (groupRef) {
+            const picker = groupRef.closest('.form-field')?.querySelector('.modal-picker');
+            if (picker) updatePickerSummary(picker, groupRef);
+        }
+    }
+    // Rebind confirm button to our wrapper
+    if (confirmMultiSelect) {
+        confirmMultiSelect.removeEventListener('click', applyMultiSelect);
+        confirmMultiSelect.addEventListener('click', applyMultiSelectAndRefresh);
+    }
+
     // Product Details Modal Functions
     function showProductDetails(product) {
         if (!product) {
@@ -69,18 +243,18 @@ document.addEventListener('DOMContentLoaded', function () {
             return;
         }
         const productType = product.productType || 'product';
-        
+
         // Helper function to get product image
         function getProductImage(product) {
             const image = product.primaryImage || product.image || (product.images && product.images.length > 0 ? product.images[0] : null);
             return image;
         }
-        
+
         // Helper function to check if product has image
         function hasProductImage(product) {
             return !!(product.primaryImage || product.image || (product.images && product.images.length > 0));
         }
-        
+
         // Update modal header with dynamic icon and title
         const iconMap = {
             'cake': 'fas fa-birthday-cake',
@@ -90,20 +264,20 @@ document.addEventListener('DOMContentLoaded', function () {
             'balloon': 'fas fa-balloon',
             'party': 'fas fa-calendar-check'
         };
-        
+
         const icon = iconMap[productType] || 'fas fa-box';
         const iconElement = document.getElementById('productDetailsIcon');
         if (iconElement) {
             iconElement.className = icon;
         }
-        
+
         productDetailsTitle.textContent = `${productType.charAt(0).toUpperCase() + productType.slice(1)} Details`;
-        
+
         const subtitle = document.getElementById('productDetailsSubtitle');
         if (subtitle) {
             subtitle.textContent = `View and manage ${productType} information`;
         }
-        
+
         // If static modals exist, populate and show them, else fallback to dynamic rendering
         const staticIds = { cake: 'cakeDetailsModal', flower: 'flowerDetailsModal', balloon: 'balloonDetailsModal' };
         if (staticIds[productType]) {
@@ -170,7 +344,7 @@ document.addEventListener('DOMContentLoaded', function () {
                 return;
             }
         }
-        
+
         let detailsHTML = `
             <div class="product-hero-section">
                 <div class="product-image-container">
@@ -218,8 +392,8 @@ document.addEventListener('DOMContentLoaded', function () {
         `;
 
         // Add specific details based on product type
-           if (productType === 'cake') {
-               detailsHTML += `
+        if (productType === 'cake') {
+            detailsHTML += `
                    <div class="detail-section modern-section">
                        <div class="section-header">
                            <div class="section-icon">
@@ -307,10 +481,10 @@ document.addEventListener('DOMContentLoaded', function () {
                        </div>
                    </div>
                `;
-               
-               // Add Cake Add-ons section
-               if (product.addons && product.addons.length > 0) {
-                   detailsHTML += `
+
+            // Add Cake Add-ons section
+            if (product.addons && product.addons.length > 0) {
+                detailsHTML += `
                        <div class="detail-section modern-section addons-section">
                            <div class="section-header">
                                <div class="section-icon">
@@ -324,8 +498,8 @@ document.addEventListener('DOMContentLoaded', function () {
                            <div class="section-content">
                                <div class="addons-grid">
                    `;
-                   product.addons.forEach(addon => {
-                       detailsHTML += `
+                product.addons.forEach(addon => {
+                    detailsHTML += `
                            <div class="addon-card">
                                <div class="addon-header">
                                    <div class="addon-title">
@@ -361,14 +535,14 @@ document.addEventListener('DOMContentLoaded', function () {
                                </div>
                            </div>
                        `;
-                   });
-                   detailsHTML += `
+                });
+                detailsHTML += `
                                </div>
                            </div>
                        </div>
                    `;
-               }
-           } else if (productType === 'cakeAddon') {
+            }
+        } else if (productType === 'cakeAddon') {
             detailsHTML += `
                 <div class="detail-section modern-section">
                     <div class="section-header">
@@ -481,7 +655,7 @@ document.addEventListener('DOMContentLoaded', function () {
                     </div>
                 </div>
             `;
-            
+
             // Add Flower Add-ons section
             if (product.addons && product.addons.length > 0) {
                 detailsHTML += `
@@ -621,10 +795,10 @@ document.addEventListener('DOMContentLoaded', function () {
                     </div>
                 </div>
             `;
-            
-          
+
+
         } else if (productType === 'party') {
-                detailsHTML += `
+            detailsHTML += `
                 <div class="detail-section modern-section">
                         <div class="section-header">
                         <div class="section-icon"><i class="fas fa-calendar-check"></i></div>
@@ -647,13 +821,13 @@ document.addEventListener('DOMContentLoaded', function () {
 
         detailsHTML += `</div>`;
         productDetailsContent.innerHTML = detailsHTML;
-        
+
         // Set data attributes for edit button
         if (editProductFromDetails) {
             editProductFromDetails.dataset.productId = product.id;
             editProductFromDetails.dataset.productType = productType;
         }
-        
+
         openModal(productDetailsModal);
     }
 
@@ -679,7 +853,7 @@ document.addEventListener('DOMContentLoaded', function () {
             closeModal(productDetailsModal);
         });
     }
-    
+
     // Fallback: Use event delegation for close buttons
     document.addEventListener('click', (e) => {
         if (e.target.closest('#closeProductDetails') || e.target.closest('#closeProductDetailsBtn')) {
@@ -904,7 +1078,7 @@ document.addEventListener('DOMContentLoaded', function () {
         const availableProductsEl = document.getElementById('availableProductsStat');
         const unavailableProductsEl = document.getElementById('unavailableProductsStat');
         const averagePriceEl = document.getElementById('averagePriceStat');
-        
+
         if (totalProductsEl) totalProductsEl.textContent = totalProducts;
         if (availableProductsEl) availableProductsEl.textContent = availableProducts;
         if (unavailableProductsEl) unavailableProductsEl.textContent = unavailableProducts;
@@ -1066,10 +1240,22 @@ document.addEventListener('DOMContentLoaded', function () {
         form.reset();
         if (values) {
             Object.keys(values).forEach(k => {
-                const input = form.querySelector(`[name="${k}"]`);
-                if (input && input.type !== 'file') {
-                    input.value = String(values[k]);
+                // handle checkbox groups named like name[]
+                const group = form.querySelectorAll(`input[name="${k}[]"]`);
+                if (group && group.length) {
+                    const selectedValues = String(values[k] ?? '').split(',').map(s => s.trim()).filter(Boolean);
+                    Array.from(group).forEach(cb => { cb.checked = selectedValues.includes(cb.value); });
+                    return;
                 }
+                const input = form.querySelector(`[name="${k}"]`);
+                if (!input) return;
+                if (input.type === 'file') return;
+                if (input.tagName === 'SELECT' && input.multiple) {
+                    const selectedValues = String(values[k] ?? '').split(',').map(s => s.trim()).filter(Boolean);
+                    Array.from(input.options).forEach(opt => { opt.selected = selectedValues.includes(opt.value); });
+                    return;
+                }
+                input.value = String(values[k] ?? '');
             });
             // Populate primary/gallery images for products that support multiple images
             if (['cake', 'flower', 'balloon'].includes(entity)) {
@@ -1165,7 +1351,7 @@ document.addEventListener('DOMContentLoaded', function () {
         const form = getFormByEntity(editing.entity);
         function val(name) { const el = form?.querySelector(`[name="${name}"]`); return el ? el.value : ''; }
         function valMulti(name) {
-            // checkbox groups use name like fillings[]
+            // checkbox groups use name like field[]
             const checkboxes = form?.querySelectorAll(`input[name="${name}[]"]`);
             if (checkboxes && checkboxes.length) {
                 const vals = Array.from(checkboxes).filter(cb => cb.checked).map(cb => cb.value);
@@ -1199,18 +1385,18 @@ document.addEventListener('DOMContentLoaded', function () {
                 scope: val('scope'),
                 type: val('cakeType'),
                 // addons/customization
-                mainFlavor: val('mainFlavor'),
+                mainFlavor: valMulti('mainFlavor'),
                 fillings: valMulti('fillings'),
-                frosting: val('frosting'),
-                shape: val('shape'),
-                sizeDiameter: val('sizeDiameter'),
-                layersAlt: val('layersAlt'),
-                baseColors: val('baseColors'),
+                frosting: valMulti('frosting'),
+                shape: valMulti('shape'),
+                sizeDiameter: valMulti('sizeDiameter'),
+                layersAlt: valMulti('layersAlt'),
+                baseColors: valMulti('baseColors'),
                 decorations: valMulti('decorations'),
                 writingText: val('writingText'),
                 writingColor: val('writingColor'),
-                candles: val('candles'),
-                topper: val('topper'),
+                candles: valMulti('candles'),
+                topper: valMulti('topper'),
                 topperText: val('topperText'),
                 edibleImage: val('edibleImage'),
                 addons: currentAddons.filter(addon => addon.type === 'cake')
@@ -1282,7 +1468,7 @@ document.addEventListener('DOMContentLoaded', function () {
         if (!localStorage.getItem('admin_products_seeded')) {
             // Cakes
             save(KEYS.cakes, [
-               
+
                 { id: 2, name: 'Strawberry Dream Cake', description: 'Fresh strawberry cake with cream cheese frosting', basePrice: 95, images: ['../images/ceek3.jpg', '../images/ceek4.jpg'], size: 'Large', layers: 3, available: true, scope: 'public' },
 
                 { id: 5, name: 'Lemon Zest Cake', description: 'Tangy lemon cake with citrus glaze', basePrice: 70, images: ['../images/ceek1.jpg'], size: 'Medium', layers: 2, available: true, scope: 'private' },
@@ -1510,7 +1696,7 @@ document.addEventListener('DOMContentLoaded', function () {
     function cancelAddonEdit(type, addonId) {
         const addonItem = document.querySelector(`[data-addon-id="${addonId}"]`);
         const editForm = addonItem.nextElementSibling;
-        
+
         addonItem.style.display = 'block';
         editForm.remove();
     }
@@ -1537,15 +1723,15 @@ document.addEventListener('DOMContentLoaded', function () {
 
     // Update the openProductForm function to clear addons
     const originalOpenProductForm = window.openProductForm;
-    window.openProductForm = function(entity, item) {
+    window.openProductForm = function (entity, item) {
         clearAddons();
-        
+
         // Load existing addons if editing
         if (item && item.addons && item.addons.length > 0) {
             currentAddons = [...item.addons];
             renderAddons(entity);
         }
-        
+
         if (originalOpenProductForm) {
             originalOpenProductForm(entity, item);
         }

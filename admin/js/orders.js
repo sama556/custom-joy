@@ -304,6 +304,93 @@ const ordersData = [
         paymentMethod: 'Cash on Delivery',
         cancellationRequest: null
     }
+    ,
+    {
+        orderNumber: 'ORD-007',
+        userNumber: 'USR-007',
+        date: '2025-01-09',
+        subtotal: 60.00,
+        deliveryFee: 3.50,
+        total: 63.50,
+        status: 'cancelled',
+        addressNumber: 'ADD-007',
+        initialStatus: 'accepted',
+        rejectionReason: 'Customer requested cancellation',
+        orderType: 'products',
+        priority: 'low',
+        notes: 'Cancelled by customer before processing.',
+        deliveryDate: '2025-01-12',
+        illustrativeImages: ['../../images/flower1.jpg'],
+        illustrativeDescription: 'Gift bundle order',
+        orderDetails: [
+            {
+                orderNumber: 'ORD-007',
+                productType: 'Flowers',
+                productNumber: 'PRD-FLOW-010',
+                additionType: 'Flowers',
+                additionNumber: 'ADD-FLOW-010',
+                quantity: 1,
+                price: 60.00,
+                total: 60.00,
+                notes: 'Roses bundle'
+            }
+        ],
+        customer: {
+            name: 'Laila Nasser',
+            email: 'laila@example.com',
+            phone: '+966500000001',
+            avatar: '../../images/avater6.jpg',
+            address: 'Al Malaz, Riyadh, Saudi Arabia',
+            since: '2024-02-10',
+            orderCount: 1
+        },
+        paymentStatus: 'unpaid',
+        paymentMethod: 'Cash on Delivery',
+        cancellationRequest: null
+    },
+    {
+        orderNumber: 'ORD-008',
+        userNumber: 'USR-008',
+        date: '2025-01-08',
+        subtotal: 110.00,
+        deliveryFee: 6.00,
+        total: 116.00,
+        status: 'cancelled',
+        addressNumber: 'ADD-008',
+        initialStatus: 'accepted',
+        rejectionReason: 'Payment failed after retries',
+        orderType: 'custom',
+        priority: 'medium',
+        notes: 'Order cancelled due to payment failure.',
+        deliveryDate: '2025-01-14',
+        illustrativeImages: ['../../images/ceek4.jpg'],
+        illustrativeDescription: 'Custom theme order',
+        orderDetails: [
+            {
+                orderNumber: 'ORD-008',
+                productType: 'Cake',
+                productNumber: 'PRD-CAKE-020',
+                additionType: 'Cake',
+                additionNumber: 'ADD-CAKE-020',
+                quantity: 1,
+                price: 110.00,
+                total: 110.00,
+                notes: 'Chocolate deluxe'
+            }
+        ],
+        customer: {
+            name: 'Yousef Al Qahtani',
+            email: 'yousef@example.com',
+            phone: '+966500000002',
+            avatar: '../../images/avater5.jpg',
+            address: 'Corniche, Jeddah, Saudi Arabia',
+            since: '2024-06-01',
+            orderCount: 6
+        },
+        paymentStatus: 'unpaid',
+        paymentMethod: 'Credit Card',
+        cancellationRequest: null
+    }
 ];
 
 // DOM Elements

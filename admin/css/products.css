@@ -1396,8 +1396,8 @@ tbody td:first-child {
     border: 1px dashed #e9ecef;
     border-radius: 12px;
     background: #fff;
-    max-height: 55px;
-    overflow: auto;
+    max-height: none;
+    overflow: visible;
 }
 
 .checkbox-group label {

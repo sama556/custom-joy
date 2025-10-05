@@ -28,7 +28,7 @@
                 </li>
                 <li><a href="financials.html"><i class="fas fa-chart-line"></i> <span>Commission</span></a></li>
                 <li><a href="ads.html"><i class="fas fa-ad"></i> <span>Ads Management</span></a></li>
-                
+
                 <li><a href="sales.html"><i class="fas fa-shopping-cart"></i> <span>Sales Statistics</span></a></li>
                 <li><a href="feedback.html"><i class="fas fa-star"></i> <span>Feedback Management</span></a></li>
                 <li><a href="inquiries.html"><i class="fas fa-question-circle"></i> <span>Inquiries</span></a></li>
@@ -214,7 +214,8 @@
                     <div class="form-grid">
                         <div class="form-field">
                             <label for="cake-id">Cake ID</label>
-                            <input type="text" id="cake-id" name="cakeId" placeholder="Auto-generated or enter manually">
+                            <input type="text" id="cake-id" name="cakeId"
+                                placeholder="Auto-generated or enter manually">
                         </div>
                         <div class="form-field">
                             <label for="cake-name">Name</label>
@@ -222,7 +223,8 @@
                         </div>
                         <div class="form-field full-width">
                             <label for="cake-description">Description</label>
-                            <input id="cake-description" name="description" rows="3" placeholder="Enter cake description"></input>
+                            <input id="cake-description" name="description" rows="3"
+                                placeholder="Enter cake description"></input>
                         </div>
                         <div class="form-field">
                             <label for="cake-basePrice">Base Price</label>
@@ -289,95 +291,102 @@
                             <h4 style="margin:10px 0 6px 0;">Cake Addons</h4>
                         </div>
                         <div class="form-field">
-                            <label for="cake-mainFlavor">Main Flavor</label>
-                            <select id="cake-mainFlavor" name="mainFlavor">
-                                <option value="Vanilla">Vanilla</option>
-                                <option value="Chocolate">Chocolate</option>
-                                <option value="Red Velvet">Red Velvet</option>
-                                <option value="Coffee">Coffee</option>
-                                <option value="Lemon">Lemon</option>
-                                <option value="Pistachio">Pistachio</option>
-                                <option value="Lotus">Lotus</option>
-                                <option value="Oreo">Oreo</option>
-                            </select>
+                            <label>Main Flavor</label>
+                            <div class="checkbox-group" id="cake-mainFlavor-group">
+                                <label><input type="checkbox" name="mainFlavor[]" value="Vanilla"> Vanilla</label>
+                                <label><input type="checkbox" name="mainFlavor[]" value="Chocolate"> Chocolate</label>
+                                <label><input type="checkbox" name="mainFlavor[]" value="Red Velvet"> Red Velvet</label>
+                                <label><input type="checkbox" name="mainFlavor[]" value="Coffee"> Coffee</label>
+                                <label><input type="checkbox" name="mainFlavor[]" value="Lemon"> Lemon</label>
+                                <label><input type="checkbox" name="mainFlavor[]" value="Pistachio"> Pistachio</label>
+                                <label><input type="checkbox" name="mainFlavor[]" value="Lotus"> Lotus</label>
+                                <label><input type="checkbox" name="mainFlavor[]" value="Oreo"> Oreo</label>
+                            </div>
                         </div>
                         <div class="form-field">
                             <label>Fillings</label>
                             <div class="checkbox-group" id="cake-fillings-group">
                                 <label><input type="checkbox" name="fillings[]" value="nothing"> Nothing</label>
-                                <label><input type="checkbox" name="fillings[]" value="Chocolate Ganache"> Chocolate Ganache</label>
-                                <label><input type="checkbox" name="fillings[]" value="Crème Pâtissière"> Crème Pâtissière</label>
+                                <label><input type="checkbox" name="fillings[]" value="Chocolate Ganache"> Chocolate
+                                    Ganache</label>
+                                <label><input type="checkbox" name="fillings[]" value="Crème Pâtissière"> Crème
+                                    Pâtissière</label>
                                 <label><input type="checkbox" name="fillings[]" value="Caramel"> Caramel</label>
                                 <label><input type="checkbox" name="fillings[]" value="Lotus"> Lotus</label>
                                 <label><input type="checkbox" name="fillings[]" value="Strawberry"> Strawberry</label>
-                                <label><input type="checkbox" name="fillings[]" value="Mixed Berries"> Mixed Berries</label>
+                                <label><input type="checkbox" name="fillings[]" value="Mixed Berries"> Mixed
+                                    Berries</label>
                                 <label><input type="checkbox" name="fillings[]" value="Nutella"> Nutella</label>
                             </div>
                         </div>
                         <div class="form-field">
-                            <label for="cake-frosting">Frosting</label>
-                            <select id="cake-frosting" name="frosting">
-                                <option value="Buttercream">Buttercream</option>
-                                <option value="Whipped Cream">Whipped Cream</option>
-                                <option value="Cream Cheese">Cream Cheese</option>
-                                <option value="Ganache">Ganache</option>
-                                <option value="Fondant">Fondant</option>
-                            </select>
+                            <label>Frosting</label>
+                            <div class="checkbox-group" id="cake-frosting-group">
+                                <label><input type="checkbox" name="frosting[]" value="Buttercream"> Buttercream</label>
+                                <label><input type="checkbox" name="frosting[]" value="Whipped Cream"> Whipped
+                                    Cream</label>
+                                <label><input type="checkbox" name="frosting[]" value="Cream Cheese"> Cream
+                                    Cheese</label>
+                                <label><input type="checkbox" name="frosting[]" value="Ganache"> Ganache</label>
+                                <label><input type="checkbox" name="frosting[]" value="Fondant"> Fondant</label>
+                            </div>
                         </div>
                         <div class="form-field">
-                            <label for="cake-shape">Shape</label>
-                            <select id="cake-shape" name="shape">
-                                <option value="Round">Round</option>
-                                <option value="Square">Square</option>
-                                <option value="Rectangle">Rectangle</option>
-                                <option value="Heart">Heart</option>
-                            </select>
+                            <label>Shape</label>
+                            <div class="checkbox-group" id="cake-shape-group">
+                                <label><input type="checkbox" name="shape[]" value="Round"> Round</label>
+                                <label><input type="checkbox" name="shape[]" value="Square"> Square</label>
+                                <label><input type="checkbox" name="shape[]" value="Rectangle"> Rectangle</label>
+                                <label><input type="checkbox" name="shape[]" value="Heart"> Heart</label>
+                            </div>
                         </div>
                         <div class="form-field">
-                            <label for="cake-sizeDiameter">Size / Diameter</label>
-                            <select id="cake-sizeDiameter" name="sizeDiameter">
-                                <option value="6">6″</option>
-                                <option value="8">8″</option>
-                                <option value="10">10″</option>
-                                <option value="12">12″</option>
-                                <option value="Small">Small</option>
-                                <option value="Medium">Medium</option>
-                                <option value="Large">Large</option>
-                            </select>
+                            <label>Size / Diameter</label>
+                            <div class="checkbox-group" id="cake-sizeDiameter-group">
+                                <label><input type="checkbox" name="sizeDiameter[]" value="6"> 6″</label>
+                                <label><input type="checkbox" name="sizeDiameter[]" value="8"> 8″</label>
+                                <label><input type="checkbox" name="sizeDiameter[]" value="10"> 10″</label>
+                                <label><input type="checkbox" name="sizeDiameter[]" value="12"> 12″</label>
+                                <label><input type="checkbox" name="sizeDiameter[]" value="Small"> Small</label>
+                                <label><input type="checkbox" name="sizeDiameter[]" value="Medium"> Medium</label>
+                                <label><input type="checkbox" name="sizeDiameter[]" value="Large"> Large</label>
+                            </div>
                         </div>
-                                        <div class="form-field">
-                            <label for="cake-layersAlt">Layers (Detailed)</label>
-                            <select id="cake-layersAlt" name="layersAlt">
-                                <option value="1 Layer">1 Layer</option>
-                                <option value="2 Layers">2 Layers</option>
-                                <option value="3+ Layers">3+ Layers</option>
-                            </select>
-                                        </div>
-                                        <div class="form-field">
-                            <label for="cake-baseColors">Base Colors</label>
-                            <select id="cake-baseColors" name="baseColors">
-                                <option value="White">White</option>
-                                <option value="Gold">Gold</option>
-                                <option value="Pink">Pink</option>
-                                <option value="Blue">Blue</option>
-                                <option value="Black">Black</option>
-                            </select>
-                                        </div>
+                        <div class="form-field">
+                            <label>Layers (Detailed)</label>
+                            <div class="checkbox-group" id="cake-layersAlt-group">
+                                <label><input type="checkbox" name="layersAlt[]" value="1 Layer"> 1 Layer</label>
+                                <label><input type="checkbox" name="layersAlt[]" value="2 Layers"> 2 Layers</label>
+                                <label><input type="checkbox" name="layersAlt[]" value="3+ Layers"> 3+ Layers</label>
+                            </div>
+                        </div>
+                        <div class="form-field">
+                            <label>Base Colors</label>
+                            <div class="checkbox-group" id="cake-baseColors-group">
+                                <label><input type="checkbox" name="baseColors[]" value="White"> White</label>
+                                <label><input type="checkbox" name="baseColors[]" value="Gold"> Gold</label>
+                                <label><input type="checkbox" name="baseColors[]" value="Pink"> Pink</label>
+                                <label><input type="checkbox" name="baseColors[]" value="Blue"> Blue</label>
+                                <label><input type="checkbox" name="baseColors[]" value="Black"> Black</label>
+                            </div>
+                        </div>
                         <div class="form-field">
                             <label>Decorations</label>
                             <div class="checkbox-group" id="cake-decorations-group">
                                 <label><input type="checkbox" name="decorations[]" value="nothing"> Nothing</label>
                                 <label><input type="checkbox" name="decorations[]" value="Sprinkles"> Sprinkles</label>
-                                <label><input type="checkbox" name="decorations[]" value="Chocolate Shavings"> Chocolate Shavings</label>
-                                <label><input type="checkbox" name="decorations[]" value="Fresh Fruits"> Fresh Fruits</label>
+                                <label><input type="checkbox" name="decorations[]" value="Chocolate Shavings"> Chocolate
+                                    Shavings</label>
+                                <label><input type="checkbox" name="decorations[]" value="Fresh Fruits"> Fresh
+                                    Fruits</label>
                                 <label><input type="checkbox" name="decorations[]" value="Nuts"> Nuts</label>
                             </div>
                         </div>
                         <div class="form-field full-width">
                             <label for="cake-writingText">Writing On Cake</label>
                             <input type="text" id="cake-writingText" name="writingText" placeholder="Custom text">
-                                        </div>
-                                        <div class="form-field">
+                        </div>
+                        <div class="form-field">
                             <label for="cake-writingColor">Writing Color</label>
                             <select id="cake-writingColor" name="writingColor">
                                 <option value="White">White</option>
@@ -389,36 +398,38 @@
                                 <option value="Green">Green</option>
                                 <option value="Purple">Purple</option>
                             </select>
-                                        </div>
+                        </div>
                         <div class="form-field">
-                            <label for="cake-candles">Candles</label>
-                            <select id="cake-candles" name="candles">
-                                <option value="Regular">Regular</option>
-                                <option value="Number Candles">Number Candles</option>
-                                <option value="Sparkler">Sparkler</option>
-                            </select>
-                                    </div>
+                            <label>Candles</label>
+                            <div class="checkbox-group" id="cake-candles-group">
+                                <label><input type="checkbox" name="candles[]" value="Regular"> Regular</label>
+                                <label><input type="checkbox" name="candles[]" value="Number Candles"> Number
+                                    Candles</label>
+                                <label><input type="checkbox" name="candles[]" value="Sparkler"> Sparkler</label>
+                            </div>
+                        </div>
                         <div class="form-field">
-                            <label for="cake-topper">Topper</label>
-                            <select id="cake-topper" name="topper">
-                                <option value="Happy Birthday">“Happy Birthday”</option>
-                                <option value="Names">Names</option>
-                                <option value="Numbers">Numbers</option>
-                                <option value="Acrylic">Acrylic</option>
-                                <option value="Paper">Paper</option>
-                            </select>
-                                </div>
+                            <label>Topper</label>
+                            <div class="checkbox-group" id="cake-topper-group">
+                                <label><input type="checkbox" name="topper[]" value="Happy Birthday"> “Happy
+                                    Birthday”</label>
+                                <label><input type="checkbox" name="topper[]" value="Names"> Names</label>
+                                <label><input type="checkbox" name="topper[]" value="Numbers"> Numbers</label>
+                                <label><input type="checkbox" name="topper[]" value="Acrylic"> Acrylic</label>
+                                <label><input type="checkbox" name="topper[]" value="Paper"> Paper</label>
+                            </div>
+                        </div>
                         <div class="form-field full-width">
                             <label for="cake-topperText">Topper Text (optional)</label>
                             <input type="text" id="cake-topperText" name="topperText" placeholder="e.g., Sarah 21">
-                                </div>
+                        </div>
                         <div class="form-field">
                             <label for="cake-edibleImage">Edible Image</label>
                             <select id="cake-edibleImage" name="edibleImage">
                                 <option value="No">No</option>
                                 <option value="Yes">Yes</option>
                             </select>
-                            </div>
+                        </div>
                         <div class="form-field">
                             <label for="cake-edibleImageFile">Upload Edible Image</label>
                             <input type="file" id="cake-edibleImageFile" name="edibleImageFile" accept="image/*">
@@ -490,7 +501,7 @@
                         </div>
 
                         <div class="form-field ">
-                          
+
                             <label for="flower-type">Flower Type</label>
                             <select id="flower-type" name="type">
                                 <option value="Rose">Rose</option>
@@ -506,15 +517,16 @@
                                 <option value="Anthurium">Anthurium</option>
                             </select>
                         </div>
-<div class="form-filed full-width">
-    <h4 style="margin:0 0 6px 0;">Flower Addons </h4>
-</div>
-<div class="form-filed full-width">
-   
-</div><div class="form-filed full-width">
-    
-                                        </div>
-                                        <div class="form-field">
+                        <div class="form-filed full-width">
+                            <h4 style="margin:0 0 6px 0;">Flower Addons </h4>
+                        </div>
+                        <div class="form-filed full-width">
+
+                        </div>
+                        <div class="form-filed full-width">
+
+                        </div>
+                        <div class="form-field">
                             <label for="flower-color">Flower Color</label>
                             <select id="flower-color" name="flowerColor">
                                 <option value="Red">Red</option>
@@ -535,21 +547,24 @@
                                 <option value="Large (20+)">Large (20+)</option>
                                 <option value="Custom">Custom</option>
                             </select>
-                                        </div>
+                        </div>
 
                         <div class="form-field">
                             <label>Fillers & Greens</label>
                             <div class="checkbox-group" id="flower-fillersGreens-group">
                                 <label><input type="checkbox" name="fillersGreens[]" value="nothing"> Nothing</label>
-                                <label><input type="checkbox" name="fillersGreens[]" value="Gypsophila"> Gypsophila</label>
-                                <label><input type="checkbox" name="fillersGreens[]" value="Eucalyptus"> Eucalyptus</label>
+                                <label><input type="checkbox" name="fillersGreens[]" value="Gypsophila">
+                                    Gypsophila</label>
+                                <label><input type="checkbox" name="fillersGreens[]" value="Eucalyptus">
+                                    Eucalyptus</label>
                                 <label><input type="checkbox" name="fillersGreens[]" value="Ruscus"> Ruscus</label>
                                 <label><input type="checkbox" name="fillersGreens[]" value="Fern"> Fern</label>
-                                <label><input type="checkbox" name="fillersGreens[]" value="Lemon Leaf"> Lemon Leaf</label>
+                                <label><input type="checkbox" name="fillersGreens[]" value="Lemon Leaf"> Lemon
+                                    Leaf</label>
                             </div>
                         </div>
 
-                                        <div class="form-field">
+                        <div class="form-field">
                             <label for="flower-packaging">Packaging</label>
                             <select id="flower-packaging" name="packaging">
                                 <option value="Transparent">Transparent</option>
@@ -558,7 +573,7 @@
                                 <option value="Matte Black">Matte Black</option>
                                 <option value="Luxury Box">Luxury Box</option>
                             </select>
-                                        </div>
+                        </div>
 
                         <div class="form-field">
                             <label for="flower-ribbonColor">Ribbon Color</label>
@@ -569,7 +584,7 @@
                                 <option value="Gold">Gold</option>
                                 <option value="Red">Red</option>
                             </select>
-                                    </div>
+                        </div>
 
                         <div class="form-field">
                             <label for="flower-greetingCard">Greeting Card</label>
@@ -577,23 +592,28 @@
                                 <option value="No">No</option>
                                 <option value="Yes">Yes</option>
                             </select>
-                                </div>
+                        </div>
                         <div class="form-field ">
                             <label for="flower-greetingText">Greeting Card Text (optional)</label>
-                            <input type="text" id="flower-greetingText" name="greetingText" placeholder="Your custom message">
-                                </div>
+                            <input type="text" id="flower-greetingText" name="greetingText"
+                                placeholder="Your custom message">
+                        </div>
 
-                        <div class="form-field";">
+                        <div class="form-field" ;">
                             <label>Accessories</label>
                             <div class="checkbox-group" id="flower-accessories-group">
                                 <label><input type="checkbox" name="accessories[]" value="nothing"> Nothing</label>
                                 <label><input type="checkbox" name="accessories[]" value="Chocolate"> Chocolate</label>
-                                <label><input type="checkbox" name="accessories[]" value="Teddy Bear"> Teddy Bear</label>
-                                <label><input type="checkbox" name="accessories[]" value="Helium Balloon"> Helium Balloon</label>
-                                <label><input type="checkbox" name="accessories[]" value="LED Lights"> LED Lights</label>
-                                <label><input type="checkbox" name="accessories[]" value="Light Perfume for Bouquet"> Light Perfume for Bouquet</label>
+                                <label><input type="checkbox" name="accessories[]" value="Teddy Bear"> Teddy
+                                    Bear</label>
+                                <label><input type="checkbox" name="accessories[]" value="Helium Balloon"> Helium
+                                    Balloon</label>
+                                <label><input type="checkbox" name="accessories[]" value="LED Lights"> LED
+                                    Lights</label>
+                                <label><input type="checkbox" name="accessories[]" value="Light Perfume for Bouquet">
+                                    Light Perfume for Bouquet</label>
                             </div>
-                            </div>
+                        </div>
 
                         <div class="form-field ">
                             <label for="flower-arrangementStyle">Arrangement Style</label>
@@ -611,7 +631,7 @@
                             </select>
                         </div>
                     </div>
-                    
+
                 </form>
 
                 <!-- Flower Addon Form -->
@@ -679,21 +699,21 @@
                             </select>
                         </div>
                         <div class="form-field" ">
-                            <label for="balloon-extraDescription">Extra Description</label>
+                            <label for=" balloon-extraDescription">Extra Description</label>
                             <input id="balloon-extraDescription" name="extraDescription"></input>
                         </div>
-                        
-                        </div>
+
+                    </div>
                 </form>
 
                 <!-- Party Planning Form -->
                 <form class="product-form" data-entity="party" style="display:none;">
                     <div class="form-grid">
-                                        <div class="form-field">
+                        <div class="form-field">
                             <label for="party-serviceNumber">Service Number</label>
                             <input type="text" id="party-serviceNumber" name="serviceNumber">
-                                        </div>
-                                        <div class="form-field">
+                        </div>
+                        <div class="form-field">
                             <label for="party-name">Package Name</label>
                             <input type="text" id="party-name" name="name">
                         </div>
@@ -703,16 +723,17 @@
                         </div>
                         <div class="form-field full-width">
                             <label for="party-contents">Package Contents</label>
-                            <input id="party-contents" name="contents" rows="3" placeholder="Comma-separated list"></input>
-                                        </div>
-                                        <div class="form-field">
+                            <input id="party-contents" name="contents" rows="3"
+                                placeholder="Comma-separated list"></input>
+                        </div>
+                        <div class="form-field">
                             <label for="party-price">Price</label>
                             <input type="number" step="0.01" id="party-price" name="price">
-                                        </div>
-                                        <div class="form-field">
+                        </div>
+                        <div class="form-field">
                             <label for="party-primaryImage">Image</label>
                             <input type="file" id="party-primaryImage" name="primaryImage" accept="image/*">
-                                        </div>
+                        </div>
                         <div class="form-field">
                             <label for="party-category">Suitable Category</label>
                             <select id="party-category" name="category">
@@ -722,7 +743,7 @@
                                 <option value="Corporate">Corporate</option>
                                 <option value="Bridal">Bridal</option>
                             </select>
-                                    </div>
+                        </div>
                         <div class="form-field">
                             <label for="party-duration">Duration</label>
                             <select id="party-duration" name="duration">
@@ -731,15 +752,15 @@
                                 <option value="6 hours">6 hours</option>
                                 <option value="Full Day">Full Day</option>
                             </select>
-                                </div>
+                        </div>
                         <div class="form-field">
                             <label for="party-available">Available</label>
                             <select id="party-available" name="available">
                                 <option value="true">Yes</option>
                                 <option value="false">No</option>
                             </select>
-                                </div>
-                       
+                        </div>
+
                     </div>
                 </form>
 
@@ -756,7 +777,8 @@
                         </div>
                         <div class="form-field full-width">
                             <label for="theme-description">Theme Description</label>
-                            <input id="theme-description" name="description" placeholder="Enter theme description"></input>
+                            <input id="theme-description" name="description"
+                                placeholder="Enter theme description"></input>
                         </div>
                         <div class="form-field">
                             <label for="theme-primaryImage">Display Image</label>
@@ -853,7 +875,8 @@
     </div>
 
     <!-- Static Cake Details Modal -->
-    <div class="modal-overlay enhanced-modal-overlay" id="cakeDetailsModal" aria-hidden="true" role="dialog" aria-modal="true">
+    <div class="modal-overlay enhanced-modal-overlay" id="cakeDetailsModal" aria-hidden="true" role="dialog"
+        aria-modal="true">
         <div class="modal enhanced-product-modal" role="document">
             <div class="modal-header enhanced-modal-header">
                 <div class="header-content">
@@ -865,7 +888,8 @@
                         <p class="subtitle">Complete cake information</p>
                     </div>
                 </div>
-                <button class="modal-close enhanced-close" data-close="cakeDetailsModal"><i class="fas fa-times"></i></button>
+                <button class="modal-close enhanced-close" data-close="cakeDetailsModal"><i
+                        class="fas fa-times"></i></button>
             </div>
             <div class="modal-content enhanced-modal-content">
                 <div class="enhanced-content">
@@ -891,32 +915,86 @@
                         </div>
                     </div>
                     <div class="detail-section modern-section">
-                        <div class="section-header"><div class="section-title"><h3>Specifications</h3></div></div>
+                        <div class="section-header">
+                            <div class="section-title">
+                                <h3>Specifications</h3>
+                            </div>
+                        </div>
                         <div class="section-content">
                             <div class="info-grid">
-                                <div class="info-item"><div class="info-label">Description</div><div class="info-value" id="cakeDetDescription"></div></div>
-                                <div class="info-item"><div class="info-label">Cake Type</div><div class="info-value" id="cakeDetType"></div></div>
-                                <div class="info-item"><div class="info-label">Size</div><div class="info-value" id="cakeDetSize"></div></div>
-                                <div class="info-item"><div class="info-label">Layers</div><div class="info-value" id="cakeDetLayers"></div></div>
-                                <div class="info-item"><div class="info-label">Main Flavor</div><div class="info-value" id="cakeDetMainFlavor"></div></div>
-                                <div class="info-item"><div class="info-label">Fillings</div><div class="info-value" id="cakeDetFillings"></div></div>
-                                <div class="info-item"><div class="info-label">Frosting</div><div class="info-value" id="cakeDetFrosting"></div></div>
-                                <div class="info-item"><div class="info-label">Shape</div><div class="info-value" id="cakeDetShape"></div></div>
-                                <div class="info-item"><div class="info-label">Size / Diameter</div><div class="info-value" id="cakeDetSizeDiameter"></div></div>
-                                <div class="info-item"><div class="info-label">Layers (Detailed)</div><div class="info-value" id="cakeDetLayersAlt"></div></div>
-                                <div class="info-item"><div class="info-label">Base Colors</div><div class="info-value" id="cakeDetBaseColors"></div></div>
-                                <div class="info-item"><div class="info-label">Decorations</div><div class="info-value" id="cakeDetDecorations"></div></div>
-                                <div class="info-item"><div class="info-label">Writing</div><div class="info-value" id="cakeDetWriting"></div></div>
-                                <div class="info-item"><div class="info-label">Candles</div><div class="info-value" id="cakeDetCandles"></div></div>
-                                <div class="info-item"><div class="info-label">Topper</div><div class="info-value" id="cakeDetTopper"></div></div>
-                                <div class="info-item"><div class="info-label">Edible Image</div><div class="info-value" id="cakeDetEdibleImage"></div></div>
+                                <div class="info-item">
+                                    <div class="info-label">Description</div>
+                                    <div class="info-value" id="cakeDetDescription"></div>
+                                </div>
+                                <div class="info-item">
+                                    <div class="info-label">Cake Type</div>
+                                    <div class="info-value" id="cakeDetType"></div>
+                                </div>
+                                <div class="info-item">
+                                    <div class="info-label">Size</div>
+                                    <div class="info-value" id="cakeDetSize"></div>
+                                </div>
+                                <div class="info-item">
+                                    <div class="info-label">Layers</div>
+                                    <div class="info-value" id="cakeDetLayers"></div>
+                                </div>
+                                <div class="info-item">
+                                    <div class="info-label">Main Flavor</div>
+                                    <div class="info-value" id="cakeDetMainFlavor"></div>
+                                </div>
+                                <div class="info-item">
+                                    <div class="info-label">Fillings</div>
+                                    <div class="info-value" id="cakeDetFillings"></div>
+                                </div>
+                                <div class="info-item">
+                                    <div class="info-label">Frosting</div>
+                                    <div class="info-value" id="cakeDetFrosting"></div>
+                                </div>
+                                <div class="info-item">
+                                    <div class="info-label">Shape</div>
+                                    <div class="info-value" id="cakeDetShape"></div>
+                                </div>
+                                <div class="info-item">
+                                    <div class="info-label">Size / Diameter</div>
+                                    <div class="info-value" id="cakeDetSizeDiameter"></div>
+                                </div>
+                                <div class="info-item">
+                                    <div class="info-label">Layers (Detailed)</div>
+                                    <div class="info-value" id="cakeDetLayersAlt"></div>
+                                </div>
+                                <div class="info-item">
+                                    <div class="info-label">Base Colors</div>
+                                    <div class="info-value" id="cakeDetBaseColors"></div>
+                                </div>
+                                <div class="info-item">
+                                    <div class="info-label">Decorations</div>
+                                    <div class="info-value" id="cakeDetDecorations"></div>
+                                </div>
+                                <div class="info-item">
+                                    <div class="info-label">Writing</div>
+                                    <div class="info-value" id="cakeDetWriting"></div>
+                                </div>
+                                <div class="info-item">
+                                    <div class="info-label">Candles</div>
+                                    <div class="info-value" id="cakeDetCandles"></div>
+                                </div>
+                                <div class="info-item">
+                                    <div class="info-label">Topper</div>
+                                    <div class="info-value" id="cakeDetTopper"></div>
+                                </div>
+                                <div class="info-item">
+                                    <div class="info-label">Edible Image</div>
+                                    <div class="info-value" id="cakeDetEdibleImage"></div>
+                                </div>
                             </div>
                         </div>
                     </div>
                     <div class="enhanced-modal-actions">
                         <div class="action-buttons">
-                            <button class="btn btn-outline enhanced-btn" data-close="cakeDetailsModal"><i class="fas fa-times"></i> Close</button>
-                            <button class="btn btn-primary enhanced-btn" id="editCakeFromDetails"><i class="fas fa-edit"></i> Edit</button>
+                            <button class="btn btn-outline enhanced-btn" data-close="cakeDetailsModal"><i
+                                    class="fas fa-times"></i> Close</button>
+                            <button class="btn btn-primary enhanced-btn" id="editCakeFromDetails"><i
+                                    class="fas fa-edit"></i> Edit</button>
                         </div>
                     </div>
                 </div>
@@ -925,66 +1003,173 @@
     </div>
 
     <!-- Static Flower Details Modal -->
-    <div class="modal-overlay enhanced-modal-overlay" id="flowerDetailsModal" aria-hidden="true" role="dialog" aria-modal="true">
+    <div class="modal-overlay enhanced-modal-overlay" id="flowerDetailsModal" aria-hidden="true" role="dialog"
+        aria-modal="true">
         <div class="modal enhanced-product-modal" role="document">
             <div class="modal-header enhanced-modal-header">
                 <div class="header-content">
-                    <div class="product-icon-container"><div class="product-icon"><i class="fas fa-seedling"></i></div></div>
-                    <div class="header-text"><h3>Flower Details</h3><p class="subtitle">Complete flower information</p></div>
+                    <div class="product-icon-container">
+                        <div class="product-icon"><i class="fas fa-seedling"></i></div>
+                    </div>
+                    <div class="header-text">
+                        <h3>Flower Details</h3>
+                        <p class="subtitle">Complete flower information</p>
+                    </div>
                 </div>
-                <button class="modal-close enhanced-close" data-close="flowerDetailsModal"><i class="fas fa-times"></i></button>
+                <button class="modal-close enhanced-close" data-close="flowerDetailsModal"><i
+                        class="fas fa-times"></i></button>
             </div>
             <div class="modal-content enhanced-modal-content">
                 <div class="enhanced-content">
                     <div class="product-hero-section">
-                        <div class="product-image-container"><div class="product-image-wrapper"><img id="flowerDetImage" class="product-main-image"></div></div>
-                        <div class="product-summary">
-                            <div class="product-title-section"><h1 class="product-title" id="flowerDetName"></h1><div class="product-meta"><span class="product-id" id="flowerDetId"></span></div></div>
-                            <div class="product-pricing"><div class="price-main" id="flowerDetPrice"></div><div class="price-label">Base Price</div></div>
-                            <div class="product-status-section"><div class="status-indicator" id="flowerDetAvailability"></div><div class="scope-indicator" id="flowerDetScope"></div></div>
+                        <div class="product-image-container">
+                            <div class="product-image-wrapper"><img id="flowerDetImage" class="product-main-image">
+                            </div>
                         </div>
-                    </div>
-                    <div class="detail-section modern-section">
-                        <div class="section-header"><div class="section-title"><h3>Specifications</h3></div></div>
-                        <div class="section-content">
-                            <div class="info-grid">
-                                <div class="info-item"><div class="info-label">Type</div><div class="info-value" id="flowerDetType"></div></div>
-                                <div class="info-item"><div class="info-label">Color</div><div class="info-value" id="flowerDetColor"></div></div>
-                                <div class="info-item"><div class="info-label">Stem Count / Size</div><div class="info-value" id="flowerDetStem"></div></div>
-                                <div class="info-item"><div class="info-label">Fillers & Greens</div><div class="info-value" id="flowerDetFillers"></div></div>
-                                <div class="info-item"><div class="info-label">Packaging</div><div class="info-value" id="flowerDetPackaging"></div></div>
-                                <div class="info-item"><div class="info-label">Ribbon Color</div><div class="info-value" id="flowerDetRibbon"></div></div>
-                                <div class="info-item"><div class="info-label">Greeting Card</div><div class="info-value" id="flowerDetCard"></div></div>
-                                <div class="info-item"><div class="info-label">Accessories</div><div class="info-value" id="flowerDetAccessories"></div></div>
-                                <div class="info-item"><div class="info-label">Arrangement Style</div><div class="info-value" id="flowerDetArrangement"></div></div>
+                        <div class="product-summary">
+                            <div class="product-title-section">
+                                <h1 class="product-title" id="flowerDetName"></h1>
+                                <div class="product-meta"><span class="product-id" id="flowerDetId"></span></div>
+                            </div>
+                            <div class="product-pricing">
+                                <div class="price-main" id="flowerDetPrice"></div>
+                                <div class="price-label">Base Price</div>
+                            </div>
+                            <div class="product-status-section">
+                                <div class="status-indicator" id="flowerDetAvailability"></div>
+                                <div class="scope-indicator" id="flowerDetScope"></div>
                             </div>
                         </div>
                     </div>
-                    <div class="enhanced-modal-actions"><div class="action-buttons"><button class="btn btn-outline enhanced-btn" data-close="flowerDetailsModal"><i class="fas fa-times"></i> Close</button><button class="btn btn-primary enhanced-btn" id="editFlowerFromDetails"><i class="fas fa-edit"></i> Edit</button></div></div>
+                    <div class="detail-section modern-section">
+                        <div class="section-header">
+                            <div class="section-title">
+                                <h3>Specifications</h3>
+                            </div>
+                        </div>
+                        <div class="section-content">
+                            <div class="info-grid">
+                                <div class="info-item">
+                                    <div class="info-label">Type</div>
+                                    <div class="info-value" id="flowerDetType"></div>
+                                </div>
+                                <div class="info-item">
+                                    <div class="info-label">Color</div>
+                                    <div class="info-value" id="flowerDetColor"></div>
+                                </div>
+                                <div class="info-item">
+                                    <div class="info-label">Stem Count / Size</div>
+                                    <div class="info-value" id="flowerDetStem"></div>
+                                </div>
+                                <div class="info-item">
+                                    <div class="info-label">Fillers & Greens</div>
+                                    <div class="info-value" id="flowerDetFillers"></div>
+                                </div>
+                                <div class="info-item">
+                                    <div class="info-label">Packaging</div>
+                                    <div class="info-value" id="flowerDetPackaging"></div>
+                                </div>
+                                <div class="info-item">
+                                    <div class="info-label">Ribbon Color</div>
+                                    <div class="info-value" id="flowerDetRibbon"></div>
+                                </div>
+                                <div class="info-item">
+                                    <div class="info-label">Greeting Card</div>
+                                    <div class="info-value" id="flowerDetCard"></div>
+                                </div>
+                                <div class="info-item">
+                                    <div class="info-label">Accessories</div>
+                                    <div class="info-value" id="flowerDetAccessories"></div>
+                                </div>
+                                <div class="info-item">
+                                    <div class="info-label">Arrangement Style</div>
+                                    <div class="info-value" id="flowerDetArrangement"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="enhanced-modal-actions">
+                        <div class="action-buttons"><button class="btn btn-outline enhanced-btn"
+                                data-close="flowerDetailsModal"><i class="fas fa-times"></i> Close</button><button
+                                class="btn btn-primary enhanced-btn" id="editFlowerFromDetails"><i
+                                    class="fas fa-edit"></i> Edit</button></div>
+                    </div>
                 </div>
             </div>
         </div>
     </div>
 
     <!-- Static Balloon Details Modal -->
-    <div class="modal-overlay enhanced-modal-overlay" id="balloonDetailsModal" aria-hidden="true" role="dialog" aria-modal="true">
+    <div class="modal-overlay enhanced-modal-overlay" id="balloonDetailsModal" aria-hidden="true" role="dialog"
+        aria-modal="true">
         <div class="modal enhanced-product-modal" role="document">
             <div class="modal-header enhanced-modal-header">
-                <div class="header-content"><div class="product-icon-container"><div class="product-icon"><i class="fas fa-balloon"></i></div></div><div class="header-text"><h3>Balloon Details</h3><p class="subtitle">Complete balloon information</p></div></div>
-                <button class="modal-close enhanced-close" data-close="balloonDetailsModal"><i class="fas fa-times"></i></button>
+                <div class="header-content">
+                    <div class="product-icon-container">
+                        <div class="product-icon"><i class="fas fa-balloon"></i></div>
+                    </div>
+                    <div class="header-text">
+                        <h3>Balloon Details</h3>
+                        <p class="subtitle">Complete balloon information</p>
+                    </div>
+                </div>
+                <button class="modal-close enhanced-close" data-close="balloonDetailsModal"><i
+                        class="fas fa-times"></i></button>
             </div>
             <div class="modal-content enhanced-modal-content">
                 <div class="enhanced-content">
                     <div class="product-hero-section">
-                        <div class="product-image-container"><div class="product-image-wrapper"><img id="balloonDetImage" class="product-main-image"></div></div>
+                        <div class="product-image-container">
+                            <div class="product-image-wrapper"><img id="balloonDetImage" class="product-main-image">
+                            </div>
+                        </div>
                         <div class="product-summary">
-                            <div class="product-title-section"><h1 class="product-title" id="balloonDetName"></h1><div class="product-meta"><span class="product-id" id="balloonDetId"></span></div></div>
-                            <div class="product-pricing"><div class="price-main" id="balloonDetPrice"></div><div class="price-label">Price</div></div>
-                            <div class="product-status-section"><div class="status-indicator" id="balloonDetAvailability"></div></div>
+                            <div class="product-title-section">
+                                <h1 class="product-title" id="balloonDetName"></h1>
+                                <div class="product-meta"><span class="product-id" id="balloonDetId"></span></div>
+                            </div>
+                            <div class="product-pricing">
+                                <div class="price-main" id="balloonDetPrice"></div>
+                                <div class="price-label">Price</div>
+                            </div>
+                            <div class="product-status-section">
+                                <div class="status-indicator" id="balloonDetAvailability"></div>
+                            </div>
                         </div>
                     </div>
-                    <div class="detail-section modern-section"><div class="section-header"><div class="section-title"><h3>Specifications</h3></div></div><div class="section-content"><div class="info-grid"><div class="info-item"><div class="info-label">Type</div><div class="info-value" id="balloonDetType"></div></div><div class="info-item"><div class="info-label">Color</div><div class="info-value" id="balloonDetColor"></div></div><div class="info-item"><div class="info-label">Size</div><div class="info-value" id="balloonDetSize"></div></div><div class="info-item full-width"><div class="info-label">Additional Description</div><div class="info-value" id="balloonDetExtra"></div></div></div></div></div>
-                    <div class="enhanced-modal-actions"><div class="action-buttons"><button class="btn btn-outline enhanced-btn" data-close="balloonDetailsModal"><i class="fas fa-times"></i> Close</button><button class="btn btn-primary enhanced-btn" id="editBalloonFromDetails"><i class="fas fa-edit"></i> Edit</button></div></div>
+                    <div class="detail-section modern-section">
+                        <div class="section-header">
+                            <div class="section-title">
+                                <h3>Specifications</h3>
+                            </div>
+                        </div>
+                        <div class="section-content">
+                            <div class="info-grid">
+                                <div class="info-item">
+                                    <div class="info-label">Type</div>
+                                    <div class="info-value" id="balloonDetType"></div>
+                                </div>
+                                <div class="info-item">
+                                    <div class="info-label">Color</div>
+                                    <div class="info-value" id="balloonDetColor"></div>
+                                </div>
+                                <div class="info-item">
+                                    <div class="info-label">Size</div>
+                                    <div class="info-value" id="balloonDetSize"></div>
+                                </div>
+                                <div class="info-item full-width">
+                                    <div class="info-label">Additional Description</div>
+                                    <div class="info-value" id="balloonDetExtra"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="enhanced-modal-actions">
+                        <div class="action-buttons"><button class="btn btn-outline enhanced-btn"
+                                data-close="balloonDetailsModal"><i class="fas fa-times"></i> Close</button><button
+                                class="btn btn-primary enhanced-btn" id="editBalloonFromDetails"><i
+                                    class="fas fa-edit"></i> Edit</button></div>
+                    </div>
                 </div>
             </div>
         </div>
@@ -998,6 +1183,28 @@
             <div class="modal-actions">
                 <button class="btn btn-secondary" id="cancelSignOut">Cancel</button>
                 <button class="btn btn-primary" id="confirmSignOut">Sign Out</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Small Multi-Select Modal (Reusable) -->
+    <div class="modal-overlay" id="multiSelectModal" aria-hidden="true" role="dialog" aria-modal="true">
+        <div class="modal" role="document" style="width: 300px; height: 600px; max-width: 90vw; padding: 10px 12px;">
+            <h3 id="multiSelectTitle"
+                style="font-size: 13px; margin: 0 0 6px 0; display: flex; align-items: center; gap: 6px;">
+                <i class="fas fa-list" style="color: var(--pink);"></i>
+                <span></span>
+            </h3>
+            <input id="multiSelectSearch" type="text" placeholder="Search..."
+                style="width: 100%; height: 26px; font-size: 12px; padding: 4px 6px; margin: 0 0 6px 0; border: 1px solid #ddd; border-radius: 4px;">
+            <div class="modal-actions" style="justify-content: space-between; padding: 0; margin: 0 0 6px 0;">
+                <button type="button" class="btn btn-sm btn-outline" id="multiSelectSelectAll">Select all</button>
+                <button type="button" class="btn btn-sm btn-outline" id="multiSelectClear">Clear</button>
+            </div>
+            <div id="multiSelectContent" class="form-grid" style="grid-template-columns: 1fr;"></div>
+            <div class="modal-actions" style="margin-top: 8px;">
+                <button type="button" class="btn btn-secondary" id="cancelMultiSelect">Cancel</button>
+                <button type="button" class="btn btn-primary" id="confirmMultiSelect">Apply</button>
             </div>
         </div>
     </div>
