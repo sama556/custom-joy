@@ -40,9 +40,7 @@ document.addEventListener('DOMContentLoaded', function () {
     const viewAdImage = document.getElementById('viewAdImage');
     const viewAdTitle = document.getElementById('viewAdTitle');
     const viewAdId = document.getElementById('viewAdId');
-    const viewAdDescription = document.getElementById('viewAdDescription');
-    const viewAdStatus = document.getElementById('viewAdStatus');
-    const viewAdDuration = document.getElementById('viewAdDuration');
+    // Removed legacy view fields (description/status/duration) in favor of Link/Date/Active
     const closeViewAd = document.getElementById('closeViewAd');
 
     function openAdModal(title) { adModalTitle.innerHTML = title; adModal.classList.add('open'); adModal.setAttribute('aria-hidden', 'false'); }
@@ -127,7 +125,8 @@ document.addEventListener('DOMContentLoaded', function () {
         if (titleEl) titleEl.textContent = data.title;
         if (descEl) descEl.textContent = data.link || '';
         if (durationEl) durationEl.innerHTML = `<i class="far fa-clock"></i> ${data.date || ''}`;
-        const status = data.active === true || data.active === 'true' ? 'active' : 'hidden';
+        const isActive = (data.active === true) || (data.active === 'true') || (data.active === 'yes');
+        const status = isActive ? 'active' : 'hidden';
         if (statusEl) setStatusBadge(statusEl, status);
         card.setAttribute('data-status', status);
     }
@@ -190,7 +189,7 @@ document.addEventListener('DOMContentLoaded', function () {
             if (adTitle) adTitle.value = data.title;
             if (adLink) adLink.value = data.link || '';
             if (adDate) adDate.value = data.date || '';
-            if (adActive) adActive.value = data.active ? 'true' : 'false';
+            if (adActive) adActive.value = data.active ? 'yes' : 'no';
             if (data.image) {
                 showImagePreview(data.image);
             } else {
@@ -232,7 +231,7 @@ document.addEventListener('DOMContentLoaded', function () {
             title: adTitle.value.trim(),
             link: adLink ? adLink.value.trim() : '',
             date: adDate ? adDate.value : '',
-            active: adActive ? adActive.value === 'true' : true,
+            active: adActive ? (adActive.value === 'yes') : true,
             image: imageSrc
         };
         if (editingCard) {

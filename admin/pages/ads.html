@@ -26,6 +26,7 @@
                 <li><a href="themes.html"><i class="fas fa-palette"></i> <span>Themes Management</span></a></li>
                 <li><a href="sales.html"><i class="fas fa-shopping-cart"></i> <span>Sales Statistics</span></a></li>
                 <li><a href="feedback.html"><i class="fas fa-star"></i> <span>Feedback Management</span></a></li>
+                <li><a href="inquiries.html"><i class="fas fa-question-circle"></i> <span>Inquiries</span></a></li>
                 <li><a href="products.html"><i class="fas fa-box"></i> <span>Product Management</span></a></li>
                 <li><a href="orders.html"><i class="fas fa-clipboard-list"></i> <span>Order Management</span></a></li>
                 <li><a href="support.html"><i class="fas fa-headset"></i> <span>Support & Contact</span></a></li>
@@ -190,63 +191,35 @@
                         </div>
                     </div>
 
-                    <!-- Form Fields -->
+                    <!-- Form Fields (Only required fields) -->
                     <div class="form-grid">
                         <div class="form-field">
                             <label for="adId">Ad ID</label>
-                            <input type="text" id="adId" required placeholder="AD-1001">
+                            <input type="text" id="adId" placeholder="AD001">
                         </div>
                         <div class="form-field">
                             <label for="adTitle">Title</label>
                             <input type="text" id="adTitle" required placeholder="Enter ad title">
                         </div>
                         <div class="form-field full-width">
-                            <label for="adDescription">Description</label>
-                            <textarea id="adDescription" required placeholder="Enter ad description..."
-                                rows="3"></textarea>
+                            <label for="adLink">Destination URL</label>
+                            <input type="url" id="adLink" placeholder="https://example.com/offers">
                         </div>
                         <div class="form-field">
-                            <label for="adStatus">Status</label>
-                            <select id="adStatus" required>
-                                <option value="active">Active</option>
-                                <option value="scheduled">Scheduled</option>
-                                <option value="expired">Expired</option>
-                                <option value="hidden">Hidden</option>
-                            </select>
+                            <label for="adDate">Date</label>
+                            <input type="date" id="adDate">
                         </div>
                         <div class="form-field">
-                            <label for="adDuration">Duration/Timing</label>
-                            <input type="text" id="adDuration" placeholder="Ends in 3 days, Oct 1 - Oct 15, ...">
-                        </div>
-                        <div class="form-field">
-                            <label for="adImage">Image URL</label>
-                            <input type="url" id="adImage" placeholder="https://example.com/image.jpg">
-                        </div>
-                        <div class="form-field">
-                            <label for="adStartDate">Start Date</label>
-                            <input type="date" id="adStartDate">
-                        </div>
-                        <div class="form-field">
-                            <label for="adEndDate">End Date</label>
-                            <input type="date" id="adEndDate">
-                        </div>
-                        <div class="form-field">
-                            <label for="adBudget">Budget</label>
-                            <input type="number" id="adBudget" placeholder="0.00" step="0.01" min="0">
-                        </div>
-                        <div class="form-field">
-                            <label for="adTargetAudience">Target Audience</label>
-                            <select id="adTargetAudience">
-                                <option value="all">All Users</option>
-                                <option value="new">New Users</option>
-                                <option value="returning">Returning Users</option>
-                                <option value="premium">Premium Users</option>
+                            <label for="adActive">Active</label>
+                            <select id="adActive">
+                                <option value="yes">Yes</option>
+                                <option value="no">No</option>
                             </select>
                         </div>
                     </div>
                 </div>
                 <div class="modal-actions">
-                    <button type="button" class="btn btn-secondary" id="cancelAdBottom">
+                    <button style="visibility: hidden;"  type="button" class="btn btn-secondary" id="cancelAdBottom">
                         <i class="fas fa-times"></i>
                         Cancel
                     </button>
@@ -278,16 +251,16 @@
                 </div>
                 <div class="view-ad-grid">
                     <div class="info-card">
-                        <div class="muted">Description</div>
-                        <div id="viewAdDescription">Ad description will appear here...</div>
+                        <div class="muted">Destination URL</div>
+                        <div id="viewAdLink">https://example.com/offers</div>
                     </div>
                     <div class="info-card">
-                        <div class="muted">Status</div>
-                        <div id="viewAdStatus">Active</div>
+                        <div class="muted">Date</div>
+                        <div id="viewAdDate">2025-10-05</div>
                     </div>
                     <div class="info-card">
-                        <div class="muted">Duration/Timing</div>
-                        <div id="viewAdDuration">Ends in 3 days</div>
+                        <div class="muted">Active</div>
+                        <div id="viewAdActive">Yes</div>
                     </div>
                 </div>
             </div>
