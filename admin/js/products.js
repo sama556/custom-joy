@@ -1394,7 +1394,7 @@ document.addEventListener('DOMContentLoaded', function () {
                 baseColors: valMulti('baseColors'),
                 decorations: valMulti('decorations'),
                 writingText: val('writingText'),
-                writingColor: val('writingColor'),
+                writingColor: valMulti('writingColor'),
                 candles: valMulti('candles'),
                 topper: valMulti('topper'),
                 topperText: val('topperText'),
@@ -1414,15 +1414,15 @@ document.addEventListener('DOMContentLoaded', function () {
                 available: boolVal('available'),
                 scope: val('scope'),
                 // new flower fields
-                flowerColor: val('flowerColor'),
-                stemCount: val('stemCount'),
+                flowerColor: valMulti('flowerColor'),
+                stemCount: valMulti('stemCount'),
                 fillersGreens: valMulti('fillersGreens'),
-                packaging: val('packaging'),
-                ribbonColor: val('ribbonColor'),
+                packaging: valMulti('packaging'),
+                ribbonColor: valMulti('ribbonColor'),
                 greetingCard: val('greetingCard'),
                 greetingText: val('greetingText'),
                 accessories: valMulti('accessories'),
-                arrangementStyle: val('arrangementStyle'),
+                arrangementStyle: valMulti('arrangementStyle'),
                 addons: currentAddons.filter(addon => addon.type === 'flower')
             };
         } else if (editing.entity === 'flowerAddon') {

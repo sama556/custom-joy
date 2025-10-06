@@ -46,7 +46,7 @@
         <div class="header">
             <h1>Product Management</h1>
             <div class="user-info">
-                <img src="../../images/avater6.jpg" alt="Admin User">
+                <img src="../avater6.jpg" alt="Admin User">
                 <span>Admin User</span>
                 <button class="signout-btn" id="openSignOut"><i class="fas fa-sign-out-alt"></i> Sign Out</button>
             </div>
@@ -401,22 +401,18 @@
                                 <label><input type="checkbox" name="decorations[]" value="Nuts"> Nuts</label>
                             </div>
                         </div>
-                        <div class="form-field full-width">
-                            <label for="cake-writingText">Writing On Cake</label>
-                            <input type="text" id="cake-writingText" name="writingText" placeholder="Custom text">
-                        </div>
                         <div class="form-field">
-                            <label for="cake-writingColor">Writing Color</label>
-                            <select id="cake-writingColor" name="writingColor">
-                                <option value="White">White</option>
-                                <option value="Black">Black</option>
-                                <option value="Gold">Gold</option>
-                                <option value="Pink">Pink</option>
-                                <option value="Blue">Blue</option>
-                                <option value="Red">Red</option>
-                                <option value="Green">Green</option>
-                                <option value="Purple">Purple</option>
-                            </select>
+                            <label>Writing Color</label>
+                            <div class="checkbox-group" id="cake-writingColor-group">
+                                <label><input type="checkbox" name="writingColor[]" value="White"> White</label>
+                                <label><input type="checkbox" name="writingColor[]" value="Black"> Black</label>
+                                <label><input type="checkbox" name="writingColor[]" value="Gold"> Gold</label>
+                                <label><input type="checkbox" name="writingColor[]" value="Pink"> Pink</label>
+                                <label><input type="checkbox" name="writingColor[]" value="Blue"> Blue</label>
+                                <label><input type="checkbox" name="writingColor[]" value="Red"> Red</label>
+                                <label><input type="checkbox" name="writingColor[]" value="Green"> Green</label>
+                                <label><input type="checkbox" name="writingColor[]" value="Purple"> Purple</label>
+                            </div>
                         </div>
                         <div class="form-field">
                             <label>Candles</label>
@@ -546,26 +542,29 @@
 
                         </div>
                         <div class="form-field">
-                            <label for="flower-color">Flower Color</label>
-                            <select id="flower-color" name="flowerColor">
-                                <option value="Red">Red</option>
-                                <option value="Pink">Pink</option>
-                                <option value="White">White</option>
-                                <option value="Purple">Purple</option>
-                                <option value="Yellow">Yellow</option>
-                                <option value="Orange">Orange</option>
-                                <option value="Mixed">Mixed</option>
-                            </select>
+                            <label>Flower Color</label>
+                            <div class="checkbox-group" id="flower-color-group">
+                                <label><input type="checkbox" name="flowerColor[]" value="Red"> Red</label>
+                                <label><input type="checkbox" name="flowerColor[]" value="Pink"> Pink</label>
+                                <label><input type="checkbox" name="flowerColor[]" value="White"> White</label>
+                                <label><input type="checkbox" name="flowerColor[]" value="Purple"> Purple</label>
+                                <label><input type="checkbox" name="flowerColor[]" value="Yellow"> Yellow</label>
+                                <label><input type="checkbox" name="flowerColor[]" value="Orange"> Orange</label>
+                                <label><input type="checkbox" name="flowerColor[]" value="Mixed"> Mixed</label>
+                            </div>
                         </div>
 
                         <div class="form-field">
-                            <label for="flower-stemCount">Stem Count / Size</label>
-                            <select id="flower-stemCount" name="stemCount">
-                                <option value="Small (5–7)">Small (5–7)</option>
-                                <option value="Medium (10–15)">Medium (10–15)</option>
-                                <option value="Large (20+)">Large (20+)</option>
-                                <option value="Custom">Custom</option>
-                            </select>
+                            <label>Stem Count / Size</label>
+                            <div class="checkbox-group" id="flower-stemCount-group">
+                                <label><input type="checkbox" name="stemCount[]" value="Small (5–7)"> Small
+                                    (5–7)</label>
+                                <label><input type="checkbox" name="stemCount[]" value="Medium (10–15)"> Medium
+                                    (10–15)</label>
+                                <label><input type="checkbox" name="stemCount[]" value="Large (20+)"> Large
+                                    (20+)</label>
+                                <label><input type="checkbox" name="stemCount[]" value="Custom"> Custom</label>
+                            </div>
                         </div>
 
                         <div class="form-field">
@@ -584,25 +583,29 @@
                         </div>
 
                         <div class="form-field">
-                            <label for="flower-packaging">Packaging</label>
-                            <select id="flower-packaging" name="packaging">
-                                <option value="Transparent">Transparent</option>
-                                <option value="Kraft Paper">Kraft Paper</option>
-                                <option value="Fabric / Satin">Fabric / Satin</option>
-                                <option value="Matte Black">Matte Black</option>
-                                <option value="Luxury Box">Luxury Box</option>
-                            </select>
+                            <label>Packaging</label>
+                            <div class="checkbox-group" id="flower-packaging-group">
+                                <label><input type="checkbox" name="packaging[]" value="Transparent">
+                                    Transparent</label>
+                                <label><input type="checkbox" name="packaging[]" value="Kraft Paper"> Kraft
+                                    Paper</label>
+                                <label><input type="checkbox" name="packaging[]" value="Fabric / Satin"> Fabric /
+                                    Satin</label>
+                                <label><input type="checkbox" name="packaging[]" value="Matte Black"> Matte
+                                    Black</label>
+                                <label><input type="checkbox" name="packaging[]" value="Luxury Box"> Luxury Box</label>
+                            </div>
                         </div>
 
                         <div class="form-field">
-                            <label for="flower-ribbonColor">Ribbon Color</label>
-                            <select id="flower-ribbonColor" name="ribbonColor">
-                                <option value="White">White</option>
-                                <option value="Pink">Pink</option>
-                                <option value="Black">Black</option>
-                                <option value="Gold">Gold</option>
-                                <option value="Red">Red</option>
-                            </select>
+                            <label>Ribbon Color</label>
+                            <div class="checkbox-group" id="flower-ribbonColor-group">
+                                <label><input type="checkbox" name="ribbonColor[]" value="White"> White</label>
+                                <label><input type="checkbox" name="ribbonColor[]" value="Pink"> Pink</label>
+                                <label><input type="checkbox" name="ribbonColor[]" value="Black"> Black</label>
+                                <label><input type="checkbox" name="ribbonColor[]" value="Gold"> Gold</label>
+                                <label><input type="checkbox" name="ribbonColor[]" value="Red"> Red</label>
+                            </div>
                         </div>
 
                         <div class="form-field">
@@ -635,12 +638,15 @@
                         </div>
 
                         <div class="form-field ">
-                            <label for="flower-arrangementStyle">Arrangement Style</label>
-                            <select id="flower-arrangementStyle" name="arrangementStyle">
-                                <option value="Classic & Balanced">Classic & Balanced</option>
-                                <option value="Modern / Minimal">Modern / Minimal</option>
-                                <option value="Natural “Wild”">Natural “Wild”</option>
-                            </select>
+                            <label>Arrangement Style</label>
+                            <div class="checkbox-group" id="flower-arrangementStyle-group">
+                                <label><input type="checkbox" name="arrangementStyle[]" value="Classic & Balanced">
+                                    Classic & Balanced</label>
+                                <label><input type="checkbox" name="arrangementStyle[]" value="Modern / Minimal"> Modern
+                                    / Minimal</label>
+                                <label><input type="checkbox" name="arrangementStyle[]" value="Natural “Wild”"> Natural
+                                    “Wild”</label>
+                            </div>
                         </div>
                         <div class="form-field">
                             <label for="flower-available">Available</label>

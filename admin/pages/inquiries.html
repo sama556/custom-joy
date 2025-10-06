@@ -9,29 +9,131 @@
     <link rel="stylesheet" href="../css/feedback.css">
     <style>
         /* Inquiries table tweaks */
-        .inq-table th, .inq-table td { vertical-align: top; }
-        .truncate { display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; text-overflow: ellipsis; max-width: 360px; }
-        @media (max-width: 768px){ .truncate{ max-width: 200px; } }
-        .badge.reply-status { padding:4px 8px; border-radius:999px; font-weight:700; font-size:.85rem; }
-        .badge.reply-status.replied{ background:rgba(46,204,113,.15); color:#2ecc71; }
-        .badge.reply-status.pending{ background:rgba(255,177,27,.15); color:#FFB11B; }
+        .inq-table th,
+        .inq-table td {
+            vertical-align: top;
+        }
+
+        .truncate {
+            display: -webkit-box;
+            -webkit-line-clamp: 2;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            max-width: 360px;
+        }
+
+        @media (max-width: 768px) {
+            .truncate {
+                max-width: 200px;
+            }
+        }
+
+        .badge.reply-status {
+            padding: 4px 8px;
+            border-radius: 999px;
+            font-weight: 700;
+            font-size: .85rem;
+        }
+
+        .badge.reply-status.replied {
+            background: rgba(46, 204, 113, .15);
+            color: #2ecc71;
+        }
+
+        .badge.reply-status.pending {
+            background: rgba(255, 177, 27, .15);
+            color: #FFB11B;
+        }
 
         /* View modal restyle */
-        #viewInqModal .modal { padding:0; overflow:hidden; }
-        #viewInqModal .simple-modal-header { display:flex; align-items:center; justify-content:space-between; padding:16px 18px; background:linear-gradient(135deg, rgba(255,79,161,.08), rgba(54,139,255,.08)); border-bottom:1px solid var(--light-gray); }
-        #viewInqModal .simple-modal-header h3 { display:flex; align-items:center; gap:10px; margin:0; font-size:1.1rem; }
-        #viewInqModal .simple-modal-header h3 i { color: var(--bright-blue); }
-        #viewInqModal .modal-close { background:transparent; border:none; color:var(--dark-gray); cursor:pointer; }
-        #viewInqModal .simple-modal-content { padding:18px; }
-        #viewInqModal .details-grid { display:grid; grid-template-columns:1fr 1fr; gap:12px; }
-        #viewInqModal .detail-item { background:#fff; border:1px solid var(--light-gray); border-radius:10px; padding:12px 12px; display:flex; flex-direction:column; gap:6px; }
-        #viewInqModal .detail-item.wide { grid-column:1/-1; }
-        #viewInqModal .label { font-size:.8rem; color:var(--dark-gray); letter-spacing:.2px; text-transform:uppercase; font-weight:700; }
-        #viewInqModal .value { font-size:.98rem; color:#111; word-break:break-word; }
-        #viewInqModal .value.badge { display:inline-block; margin-top:2px; }
-        #viewInqModal .modal-actions { padding-top:12px; display:flex; justify-content:flex-end; gap:8px; }
-        @media (max-width: 640px){
-            #viewInqModal .details-grid { grid-template-columns:1fr; }
+        #viewInqModal .modal {
+            padding: 0;
+            overflow: hidden;
+        }
+
+        #viewInqModal .simple-modal-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 16px 18px;
+            background: linear-gradient(135deg, rgba(255, 79, 161, .08), rgba(54, 139, 255, .08));
+            border-bottom: 1px solid var(--light-gray);
+        }
+
+        #viewInqModal .simple-modal-header h3 {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin: 0;
+            font-size: 1.1rem;
+        }
+
+        #viewInqModal .simple-modal-header h3 i {
+            color: var(--bright-blue);
+        }
+
+        #viewInqModal .modal-close {
+            background: transparent;
+            border: none;
+            color: var(--dark-gray);
+            cursor: pointer;
+        }
+
+        #viewInqModal .simple-modal-content {
+            padding: 18px;
+        }
+
+        #viewInqModal .details-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 12px;
+        }
+
+        #viewInqModal .detail-item {
+            background: #fff;
+            border: 1px solid var(--light-gray);
+            border-radius: 10px;
+            padding: 12px 12px;
+            display: flex;
+            flex-direction: column;
+            gap: 6px;
+        }
+
+        #viewInqModal .detail-item.wide {
+            grid-column: 1/-1;
+        }
+
+        #viewInqModal .label {
+            font-size: .8rem;
+            color: var(--dark-gray);
+            letter-spacing: .2px;
+            text-transform: uppercase;
+            font-weight: 700;
+        }
+
+        #viewInqModal .value {
+            font-size: .98rem;
+            color: #111;
+            word-break: break-word;
+        }
+
+        #viewInqModal .value.badge {
+            display: inline-block;
+            margin-top: 2px;
+        }
+
+        #viewInqModal .modal-actions {
+            padding-top: 12px;
+            display: flex;
+            justify-content: flex-end;
+            gap: 8px;
+        }
+
+        @media (max-width: 640px) {
+            #viewInqModal .details-grid {
+                grid-template-columns: 1fr;
+            }
         }
     </style>
 </head>
@@ -50,10 +152,11 @@
                 </li>
                 <li><a href="financials.html"><i class="fas fa-chart-line"></i> <span>Commission</span></a></li>
                 <li><a href="ads.html"><i class="fas fa-ad"></i> <span>Ads Management</span></a></li>
-                
+
                 <li><a href="sales.html"><i class="fas fa-shopping-cart"></i> <span>Sales Statistics</span></a></li>
                 <li><a href="feedback.html"><i class="fas fa-star"></i> <span>Feedback Management</span></a></li>
-                <li class="active"><a href="inquiries.html"><i class="fas fa-question-circle"></i> <span>Inquiries</span></a></li>
+                <li class="active"><a href="inquiries.html"><i class="fas fa-question-circle"></i>
+                        <span>Inquiries</span></a></li>
                 <li><a href="products.html"><i class="fas fa-box"></i> <span>Product
                             Management</span></a></li>
                 <li><a href="orders.html"><i class="fas fa-clipboard-list"></i> <span>Order Management</span></a></li>
@@ -68,7 +171,7 @@
         <div class="header">
             <h1>Inquiries</h1>
             <div class="user-info">
-                <img src="../../images/avater6.jpg" alt="Admin User">
+                <img src="../avater6.jpg" alt="Admin User">
                 <span>Admin User</span>
                 <button class="signout-btn" id="openSignOut"><i class="fas fa-sign-out-alt"></i> Sign Out</button>
             </div>
@@ -96,37 +199,51 @@
                         </tr>
                     </thead>
                     <tbody>
-                        <tr data-inquiry-id="#INQ-1001" data-name="Sarah Ahmed" data-email="sarah@example.com" data-type="General" data-text="What are your delivery hours?" data-reply="We deliver 9am - 9pm" data-date="2025-10-02" data-reply-status="Replied">
+                        <tr data-inquiry-id="#INQ-1001" data-name="Sarah Ahmed" data-email="sarah@example.com"
+                            data-type="General" data-text="What are your delivery hours?"
+                            data-reply="We deliver 9am - 9pm" data-date="2025-10-02" data-reply-status="Replied">
                             <td class="inq-id">#INQ-1001</td>
                             <td class="inq-name">Sarah Ahmed</td>
                             <td class="inq-email">sarah@example.com</td>
                             <td class="inq-type">General</td>
-                            <td class="inq-text"><span class="truncate" title="What are your delivery hours?">What are your delivery hours?</span></td>
-                            <td class="inq-reply"><span class="truncate" title="We deliver 9am - 9pm">We deliver 9am - 9pm</span></td>
+                            <td class="inq-text"><span class="truncate" title="What are your delivery hours?">What are
+                                    your delivery hours?</span></td>
+                            <td class="inq-reply"><span class="truncate" title="We deliver 9am - 9pm">We deliver 9am -
+                                    9pm</span></td>
                             <td class="inq-date">2025-10-02</td>
                             <td class="inq-reply-status"><span class="badge reply-status replied">Replied</span></td>
                             <td>
                                 <div class="row-actions">
-                                    <button class="icon-btn view" data-action="view" title="View"><i class="fas fa-eye"></i></button>
-                                    <button class="icon-btn edit" data-action="reply" title="Reply"><i class="fas fa-reply"></i></button>
-                                    <button class="icon-btn danger" data-action="delete" title="Delete"><i class="fas fa-trash"></i></button>
+                                    <button class="icon-btn view" data-action="view" title="View"><i
+                                            class="fas fa-eye"></i></button>
+                                    <button class="icon-btn edit" data-action="reply" title="Reply"><i
+                                            class="fas fa-reply"></i></button>
+                                    <button class="icon-btn danger" data-action="delete" title="Delete"><i
+                                            class="fas fa-trash"></i></button>
                                 </div>
                             </td>
                         </tr>
-                        <tr data-inquiry-id="#INQ-1002" data-name="Ahmed Mohamed" data-email="ahmed@example.com" data-type="Support" data-text="I can’t track my order on the website. Could you help?" data-reply="" data-date="2025-10-03" data-reply-status="Pending">
+                        <tr data-inquiry-id="#INQ-1002" data-name="Ahmed Mohamed" data-email="ahmed@example.com"
+                            data-type="Support" data-text="I can’t track my order on the website. Could you help?"
+                            data-reply="" data-date="2025-10-03" data-reply-status="Pending">
                             <td class="inq-id">#INQ-1002</td>
                             <td class="inq-name">Ahmed Mohamed</td>
                             <td class="inq-email">ahmed@example.com</td>
                             <td class="inq-type">Support</td>
-                            <td class="inq-text"><span class="truncate" title="I can’t track my order on the website. Could you help?">I can’t track my order on the website. Could you help?</span></td>
+                            <td class="inq-text"><span class="truncate"
+                                    title="I can’t track my order on the website. Could you help?">I can’t track my
+                                    order on the website. Could you help?</span></td>
                             <td class="inq-reply"><span class="truncate" title="">—</span></td>
                             <td class="inq-date">2025-10-03</td>
                             <td class="inq-reply-status"><span class="badge reply-status pending">Pending</span></td>
                             <td>
                                 <div class="row-actions">
-                                    <button class="icon-btn view" data-action="view" title="View"><i class="fas fa-eye"></i></button>
-                                    <button class="icon-btn edit" data-action="reply" title="Reply"><i class="fas fa-reply"></i></button>
-                                    <button class="icon-btn danger" data-action="delete" title="Delete"><i class="fas fa-trash"></i></button>
+                                    <button class="icon-btn view" data-action="view" title="View"><i
+                                            class="fas fa-eye"></i></button>
+                                    <button class="icon-btn edit" data-action="reply" title="Reply"><i
+                                            class="fas fa-reply"></i></button>
+                                    <button class="icon-btn danger" data-action="delete" title="Delete"><i
+                                            class="fas fa-trash"></i></button>
                                 </div>
                             </td>
                         </tr>
@@ -147,14 +264,22 @@
             </div>
             <div class="simple-modal-content">
                 <div class="details-grid">
-                    <div class="detail-item"><span class="label">Inquiry ID</span><span class="value" id="vi_inq_id">#INQ-1001</span></div>
-                    <div class="detail-item"><span class="label">Name</span><span class="value" id="vi_name">—</span></div>
-                    <div class="detail-item"><span class="label">Email</span><span class="value" id="vi_email">—</span></div>
-                    <div class="detail-item"><span class="label">Inquiry Type</span><span class="value" id="vi_type">—</span></div>
-                    <div class="detail-item wide"><span class="label">Inquiry Text</span><span class="value" id="vi_text">—</span></div>
-                    <div class="detail-item wide"><span class="label">Reply</span><span class="value" id="vi_reply">—</span></div>
-                    <div class="detail-item"><span class="label">Submission Date</span><span class="value" id="vi_date">—</span></div>
-                    <div class="detail-item"><span class="label">Reply Status</span><span class="value" id="vi_reply_status">—</span></div>
+                    <div class="detail-item"><span class="label">Inquiry ID</span><span class="value"
+                            id="vi_inq_id">#INQ-1001</span></div>
+                    <div class="detail-item"><span class="label">Name</span><span class="value" id="vi_name">—</span>
+                    </div>
+                    <div class="detail-item"><span class="label">Email</span><span class="value" id="vi_email">—</span>
+                    </div>
+                    <div class="detail-item"><span class="label">Inquiry Type</span><span class="value"
+                            id="vi_type">—</span></div>
+                    <div class="detail-item wide"><span class="label">Inquiry Text</span><span class="value"
+                            id="vi_text">—</span></div>
+                    <div class="detail-item wide"><span class="label">Reply</span><span class="value"
+                            id="vi_reply">—</span></div>
+                    <div class="detail-item"><span class="label">Submission Date</span><span class="value"
+                            id="vi_date">—</span></div>
+                    <div class="detail-item"><span class="label">Reply Status</span><span class="value"
+                            id="vi_reply_status">—</span></div>
                 </div>
                 <div class="modal-actions">
                     <button style="visibility: hidden;" class="btn btn-secondary" id="closeViewInqBottom">Close</button>
@@ -171,7 +296,8 @@
                 <div class="form-grid" style="grid-template-columns:1fr;">
                     <div class="form-field">
                         <label for="replyInqMessage">Your reply</label>
-                        <textarea id="replyInqMessage" rows="4" style="resize:vertical;padding:10px 12px;border-radius:8px;border:1px solid var(--medium-gray);"></textarea>
+                        <textarea id="replyInqMessage" rows="4"
+                            style="resize:vertical;padding:10px 12px;border-radius:8px;border:1px solid var(--medium-gray);"></textarea>
                     </div>
                 </div>
                 <div class="modal-actions">
@@ -198,4 +324,3 @@
 </body>
 
 </html>
-

@@ -22,13 +22,14 @@
                 <li><a href="users.html"><i class="fas fa-users"></i> <span>User Management</span></a></li>
                 <li><a href="service-providers.html"><i class="fas fa-user-tie"></i> <span>Service Providers</span></a>
                 </li>
-                <li class="active"><a href="financials.html"><i class="fas fa-chart-line"></i> <span>Commission</span></a></li>
+                <li class="active"><a href="financials.html"><i class="fas fa-chart-line"></i>
+                        <span>Commission</span></a></li>
                 <li><a href="ads.html"><i class="fas fa-ad"></i> <span>Ads Management</span></a></li>
-                
+
                 <li><a href="sales.html"><i class="fas fa-shopping-cart"></i> <span>Sales Statistics</span></a></li>
                 <li><a href="feedback.html"><i class="fas fa-star"></i> <span>Feedback Management</span></a></li>
                 <li><a href="inquiries.html"><i class="fas fa-question-circle"></i> <span>Inquiries</span></a></li>
-                <li ><a href="products.html"><i class="fas fa-box"></i> <span>Product
+                <li><a href="products.html"><i class="fas fa-box"></i> <span>Product
                             Management</span></a></li>
                 <li><a href="orders.html"><i class="fas fa-clipboard-list"></i> <span>Order Management</span></a></li>
                 <li><a href="support.html"><i class="fas fa-headset"></i> <span>Support & Contact</span></a></li>
@@ -42,7 +43,7 @@
         <div class="header">
             <h1>Commission</h1>
             <div class="user-info">
-                <img src="../../images/avater6.jpg" alt="Admin User">
+                <img src="../avater6.jpg" alt="Admin User">
                 <span>Admin User</span>
                 <button class="signout-btn" id="openSignOut"><i class="fas fa-sign-out-alt"></i> Sign Out</button>
             </div>
@@ -164,17 +165,78 @@
     <div class="modal-overlay" id="viewCommissionModal" aria-hidden="true" role="dialog" aria-modal="true">
         <div class="modal simple-feedback-modal" role="document">
             <style>
-                #viewCommissionModal .modal { padding:0; overflow:hidden; }
-                #viewCommissionModal .simple-modal-header { display:flex; align-items:center; justify-content:space-between; padding:16px 18px; background:linear-gradient(135deg, rgba(255,79,161,.08), rgba(54,139,255,.08)); border-bottom:1px solid var(--light-gray); }
-                #viewCommissionModal .simple-modal-header h3 { display:flex; align-items:center; gap:10px; margin:0; font-size:1.1rem; }
-                #viewCommissionModal .simple-modal-header h3 i { color: var(--bright-blue); }
-                #viewCommissionModal .modal-close { background:transparent; border:none; color:var(--dark-gray); cursor:pointer; }
-                #viewCommissionModal .simple-modal-content { padding:18px; }
-                #viewCommissionModal .details-grid { display:grid; grid-template-columns:1fr 1fr; gap:12px; }
-                #viewCommissionModal .detail-item { background:#fff; border:1px solid var(--light-gray); border-radius:10px; padding:12px 12px; display:flex; flex-direction:column; gap:6px; }
-                #viewCommissionModal .label { font-size:.8rem; color:var(--dark-gray); letter-spacing:.2px; text-transform:uppercase; font-weight:700; }
-                #viewCommissionModal .value { font-size:.98rem; color:#111; word-break:break-word; }
-                @media (max-width: 640px){ #viewCommissionModal .details-grid { grid-template-columns:1fr; } }
+                #viewCommissionModal .modal {
+                    padding: 0;
+                    overflow: hidden;
+                }
+
+                #viewCommissionModal .simple-modal-header {
+                    display: flex;
+                    align-items: center;
+                    justify-content: space-between;
+                    padding: 16px 18px;
+                    background: linear-gradient(135deg, rgba(255, 79, 161, .08), rgba(54, 139, 255, .08));
+                    border-bottom: 1px solid var(--light-gray);
+                }
+
+                #viewCommissionModal .simple-modal-header h3 {
+                    display: flex;
+                    align-items: center;
+                    gap: 10px;
+                    margin: 0;
+                    font-size: 1.1rem;
+                }
+
+                #viewCommissionModal .simple-modal-header h3 i {
+                    color: var(--bright-blue);
+                }
+
+                #viewCommissionModal .modal-close {
+                    background: transparent;
+                    border: none;
+                    color: var(--dark-gray);
+                    cursor: pointer;
+                }
+
+                #viewCommissionModal .simple-modal-content {
+                    padding: 18px;
+                }
+
+                #viewCommissionModal .details-grid {
+                    display: grid;
+                    grid-template-columns: 1fr 1fr;
+                    gap: 12px;
+                }
+
+                #viewCommissionModal .detail-item {
+                    background: #fff;
+                    border: 1px solid var(--light-gray);
+                    border-radius: 10px;
+                    padding: 12px 12px;
+                    display: flex;
+                    flex-direction: column;
+                    gap: 6px;
+                }
+
+                #viewCommissionModal .label {
+                    font-size: .8rem;
+                    color: var(--dark-gray);
+                    letter-spacing: .2px;
+                    text-transform: uppercase;
+                    font-weight: 700;
+                }
+
+                #viewCommissionModal .value {
+                    font-size: .98rem;
+                    color: #111;
+                    word-break: break-word;
+                }
+
+                @media (max-width: 640px) {
+                    #viewCommissionModal .details-grid {
+                        grid-template-columns: 1fr;
+                    }
+                }
             </style>
             <div class="simple-modal-header">
                 <h3><i class="fas fa-percentage"></i> Commission Details</h3>
@@ -184,9 +246,12 @@
             </div>
             <div class="simple-modal-content">
                 <div class="details-grid">
-                    <div class="detail-item"><span class="label">Commission ID</span><span class="value" id="vc_id">—</span></div>
-                    <div class="detail-item"><span class="label">Price</span><span class="value" id="vc_price">—</span></div>
-                    <div class="detail-item"><span class="label">Last Updated Date</span><span class="value" id="vc_date">—</span></div>
+                    <div class="detail-item"><span class="label">Commission ID</span><span class="value"
+                            id="vc_id">—</span></div>
+                    <div class="detail-item"><span class="label">Price</span><span class="value" id="vc_price">—</span>
+                    </div>
+                    <div class="detail-item"><span class="label">Last Updated Date</span><span class="value"
+                            id="vc_date">—</span></div>
                 </div>
                 <div class="modal-actions">
                     <button class="btn btn-secondary" id="closeViewCommissionBottom">Close</button>
