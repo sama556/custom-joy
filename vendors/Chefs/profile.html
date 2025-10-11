@@ -1,0 +1,247 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Dashboard - Profile</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="css/profile.css">
+</head>
+
+<body>
+    <!-- Sidebar -->
+    <div class="sidebar">
+        <div class="sidebar-header">
+            <img class="logo" src="../../images/logo.png">
+        </div>
+        <nav class="sidebar-menu">
+            <ul>
+                <li><a href="overview.html"><i class="fas fa-chart-pie"></i> <span>Overview</span></a></li>
+                <li class="active"><a href="profile.html"><i class="fas fa-user"></i> <span>Profile</span></a></li>
+                <li><a href="cake-catalog.html"><i class="fas fa-birthday-cake"></i> <span>Cake Catalog</span></a></li>
+                <li><a href="order-mangement.html"><i class="fas fa-shopping-cart"></i> <span>Order Management</span></a></li>
+                <li><a href="special-designs.html"fas fa-palette"></i> <span>Special Designs</span></a></li>
+                <li><a href="sales-reports.html"><i class="fas fa-chart-bar"></i> <span>Sales & Reports</span></a></li>
+            </ul>
+        </nav>
+    </div>
+
+    <!-- Main Content -->
+    <div class="main-content">
+        <div class="header">
+            <h1>Store Profile</h1>
+            <div class="user-info">
+                <img src="../../images/ceek1.jpg" alt="Vendor user">
+                <span>vendor User</span>
+                <button class="signout-btn" id="openSignOut"><i class="fas fa-sign-out-alt"></i> Sign Out</button>
+            </div>
+        </div>
+
+        <!-- Profile Content -->
+        <div class="profile-content">
+            <!-- Store Information Section -->
+            <div class="profile-section">
+                <div class="section-header">
+                    <h2><i class="fas fa-store"></i> Store Information</h2>
+                    <button class="btn btn-secondary" id="editStoreBtn">
+                        <i class="fas fa-edit"></i> Edit Store
+                    </button>
+                </div>
+                
+                <form id="storeForm" class="profile-form">
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="storeName">Store Name *</label>
+                            <input type="text" id="storeName" name="storeName" value="Sweet Delights Bakery" required disabled>
+                        </div>
+                        <div class="form-group">
+                            <label for="serviceType">Service Type *</label>
+                            <select id="serviceType" name="serviceType" required disabled>
+                                <option value="chef" selected>Chef</option>
+                                <option value="florist">Florist</option>
+                                <option value="both">Both</option>
+                            </select>
+                        </div>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="storeDescription">Store Description</label>
+                        <textarea id="storeDescription" name="storeDescription" rows="4" disabled>Specializing in custom wedding cakes and floral arrangements. We create unforgettable experiences for your special occasions with attention to detail and quality ingredients.</textarea>
+                    </div>
+                    
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="storeLocation">Store Location *</label>
+                            <input type="text" id="storeLocation" name="storeLocation" value="Riyadh, Saudi Arabia" required disabled>
+                        </div>
+                        <div class="form-group">
+                            <label for="storeHours">Business Hours</label>
+                            <input type="text" id="storeHours" name="storeHours" value="9:00 AM - 10:00 PM (Daily)" disabled>
+                        </div>
+                    </div>
+                    
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="storePhone">Store Phone *</label>
+                            <input type="tel" id="storePhone" name="storePhone" value="+966 11 123 4567" required disabled>
+                        </div>
+                        <div class="form-group">
+                            <label for="storeEmail">Store Email *</label>
+                            <input type="email" id="storeEmail" name="storeEmail" value="info@sweetdelights.com" required disabled>
+                        </div>
+                    </div>
+                    
+                   
+                    
+                    <div class="form-group">
+                        <label>Store Logo</label>
+                        <div class="logo-upload-container">
+                            <div class="logo-preview">
+                                <img id="logoPreview" src="../../images/ceek1.jpg" alt="Store Logo">
+                                <div class="logo-overlay">
+                                    <i class="fas fa-camera"></i>
+                                    <span>Change Logo</span>
+                                </div>
+                            </div>
+                            <input type="file" id="logoUpload" name="logoUpload" accept="image/*" hidden>
+                            <div class="upload-info">
+                                <p>Recommended size: 200x200 pixels</p>
+                                <p>Max file size: 2MB</p>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="storeStatus">Store Status</label>
+                        <div class="status-toggle">
+                            <input type="checkbox" id="storeStatus" name="storeStatus" checked disabled>
+                            <label for="storeStatus" class="toggle-slider">
+                                <span class="toggle-text">Active</span>
+                            </label>
+                        </div>
+                    </div>
+                    
+                    <div class="form-actions" id="storeFormActions" style="display: none;">
+                        <button type="button" class="btn btn-secondary" id="cancelStoreEdit">Cancel</button>
+                        <button type="submit" class="btn btn-primary">Save Changes</button>
+                    </div>
+                </form>
+            </div>
+
+            <!-- User Information Section -->
+            <div class="profile-section">
+                <div class="section-header">
+                    <h2><i class="fas fa-user"></i> User Information</h2>
+                    <button class="btn btn-secondary" id="editUserBtn">
+                        <i class="fas fa-edit"></i> Edit Profile
+                    </button>
+                </div>
+                
+                <form id="userForm" class="profile-form">
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="fullName">Full Name *</label>
+                            <input type="text" id="fullName" name="fullName" value="Ahmed Al-Rashid" required disabled>
+                        </div>
+                        <div class="form-group">
+                            <label for="email">Email Address *</label>
+                            <input type="email" id="email" name="email" value="ahmed@example.com" required disabled>
+                        </div>
+                    </div>
+                    
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="phone">Phone Number *</label>
+                            <input type="tel" id="phone" name="phone" value="+966501234567" required disabled>
+                        </div>
+                        <div class="form-group">
+                            <label for="userType">User Type</label>
+                            <input type="text" id="userType" name="userType" value="Vendor" disabled>
+                        </div>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="joinDate">Registration Date</label>
+                        <input type="text" id="joinDate" name="joinDate" value="2025-10-15" disabled>
+                    </div>
+                    
+                    <div class="form-actions" id="userFormActions" style="display: none;">
+                        <button type="button" class="btn btn-secondary" id="cancelUserEdit">Cancel</button>
+                        <button type="submit" class="btn btn-primary">Save Changes</button>
+                    </div>
+                </form>
+            </div>
+
+            <!-- Password Update Section -->
+            <div class="profile-section">
+                <div class="section-header">
+                    <h2><i class="fas fa-lock"></i> Change Password</h2>
+                </div>
+                
+                <form id="passwordForm" class="profile-form">
+                    <div class="form-group">
+                        <label for="currentPassword">Current Password *</label>
+                        <input type="password" id="currentPassword" name="currentPassword" required>
+                    </div>
+                    
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="newPassword">New Password *</label>
+                            <input type="password" id="newPassword" name="newPassword" required>
+                            <div class="password-strength">
+                                <div class="strength-bar"></div>
+                                <span class="strength-text">Password strength</span>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="confirmPassword">Confirm Password *</label>
+                            <input type="password" id="confirmPassword" name="confirmPassword" required>
+                        </div>
+                    </div>
+                    
+                    <div class="form-actions">
+                        <button type="submit" class="btn btn-primary">Update Password</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- Toast Notifications -->
+    <div class="toast-container">
+        <!-- Toast notifications will appear here -->
+    </div>
+
+    <!-- Static toast template -->
+    <template id="toast-template">
+        <div class="toast">
+            <div class="toast-icon">
+                <i class=""></i>
+            </div>
+            <div class="toast-content">
+                <div class="toast-title"></div>
+                <div class="toast-message"></div>
+            </div>
+            <button class="toast-close">
+                <i class="fas fa-times"></i>
+            </button>
+        </div>
+    </template>
+
+    <!-- Sign Out Confirm Modal -->
+    <div class="modal-overlay" id="signOutModal" aria-hidden="true" role="dialog" aria-modal="true">
+        <div class="modal" role="document">
+            <h3><i class="fas fa-sign-out-alt" style="color: var(--pink);"></i> Sign out</h3>
+            <p>Are you sure you want to sign out?</p>
+            <div class="modal-actions">
+                <button class="btn btn-secondary" id="cancelSignOut">Cancel</button>
+                <button class="btn btn-primary" id="confirmSignOut">Sign Out</button>
+            </div>
+        </div>
+    </div>
+
+    <script src="js/profile.js"></script>
+</body>
+
+</html>

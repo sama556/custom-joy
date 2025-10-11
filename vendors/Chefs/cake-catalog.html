@@ -1,0 +1,424 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Dashboard - Cake Catalog</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css">
+    <link rel="stylesheet" href="css/profile.css">
+    <link rel="stylesheet" href="css/cake-catalog.css">
+</head>
+
+<body>
+    <!-- Sidebar -->
+    <div class="sidebar">
+        <div class="sidebar-header">
+            <img class="logo" src="../../images/logo.png">
+        </div>
+        <nav class="sidebar-menu">
+            <ul>
+                <li><a href="overview.html"><i class="fas fa-chart-pie"></i> <span>Overview</span></a></li>
+                <li><a href="profile.html"><i class="fas fa-user"></i> <span>Profile</span></a></li>
+                <li class="active"><a href="cake-catalog.html"><i class="fas fa-birthday-cake"></i> <span>Cake Catalog</span></a></li>
+                <li><a href="order-mangement.html"><i class="fas fa-shopping-cart"></i> <span>Order Management</span></a></li>
+                <li><a href="special-designs.html"><i class="fas fa-palette"></i> <span>Special Designs</span></a></li>
+                <li><a href="sales-reports.html"><i class="fas fa-chart-bar"></i> <span>Sales & Reports</span></a></li>
+            </ul>
+        </nav>
+    </div>
+
+    <!-- Main Content -->
+    <div class="main-content">
+        <div class="header">
+            <h1>Cake Catalog</h1>
+            <div class="user-info">
+                <img src="../../images/ceek1.jpg" alt="Vendor user">
+                <span>Vendor User</span>
+                <button class="signout-btn" id="openSignOut"><i class="fas fa-sign-out-alt"></i> Sign Out</button>
+            </div>
+        </div>
+
+        <!-- Catalog Header -->
+        <div class="catalog-header">
+            <div class="catalog-actions">
+                <button class="btn btn-primary" id="addCakeBtn">
+                    <i class="fas fa-plus"></i> Add New Cake
+                </button>
+                <div class="search-box">
+                    <i class="fas fa-search"></i>
+                    <input type="text" placeholder="Search cakes..." id="searchCakes">
+                </div>
+            </div>
+            <div class="catalog-filters">
+                <select id="filterStatus">
+                    <option value="">All Status</option>
+                    <option value="available">Available</option>
+                    <option value="unavailable">Unavailable</option>
+                </select>
+                <select id="filterType">
+                    <option value="">All Types</option>
+                    <option value="special">Special</option>
+                    <option value="general">General</option>
+                </select>
+            </div>
+        </div>
+
+        <!-- Cakes Grid -->
+        <div class="cakes-grid" id="cakesGrid">
+            <!-- Cake cards will be dynamically loaded here -->
+            <div class="cake-card">
+                <div class="cake-image">
+                    <img src="../../images/ceek3.jpg" alt="Chocolate Delight">
+                    <div class="cake-status available">Available</div>
+                    <div class="cake-actions">
+                        <button class="btn-icon edit-cake" title="Edit">
+                            <i class="fas fa-edit"></i>
+                        </button>
+                        <button class="btn-icon delete-cake" title="Delete">
+                            <i class="fas fa-trash"></i>
+                        </button>
+                    </div>
+                </div>
+                <div class="cake-info">
+                    <h3 class="cake-name">Chocolate Delight</h3>
+                    <p class="cake-description">Rich chocolate cake with ganache filling</p>
+                    <div class="cake-details">
+                        <span class="cake-type special">Special</span>
+                        <span class="cake-price">SAR 120</span>
+                    </div>
+                    <div class="cake-specs">
+                        <span><i class="fas fa-ruler"></i> 8"</span>
+                        <span><i class="fas fa-layer-group"></i> 2 Layers</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="cake-card">
+                <div class="cake-image">
+                    <img src="../../images/ceek4.jpg" alt="Vanilla Dream">
+                    <div class="cake-status available">Available</div>
+                    <div class="cake-actions">
+                        <button class="btn-icon edit-cake" title="Edit">
+                            <i class="fas fa-edit"></i>
+                        </button>
+                        <button class="btn-icon delete-cake" title="Delete">
+                            <i class="fas fa-trash"></i>
+                        </button>
+                    </div>
+                </div>
+                <div class="cake-info">
+                    <h3 class="cake-name">Vanilla Dream</h3>
+                    <p class="cake-description">Classic vanilla sponge with buttercream</p>
+                    <div class="cake-details">
+                        <span class="cake-type general">General</span>
+                        <span class="cake-price">SAR 95</span>
+                    </div>
+                    <div class="cake-specs">
+                        <span><i class="fas fa-ruler"></i> 6"</span>
+                        <span><i class="fas fa-layer-group"></i> 1 Layer</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Load More -->
+        
+    </div>
+
+    <!-- Add/Edit Cake Modal -->
+    <div class="modal-overlay" id="cakeModal" aria-hidden="true">
+        <div class="modal large-modal">
+            <div class="modal-header">
+                <h3><i class="fas fa-birthday-cake"></i> <span id="modalTitle">Add New Cake</span></h3>
+                <button class="modal-close" id="closeModal">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            <form id="cakeForm" class="modal-form">
+                <div class="form-section">
+                    <h4>Basic Information</h4>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="cakeName">Cake Name *</label>
+                            <input type="text" id="cakeName" name="cakeName" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="basePrice">Base Price (SAR) *</label>
+                            <input type="number" id="basePrice" name="basePrice" min="0" step="0.01" required>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="cakeDescription">Description</label>
+                        <textarea id="cakeDescription" name="cakeDescription" rows="3"></textarea>
+                    </div>
+                </div>
+
+                <div class="form-section">
+                    <h4>Cake Type & Specifications</h4>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="cakeType">Cake Type *</label>
+                            <select id="cakeType" name="cakeType" class="select2-multiple" multiple required>
+                                <option value="sponge">Sponge</option>
+                                <option value="chiffon">Chiffon</option>
+                                <option value="baked_cheesecake">Baked Cheesecake</option>
+                                <option value="chilled_cheesecake">Chilled Cheesecake</option>
+                                <option value="mousse">Mousse</option>
+                                <option value="red_velvet">Red Velvet</option>
+                                <option value="chocolate">Chocolate</option>
+                                <option value="vanilla">Vanilla</option>
+                                <option value="mocha">Mocha</option>
+                                <option value="tiramisu">Tiramisu</option>
+                                <option value="carrot">Carrot Cake</option>
+                                <option value="three_leches">Three Leches</option>
+                                <option value="pound">Pound Cake</option>
+                                <option value="cupcake">Cup Cake</option>
+                                <option value="fondant">Fondant Cake</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="productType">Product Type *</label>
+                            <select id="productType" name="productType" required>
+                                <option value="special">Special</option>
+                                <option value="general">General</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-section">
+                    <h4>Base Flavors</h4>
+                    <div class="form-group">
+                        <label for="baseFlavors">Select Base Flavors *</label>
+                        <select id="baseFlavors" name="baseFlavors" class="select2-multiple" multiple required>
+                            <option value="vanilla">Vanilla</option>
+                            <option value="chocolate">Chocolate</option>
+                            <option value="red_velvet">Red Velvet</option>
+                            <option value="coffee">Coffee</option>
+                            <option value="lemon">Lemon</option>
+                            <option value="pistachio">Pistachio</option>
+                            <option value="lotus">Lotus</option>
+                            <option value="oreo">Oreo</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="form-section">
+                    <h4>Fillings</h4>
+                    <div class="form-group">
+                        <label for="fillings">Select Fillings</label>
+                        <select id="fillings" name="fillings" class="select2-multiple" multiple>
+                            <option value="chocolate_ganache">Chocolate Ganache</option>
+                            <option value="pastry_cream">Pastry Cream</option>
+                            <option value="caramel">Caramel</option>
+                            <option value="lotus">Lotus</option>
+                            <option value="strawberry">Strawberry</option>
+                            <option value="mixed_berries">Mixed Berries</option>
+                            <option value="nutella">Nutella</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="form-section">
+                    <h4>Frosting & Toppings</h4>
+                    <div class="form-group">
+                        <label for="frosting">Select Frosting</label>
+                        <select id="frosting" name="frosting" class="select2-multiple" multiple>
+                            <option value="butter_cream">Butter Cream</option>
+                            <option value="whipped_cream">Whipped Cream</option>
+                            <option value="cream_cheese">Cream Cheese</option>
+                            <option value="ganache">Ganache</option>
+                            <option value="fondant">Fondant</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="form-section">
+                    <h4>Shape & Size</h4>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="shape">Shape *</label>
+                            <select id="shape" name="shape" class="select2-multiple" multiple required>
+                                <option value="round">Round</option>
+                                <option value="square">Square</option>
+                                <option value="rectangle">Rectangle</option>
+                                <option value="heart">Heart</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="size">Size/Diameter *</label>
+                            <select id="size" name="size" class="select2-multiple" multiple required>
+                                <option value="6">6"</option>
+                                <option value="8">8"</option>
+                                <option value="10">10"</option>
+                                <option value="12">12"</option>
+                                <option value="small">Small</option>
+                                <option value="medium">Medium</option>
+                                <option value="large">Large</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-section">
+                    <h4>Layers & Design</h4>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="layers">Number of Layers *</label>
+                            <select id="layers" name="layers" required>
+                                <option value="1">1 Layer</option>
+                                <option value="2">2 Layers</option>
+                                <option value="3">3+ Layers</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="colors">Colors</label>
+                            <select id="colors" name="colors" class="select2-multiple" multiple>
+                                <option value="white">White</option>
+                                <option value="gold">Gold</option>
+                                <option value="pink">Pink</option>
+                                <option value="blue">Blue</option>
+                                <option value="black">Black</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-section">
+                    <h4>Decorations</h4>
+                    <div class="form-group">
+                        <label for="decorations">Select Decorations</label>
+                        <select id="decorations" name="decorations" class="select2-multiple" multiple>
+                            <option value="sprinkles">Sprinkles</option>
+                            <option value="chocolate_shavings">Chocolate Shavings</option>
+                            <option value="fresh_fruits">Fresh Fruits</option>
+                            <option value="nuts">Nuts</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="form-section">
+                    <h4>Customization Options</h4>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="cakeText">Custom Text</label>
+                            <input type="text" id="cakeText" name="cakeText" placeholder="Happy Birthday">
+                        </div>
+                        <div class="form-group">
+                            <label for="textColor">Text Color</label>
+                            <input type="color" id="textColor" name="textColor" value="#000000">
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="candles">Candles</label>
+                            <select id="candles" name="candles" class="select2-multiple" multiple>
+                                <option value="regular">Regular</option>
+                                <option value="digital">Digital</option>
+                                <option value="sparkler">Sparkler</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="topper">Topper</label>
+                            <select id="topper" name="topper" class="select2-multiple" multiple>
+                                <option value="happy_birthday">Happy Birthday</option>
+                                <option value="names">Names</option>
+                                <option value="numbers">Numbers</option>
+                                <option value="acrylic">Acrylic</option>
+                                <option value="paper">Paper</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-section">
+                    <h4>Edible Image & Packaging</h4>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="edibleImage">Edible Image</label>
+                            <input type="file" id="edibleImage" name="edibleImage" accept="image/*">
+                        </div>
+                        <div class="form-group">
+                            <label for="packaging">Packaging</label>
+                            <select id="packaging" name="packaging" class="select2-multiple" multiple>
+                                <option value="luxury_box">Luxury Box</option>
+                                <option value="regular_box">Regular Box</option>
+                                <option value="cake_board">Cake Board</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-section">
+                    <h4>Cake Image</h4>
+                    <div class="form-group">
+                        <div class="image-upload-container">
+                            <div class="image-preview" id="imagePreview">
+                                <i class="fas fa-cloud-upload-alt"></i>
+                                <span>Click to upload cake image</span>
+                            </div>
+                            <input type="file" id="cakeImage" name="cakeImage" accept="image/*" hidden>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-section">
+                    <h4>Availability</h4>
+                    <div class="form-group">
+                        <label class="checkbox-label">
+                            <input type="checkbox" id="isAvailable" name="isAvailable" checked>
+                            <span class="checkmark"></span>
+                            Available for orders
+                        </label>
+                    </div>
+                </div>
+
+                <div class="modal-actions">
+                    <button type="button" class="btn btn-secondary" id="cancelCake">Cancel</button>
+                    <button type="submit" class="btn btn-primary" id="saveCake">Save Cake</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Toast Notifications -->
+    <div class="toast-container">
+        <!-- Toast notifications will appear here -->
+    </div>
+
+    <!-- Static toast template -->
+    <template id="toast-template">
+        <div class="toast">
+            <div class="toast-icon">
+                <i class=""></i>
+            </div>
+            <div class="toast-content">
+                <div class="toast-title"></div>
+                <div class="toast-message"></div>
+            </div>
+            <button class="toast-close">
+                <i class="fas fa-times"></i>
+            </button>
+        </div>
+    </template>
+
+    <!-- Sign Out Confirm Modal -->
+    <div class="modal-overlay" id="signOutModal" aria-hidden="true" role="dialog" aria-modal="true">
+        <div class="modal" role="document">
+            <h3><i class="fas fa-sign-out-alt" style="color: var(--pink);"></i> Sign out</h3>
+            <p>Are you sure you want to sign out?</p>
+            <div class="modal-actions">
+                <button class="btn btn-secondary" id="cancelSignOut">Cancel</button>
+                <button class="btn btn-primary" id="confirmSignOut">Sign Out</button>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
+    <script src="js/cake-catalog.js"></script>
+</body>
+
+</html>

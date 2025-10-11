@@ -1037,3 +1037,6 @@ footer {
     text-align: center;
 }
 
+#regServiceType option{
+    color:var(--dark-navy)
+}

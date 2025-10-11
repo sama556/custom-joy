@@ -1,0 +1,287 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Florist Dashboard - Sales & Reports</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link rel="stylesheet" href="../Chefs/css/profile.css">
+    <link rel="stylesheet" href="../Chefs/css/sales-reports.css">
+  
+</head>
+
+<body>
+    <!-- Sidebar -->
+    <div class="sidebar">
+        <div class="sidebar-header">
+            <img class="logo" src="../../images/logo.png">
+        </div>
+        <nav class="sidebar-menu">
+            <ul>
+                <li><a href="overview.html"><i class="fas fa-chart-pie"></i> <span>Overview</span></a></li>
+                <li><a href="profile.html"><i class="fas fa-user"></i> <span>Profile</span></a></li>
+                <li><a href="flower-catalog.html"><i class="fas fa-seedling"></i> <span>Flower Catalog</span></a></li>
+                <li><a href="order-mangement.html"><i class="fas fa-shopping-cart"></i> <span>Order Management</span></a></li>
+                <li><a href="arranging-roses.html"><i class="fas fa-seedling"></i> <span>Arranging roses</span></a></li>
+                <li class="active"><a href="sales-reports.html"><i class="fas fa-chart-bar"></i> <span>Sales & Reports</span></a></li>
+            </ul>
+        </nav>
+    </div>
+
+    <!-- Main Content -->
+    <div class="main-content">
+        <div class="header">
+            <h1>Sales & Reports</h1>
+            <div class="user-info">
+                <img src="../../images/ceek1.jpg" alt="Florist user">
+                <span>Florist User</span>
+                <button class="signout-btn" id="openSignOut"><i class="fas fa-sign-out-alt"></i> Sign Out</button>
+            </div>
+        </div>
+
+        <!-- Date Range Selector -->
+        <div class="date-range-selector">
+            <div class="date-controls">
+                <button class="btn btn-secondary active" data-range="week">This Week</button>
+                <button class="btn btn-secondary" data-range="month">This Month</button>
+                <button class="btn btn-secondary" data-range="quarter">This Quarter</button>
+                <button class="btn btn-secondary" data-range="year">This Year</button>
+                <div class="custom-range">
+                    <input type="date" id="startDate" value="2025-01-01">
+                    <span>to</span>
+                    <input type="date" id="endDate" value="2025-01-31">
+                    <button class="btn btn-primary" id="applyDateRange">Apply</button>
+                </div>
+            </div>
+           
+        </div>
+
+        <!-- Key Metrics -->
+        <div class="metrics-grid">
+            <div class="metric-card">
+                <div class="metric-header">
+                    <h3>Total Revenue</h3>
+                    <i class="fas fa-money-bill-wave" style="background: rgba(16, 185, 129, 0.1); color: #10b981;"></i>
+                </div>
+                <div class="metric-value">SAR 28,450</div>
+                <div class="metric-change positive">
+                    <i class="fas fa-arrow-up"></i> 15.2% from last month
+                </div>
+            </div>
+
+            <div class="metric-card">
+                <div class="metric-header">
+                    <h3>Total Orders</h3>
+                    <i class="fas fa-shopping-cart" style="background: rgba(54, 139, 255, 0.1); color: #368BFF;"></i>
+                </div>
+                <div class="metric-value">89</div>
+                <div class="metric-change positive">
+                    <i class="fas fa-arrow-up"></i> 12.7% from last month
+                </div>
+            </div>
+
+            
+
+            
+        </div>
+
+        <!-- Charts Section -->
+        <div class="charts-section">
+            <!-- Revenue Chart -->
+            <div class="chart-container large">
+                <div class="chart-header">
+                    <h3>Revenue Overview</h3>
+                    <div class="chart-actions">
+                        <select id="revenueChartType">
+                            <option value="daily">Daily</option>
+                            <option value="weekly">Weekly</option>
+                            <option value="monthly" selected>Monthly</option>
+                        </select>
+                    </div>
+                </div>
+                <canvas id="revenueChart"></canvas>
+            </div>
+
+            <!-- Orders Chart -->
+            <div class="chart-container">
+                <div class="chart-header">
+                    <h3>Orders Trend</h3>
+                    <div class="chart-actions">
+                        <select id="ordersChartType">
+                            <option value="daily">Daily</option>
+                            <option value="weekly" selected>Weekly</option>
+                        </select>
+                    </div>
+                </div>
+                <canvas id="ordersChart"></canvas>
+            </div>
+
+            <!-- Flower Categories Chart -->
+            <div class="chart-container">
+                <div class="chart-header">
+                    <h3>Sales by Flower Category</h3>
+                </div>
+                <canvas id="categoriesChart"></canvas>
+            </div>
+
+            
+        </div>
+
+        <!-- Recent Transactions -->
+        <div class="transactions-section">
+            <div class="section-header">
+                <h3>Recent Transactions</h3>
+                <button class="btn btn-secondary"><a href="order-mangement.html">View All Transactions</a></button>
+            </div>
+            <div class="transactions-table-container">
+                <table class="transactions-table">
+                    <thead>
+                        <tr>
+                            <th>Order ID</th>
+                            <th>Customer</th>
+                            <th>Date</th>
+                            <th>Product</th>
+                            <th>Amount</th>
+                            <th>Status</th>
+                            <th>Payment</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>#ORD-FL-156</td>
+                            <td>Sarah Ahmed</td>
+                            <td>2025-01-15</td>
+                            <td>Wedding Bouquet - Roses</td>
+                            <td>SAR 450</td>
+                            <td><span class="status completed">Completed</span></td>
+                            <td><span class="payment paid">Paid</span></td>
+                        </tr>
+                        <tr>
+                            <td>#ORD-FL-155</td>
+                            <td>Mohammed Ali</td>
+                            <td>2025-01-15</td>
+                            <td>Anniversary Arrangement</td>
+                            <td>SAR 320</td>
+                            <td><span class="status completed">Completed</span></td>
+                            <td><span class="payment paid">Paid</span></td>
+                        </tr>
+                        <tr>
+                            <td>#ORD-FL-154</td>
+                            <td>Fatima Hassan</td>
+                            <td>2025-01-14</td>
+                            <td>Custom Birthday Bouquet</td>
+                            <td>SAR 280</td>
+                            <td><span class="status processing">Processing</span></td>
+                            <td><span class="payment paid">Paid</span></td>
+                        </tr>
+                        <tr>
+                            <td>#ORD-FL-153</td>
+                            <td>Ahmed Khalid</td>
+                            <td>2025-01-14</td>
+                            <td>Valentine's Special</td>
+                            <td>SAR 380</td>
+                            <td><span class="status completed">Completed</span></td>
+                            <td><span class="payment paid">Paid</span></td>
+                        </tr>
+                        <tr>
+                            <td>#ORD-FL-152</td>
+                            <td>Layla Mohammed</td>
+                            <td>2025-01-13</td>
+                            <td>Funeral Wreath</td>
+                            <td>SAR 220</td>
+                            <td><span class="status pending">Pending</span></td>
+                            <td><span class="payment pending">Pending</span></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+    <!-- Report Generation Modal -->
+    <div class="modal-overlay" id="reportModal" aria-hidden="true">
+        <div class="modal">
+            <div class="modal-header">
+                <h3><i class="fas fa-download"></i> Generate Report</h3>
+                <button class="modal-close" id="closeReportModal">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="form-group">
+                    <label for="reportType">Report Type</label>
+                    <select id="reportType">
+                        <option value="sales">Sales Report</option>
+                        <option value="products">Product Performance</option>
+                        <option value="customers">Customer Analytics</option>
+                        <option value="financial">Financial Summary</option>
+                        <option value="seasonal">Seasonal Analysis</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="reportFormat">Format</label>
+                    <select id="reportFormat">
+                        <option value="pdf">PDF Document</option>
+                        <option value="excel">Excel Spreadsheet</option>
+                        <option value="csv">CSV File</option>
+                    </select>
+                </div>
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="reportStartDate">Start Date</label>
+                        <input type="date" id="reportStartDate" value="2025-01-01">
+                    </div>
+                    <div class="form-group">
+                        <label for="reportEndDate">End Date</label>
+                        <input type="date" id="reportEndDate" value="2025-01-31">
+                    </div>
+                </div>
+            </div>
+            <div class="modal-actions">
+                <button type="button" class="btn btn-secondary" id="cancelReport">Cancel</button>
+                <button type="button" class="btn btn-primary" id="generateReportBtn">
+                    <i class="fas fa-download"></i> Generate Report
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Toast Notifications -->
+    <div class="toast-container">
+        <!-- Toast notifications will appear here -->
+    </div>
+
+    <!-- Static toast template -->
+    <template id="toast-template">
+        <div class="toast">
+            <div class="toast-icon">
+                <i class=""></i>
+            </div>
+            <div class="toast-content">
+                <div class="toast-title"></div>
+                <div class="toast-message"></div>
+            </div>
+            <button class="toast-close">
+                <i class="fas fa-times"></i>
+            </button>
+        </div>
+    </template>
+
+    <!-- Sign Out Confirm Modal -->
+    <div class="modal-overlay" id="signOutModal" aria-hidden="true" role="dialog" aria-modal="true">
+        <div class="modal" role="document">
+            <h3><i class="fas fa-sign-out-alt" style="color: var(--pink);"></i> Sign out</h3>
+            <p>Are you sure you want to sign out?</p>
+            <div class="modal-actions">
+                <button class="btn btn-secondary" id="cancelSignOut">Cancel</button>
+                <button class="btn btn-primary" id="confirmSignOut">Sign Out</button>
+            </div>
+        </div>
+    </div>
+
+    <script src="js/sales-reports.js"></script>
+</body>
+
+</html>
