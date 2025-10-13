@@ -6,6 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>Admin Dashboard - Product Management</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css">
     <link rel="stylesheet" href="../css/products.css">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css">
 </head>
@@ -229,14 +230,21 @@
         <div class="modal" role="document">
             <h3 id="productModalTitle"></h3>
             <div id="productForms">
-                <!-- Cake Form -->
-                <form class="product-form" data-entity="cake">
-                    <div class="form-grid">
-                        <div class="form-field">
-                            <label for="cake-id">Cake ID</label>
-                            <input type="text" id="cake-id" name="cakeId"
-                                placeholder="Auto-generated or enter manually">
+                <!-- Enhanced Cake Form - Matching Chefs Structure -->
+                <form class="product-form" data-entity="cake" id="cakeForm">
+                    <div class="form-section">
+                        <h4>Basic Information</h4>
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="cakeName">Cake Name *</label>
+                                <input type="text" id="cakeName" name="cakeName" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="basePrice">Base Price (SAR) *</label>
+                                <input type="number" id="basePrice" name="basePrice" min="0" step="0.01" required>
+                            </div>
                         </div>
+<<<<<<< HEAD
                         <div class="form-field">
                             <label for="cake-name">Name</label>
                             <input type="text" id="cake-name" name="name" placeholder="Cake name">
@@ -310,8 +318,15 @@
                                 <option value="Cup Cake">Cup Cake</option>
                                 <option value="Fondant Cake">Fondant Cake</option>
                             </select>
+=======
+                        <div class="form-group">
+                            <label for="cakeDescription">Description</label>
+                            <textarea id="cakeDescription" name="cakeDescription" rows="3"></textarea>
+>>>>>>> 02dcec8594a8cf8df42cf2dbf83167a2bc5d9356
                         </div>
+                    </div>
 
+<<<<<<< HEAD
                         <!-- Cake Addons / Customization -->
                         <div class="form-field full-width" style="grid-column: 1 / -1;">
                             <h4 style="margin:10px 0 6px 0;">Cake Addons</h4>
@@ -441,11 +456,225 @@
                             <select id="cake-edibleImage" name="edibleImage">
                                 <option value="No">No</option>
                                 <option value="Yes">Yes</option>
+=======
+                    <div class="form-section">
+                        <h4>Cake Type & Specifications</h4>
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="cakeType">Cake Type *</label>
+                                <select id="cakeType" name="cakeType" class="select2-multiple" multiple required>
+                                    <option value="sponge">Sponge</option>
+                                    <option value="chiffon">Chiffon</option>
+                                    <option value="baked_cheesecake">Baked Cheesecake</option>
+                                    <option value="chilled_cheesecake">Chilled Cheesecake</option>
+                                    <option value="mousse">Mousse</option>
+                                    <option value="red_velvet">Red Velvet</option>
+                                    <option value="chocolate">Chocolate</option>
+                                    <option value="vanilla">Vanilla</option>
+                                    <option value="mocha">Mocha</option>
+                                    <option value="tiramisu">Tiramisu</option>
+                                    <option value="carrot">Carrot Cake</option>
+                                    <option value="three_leches">Three Leches</option>
+                                    <option value="pound">Pound Cake</option>
+                                    <option value="cupcake">Cup Cake</option>
+                                    <option value="fondant">Fondant Cake</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label for="productType">Product Type *</label>
+                                <select id="productType" name="productType" required>
+                                    <option value="special">Special</option>
+                                    <option value="general">General</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-section">
+                        <h4>Base Flavors</h4>
+                        <div class="form-group">
+                            <label for="baseFlavors">Select Base Flavors *</label>
+                            <select id="baseFlavors" name="baseFlavors" class="select2-multiple" multiple required>
+                                <option value="vanilla">Vanilla</option>
+                                <option value="chocolate">Chocolate</option>
+                                <option value="red_velvet">Red Velvet</option>
+                                <option value="coffee">Coffee</option>
+                                <option value="lemon">Lemon</option>
+                                <option value="pistachio">Pistachio</option>
+                                <option value="lotus">Lotus</option>
+                                <option value="oreo">Oreo</option>
+>>>>>>> 02dcec8594a8cf8df42cf2dbf83167a2bc5d9356
                             </select>
                         </div>
-                        <div class="form-field">
-                            <label for="cake-edibleImageFile">Upload Edible Image</label>
-                            <input type="file" id="cake-edibleImageFile" name="edibleImageFile" accept="image/*">
+                    </div>
+
+                    <div class="form-section">
+                        <h4>Fillings</h4>
+                        <div class="form-group">
+                            <label for="fillings">Select Fillings</label>
+                            <select id="fillings" name="fillings" class="select2-multiple" multiple>
+                                <option value="chocolate_ganache">Chocolate Ganache</option>
+                                <option value="pastry_cream">Pastry Cream</option>
+                                <option value="caramel">Caramel</option>
+                                <option value="lotus">Lotus</option>
+                                <option value="strawberry">Strawberry</option>
+                                <option value="mixed_berries">Mixed Berries</option>
+                                <option value="nutella">Nutella</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="form-section">
+                        <h4>Frosting & Toppings</h4>
+                        <div class="form-group">
+                            <label for="frosting">Select Frosting</label>
+                            <select id="frosting" name="frosting" class="select2-multiple" multiple>
+                                <option value="butter_cream">Butter Cream</option>
+                                <option value="whipped_cream">Whipped Cream</option>
+                                <option value="cream_cheese">Cream Cheese</option>
+                                <option value="ganache">Ganache</option>
+                                <option value="fondant">Fondant</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="form-section">
+                        <h4>Shape & Size</h4>
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="shape">Shape *</label>
+                                <select id="shape" name="shape" class="select2-multiple" multiple required>
+                                    <option value="round">Round</option>
+                                    <option value="square">Square</option>
+                                    <option value="rectangle">Rectangle</option>
+                                    <option value="heart">Heart</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label for="size">Size/Diameter *</label>
+                                <select id="size" name="size" class="select2-multiple" multiple required>
+                                    <option value="6">6"</option>
+                                    <option value="8">8"</option>
+                                    <option value="10">10"</option>
+                                    <option value="12">12"</option>
+                                    <option value="small">Small</option>
+                                    <option value="medium">Medium</option>
+                                    <option value="large">Large</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-section">
+                        <h4>Layers & Design</h4>
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="layers">Number of Layers *</label>
+                                <select id="layers" name="layers" required>
+                                    <option value="1">1 Layer</option>
+                                    <option value="2">2 Layers</option>
+                                    <option value="3">3+ Layers</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label for="colors">Colors</label>
+                                <select id="colors" name="colors" class="select2-multiple" multiple>
+                                    <option value="white">White</option>
+                                    <option value="gold">Gold</option>
+                                    <option value="pink">Pink</option>
+                                    <option value="blue">Blue</option>
+                                    <option value="black">Black</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-section">
+                        <h4>Decorations</h4>
+                        <div class="form-group">
+                            <label for="decorations">Select Decorations</label>
+                            <select id="decorations" name="decorations" class="select2-multiple" multiple>
+                                <option value="sprinkles">Sprinkles</option>
+                                <option value="chocolate_shavings">Chocolate Shavings</option>
+                                <option value="fresh_fruits">Fresh Fruits</option>
+                                <option value="nuts">Nuts</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="form-section">
+                        <h4>Customization Options</h4>
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="cakeText">Custom Text</label>
+                                <input type="text" id="cakeText" name="cakeText" placeholder="Happy Birthday">
+                            </div>
+                            <div class="form-group">
+                                <label for="textColor">Text Color</label>
+                                <input type="color" id="textColor" name="textColor" value="#000000">
+                            </div>
+                        </div>
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="candles">Candles</label>
+                                <select id="candles" name="candles" class="select2-multiple" multiple>
+                                    <option value="regular">Regular</option>
+                                    <option value="digital">Digital</option>
+                                    <option value="sparkler">Sparkler</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label for="topper">Topper</label>
+                                <select id="topper" name="topper" class="select2-multiple" multiple>
+                                    <option value="happy_birthday">Happy Birthday</option>
+                                    <option value="names">Names</option>
+                                    <option value="numbers">Numbers</option>
+                                    <option value="acrylic">Acrylic</option>
+                                    <option value="paper">Paper</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-section">
+                        <h4>Edible Image & Packaging</h4>
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="edibleImage">Edible Image</label>
+                                <input type="file" id="edibleImage" name="edibleImage" accept="image/*">
+                            </div>
+                            <div class="form-group">
+                                <label for="packaging">Packaging</label>
+                                <select id="packaging" name="packaging" class="select2-multiple" multiple>
+                                    <option value="luxury_box">Luxury Box</option>
+                                    <option value="regular_box">Regular Box</option>
+                                    <option value="cake_board">Cake Board</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-section">
+                        <h4>Cake Image</h4>
+                        <div class="form-group">
+                            <div class="image-upload-container">
+                                <div class="image-preview" id="imagePreview">
+                                    <i class="fas fa-cloud-upload-alt"></i>
+                                    <span>Click to upload cake image</span>
+                                </div>
+                                <input type="file" id="cakeImage" name="cakeImage" accept="image/*" hidden>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-section">
+                        <h4>Availability</h4>
+                        <div class="form-group">
+                            <label class="checkbox-label">
+                                <input type="checkbox" id="isAvailable" name="isAvailable" checked>
+                                <span class="checkmark"></span>
+                                Available for orders
+                            </label>
                         </div>
                     </div>
                 </form>
@@ -1242,6 +1471,7 @@
 
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
+<<<<<<< HEAD
     <script>
     document.addEventListener('DOMContentLoaded', function() {
         if (window.jQuery && $.fn.select2) {
@@ -1254,6 +1484,8 @@
         }
     });
     </script>
+=======
+>>>>>>> 02dcec8594a8cf8df42cf2dbf83167a2bc5d9356
     <script src="../js/products.js"></script>
 </body>
 

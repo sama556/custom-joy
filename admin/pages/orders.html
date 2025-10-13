@@ -54,193 +54,319 @@
             </div>
         </div>
 
-        <!-- Order Statistics Cards -->
-        <div class="stats-grid">
-            <div class="stat-card">
-                <div class="stat-icon pending">
-                    <i class="fas fa-clock"></i>
-                </div>
-                <div class="stat-content">
-                    <div class="stat-number" id="pendingOrders">12</div>
-                    <div class="stat-label">Pending Orders</div>
-                </div>
-            </div>
-            <div class="stat-card">
-                <div class="stat-icon processing">
-                    <i class="fas fa-cog"></i>
-                </div>
-                <div class="stat-content">
-                    <div class="stat-number" id="processingOrders">8</div>
-                    <div class="stat-label">Processing</div>
-                </div>
-            </div>
-            <div class="stat-card">
-                <div class="stat-icon completed">
-                    <i class="fas fa-check-circle"></i>
-                </div>
-                <div class="stat-content">
-                    <div class="stat-number" id="completedOrders">156</div>
-                    <div class="stat-label">Completed</div>
-                </div>
-            </div>
-            <div class="stat-card">
-                <div class="stat-icon cancelled">
-                    <i class="fas fa-times-circle"></i>
-                </div>
-                <div class="stat-content">
-                    <div class="stat-number" id="cancelledOrders">3</div>
-                    <div class="stat-label">Cancelled</div>
-                </div>
-            </div>
+        <!-- Order Management Tabs -->
+        <div class="order-tabs">
+            <button class="tab-btn active" data-tab="incoming">Incoming Orders</button>
+            <button class="tab-btn" data-tab="processing">Order Processing</button>
+            <button class="tab-btn" data-tab="delivery">Delivery Tracking</button>
         </div>
 
-        <!-- Filters & Actions -->
-        <div class="orders-toolbar">
-            <div class="search-wrap">
-                <i class="fas fa-search" aria-hidden="true"></i>
-                <input id="orderSearch" type="text" placeholder="Search by order ID, customer name, or product..."
-                    aria-label="Search orders">
-            </div>
-
-            <div class="toolbar-actions">
-                <select id="statusFilter" aria-label="Filter by status">
-                    <option value="">All Statuses</option>
-                    <option value="pending">Pending</option>
-                    <option value="processing">Processing</option>
-                    <option value="in-progress">In Progress</option>
-                    <option value="completed">Completed</option>
-                    <option value="cancelled">Cancelled</option>
-                    <option value="cancellation-requested">Cancellation Requested</option>
-                    <option value="paid">Paid</option>
-                    <option value="unpaid">Unpaid</option>
-                </select>
-
-                <select id="orderTypeFilter" aria-label="Filter by order type">
-                    <option value="">All Types</option>
-                    <option value="custom">Custom</option>
-                    <option value="products">Products</option>
-                </select>
-
-            </div>
-        </div>
-
-        <!-- Enhanced Orders Table -->
-        <div class="card enhanced-orders-card">
-            <div class="card-header">
-                <div class="header-content">
-                    <h3><i class="fas fa-clipboard-list"></i> Orders</h3>
-                    <div class="header-stats">
-                        <span id="orderCount">0 orders</span>
+        <!-- Incoming Orders Tab -->
+        <div class="tab-content active" id="incoming">
+            <div class="tab-header">
+                <h2><i class="fas fa-inbox"></i> Incoming Orders - Pending Acceptance</h2>
+                <div class="tab-actions">
+                    <div class="search-box">
+                        <i class="fas fa-search"></i>
+                        <input type="text" placeholder="Search orders..." id="searchIncoming">
+                    </div>
+                    <div class="filter-group">
+                        <select id="filterOrderType">
+                            <option value="">All Types</option>
+                            <option value="special">Special</option>
+                            <option value="products">From Products</option>
+                        </select>
                     </div>
                 </div>
             </div>
 
-            <!-- Table View -->
-            <div class="table-view" id="tableView">
-                <div class="table-responsive">
-                    <table class="orders-table enhanced-table" id="ordersTable" role="table" aria-label="Orders table">
-                        <thead>
-                            <tr role="row" class="enhanced-header-row">
-                                <th scope="col" role="columnheader" class="sortable" data-sort="orderNumber">
-                                    <div class="th-content">
-                                        <div class="th-title">
-                                            <i class="fas fa-hashtag th-icon"></i>
-                                            <span>Order Details</span>
-                                        </div>
-                                        <div class="sort-controls">
-                                            <i class="fas fa-sort sort-icon"></i>
-                                            <i class="fas fa-sort-up sort-asc" style="display: none;"></i>
-                                            <i class="fas fa-sort-down sort-desc" style="display: none;"></i>
-                                        </div>
-                                    </div>
-                                </th>
-                                <th scope="col" role="columnheader" class="sortable" data-sort="customer">
-                                    <div class="th-content">
-                                        <div class="th-title">
-                                            <i class="fas fa-user th-icon"></i>
-                                            <span>Customer</span>
-                                        </div>
-                                        <div class="sort-controls">
-                                            <i class="fas fa-sort sort-icon"></i>
-                                            <i class="fas fa-sort-up sort-asc" style="display: none;"></i>
-                                            <i class="fas fa-sort-down sort-desc" style="display: none;"></i>
-                                        </div>
-                                    </div>
-                                </th>
-                                <th scope="col" role="columnheader" class="sortable" data-sort="orderType">
-                                    <div class="th-content">
-                                        <div class="th-title">
-                                            <i class="fas fa-tag th-icon"></i>
-                                            <span>Type</span>
-                                        </div>
-                                        <div class="sort-controls">
-                                            <i class="fas fa-sort sort-icon"></i>
-                                            <i class="fas fa-sort-up sort-asc" style="display: none;"></i>
-                                            <i class="fas fa-sort-down sort-desc" style="display: none;"></i>
-                                        </div>
-                                    </div>
-                                </th>
-                                <th scope="col" role="columnheader" class="sortable" data-sort="total">
-                                    <div class="th-content">
-                                        <div class="th-title">
-                                            <i class="fas fa-dollar-sign th-icon"></i>
-                                            <span>Amount</span>
-                                        </div>
-                                        <div class="sort-controls">
-                                            <i class="fas fa-sort sort-icon"></i>
-                                            <i class="fas fa-sort-up sort-asc" style="display: none;"></i>
-                                            <i class="fas fa-sort-down sort-desc" style="display: none;"></i>
-                                        </div>
-                                    </div>
-                                </th>
-                                <th scope="col" role="columnheader" class="sortable" data-sort="status">
-                                    <div class="th-content">
-                                        <div class="th-title">
-                                            <i class="fas fa-flag th-icon"></i>
-                                            <span>Status</span>
-                                        </div>
-                                        <div class="sort-controls">
-                                            <i class="fas fa-sort sort-icon"></i>
-                                            <i class="fas fa-sort-up sort-asc" style="display: none;"></i>
-                                            <i class="fas fa-sort-down sort-desc" style="display: none;"></i>
-                                        </div>
-                                    </div>
-                                </th>
-                                <th scope="col" role="columnheader" class="sortable" data-sort="date">
-                                    <div class="th-content">
-                                        <div class="th-title">
-                                            <i class="fas fa-calendar th-icon"></i>
-                                            <span>Date</span>
-                                        </div>
-                                        <div class="sort-controls">
-                                            <i class="fas fa-sort sort-icon"></i>
-                                            <i class="fas fa-sort-up sort-asc" style="display: none;"></i>
-                                            <i class="fas fa-sort-down sort-desc" style="display: none;"></i>
-                                        </div>
-                                    </div>
-                                </th>
-                                <th scope="col" role="columnheader" class="actions-header">
-                                    <div class="th-content">
-                                        <div class="th-title">
-                                            <i class="fas fa-cogs th-icon"></i>
-                                            <span>Actions</span>
-                                        </div>
-                                    </div>
-                                </th>
-                            </tr>
-                        </thead>
-                        <tbody role="rowgroup">
-                            <!-- Sample orders will be populated by JavaScript -->
-                        </tbody>
-                    </table>
+            <div class="orders-table-container">
+                <table class="orders-table">
+                    <thead>
+                        <tr>
+                            <th>Order ID</th>
+                            <th>Customer</th>
+                            <th>Order Type</th>
+                            <th>Order Date</th>
+                            <th>Delivery Date</th>
+                            <th>Initial Status</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <!-- Order 1 -->
+                        <tr data-order="ORD-2401001">
+                            <td>#ORD-2401001</td>
+                            <td>Ahmed Al-Rashid</td>
+                            <td><span class="badge badge-special">Special</span></td>
+                            <td>2025-01-15</td>
+                            <td>2025-01-20</td>
+                            <td><span class="status status-pending">Pending</span></td>
+                            <td>
+                                <div class="action-buttons">
+                                    <button class="btn-icon btn-view" data-order="ORD-2401001" title="View Details">
+                                        <i class="fas fa-eye"></i>
+                                    </button>
+                                    <button class="btn-icon btn-accept" data-order="ORD-2401001" title="Accept Order">
+                                        <i class="fas fa-check"></i>
+                                    </button>
+                                    <button class="btn-icon btn-reject" data-order="ORD-2401001" title="Reject Order">
+                                        <i class="fas fa-times"></i>
+                                    </button>
+                                </div>
+                            </td>
+                        </tr>
+
+                        <!-- Order 2 -->
+                        <tr data-order="ORD-2401002">
+                            <td>#ORD-2401002</td>
+                            <td>Sarah Mohammed</td>
+                            <td><span class="badge badge-special">Special</span></td>
+                            <td>2025-01-15</td>
+                            <td>2025-01-18</td>
+                            <td><span class="status status-pending">Pending</span></td>
+                            <td>
+                                <div class="action-buttons">
+                                    <button class="btn-icon btn-view" data-order="ORD-2401002" title="View Details">
+                                        <i class="fas fa-eye"></i>
+                                    </button>
+                                    <button class="btn-icon btn-accept" data-order="ORD-2401002" title="Accept Order">
+                                        <i class="fas fa-check"></i>
+                                    </button>
+                                    <button class="btn-icon btn-reject" data-order="ORD-2401002" title="Reject Order">
+                                        <i class="fas fa-times"></i>
+                                    </button>
+                                </div>
+                            </td>
+                        </tr>
+
+                        <!-- Order 3 -->
+                        <tr data-order="ORD-2401003">
+                            <td>#ORD-2401003</td>
+                            <td>Mohammed Hassan</td>
+                            <td><span class="badge badge-special">Special</span></td>
+                            <td>2025-10-14</td>
+                            <td>2025-10-17</td>
+                            <td><span class="status status-pending">Pending</span></td>
+                            <td>
+                                <div class="action-buttons">
+                                    <button class="btn-icon btn-view" data-order="ORD-2401003" title="View Details">
+                                        <i class="fas fa-eye"></i>
+                                    </button>
+                                    <button class="btn-icon btn-accept" data-order="ORD-2401003" title="Accept Order">
+                                        <i class="fas fa-check"></i>
+                                    </button>
+                                    <button class="btn-icon btn-reject" data-order="ORD-2401003" title="Reject Order">
+                                        <i class="fas fa-times"></i>
+                                    </button>
+                                </div>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <!-- Order Processing Tab -->
+        <div class="tab-content" id="processing">
+            <div class="tab-header">
+                <h2><i class="fas fa-tasks"></i> Order Processing</h2>
+                <div class="tab-actions">
+                    <div class="search-box">
+                        <i class="fas fa-search"></i>
+                        <input type="text" placeholder="Search orders..." id="searchProcessing">
+                    </div>
+                    <div class="filter-group">
+                        <select id="filterProcessingStatus">
+                            <option value="">All Status</option>
+                            <option value="processing">Processing</option>
+                            <option value="in-progress">In Progress</option>
+                            <option value="completed">Completed</option>
+                        </select>
+                    </div>
                 </div>
             </div>
 
-            <!-- Card View -->
-            <div class="card-view" id="cardView" style="display: none;">
-                <div class="orders-grid" id="ordersGrid">
-                    <!-- Order cards will be populated by JavaScript -->
+            <div class="orders-table-container">
+                <table class="orders-table">
+                    <thead>
+                        <tr>
+                            <th>Order ID</th>
+                            <th>Customer</th>
+                            <th>Order Type</th>
+                            <th>Delivery Date</th>
+                            <th>Total</th>
+                            <th>Order Status</th>
+                            <th>Last Updated</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <!-- Order 4 -->
+                        <tr data-order="ORD-2401004">
+                            <td>#ORD-2401004</td>
+                            <td>Fatima Ahmed</td>
+                            <td><span class="badge badge-special">Special</span></td>
+                            <td>2025-10-16</td>
+                            <td><strong>SAR 150.00</strong></td>
+                            <td><span class="status status-processing">Processing</span></td>
+                            <td>2025-10-15 10:30</td>
+                            <td>
+                                <div class="action-buttons">
+                                    <button class="btn-icon btn-view" data-order="ORD-2401004" title="View Details">
+                                        <i class="fas fa-eye"></i>
+                                    </button>
+                                    <button class="btn btn-sm btn-primary btn-update-status" data-order="ORD-2401004">
+                                        Update Status
+                                    </button>
+                                </div>
+                            </td>
+                        </tr>
+
+                        <!-- Order 5 -->
+                        <tr data-order="ORD-2401005">
+                            <td>#ORD-2401005</td>
+                            <td>Khalid Omar</td>
+                            <td><span class="badge badge-special">Special</span></td>
+                            <td>2025-10-19</td>
+                            <td><strong>SAR 380.00</strong></td>
+                            <td><span class="status status-in-progress">In Progress</span></td>
+                            <td>2025-10-15 14:20</td>
+                            <td>
+                                <div class="action-buttons">
+                                    <button class="btn-icon btn-view" data-order="ORD-2401005" title="View Details">
+                                        <i class="fas fa-eye"></i>
+                                    </button>
+                                    <button class="btn btn-sm btn-primary btn-update-status" data-order="ORD-2401005">
+                                        Update Status
+                                    </button>
+                                </div>
+                            </td>
+                        </tr>
+
+                        <!-- Order 6 -->
+                        <tr data-order="ORD-2401006">
+                            <td>#ORD-2401006</td>
+                            <td>Layla Mohammed</td>
+                            <td><span class="badge badge-special">Special</span></td>
+                            <td>2025-10-18</td>
+                            <td><strong>SAR 520.00</strong></td>
+                            <td><span class="status status-completed">Completed</span></td>
+                            <td>2025-10-15 16:45</td>
+                            <td>
+                                <div class="action-buttons">
+                                    <button class="btn-icon btn-view" data-order="ORD-2401006" title="View Details">
+                                        <i class="fas fa-eye"></i>
+                                    </button>
+                                    <button class="btn btn-sm btn-secondary" disabled>
+                                        Completed
+                                    </button>
+                                </div>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <!-- Delivery Tracking Tab -->
+        <div class="tab-content" id="delivery">
+            <div class="tab-header">
+                <h2><i class="fas fa-truck"></i> Delivery Tracking</h2>
+                <div class="tab-actions">
+                    <div class="search-box">
+                        <i class="fas fa-search"></i>
+                        <input type="text" placeholder="Search orders..." id="searchDelivery">
+                    </div>
+                    <div class="filter-group">
+                        <select id="filterDeliveryStatus">
+                            <option value="">All Status</option>
+                            <option value="ready">Ready for Delivery</option>
+                            <option value="in-delivery">In Delivery</option>
+                            <option value="delivered">Delivered</option>
+                        </select>
+                    </div>
                 </div>
+            </div>
+
+            <div class="orders-table-container">
+                <table class="orders-table">
+                    <thead>
+                        <tr>
+                            <th>Order ID</th>
+                            <th>Customer</th>
+                            <th>Address</th>
+                            <th>Delivery Date</th>
+                            <th>Total</th>
+                            <th>Delivery Status</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <!-- Order 7 -->
+                        <tr data-order="ORD-2401007">
+                            <td>#ORD-2401007</td>
+                            <td>Noura Ali</td>
+                            <td>Al-Malqa District, Riyadh</td>
+                            <td>2024-01-16</td>
+                            <td><strong>SAR 220.00</strong></td>
+                            <td><span class="status status-ready">ReadyforDelivery</span></td>
+
+                            <td>
+                                <div class="action-buttons">
+                                    <button class="btn-icon btn-view" data-order="ORD-2401007" title="View Details">
+                                        <i class="fas fa-eye"></i>
+                                    </button>
+                                    <button class="btn btn-sm btn-primary btn-start-delivery" data-order="ORD-2401007">
+                                        Start Delivery
+                                    </button>
+                                </div>
+                            </td>
+                        </tr>
+
+                        <!-- Order 8 -->
+                        <tr data-order="ORD-2401008">
+                            <td>#ORD-2401008</td>
+                            <td>Omar Hassan</td>
+                            <td>Al-Narjis, Riyadh</td>
+                            <td>2024-01-17</td>
+                            <td><strong>SAR 450.00</strong></td>
+                            <td><span class="status status-in-delivery">In Delivery</span></td>
+
+                            <td>
+                                <div class="action-buttons">
+                                    <button class="btn-icon btn-view" data-order="ORD-2401008" title="View Details">
+                                        <i class="fas fa-eye"></i>
+                                    </button>
+                                    <button class="btn btn-sm btn-success btn-mark-delivered" data-order="ORD-2401008">
+                                        Mark Delivered
+                                    </button>
+                                </div>
+                            </td>
+                        </tr>
+
+                        <!-- Order 9 -->
+                        <tr data-order="ORD-2401009">
+                            <td>#ORD-2401009</td>
+                            <td>Hessa Khalid</td>
+                            <td>Al-Olaya, Riyadh</td>
+                            <td>2024-01-15</td>
+                            <td><strong>SAR 180.00</strong></td>
+                            <td><span class="status status-delivered">Delivered</span></td>
+
+                            <td>
+                                <div class="action-buttons">
+                                    <button class="btn-icon btn-view" data-order="ORD-2401009" title="View Details">
+                                        <i class="fas fa-eye"></i>
+                                    </button>
+                                    <button class="btn btn-sm btn-secondary" disabled>
+                                        Delivered
+                                    </button>
+                                </div>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
             </div>
         </div>
     </div>
@@ -268,143 +394,64 @@
             </div>
         </div>
     </div>
-    <!-- Order Details Modal (Rich, Scrollable) -->
-    <div class="modal-overlay" id="orderDetailsModal" aria-hidden="true" role="dialog" aria-modal="true">
-        <div class="modal simple-order-modal" role="document">
+    <!-- Order Details Modal -->
+    <div class="modal-overlay" id="orderDetailsModal" aria-hidden="true">
+        <div class="modal large-modal">
             <div class="modal-header">
+<<<<<<< HEAD
                 <h3><i class="fas fa-shopping-cart"></i> Order Details - <span id="orderIdTitle">#ORD-2401001</span></h3>
+=======
+                <h3><i class="fas fa-shopping-cart"></i> Order Details - <span id="orderIdTitle">#ORD-2401001</span>
+                </h3>
+>>>>>>> 02dcec8594a8cf8df42cf2dbf83167a2bc5d9356
                 <button class="modal-close" id="closeDetailsModal">
                     <i class="fas fa-times"></i>
                 </button>
             </div>
-            <div class="modal-content">
-                <!-- Order Information -->
-                <div class="detail-section">
-                    <h4><i class="fas fa-info-circle"></i> Order Information</h4>
-                    <div class="details-grid">
-                        <div class="detail-item"><span class="label">order_id</span><span
-                                id="od_order_id">#ORD-001</span></div>
-                        <div class="detail-item"><span class="label">user_id</span><span id="od_user_id">USR-1001</span>
-                        </div>
-                        <div class="detail-item"><span class="label">date</span><span id="od_date">2025-01-15</span>
-                        </div>
-                        <div class="detail-item"><span class="label">subtotal</span><span id="od_subtotal">﷼90.00</span>
-                        </div>
-                        <div class="detail-item"><span class="label">delivery_fee</span><span
-                                id="od_delivery_fee">﷼5.00</span></div>
-                        <div class="detail-item"><span class="label">total</span><span id="od_total">﷼95.00</span></div>
-                        <div class="detail-item"><span class="label">status</span><span id="od_status"
-                                class="status-badge status-processing">processing</span></div>
-                        <div class="detail-item"><span class="label">initial_status</span><span
-                                id="od_initial_status">pending</span></div>
-                        <div class="detail-item"><span class="label">reason</span><span id="od_reason">—</span></div>
-                        <div class="detail-item"><span class="label">order_type</span><span
-                                id="od_order_type">custom</span></div>
-                        <div class="detail-item detail-row"><span class="label">notes</span><span id="od_notes">—</span>
-                        </div>
-                        <div class="detail-item"><span class="label">delivery_date</span><span
-                                id="od_delivery_date">2025-01-20</span></div>
-                    </div>
-
-                    <!-- Illustrations -->
-                    <div class="illustrations">
-                        <div class="subheader"><i class="fas fa-images"></i> Illustration Images</div>
-                        <div class="images-grid" id="od_illustration_images">
-                            <img src="../../images/ceek1.jpg" alt="Illustration 1">
-                            <img src="../../images/ceek2.jpg" alt="Illustration 2">
-                            <img src="../../images/ceek3.jpg" alt="Illustration 3">
-                        </div>
-                        <div class="detail-item detail-row"><span class="label">illustration_description</span><span
-                                id="od_illustration_description">—</span></div>
-                    </div>
+            <div class="modal-body">
+                <div id="orderDetailsContent">
+                    <!-- Order details will be dynamically loaded here -->
                 </div>
+            </div>
+            <div class="modal-actions">
+                <button type="button" class="btn btn-secondary" id="closeDetails">Close</button>
+            </div>
+        </div>
+    </div>
 
-                <!-- Order Items -->
-                <div class="detail-section">
-                    <h4><i class="fas fa-box"></i> Order Items</h4>
-                    <div class="items-list" id="od_items">
-                        <div class="item-row">
-                            <div class="details-grid">
-                                <div class="detail-item"><span class="label">product_type</span><span>cake</span></div>
-                                <div class="detail-item"><span class="label">product_id</span><span>CK-1001</span></div>
-                                <div class="detail-item"><span class="label">addon_type</span><span>frosting</span>
-                                </div>
-                                <div class="detail-item"><span class="label">addon_id</span><span>FR-01</span></div>
-                                <div class="detail-item"><span class="label">quantity</span><span>1</span></div>
-                                <div class="detail-item"><span class="label">price</span><span>﷼89.99</span></div>
-                                <div class="detail-item detail-row"><span class="label">item_notes</span><span>no
-                                        nuts</span></div>
-                            </div>
-                        </div>
-                        <div class="item-row">
-                            <div class="details-grid">
-                                <div class="detail-item"><span class="label">product_type</span><span>flower</span>
-                                </div>
-                                <div class="detail-item"><span class="label">product_id</span><span>FL-230</span></div>
-                                <div class="detail-item"><span class="label">addon_type</span><span>wrap</span></div>
-                                <div class="detail-item"><span class="label">addon_id</span><span>WR-02</span></div>
-                                <div class="detail-item"><span class="label">quantity</span><span>2</span></div>
-                                <div class="detail-item"><span class="label">price</span><span>﷼12.50</span></div>
-                                <div class="detail-item detail-row"><span class="label">item_notes</span><span>deliver
-                                        before noon</span></div>
-                            </div>
+    <!-- Accept/Reject Modal -->
+    <div class="modal-overlay" id="actionModal" aria-hidden="true">
+        <div class="modal">
+            <div class="modal-header">
+                <h3><i class="fas fa-exclamation-circle"></i> <span id="actionTitle">Action Required</span></h3>
+                <button class="modal-close" id="closeActionModal">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            <div class="modal-body">
+                <p id="actionMessage">Are you sure you want to proceed with this action?</p>
+                <div class="form-group" id="reasonInput">
+                    <label for="rejectionReason">Reason for Rejection:</label>
+                    <textarea id="rejectionReason" rows="3"
+                        placeholder="Please provide a reason for rejection..."></textarea>
+                </div>
+                <div class="form-group" id="priceInput" style="display: none;">
+                    <label for="totalPrice">Determine Total Order Price (SAR):</label>
+                    <div class="price-input-group">
+                        <div class="price-item">
+                            <label for="totalPrice">Total Price:</label>
+                            <input type="number" id="totalPrice" step="0.01" min="0" placeholder="0.00">
                         </div>
                     </div>
-                </div>
-
-                <!-- Payment -->
-                <div class="detail-section">
-                    <h4><i class="fas fa-credit-card"></i> Payment</h4>
-                    <div class="details-grid">
-                        <div class="detail-item"><span class="label">order_id</span><span
-                                id="pay_order_id">#ORD-001</span></div>
-                        <div class="detail-item"><span class="label">payment_method</span><span
-                                id="pay_method">card</span></div>
-                        <div class="detail-item"><span class="label">amount</span><span id="pay_amount">﷼95.00</span>
-                        </div>
-                        <div class="detail-item"><span class="label">payment_status</span><span id="pay_status"
-                                class="status-badge status-paid">paid</span></div>
-                        <div class="detail-item"><span class="label">payment_date</span><span
-                                id="pay_date">2025-01-15</span></div>
-                    </div>
-                </div>
-
-                <!-- Address -->
-                <div class="detail-section">
-                    <h4><i class="fas fa-map-marker-alt"></i> Address</h4>
-                    <div class="details-grid">
-                        <div class="detail-item"><span class="label">Number</span><span id="addr_number">—</span></div>
-                        <div class="detail-item"><span class="label">User Number</span><span
-                                id="addr_user_number">—</span></div>
-                        <div class="detail-item"><span class="label">Supplier Number</span><span
-                                id="addr_supplier_number">—</span></div>
-                        <div class="detail-item detail-row"><span class="label">Address Name</span><span
-                                id="addr_name">—</span></div>
-                        <div class="detail-item"><span class="label">City</span><span id="addr_city">—</span></div>
-                        <div class="detail-item"><span class="label">District</span><span id="addr_district">—</span>
-                        </div>
-                        <div class="detail-item"><span class="label">Street</span><span id="addr_street">—</span></div>
-                        <div class="detail-item detail-row"><span class="label">Additional Details</span><span
-                                id="addr_additional">—</span></div>
-                    </div>
-                </div>
-
-                <!-- User Info -->
-                <div class="detail-section">
-                    <h4><i class="fas fa-user"></i> User Info</h4>
-                    <div class="details-grid">
-                        <div class="detail-item"><span class="label">User number</span><span
-                                id="user_number">USR-1001</span></div>
-                        <div class="detail-item detail-row"><span class="label">Name</span><span id="user_name">—</span>
-                        </div>
-                        <div class="detail-item"><span class="label">Email</span><span id="user_email">—</span></div>
-                        <div class="detail-item"><span class="label">Mobile number</span><span id="user_mobile">—</span>
-                        </div>
+                    <div class="price-notes">
+                        <label for="priceNotes">Price Notes (Optional):</label>
+                        <textarea id="priceNotes" rows="2" placeholder="Add any notes about pricing..."></textarea>
                     </div>
                 </div>
             </div>
             <div class="modal-actions">
-                <button class="btn btn-secondary" id="cancelOrderDetails">Close</button>
+                <button type="button" class="btn btn-secondary" id="cancelAction">Cancel</button>
+                <button type="button" class="btn btn-primary" id="confirmAction">Confirm</button>
             </div>
         </div>
     </div>
