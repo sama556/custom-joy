@@ -8,7 +8,6 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css">
     <link rel="stylesheet" href="../css/products.css">
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css">
 </head>
 
 <body>
@@ -244,219 +243,12 @@
                                 <input type="number" id="basePrice" name="basePrice" min="0" step="0.01" required>
                             </div>
                         </div>
-<<<<<<< HEAD
-                        <div class="form-field">
-                            <label for="cake-name">Name</label>
-                            <input type="text" id="cake-name" name="name" placeholder="Cake name">
-                        </div>
-                        <div class="form-field full-width">
-                            <label for="cake-description">Description</label>
-                            <input id="cake-description" name="description" rows="3"
-                                placeholder="Enter cake description"></input>
-                        </div>
-                        <div class="form-field">
-                            <label for="cake-basePrice">Base Price</label>
-                            <input type="number" step="0.01" id="cake-basePrice" name="basePrice" placeholder="0.00">
-                        </div>
-                        <div class="form-field">
-                            <label>Cake Image</label>
-                            <div class="image-upload-container">
-                                <div class="image-preview" id="productsCakeImagePreview">
-                                    <i class="fas fa-cloud-upload-alt"></i>
-                                    <span>Click to upload cake image</span>
-                                </div>
-                                <input type="file" id="cake-primaryImage" name="primaryImage" accept="image/*" hidden>
-                            </div>
-                        </div>
-                        <div class="form-field">
-                            <label for="cake-size">Size</label>
-                            <select id="cake-size" name="size">
-                                <option value="small">Small</option>
-                                <option value="medium">Medium</option>
-                                <option value="large">Large</option>
-                            </select>
-                        </div>
-                        <div class="form-field">
-                            <label for="cake-layers">Layers</label>
-                            <select id="cake-layers" name="layers">
-                                <option value="1">1</option>
-                                <option value="2">2</option>
-                                <option value="3+">3+</option>
-                            </select>
-                        </div>
-                        <div class="form-field">
-                            <label for="cake-available">Available</label>
-                            <select id="cake-available" name="available">
-                                <option value="true">Yes</option>
-                                <option value="false">No</option>
-                            </select>
-                        </div>
-                        <div class="form-field">
-                            <label for="cake-scope">Type</label>
-                            <select id="cake-scope" name="scope">
-                                <option value="private">Private</option>
-                                <option value="public">Public</option>
-                            </select>
-                        </div>
-                        <div class="form-field full-width">
-                            <h4 style="margin:0 0 6px 0;">Cake Types </h4>
-                            <label for="cake-type">Cake Type</label>
-                            <select id="cake-type" name="cakeType" class="select2-multiple" multiple>
-                                <option value="Sponge">Sponge</option>
-                                <option value="Chiffon">Chiffon</option>
-                                <option value="Baked Cheesecake">Baked Cheesecake</option>
-                                <option value="Chilled Cheesecake">Chilled Cheesecake</option>
-                                <option value="Mousse">Mousse</option>
-                                <option value="Red Velvet">Red Velvet</option>
-                                <option value="Chocolate">Chocolate</option>
-                                <option value="Vanilla">Vanilla</option>
-                                <option value="Mocha">Mocha</option>
-                                <option value="Tiramisu">Tiramisu</option>
-                                <option value="Carrot Cake">Carrot Cake</option>
-                                <option value="Three Leches">Three Leches</option>
-                                <option value="Pound Cake">Pound Cake</option>
-                                <option value="Cup Cake">Cup Cake</option>
-                                <option value="Fondant Cake">Fondant Cake</option>
-                            </select>
-=======
                         <div class="form-group">
                             <label for="cakeDescription">Description</label>
                             <textarea id="cakeDescription" name="cakeDescription" rows="3"></textarea>
->>>>>>> 02dcec8594a8cf8df42cf2dbf83167a2bc5d9356
                         </div>
                     </div>
 
-<<<<<<< HEAD
-                        <!-- Cake Addons / Customization -->
-                        <div class="form-field full-width" style="grid-column: 1 / -1;">
-                            <h4 style="margin:10px 0 6px 0;">Cake Addons</h4>
-                        </div>
-                        <div class="form-field">
-                            <label for="cake-mainFlavor">Main Flavor</label>
-                            <select id="cake-mainFlavor" name="mainFlavor[]" class="select2-multiple" multiple>
-                                <option value="Vanilla">Vanilla</option>
-                                <option value="Chocolate">Chocolate</option>
-                                <option value="Red Velvet">Red Velvet</option>
-                                <option value="Coffee">Coffee</option>
-                                <option value="Lemon">Lemon</option>
-                                <option value="Pistachio">Pistachio</option>
-                                <option value="Lotus">Lotus</option>
-                                <option value="Oreo">Oreo</option>
-                            </select>
-                        </div>
-                        <div class="form-field">
-                            <label for="cake-fillings">Fillings</label>
-                            <select id="cake-fillings" name="fillings[]" class="select2-multiple" multiple>
-                                <option value="nothing">Nothing</option>
-                                <option value="Chocolate Ganache">Chocolate Ganache</option>
-                                <option value="Crème Pâtissière">Crème Pâtissière</option>
-                                <option value="Caramel">Caramel</option>
-                                <option value="Lotus">Lotus</option>
-                                <option value="Strawberry">Strawberry</option>
-                                <option value="Mixed Berries">Mixed Berries</option>
-                                <option value="Nutella">Nutella</option>
-                            </select>
-                        </div>
-                        <div class="form-field">
-                            <label for="cake-frosting">Frosting</label>
-                            <select id="cake-frosting" name="frosting[]" class="select2-multiple" multiple>
-                                <option value="Buttercream">Buttercream</option>
-                                <option value="Whipped Cream">Whipped Cream</option>
-                                <option value="Cream Cheese">Cream Cheese</option>
-                                <option value="Ganache">Ganache</option>
-                                <option value="Fondant">Fondant</option>
-                            </select>
-                        </div>
-                        <div class="form-field">
-                            <label for="cake-shape">Shape</label>
-                            <select id="cake-shape" name="shape[]" class="select2-multiple" multiple>
-                                <option value="Round">Round</option>
-                                <option value="Square">Square</option>
-                                <option value="Rectangle">Rectangle</option>
-                                <option value="Heart">Heart</option>
-                            </select>
-                        </div>
-                        <div class="form-field">
-                            <label for="cake-sizeDiameter">Size / Diameter</label>
-                            <select id="cake-sizeDiameter" name="sizeDiameter[]" class="select2-multiple" multiple>
-                                <option value="6">6"</option>
-                                <option value="8">8"</option>
-                                <option value="10">10"</option>
-                                <option value="12">12"</option>
-                                <option value="Small">Small</option>
-                                <option value="Medium">Medium</option>
-                                <option value="Large">Large</option>
-                            </select>
-                        </div>
-                        <div class="form-field">
-                            <label for="cake-layersAlt">Layers (Detailed)</label>
-                            <select id="cake-layersAlt" name="layersAlt[]" class="select2-multiple" multiple>
-                                <option value="1 Layer">1 Layer</option>
-                                <option value="2 Layers">2 Layers</option>
-                                <option value="3+ Layers">3+ Layers</option>
-                            </select>
-                        </div>
-                        <div class="form-field">
-                            <label for="cake-baseColors">Base Colors</label>
-                            <select id="cake-baseColors" name="baseColors[]" class="select2-multiple" multiple>
-                                <option value="White">White</option>
-                                <option value="Gold">Gold</option>
-                                <option value="Pink">Pink</option>
-                                <option value="Blue">Blue</option>
-                                <option value="Black">Black</option>
-                            </select>
-                        </div>
-                        <div class="form-field">
-                            <label for="cake-decorations">Decorations</label>
-                            <select id="cake-decorations" name="decorations[]" class="select2-multiple" multiple>
-                                <option value="nothing">Nothing</option>
-                                <option value="Sprinkles">Sprinkles</option>
-                                <option value="Chocolate Shavings">Chocolate Shavings</option>
-                                <option value="Fresh Fruits">Fresh Fruits</option>
-                                <option value="Nuts">Nuts</option>
-                            </select>
-                        </div>
-                        <div class="form-field">
-                            <label for="cake-writingColor">Writing Color</label>
-                            <select id="cake-writingColor" name="writingColor[]" class="select2-multiple" multiple>
-                                <option value="White">White</option>
-                                <option value="Black">Black</option>
-                                <option value="Gold">Gold</option>
-                                <option value="Pink">Pink</option>
-                                <option value="Blue">Blue</option>
-                                <option value="Red">Red</option>
-                                <option value="Green">Green</option>
-                                <option value="Purple">Purple</option>
-                            </select>
-                        </div>
-                        <div class="form-field">
-                            <label for="cake-candles">Candles</label>
-                            <select id="cake-candles" name="candles[]" class="select2-multiple" multiple>
-                                <option value="Regular">Regular</option>
-                                <option value="Number Candles">Number Candles</option>
-                                <option value="Sparkler">Sparkler</option>
-                            </select>
-                        </div>
-                        <div class="form-field">
-                            <label for="cake-topper">Topper</label>
-                            <select id="cake-topper" name="topper[]" class="select2-multiple" multiple>
-                                <option value="Happy Birthday">“Happy Birthday”</option>
-                                <option value="Names">Names</option>
-                                <option value="Numbers">Numbers</option>
-                                <option value="Acrylic">Acrylic</option>
-                                <option value="Paper">Paper</option>
-                            </select>
-                        </div>
-                        <div class="form-field full-width">
-                            <label for="cake-topperText">Topper Text (optional)</label>
-                            <input type="text" id="cake-topperText" name="topperText" placeholder="e.g., Sarah 21">
-                        </div>
-                        <div class="form-field">
-                            <label for="cake-edibleImage">Edible Image</label>
-                            <select id="cake-edibleImage" name="edibleImage">
-                                <option value="No">No</option>
-                                <option value="Yes">Yes</option>
-=======
                     <div class="form-section">
                         <h4>Cake Type & Specifications</h4>
                         <div class="form-row">
@@ -503,7 +295,6 @@
                                 <option value="pistachio">Pistachio</option>
                                 <option value="lotus">Lotus</option>
                                 <option value="oreo">Oreo</option>
->>>>>>> 02dcec8594a8cf8df42cf2dbf83167a2bc5d9356
                             </select>
                         </div>
                     </div>
@@ -687,39 +478,20 @@
                             <input type="text" id="cakeAddon-cakeId" name="cakeId">
                         </div>
                         <div class="form-field">
-                            <label for="cakeAddon-optionTypeName">Option Type</label>
-                            <select id="cakeAddon-optionTypeName" name="optionTypeName" class="select2">
-                                <option value="">Select type...</option>
-                                <option value="Flavor">Flavor</option>
-                                <option value="Fillings">Fillings</option>
-                                <option value="Frosting">Frosting</option>
-                                <option value="Shape">Shape</option>
-                                <option value="Size">Size</option>
-                                <option value="Colors">Colors</option>
-                                <option value="Decorations">Decorations</option>
-                                <option value="Candles">Candles</option>
-                                <option value="Topper">Topper</option>
-                            </select>
+                            <label for="cakeAddon-optionTypeName">Option Type Name</label>
+                            <input type="text" id="cakeAddon-optionTypeName" name="optionTypeName">
                         </div>
                         <div class="form-field">
-                            <label for="cakeAddon-optionName">Option Name(s)</label>
-                            <select id="cakeAddon-optionName" name="optionName[]" class="select2-multiple" multiple>
-                                <!-- options populated dynamically based on Option Type -->
-                            </select>
+                            <label for="cakeAddon-optionName">Option Name</label>
+                            <input type="text" id="cakeAddon-optionName" name="optionName">
                         </div>
                         <div class="form-field">
                             <label for="cakeAddon-additionalPrice">Additional Price</label>
                             <input type="number" step="0.01" id="cakeAddon-additionalPrice" name="additionalPrice">
                         </div>
                         <div class="form-field">
-                            <label>Image</label>
-                            <div class="image-upload-container">
-                                <div class="image-preview" id="productsCakeAddonImagePreview">
-                                    <i class="fas fa-cloud-upload-alt"></i>
-                                    <span>Click to upload image</span>
-                                </div>
-                                <input type="file" id="cakeAddon-image" name="image" accept="image/*" hidden>
-                            </div>
+                            <label for="cakeAddon-image">Image</label>
+                            <input type="file" id="cakeAddon-image" name="image" accept="image/*">
                         </div>
                         <div class="form-field">
                             <label for="cakeAddon-active">Active</label>
@@ -743,14 +515,8 @@
                             <input type="number" step="0.01" id="flower-basePrice" name="basePrice" placeholder="0.00">
                         </div>
                         <div class="form-field">
-                            <label>Flower Image</label>
-                            <div class="image-upload-container">
-                                <div class="image-preview" id="productsFlowerImagePreview">
-                                    <i class="fas fa-cloud-upload-alt"></i>
-                                    <span>Click to upload flower image</span>
-                                </div>
-                                <input type="file" id="flower-primaryImage" name="primaryImage" accept="image/*" hidden>
-                            </div>
+                            <label for="flower-primaryImage">Image</label>
+                            <input type="file" id="flower-primaryImage" name="primaryImage" accept="image/*">
                         </div>
                         <div class="form-field">
                             <label for="flower-available">Available</label>
@@ -794,60 +560,70 @@
 
                         </div>
                         <div class="form-field">
-                            <label for="flower-color">Flower Color</label>
-                            <select id="flower-color" name="flowerColor[]" class="select2-multiple" multiple>
-                                <option value="Red">Red</option>
-                                <option value="Pink">Pink</option>
-                                <option value="White">White</option>
-                                <option value="Purple">Purple</option>
-                                <option value="Yellow">Yellow</option>
-                                <option value="Orange">Orange</option>
-                                <option value="Mixed">Mixed</option>
-                            </select>
+                            <label>Flower Color</label>
+                            <div class="checkbox-group" id="flower-color-group">
+                                <label><input type="checkbox" name="flowerColor[]" value="Red"> Red</label>
+                                <label><input type="checkbox" name="flowerColor[]" value="Pink"> Pink</label>
+                                <label><input type="checkbox" name="flowerColor[]" value="White"> White</label>
+                                <label><input type="checkbox" name="flowerColor[]" value="Purple"> Purple</label>
+                                <label><input type="checkbox" name="flowerColor[]" value="Yellow"> Yellow</label>
+                                <label><input type="checkbox" name="flowerColor[]" value="Orange"> Orange</label>
+                                <label><input type="checkbox" name="flowerColor[]" value="Mixed"> Mixed</label>
+                            </div>
                         </div>
 
                         <div class="form-field">
-                            <label for="flower-stemCount">Stem Count / Size</label>
-                            <select id="flower-stemCount" name="stemCount[]" class="select2-multiple" multiple>
-                                <option value="Small (5–7)">Small (5–7)</option>
-                                <option value="Medium (10–15)">Medium (10–15)</option>
-                                <option value="Large (20+)">Large (20+)</option>
-                                <option value="Custom">Custom</option>
-                            </select>
+                            <label>Stem Count / Size</label>
+                            <div class="checkbox-group" id="flower-stemCount-group">
+                                <label><input type="checkbox" name="stemCount[]" value="Small (5–7)"> Small
+                                    (5–7)</label>
+                                <label><input type="checkbox" name="stemCount[]" value="Medium (10–15)"> Medium
+                                    (10–15)</label>
+                                <label><input type="checkbox" name="stemCount[]" value="Large (20+)"> Large
+                                    (20+)</label>
+                                <label><input type="checkbox" name="stemCount[]" value="Custom"> Custom</label>
+                            </div>
                         </div>
 
                         <div class="form-field">
-                            <label for="flower-fillersGreens">Fillers & Greens</label>
-                            <select id="flower-fillersGreens" name="fillersGreens[]" class="select2-multiple" multiple>
-                                <option value="nothing">Nothing</option>
-                                <option value="Gypsophila">Gypsophila</option>
-                                <option value="Eucalyptus">Eucalyptus</option>
-                                <option value="Ruscus">Ruscus</option>
-                                <option value="Fern">Fern</option>
-                                <option value="Lemon Leaf">Lemon Leaf</option>
-                            </select>
+                            <label>Fillers & Greens</label>
+                            <div class="checkbox-group" id="flower-fillersGreens-group">
+                                <label><input type="checkbox" name="fillersGreens[]" value="nothing"> Nothing</label>
+                                <label><input type="checkbox" name="fillersGreens[]" value="Gypsophila">
+                                    Gypsophila</label>
+                                <label><input type="checkbox" name="fillersGreens[]" value="Eucalyptus">
+                                    Eucalyptus</label>
+                                <label><input type="checkbox" name="fillersGreens[]" value="Ruscus"> Ruscus</label>
+                                <label><input type="checkbox" name="fillersGreens[]" value="Fern"> Fern</label>
+                                <label><input type="checkbox" name="fillersGreens[]" value="Lemon Leaf"> Lemon
+                                    Leaf</label>
+                            </div>
                         </div>
 
                         <div class="form-field">
-                            <label for="flower-packaging">Packaging</label>
-                            <select id="flower-packaging" name="packaging[]" class="select2-multiple" multiple>
-                                <option value="Transparent">Transparent</option>
-                                <option value="Kraft Paper">Kraft Paper</option>
-                                <option value="Fabric / Satin">Fabric / Satin</option>
-                                <option value="Matte Black">Matte Black</option>
-                                <option value="Luxury Box">Luxury Box</option>
-                            </select>
+                            <label>Packaging</label>
+                            <div class="checkbox-group" id="flower-packaging-group">
+                                <label><input type="checkbox" name="packaging[]" value="Transparent">
+                                    Transparent</label>
+                                <label><input type="checkbox" name="packaging[]" value="Kraft Paper"> Kraft
+                                    Paper</label>
+                                <label><input type="checkbox" name="packaging[]" value="Fabric / Satin"> Fabric /
+                                    Satin</label>
+                                <label><input type="checkbox" name="packaging[]" value="Matte Black"> Matte
+                                    Black</label>
+                                <label><input type="checkbox" name="packaging[]" value="Luxury Box"> Luxury Box</label>
+                            </div>
                         </div>
 
                         <div class="form-field">
-                            <label for="flower-ribbonColor">Ribbon Color</label>
-                            <select id="flower-ribbonColor" name="ribbonColor[]" class="select2-multiple" multiple>
-                                <option value="White">White</option>
-                                <option value="Pink">Pink</option>
-                                <option value="Black">Black</option>
-                                <option value="Gold">Gold</option>
-                                <option value="Red">Red</option>
-                            </select>
+                            <label>Ribbon Color</label>
+                            <div class="checkbox-group" id="flower-ribbonColor-group">
+                                <label><input type="checkbox" name="ribbonColor[]" value="White"> White</label>
+                                <label><input type="checkbox" name="ribbonColor[]" value="Pink"> Pink</label>
+                                <label><input type="checkbox" name="ribbonColor[]" value="Black"> Black</label>
+                                <label><input type="checkbox" name="ribbonColor[]" value="Gold"> Gold</label>
+                                <label><input type="checkbox" name="ribbonColor[]" value="Red"> Red</label>
+                            </div>
                         </div>
 
                         <div class="form-field">
@@ -863,25 +639,32 @@
                                 placeholder="Your custom message">
                         </div>
 
-                        <div class="form-field">
-                            <label for="flower-accessories">Accessories</label>
-                            <select id="flower-accessories" name="accessories[]" class="select2-multiple" multiple>
-                                <option value="nothing">Nothing</option>
-                                <option value="Chocolate">Chocolate</option>
-                                <option value="Teddy Bear">Teddy Bear</option>
-                                <option value="Helium Balloon">Helium Balloon</option>
-                                <option value="LED Lights">LED Lights</option>
-                                <option value="Light Perfume for Bouquet">Light Perfume for Bouquet</option>
-                            </select>
+                        <div class="form-field" ;">
+                            <label>Accessories</label>
+                            <div class="checkbox-group" id="flower-accessories-group">
+                                <label><input type="checkbox" name="accessories[]" value="nothing"> Nothing</label>
+                                <label><input type="checkbox" name="accessories[]" value="Chocolate"> Chocolate</label>
+                                <label><input type="checkbox" name="accessories[]" value="Teddy Bear"> Teddy
+                                    Bear</label>
+                                <label><input type="checkbox" name="accessories[]" value="Helium Balloon"> Helium
+                                    Balloon</label>
+                                <label><input type="checkbox" name="accessories[]" value="LED Lights"> LED
+                                    Lights</label>
+                                <label><input type="checkbox" name="accessories[]" value="Light Perfume for Bouquet">
+                                    Light Perfume for Bouquet</label>
+                            </div>
                         </div>
 
                         <div class="form-field ">
-                            <label for="flower-arrangementStyle">Arrangement Style</label>
-                            <select id="flower-arrangementStyle" name="arrangementStyle[]" class="select2-multiple" multiple>
-                                <option value="Classic & Balanced">Classic & Balanced</option>
-                                <option value="Modern / Minimal">Modern / Minimal</option>
-                                <option value="Natural “Wild”">Natural “Wild”</option>
-                            </select>
+                            <label>Arrangement Style</label>
+                            <div class="checkbox-group" id="flower-arrangementStyle-group">
+                                <label><input type="checkbox" name="arrangementStyle[]" value="Classic & Balanced">
+                                    Classic & Balanced</label>
+                                <label><input type="checkbox" name="arrangementStyle[]" value="Modern / Minimal"> Modern
+                                    / Minimal</label>
+                                <label><input type="checkbox" name="arrangementStyle[]" value="Natural “Wild”"> Natural
+                                    “Wild”</label>
+                            </div>
                         </div>
                         <div class="form-field">
                             <label for="flower-available">Available</label>
@@ -1471,21 +1254,6 @@
 
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
-<<<<<<< HEAD
-    <script>
-    document.addEventListener('DOMContentLoaded', function() {
-        if (window.jQuery && $.fn.select2) {
-            $('.select2-multiple').select2({
-                placeholder: 'Select options',
-                allowClear: true,
-                width: '100%',
-                closeOnSelect: false
-            });
-        }
-    });
-    </script>
-=======
->>>>>>> 02dcec8594a8cf8df42cf2dbf83167a2bc5d9356
     <script src="../js/products.js"></script>
 </body>
 

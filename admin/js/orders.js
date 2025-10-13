@@ -1,1835 +1,1034 @@
-
-// Enhanced Orders Management JavaScript
-
-// Mobile menu toggle functionality
-document.addEventListener('DOMContentLoaded', function () {
-    const mobileMenuToggle = document.getElementById('mobileMenuToggle');
-    const sidebar = document.querySelector('.sidebar');
-
-    if (mobileMenuToggle && sidebar) {
-        mobileMenuToggle.addEventListener('click', function () {
-            sidebar.classList.toggle('open');
-        });
-
-        // Close sidebar when clicking outside
-        document.addEventListener('click', function (event) {
-            if (window.innerWidth <= 768) {
-                if (!sidebar.contains(event.target) && !mobileMenuToggle.contains(event.target)) {
-                    sidebar.classList.remove('open');
-                }
-            }
-        });
-
-        // Close sidebar on window resize
-        window.addEventListener('resize', function () {
-            if (window.innerWidth > 768) {
-                sidebar.classList.remove('open');
-            }
-        });
-    }
-});
-
-// Tab functionality
-function initializeTabs() {
-    const tabButtons = document.querySelectorAll('.tab-btn');
+document.addEventListener('DOMContentLoaded', function() {
+    // Tab functionality
+    const tabBtns = document.querySelectorAll('.tab-btn');
     const tabContents = document.querySelectorAll('.tab-content');
 
-    tabButtons.forEach(button => {
-        button.addEventListener('click', () => {
-            const targetTab = button.dataset.tab;
-
-            // Remove active class from all buttons and contents
-            tabButtons.forEach(btn => btn.classList.remove('active'));
+    tabBtns.forEach(btn => {
+        btn.addEventListener('click', function() {
+            const tabId = this.getAttribute('data-tab');
+            
+            // Update active tab button
+            tabBtns.forEach(b => b.classList.remove('active'));
+            this.classList.add('active');
+            
+            // Show active tab content
             tabContents.forEach(content => content.classList.remove('active'));
-
-            // Add active class to clicked button and corresponding content
-            button.classList.add('active');
-            const targetContent = document.getElementById(targetTab);
-            if (targetContent) {
-                targetContent.classList.add('active');
-            }
+            document.getElementById(tabId).classList.add('active');
         });
     });
-}
 
-// Order details modal functionality
-function showOrderDetailsModal(orderId) {
-    const modal = document.getElementById('orderDetailsModal');
-    const orderIdTitle = document.getElementById('orderIdTitle');
-    const orderDetailsContent = document.getElementById('orderDetailsContent');
+    // Order Details Modal
+    const orderDetailsModal = document.getElementById('orderDetailsModal');
+    const viewOrderBtns = document.querySelectorAll('.btn-view');
+    const closeDetailsModal = document.getElementById('closeDetailsModal');
+    const closeDetails = document.getElementById('closeDetails');
 
-    if (!modal || !orderIdTitle || !orderDetailsContent) return;
+    viewOrderBtns.forEach(btn => {
+        btn.addEventListener('click', function() {
+            const orderId = this.getAttribute('data-order');
+            showOrderDetails(orderId);
+        });
+    });
 
-    // Find the order data
-    const order = ordersData.find(o => o.orderNumber === orderId);
-    if (!order) return;
+    closeDetailsModal.addEventListener('click', closeOrderDetails);
+    closeDetails.addEventListener('click', closeOrderDetails);
 
+    // Action Modal (Accept/Reject)
+    const actionModal = document.getElementById('actionModal');
+    const closeActionModal = document.getElementById('closeActionModal');
+    const cancelAction = document.getElementById('cancelAction');
+    const confirmAction = document.getElementById('confirmAction');
+    const actionTitle = document.getElementById('actionTitle');
+    const actionMessage = document.getElementById('actionMessage');
+    const reasonInput = document.getElementById('reasonInput');
+    const rejectionReason = document.getElementById('rejectionReason');
+
+    let currentOrderId = '';
+    let currentAction = '';
+
+    // Accept Order buttons
+    document.querySelectorAll('.btn-accept').forEach(btn => {
+        btn.addEventListener('click', function() {
+            currentOrderId = this.getAttribute('data-order');
+            currentAction = 'accept';
+            showActionModal('Accept Order', `Please determine the price for order ${currentOrderId} and confirm acceptance.`, false, true);
+        });
+    });
+
+    // Reject Order buttons
+    document.querySelectorAll('.btn-reject').forEach(btn => {
+        btn.addEventListener('click', function() {
+            currentOrderId = this.getAttribute('data-order');
+            currentAction = 'reject';
+            showActionModal('Reject Order', `Are you sure you want to reject order ${currentOrderId}?`, true, false);
+        });
+    });
+
+    closeActionModal.addEventListener('click', closeActionModalFunc);
+    cancelAction.addEventListener('click', closeActionModalFunc);
+
+    confirmAction.addEventListener('click', function() {
+        handleOrderAction(currentOrderId, currentAction);
+    });
+
+    // Update Status buttons
+    document.querySelectorAll('.btn-update-status').forEach(btn => {
+        btn.addEventListener('click', function() {
+            const orderId = this.getAttribute('data-order');
+            updateOrderStatus(orderId);
+        });
+    });
+
+    // Delivery buttons
+    document.querySelectorAll('.btn-start-delivery').forEach(btn => {
+        btn.addEventListener('click', function() {
+            const orderId = this.getAttribute('data-order');
+            startDelivery(orderId);
+        });
+    });
+
+    document.querySelectorAll('.btn-mark-delivered').forEach(btn => {
+        btn.addEventListener('click', function() {
+            const orderId = this.getAttribute('data-order');
+            markAsDelivered(orderId);
+        });
+    });
+
+    // Search functionality
+    setupSearchFunctionality();
+
+    // Filter functionality
+    setupFilterFunctionality();
+
+    // Sign out modal functionality
+    setupSignOutModal();
+
+    // Close modals when clicking outside
+    setupModalCloseHandlers();
+});
+
+function showOrderDetails(orderId) {
     // Update modal title
-    orderIdTitle.textContent = `#${orderId}`;
+    const titleEl = document.getElementById('orderIdTitle');
+    if (titleEl) titleEl.textContent = `#${orderId}`;
 
-    // Generate order details HTML
-    const orderDetailsHTML = generateOrderDetailsHTML(order);
-    orderDetailsContent.innerHTML = orderDetailsHTML;
+    // Get order data
+    const orderData = getOrderData(orderId);
+
+    // Populate fixed fields in the enhanced modal layout
+    try {
+        const setText = (id, val) => { const el = document.getElementById(id); if (el) el.textContent = val ?? '—'; };
+
+        setText('od_order_id', `#${orderData?.orderId || orderId}`);
+        setText('od_user_id', orderData?.userId);
+        setText('od_date', orderData?.orderDate);
+        setText('od_subtotal', orderData?.subtotal);
+        setText('od_delivery_fee', orderData?.deliveryFee);
+        setText('od_total', orderData?.total);
+        setText('od_initial_status', (orderData?.initialStatus || 'pending').toLowerCase());
+        setText('od_reason', orderData?.rejectionReason || '—');
+        setText('od_order_type', (orderData?.orderType || 'custom').toLowerCase());
+        setText('od_notes', orderData?.descriptiveNotes || orderData?.notes || '—');
+        setText('od_delivery_date', orderData?.deliveryDate);
+
+        const odStatus = document.getElementById('od_status');
+        if (odStatus) {
+            const status = (orderData?.orderStatus || 'processing').toLowerCase().replace(/\s+/g, '-');
+            odStatus.textContent = status;
+            odStatus.className = `status-badge status-${status}`;
+        }
+
+        // Images
+        const imgsWrap = document.getElementById('od_illustration_images');
+        if (imgsWrap) {
+            const refs = orderData?.referenceImages || [];
+            imgsWrap.innerHTML = refs.map(src => `<div class=\"image-item\"><img src=\"${src}\" alt=\"Illustration\"></div>`).join('');
+        }
+
+        // Items
+        const itemsWrap = document.getElementById('od_items');
+        if (itemsWrap) {
+            const items = orderData?.items || [];
+            itemsWrap.innerHTML = items.map(item => `
+                <div class="item-row">
+                    <div class="details-grid">
+                        <div class="detail-item"><span class="label">product_type</span><span>${item.productType || '—'}</span></div>
+                        <div class="detail-item"><span class="label">product_id</span><span>${item.productId || '—'}</span></div>
+                        <div class="detail-item"><span class="label">addon_type</span><span>${item.addonType || '—'}</span></div>
+                        <div class="detail-item"><span class="label">addon_id</span><span>${item.addonId || '—'}</span></div>
+                        <div class="detail-item"><span class="label">quantity</span><span>${item.quantity ?? '—'}</span></div>
+                        <div class="detail-item"><span class="label">price</span><span>${item.price || '—'}</span></div>
+                        ${item.total ? `<div class=\"detail-item\"><span class=\"label\">total</span><span>${item.total}</span></div>` : ''}
+                        <div class="detail-item detail-row"><span class="label">item_notes</span><span>${item.notes || '—'}</span></div>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        // Payment
+        setText('pay_order_id', `#${orderData?.orderId || orderId}`);
+        setText('pay_method', orderData?.paymentMethod || '—');
+        setText('pay_amount', orderData?.total || '—');
+        const payStatus = document.getElementById('pay_status');
+        if (payStatus) {
+            const ps = (orderData?.paymentStatus || 'paid').toLowerCase();
+            payStatus.textContent = ps;
+            payStatus.className = `status-badge status-${ps}`;
+        }
+        setText('pay_date', orderData?.orderDate || '—');
+
+        // Address
+        setText('addr_number', orderData?.address?.id || '—');
+        setText('addr_user_number', orderData?.userId || '—');
+        setText('addr_supplier_number', '—');
+        setText('addr_name', orderData?.address?.name || '—');
+        setText('addr_city', orderData?.address?.street?.split(',')?.[0] || '—');
+        setText('addr_district', orderData?.address?.street?.split(',')?.[1] || '—');
+        setText('addr_street', orderData?.address?.building || '—');
+        setText('addr_additional', orderData?.address?.phone || '—');
+
+        // User Info
+        setText('user_number', orderData?.userId || '—');
+        setText('user_name', orderData?.customer?.name || '—');
+        setText('user_email', orderData?.customer?.email || '—');
+        setText('user_mobile', orderData?.customer?.phone || orderData?.address?.phone || '—');
+    } catch (e) {
+        console.error('Failed to populate order details', e);
+    }
 
     // Show modal
-    modal.setAttribute('aria-hidden', 'false');
-    modal.style.display = 'flex';
+    document.getElementById('orderDetailsModal').classList.add('open');
 }
 
-function generateOrderDetailsHTML(order) {
+function closeOrderDetails() {
+    document.getElementById('orderDetailsModal').classList.remove('open');
+}
+
+// Order data structure for florist
+function getOrderData(orderId) {
+    const orderDatabase = {
+        'ORD-FL-001': {
+            orderId: 'ORD-FL-001',
+            userId: 'USR-FL-001',
+            customerName: 'Sarah Ahmed',
+            orderDate: '2025-01-15',
+            deliveryDate: '2025-01-20',
+            orderType: 'Custom',
+            paymentStatus: 'Paid',
+            orderStatus: 'Processing',
+            initialStatus: 'Accepted',
+            subtotal: 'SAR 180.00',
+            deliveryFee: 'SAR 25.00',
+            total: 'SAR 205.00',
+            addressId: 'ADD-FL-001',
+            notes: 'Please use pink and white roses only. Need delivery before 6 PM. Special arrangement for wedding.',
+            descriptiveNotes: 'Elegant wedding flower arrangement with pink and white roses. The bride wants a modern design with baby breath accents. Large centerpiece for wedding ceremony.',
+            referenceImages: [
+                '../../images/rose.jpg',
+                '../../images/flower1.jpg'
+            ],
+            address: {
+                id: 'ADD-FL-001',
+                name: 'Sarah Ahmed',
+                street: 'Al-Olaya District, Riyadh',
+                building: 'Building 123, Street 45',
+                phone: '+966501234567'
+            },
+            customer: {
+                name: 'Sarah Ahmed',
+                email: 'sarah@example.com',
+                phone: '+966501234567',
+                avatar: '../../../images/woman.jpg',
+                address: 'Al-Olaya District, Riyadh, Saudi Arabia',
+                since: '2024-03-15',
+                orderCount: 3
+            },
+            paymentMethod: 'Credit Card (****1234)',
+            priority: 'High',
+            items: [
+                {
+                    orderId: 'ORD-FL-001',
+                    productType: 'Flowers',
+                    productId: 'PRD-FLOW-001',
+                    addonType: 'Wedding Arrangement',
+                    addonId: 'ADD-FLOW-001',
+                    quantity: 1,
+                    price: 'SAR 205.00',
+                    total: 'SAR 205.00',
+                    notes: 'Pink and white roses, baby breath, large centerpiece'
+                }
+            ]
+        },
+        'ORD-FL-002': {
+            orderId: 'ORD-FL-002',
+            userId: 'USR-FL-002',
+            customerName: 'Mohammed Ali',
+            orderDate: '2025-01-15',
+            deliveryDate: '2025-01-18',
+            orderType: 'From Products',
+            paymentStatus: 'Paid',
+            orderStatus: 'In Progress',
+            initialStatus: 'Accepted',
+            subtotal: 'SAR 120.00',
+            deliveryFee: 'SAR 25.00',
+            total: 'SAR 145.00',
+            addressId: 'ADD-FL-002',
+            notes: 'Birthday celebration with mixed flowers',
+            descriptiveNotes: 'Beautiful mixed flower bouquet for birthday celebration',
+            referenceImages: [],
+            address: {
+                id: 'ADD-FL-002',
+                name: 'Mohammed Ali',
+                street: 'Al-Malqa District, Riyadh',
+                building: 'Building 456, Street 78',
+                phone: '+966501234568'
+            },
+            customer: {
+                name: 'Mohammed Ali',
+                email: 'mohammed@example.com',
+                phone: '+966501234568',
+                avatar: '../../../images/avater2.jpg',
+                address: 'Al-Malqa District, Riyadh, Saudi Arabia',
+                since: '2024-05-20',
+                orderCount: 2
+            },
+            paymentMethod: 'Apple Pay',
+            priority: 'Medium',
+            items: [
+                {
+                    orderId: 'ORD-FL-002',
+                    productType: 'Flowers',
+                    productId: 'PRD-FLOW-002',
+                    addonType: 'Mixed Bouquet',
+                    addonId: 'ADD-FLOW-002',
+                    quantity: 1,
+                    price: 'SAR 145.00',
+                    total: 'SAR 145.00',
+                    notes: 'Mixed seasonal flowers with baby breath'
+                }
+            ]
+        },
+        'ORD-FL-003': {
+            orderId: 'ORD-FL-003',
+            userId: 'USR-FL-003',
+            customerName: 'Fatima Hassan',
+            orderDate: '2025-01-14',
+            deliveryDate: '2025-01-17',
+            orderType: 'Custom',
+            paymentStatus: 'Unpaid',
+            orderStatus: 'Canceled',
+            initialStatus: 'Rejected',
+            rejectionReason: 'Unable to fulfill custom requirements within timeframe',
+            subtotal: 'SAR 250.00',
+            deliveryFee: 'SAR 25.00',
+            total: 'SAR 275.00',
+            addressId: 'ADD-FL-003',
+            notes: 'Need a special flower arrangement for anniversary. Theme should be romantic.',
+            descriptiveNotes: 'Romantic anniversary flower arrangement with red roses and candles. Special request for heart-shaped design.',
+            referenceImages: [],
+            address: {
+                id: 'ADD-FL-003',
+                name: 'Fatima Hassan',
+                street: 'Al-Narjis, Riyadh',
+                building: 'Building 789, Street 12',
+                phone: '+966501234569'
+            },
+            customer: {
+                name: 'Fatima Hassan',
+                email: 'fatima@example.com',
+                phone: '+966501234569',
+                avatar: '../../../images/wowan2.jpg',
+                address: 'Al-Narjis, Riyadh, Saudi Arabia',
+                since: '2024-08-10',
+                orderCount: 1
+            },
+            paymentMethod: 'Cash on Delivery',
+            priority: 'Low',
+            items: [
+                {
+                    orderId: 'ORD-FL-003',
+                    productType: 'Flowers',
+                    productId: 'PRD-FLOW-003',
+                    addonType: 'Romantic Arrangement',
+                    addonId: 'ADD-FLOW-003',
+                    quantity: 1,
+                    price: 'SAR 275.00',
+                    total: 'SAR 275.00',
+                    notes: 'Red roses, heart-shaped design, romantic theme'
+                }
+            ]
+        },
+        'ORD-FL-004': {
+            orderId: 'ORD-FL-004',
+            userId: 'USR-FL-004',
+            customerName: 'Layla Mohammed',
+            orderDate: '2025-01-16',
+            deliveryDate: '2025-01-18',
+            orderType: 'From Products',
+            paymentStatus: 'Paid',
+            orderStatus: 'Processing',
+            initialStatus: 'Accepted',
+            subtotal: 'SAR 70.00',
+            deliveryFee: 'SAR 25.00',
+            total: 'SAR 95.00',
+            addressId: 'ADD-FL-004',
+            notes: 'Office decoration with fresh flowers',
+            descriptiveNotes: 'Fresh flower arrangement for office reception area',
+            referenceImages: [],
+            address: {
+                id: 'ADD-FL-004',
+                name: 'Layla Mohammed',
+                street: 'Al-Malqa District, Riyadh',
+                building: 'Building 101, Street 22',
+                phone: '+966501234570'
+            },
+            customer: {
+                name: 'Layla Mohammed',
+                email: 'layla@example.com',
+                phone: '+966501234570',
+                avatar: '../../../images/avater3.jpg',
+                address: 'Al-Malqa District, Riyadh, Saudi Arabia',
+                since: '2024-01-15',
+                orderCount: 4
+            },
+            paymentMethod: 'Bank Transfer',
+            priority: 'Low',
+            items: [
+                {
+                    orderId: 'ORD-FL-004',
+                    productType: 'Flowers',
+                    productId: 'PRD-FLOW-004',
+                    addonType: 'Office Arrangement',
+                    addonId: 'ADD-FLOW-004',
+                    quantity: 1,
+                    price: 'SAR 95.00',
+                    total: 'SAR 95.00',
+                    notes: 'Fresh seasonal flowers, office decoration'
+                }
+            ]
+        },
+        'ORD-FL-005': {
+            orderId: 'ORD-FL-005',
+            userId: 'USR-FL-005',
+            customerName: 'Khalid Omar',
+            orderDate: '2025-01-15',
+            deliveryDate: '2025-01-19',
+            orderType: 'Custom',
+            paymentStatus: 'Paid',
+            orderStatus: 'In Progress',
+            initialStatus: 'Accepted',
+            subtotal: 'SAR 295.00',
+            deliveryFee: 'SAR 25.00',
+            total: 'SAR 320.00',
+            addressId: 'ADD-FL-005',
+            notes: 'Wedding flower decoration with specific design requirements',
+            descriptiveNotes: 'Complete wedding flower decoration package including centerpieces, bouquets, and ceremony flowers',
+            referenceImages: [
+                '../../images/flower1.jpg',
+                '../../images/rose.jpg'
+            ],
+            address: {
+                id: 'ADD-FL-005',
+                name: 'Khalid Omar',
+                street: 'Al-Olaya, Riyadh',
+                building: 'Building 202, Street 33',
+                phone: '+966501234571'
+            },
+            customer: {
+                name: 'Khalid Omar',
+                email: 'khalid@example.com',
+                phone: '+966501234571',
+                avatar: '../../../images/avater4.jpg',
+                address: 'Al-Olaya, Riyadh, Saudi Arabia',
+                since: '2024-06-01',
+                orderCount: 2
+            },
+            paymentMethod: 'Credit Card (****5678)',
+            priority: 'High',
+            items: [
+                {
+                    orderId: 'ORD-FL-005',
+                    productType: 'Flowers',
+                    productId: 'PRD-FLOW-005',
+                    addonType: 'Wedding Package',
+                    addonId: 'ADD-FLOW-005',
+                    quantity: 1,
+                    price: 'SAR 320.00',
+                    total: 'SAR 320.00',
+                    notes: 'Complete wedding flower package, centerpieces, bouquets'
+                }
+            ]
+        }
+    };
+    
+    // Return order data or null if not found
+    return orderDatabase[orderId] || null;
+}
+
+function generateOrderDetailsHTML(orderData) {
+    // If no order data, create a default order structure
+    if (!orderData) {
+        orderData = {
+            orderId: 'ORD-FL-000',
+            userId: 'USR-FL-000',
+            customerName: 'Unknown Customer',
+            orderDate: '2025-10-01',
+            deliveryDate: '2025-10-02',
+            orderType: 'From Products',
+            paymentStatus: 'Paid',
+            orderStatus: 'Processing',
+            initialStatus: 'Accepted',
+            subtotal: 'SAR 0.00',
+            deliveryFee: 'SAR 0.00',
+            total: 'SAR 0.00',
+            addressId: 'ADD-FL-000',
+            notes: 'No additional notes available.',
+            descriptiveNotes: 'Order details are being loaded.',
+            referenceImages: [],
+            address: {
+                id: 'ADD-FL-000',
+                name: 'Unknown Customer',
+                street: 'Address not available',
+                building: 'Building not specified',
+                phone: 'Phone not available'
+            },
+            items: [
+                {
+                    orderId: 'ORD-FL-000',
+                    productType: 'Flowers',
+                    productId: 'PROD-FLOW-000',
+                    addonType: 'None',
+                    addonId: '',
+                    quantity: 1,
+                    price: 'SAR 0.00',
+                    notes: 'No item details available'
+                }
+            ]
+        };
+    }
+    
+    const badgeClass = orderData.orderType === 'Custom' ? 'badge-special' : 'badge-products';
+    const statusClass = `status-${orderData.orderStatus.toLowerCase().replace(' ', '-')}`;
+    const paymentClass = `status-${orderData.paymentStatus.toLowerCase()}`;
+    const initialStatusClass = `status-${orderData.initialStatus.toLowerCase()}`;
+    
+    let rejectionReasonHTML = '';
+    if (orderData.initialStatus === 'Rejected' && orderData.rejectionReason) {
+        rejectionReasonHTML = `
+            <div class="info-item">
+                <label>Rejection Reason:</label>
+                <span class="rejection-reason">${orderData.rejectionReason}</span>
+            </div>
+        `;
+    }
+    
+    let referenceImagesHTML = '';
+    if (orderData.referenceImages && orderData.referenceImages.length > 0) {
+        referenceImagesHTML = `
+            <div class="reference-images-section">
+                <h4><i class="fas fa-images"></i> Reference Images</h4>
+                <div class="images-grid">
+                    ${orderData.referenceImages.map(img => `
+                        <div class="image-item">
+                            <img src="${img}" alt="Reference Image">
+                        </div>
+                    `).join('')}
+                </div>
+            </div>
+        `;
+    }
+    
     return `
         <div class="details-grid">
-            <!-- Order Information -->
             <div class="order-info-section">
                 <h4><i class="fas fa-info-circle"></i> Order Information</h4>
                 <div class="info-grid">
                     <div class="info-item">
                         <label>Order ID:</label>
-                        <span class="order-id">#${order.orderNumber}</span>
+                        <span class="order-id">${orderData.orderId}</span>
                     </div>
                     <div class="info-item">
                         <label>User ID:</label>
-                        <span class="user-id">#${order.userNumber}</span>
+                        <span class="user-id">${orderData.userId}</span>
                     </div>
                     <div class="info-item">
                         <label>Order Date:</label>
-                        <span>${order.date}</span>
+                        <span>${orderData.orderDate}</span>
                     </div>
                     <div class="info-item">
                         <label>Delivery Date:</label>
-                        <span>${order.deliveryDate}</span>
+                        <span>${orderData.deliveryDate}</span>
                     </div>
                     <div class="info-item">
                         <label>Order Type:</label>
-                        <span class="badge badge-${order.orderType}">${order.orderType}</span>
+                        <span class="badge ${badgeClass}">${orderData.orderType}</span>
                     </div>
                     <div class="info-item">
-                        <label>Priority:</label>
-                        <span class="priority-badge priority-${order.priority}">${order.priority}</span>
+                        <label>Status:</label>
+                        <span class="status ${statusClass}">${orderData.orderStatus}</span>
                     </div>
+                    <div class="info-item">
+                        <label>Payment Status:</label>
+                        <span class="status ${paymentClass}">${orderData.paymentStatus}</span>
+                    </div>
+                    <div class="info-item">
+                        <label>Address ID:</label>
+                        <span class="address-id">${orderData.addressId}</span>
+                    </div>
+                    <div class="info-item">
+                        <label>Initial Status:</label>
+                        <span class="status ${initialStatusClass}">${orderData.initialStatus}</span>
+                    </div>
+                    ${orderData.priority ? `
+                        <div class="info-item">
+                            <label>Priority:</label>
+                            <span class="priority-badge priority-${orderData.priority.toLowerCase()}">${orderData.priority}</span>
+                        </div>
+                    ` : ''}
+                    ${rejectionReasonHTML}
                 </div>
             </div>
 
-            <!-- Customer Information -->
             <div class="customer-section">
                 <h4><i class="fas fa-user"></i> Customer Information</h4>
                 <div class="customer-content">
                     <div class="customer-header">
-                        <img src="${order.customer.avatar}" alt="${order.customer.name}" class="customer-avatar">
+                        <img src="${orderData.customer?.avatar || '../../../images/ceek1.jpg'}" alt="Customer Avatar" class="customer-avatar">
                         <div class="customer-details">
-                            <h5>${order.customer.name}</h5>
-                            <p><i class="fas fa-envelope"></i> ${order.customer.email}</p>
-                            <p><i class="fas fa-phone"></i> ${order.customer.phone}</p>
-                            <p><i class="fas fa-map-marker-alt"></i> ${order.customer.address}</p>
-                            <p><i class="fas fa-calendar"></i> Customer since: ${order.customer.since}</p>
-                            <p><i class="fas fa-shopping-cart"></i> Total orders: ${order.customer.orderCount}</p>
+                            <h5>${orderData.customerName}</h5>
+                            <p><i class="fas fa-envelope"></i> ${orderData.customer?.email || 'N/A'}</p>
+                            <p><i class="fas fa-phone"></i> ${orderData.customer?.phone || orderData.address.phone}</p>
+                            <p><i class="fas fa-calendar"></i> Customer since: ${orderData.customer?.since || 'N/A'}</p>
+                            <p><i class="fas fa-shopping-bag"></i> Total orders: ${orderData.customer?.orderCount || 'N/A'}</p>
                         </div>
                     </div>
                 </div>
             </div>
 
-            <!-- Pricing Information -->
             <div class="pricing-section">
-                <h4><i class="fas fa-calculator"></i> Pricing Information</h4>
+                <h4><i class="fas fa-calculator"></i> Pricing Details</h4>
                 <div class="pricing-grid">
                     <div class="price-item">
-                        <span>Subtotal:</span>
-                        <span>SAR ${order.subtotal.toFixed(2)}</span>
+                        <label>Subtotal:</label>
+                        <span>${orderData.subtotal}</span>
                     </div>
                     <div class="price-item">
-                        <span>Delivery Fee:</span>
-                        <span>SAR ${order.deliveryFee.toFixed(2)}</span>
+                        <label>Delivery Fee:</label>
+                        <span>${orderData.deliveryFee}</span>
                     </div>
                     <div class="price-item total">
-                        <span>Total:</span>
-                        <span class="price-total">SAR ${order.total.toFixed(2)}</span>
+                        <label>Total Amount:</label>
+                        <span class="price-total">${orderData.total}</span>
+                    </div>
+                    ${orderData.paymentMethod ? `
+                        <div class="price-item">
+                            <label>Payment Method:</label>
+                            <span class="payment-method">${orderData.paymentMethod}</span>
+                        </div>
+                    ` : ''}
+                </div>
+            </div>
+
+            <div class="address-section">
+                <h4><i class="fas fa-map-marker-alt"></i> Delivery Address</h4>
+                <div class="address-content">
+                    <p><strong>Address ID:</strong> ${orderData.address.id}</p>
+                    <p><strong>${orderData.address.name}</strong></p>
+                    <p>${orderData.address.street}</p>
+                    <p>${orderData.address.building}</p>
+                    <p>Phone: ${orderData.address.phone}</p>
+                </div>
+            </div>
+
+            <div class="notes-section">
+                <h4><i class="fas fa-sticky-note"></i> Order Notes</h4>
+                <div class="notes-content">
+                    <div class="notes-item">
+                        <label>Customer Notes:</label>
+                        <div class="notes-text">${orderData.notes}</div>
+                    </div>
+                    <div class="notes-item">
+                        <label>Descriptive Notes:</label>
+                        <div class="notes-text">${orderData.descriptiveNotes}</div>
                     </div>
                 </div>
             </div>
 
-            <!-- Order Items -->
+            ${referenceImagesHTML}
+
             <div class="order-items-section">
-                <h4><i class="fas fa-shopping-bag"></i> Order Items</h4>
+                <h4><i class="fas fa-shopping-bag"></i> Product Details</h4>
                 <div class="items-list">
-                    ${order.orderDetails.map(item => `
+                    ${orderData.items.map(item => `
                         <div class="item-card">
                             <div class="item-header">
-                                <div class="item-name">${item.productType}</div>
-                                <div class="item-price">SAR ${item.total.toFixed(2)}</div>
+                                <span class="item-name">${item.productType} - ${item.productId}</span>
+                                <span class="item-price">${item.price}</span>
                             </div>
                             <div class="item-details">
-                                <p><strong>Product ID:</strong> <span class="detail-value product-id">${item.productNumber}</span></p>
-                                <p><strong>Quantity:</strong> <span class="detail-value">${item.quantity}</span></p>
-                                <p><strong>Price:</strong> <span class="detail-value price">SAR ${item.price.toFixed(2)}</span></p>
-                                <p><strong>Total:</strong> <span class="detail-value total">SAR ${item.total.toFixed(2)}</span></p>
-                                ${item.notes ? `<p><strong>Notes:</strong> <span class="detail-value notes">${item.notes}</span></p>` : ''}
+                                <div class="detail-row">
+                                    <span class="detail-label">Order ID:</span>
+                                    <span class="detail-value">${item.orderId}</span>
+                                </div>
+                                <div class="detail-row">
+                                    <span class="detail-label">Product Type:</span>
+                                    <span class="detail-value">${item.productType}</span>
+                                </div>
+                                <div class="detail-row">
+                                    <span class="detail-label">Product ID:</span>
+                                    <span class="detail-value product-id">${item.productId}</span>
+                                </div>
+                                <div class="detail-row">
+                                    <span class="detail-label">Add-on Type:</span>
+                                    <span class="detail-value">${item.addonType}</span>
+                                </div>
+                                <div class="detail-row">
+                                    <span class="detail-label">Add-on ID:</span>
+                                    <span class="detail-value addon-id">${item.addonId || 'N/A'}</span>
+                                </div>
+                                <div class="detail-row">
+                                    <span class="detail-label">Quantity:</span>
+                                    <span class="detail-value">${item.quantity}</span>
+                                </div>
+                                <div class="detail-row">
+                                    <span class="detail-label">Price:</span>
+                                    <span class="detail-value price">${item.price}</span>
+                                </div>
+                                ${item.total ? `
+                                    <div class="detail-row">
+                                        <span class="detail-label">Total:</span>
+                                        <span class="detail-value total">${item.total}</span>
+                                    </div>
+                                ` : ''}
+                                <div class="detail-row notes-row">
+                                    <span class="detail-label">Notes:</span>
+                                    <span class="detail-value notes">${item.notes}</span>
+                                </div>
                             </div>
                         </div>
                     `).join('')}
                 </div>
             </div>
-
-            <!-- Custom Request Details -->
-            ${order.orderType === 'custom' ? `
-                <div class="custom-request-section">
-                    <h4><i class="fas fa-palette"></i> Custom Request Details</h4>
-                    <div class="request-content">
-                        <div class="request-description">
-                            <label>Description:</label>
-                            <div class="description-content">
-                                <p>${order.illustrativeDescription}</p>
-                            </div>
-                        </div>
-                        <div class="request-images">
-                            <label>Reference Images:</label>
-                            <div class="images-grid">
-                                ${order.illustrativeImages.map(img => `
-                                    <div class="image-item">
-                                        <img src="${img}" alt="Reference image" onclick="openImageModal('${img}')">
-                                    </div>
-                                `).join('')}
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            ` : ''}
-
-            <!-- Notes Section -->
-            ${order.notes ? `
-                <div class="notes-section">
-                    <h4><i class="fas fa-sticky-note"></i> Order Notes</h4>
-                    <div class="notes-content">
-                        <div class="notes-item">
-                            <label>Special Instructions:</label>
-                            <div class="notes-text">${order.notes}</div>
-                        </div>
-                    </div>
-                </div>
-            ` : ''}
-
-            <!-- Cancellation Request -->
-            ${order.cancellationRequest ? `
-                <div class="cancellation-request-section">
-                    <h4><i class="fas fa-exclamation-triangle"></i> Cancellation Request</h4>
-                    <div class="cancellation-content">
-                        <p><strong>Requested Date:</strong> ${order.cancellationRequest.requestedDate}</p>
-                        <p><strong>Reason:</strong> ${order.cancellationRequest.reason}</p>
-                        <p><strong>Customer Notes:</strong> ${order.cancellationRequest.customerNotes}</p>
-                    </div>
-                </div>
-            ` : ''}
         </div>
     `;
 }
 
-// Status update modal functionality
-function showStatusUpdateModal(orderId) {
-    const modal = document.getElementById('actionModal');
-    const actionTitle = document.getElementById('actionTitle');
-    const actionMessage = document.getElementById('actionMessage');
-    const reasonInput = document.getElementById('reasonInput');
-    const priceInput = document.getElementById('priceInput');
-    const confirmActionBtn = document.getElementById('confirmAction');
-
-    if (!modal || !actionTitle || !actionMessage) return;
-
-    // Update modal content for status update
-    actionTitle.textContent = 'Update Order Status';
-    actionMessage.innerHTML = `
-        <label for="statusSelect">Select new status for order ${orderId}:</label>
-        <select id="statusSelect" style="width: 100%; padding: 10px; margin-top: 10px; border: 1px solid #ccc; border-radius: 4px;">
-            <option value="">Select Status</option>
-            <option value="processing">Processing</option>
-            <option value="in-progress">In Progress</option>
-            <option value="completed">Completed</option>
-            <option value="ready">Ready for Delivery</option>
-            <option value="in-delivery">In Delivery</option>
-            <option value="delivered">Delivered</option>
-        </select>
-    `;
-    reasonInput.style.display = 'none';
-    priceInput.style.display = 'none';
-    confirmActionBtn.textContent = 'Update Status';
-
-    // Store current action and order ID
-    modal.dataset.action = 'update-status';
-    modal.dataset.orderId = orderId;
-
-    // Show modal
-    modal.setAttribute('aria-hidden', 'false');
-    modal.style.display = 'flex';
+function showActionModal(title, message, showReason, showPrice) {
+    actionTitle.textContent = title;
+    actionMessage.textContent = message;
+    reasonInput.style.display = showReason ? 'block' : 'none';
+    priceInput.style.display = showPrice ? 'block' : 'none';
+    
+    if (showReason) {
+        rejectionReason.value = '';
+    }
+    
+    if (showPrice) {
+        // Reset price inputs
+        document.getElementById('totalPrice').value = '';
+        document.getElementById('priceNotes').value = '';
+    }
+    
+    actionModal.classList.add('open');
 }
 
-// Action modal functionality
-function showActionModal(action, orderId) {
-    const modal = document.getElementById('actionModal');
-    const actionTitle = document.getElementById('actionTitle');
-    const actionMessage = document.getElementById('actionMessage');
-    const reasonInput = document.getElementById('reasonInput');
-    const priceInput = document.getElementById('priceInput');
-    const confirmActionBtn = document.getElementById('confirmAction');
+function closeActionModalFunc() {
+    actionModal.classList.remove('open');
+    currentOrderId = '';
+    currentAction = '';
+}
 
-    if (!modal || !actionTitle || !actionMessage) return;
+// Removed setupPriceCalculation function as we only need total price input
 
-    // Update modal content based on action
-    switch (action) {
-        case 'accept':
-            actionTitle.textContent = 'Accept Order';
-            actionMessage.textContent = 'Are you sure you want to accept this order?';
-            reasonInput.style.display = 'none';
-            priceInput.style.display = 'block';
-            confirmActionBtn.textContent = 'Accept Order';
-            break;
-        case 'reject':
-            actionTitle.textContent = 'Reject Order';
-            actionMessage.textContent = 'Are you sure you want to reject this order?';
-            reasonInput.style.display = 'block';
-            priceInput.style.display = 'none';
-            confirmActionBtn.textContent = 'Reject Order';
-            break;
-        case 'update-status':
-            actionTitle.textContent = 'Update Order Status';
-            actionMessage.textContent = 'Select the new status for this order:';
-            reasonInput.style.display = 'none';
-            priceInput.style.display = 'none';
-            confirmActionBtn.textContent = 'Update Status';
-            break;
-        case 'start-delivery':
-            actionTitle.textContent = 'Start Delivery';
-            actionMessage.textContent = 'Are you sure you want to start delivery for this order?';
-            reasonInput.style.display = 'none';
-            priceInput.style.display = 'none';
-            confirmActionBtn.textContent = 'Start Delivery';
-            break;
-        case 'mark-delivered':
-            actionTitle.textContent = 'Mark as Delivered';
-            actionMessage.textContent = 'Are you sure you want to mark this order as delivered?';
-            reasonInput.style.display = 'none';
-            priceInput.style.display = 'none';
-            confirmActionBtn.textContent = 'Mark Delivered';
-            break;
+function handleOrderAction(orderId, action) {
+    if (action === 'reject' && !rejectionReason.value.trim()) {
+        showToast('Reason Required', 'Please provide a reason for rejection.', 'error');
+        return;
     }
 
-    // Store current action and order ID
-    modal.dataset.action = action;
-    modal.dataset.orderId = orderId;
+    if (action === 'accept') {
+        const total = parseFloat(document.getElementById('totalPrice').value);
+        const priceNotes = document.getElementById('priceNotes').value;
 
-    // Show modal
-    modal.setAttribute('aria-hidden', 'false');
-    modal.style.display = 'flex';
-}
+        if (!total || total <= 0) {
+            showToast('Price Required', 'Please enter a valid total price.', 'error');
+            return;
+        }
+    }
 
-// Execute action
-function executeAction() {
-    const modal = document.getElementById('actionModal');
-    const action = modal.dataset.action;
-    const orderId = modal.dataset.orderId;
+    showToast('Processing...', `${action === 'accept' ? 'Accepting' : 'Rejecting'} order ${orderId}...`, 'info');
 
-    if (!action || !orderId) return;
+    setTimeout(() => {
+        if (action === 'accept') {
+            const total = document.getElementById('totalPrice').value;
+            const priceNotes = document.getElementById('priceNotes').value;
 
-    // Find the order
-    const order = ordersData.find(o => o.orderNumber === orderId);
-    if (!order) return;
-
-    // Execute the action
-    switch (action) {
-        case 'accept':
-            // Update order status to processing
-            order.status = 'processing';
-            showToast('success', 'Order Accepted', `Order ${orderId} has been accepted.`);
-            break;
-        case 'reject':
-            // Update order status to cancelled
-            order.status = 'cancelled';
-            const rejectionReason = document.getElementById('rejectionReason').value;
-            order.rejectionReason = rejectionReason;
-            showToast('success', 'Order Rejected', `Order ${orderId} has been rejected.`);
-            break;
-        case 'update-status':
-            // Get selected status and update order
-            const statusSelect = document.getElementById('statusSelect');
-            if (statusSelect && statusSelect.value) {
-                order.status = statusSelect.value;
-                showToast('success', 'Status Updated', `Order ${orderId} status has been updated to ${statusSelect.value}.`);
-            } else {
-                showToast('error', 'No Status Selected', 'Please select a status before updating.');
-                return;
+            showToast('Order Accepted', `Order ${orderId} has been accepted with price SAR ${total}.`, 'success');
+            
+            // Remove from incoming orders table
+            const orderRow = document.querySelector(`[data-order="${orderId}"]`);
+            if (orderRow) {
+                orderRow.style.opacity = '0';
+                setTimeout(() => {
+                    orderRow.remove();
+                    // You could add logic here to move the row to the processing table
+                }, 300);
             }
-            break;
-        case 'start-delivery':
-            // Update order status to in-delivery
-            order.status = 'in-delivery';
-            showToast('success', 'Delivery Started', `Delivery for order ${orderId} has been started.`);
-            break;
-        case 'mark-delivered':
-            // Update order status to delivered
-            order.status = 'delivered';
-            showToast('success', 'Order Delivered', `Order ${orderId} has been marked as delivered.`);
-            break;
-    }
-
-    // Close modal
-    closeActionModal();
-
-    // Refresh the current tab
-    refreshCurrentTab();
+        } else {
+            showToast('Order Rejected', `Order ${orderId} has been rejected.`, 'success');
+            // Remove from incoming orders table
+            const orderRow = document.querySelector(`[data-order="${orderId}"]`);
+            if (orderRow) {
+                orderRow.style.opacity = '0';
+                setTimeout(() => {
+                    orderRow.remove();
+                }, 300);
+            }
+        }
+        
+        closeActionModalFunc();
+    }, 1500);
 }
 
-// Close action modal
-function closeActionModal() {
-    const modal = document.getElementById('actionModal');
-    if (modal) {
-        modal.setAttribute('aria-hidden', 'true');
-        modal.style.display = 'none';
-    }
+function updateOrderStatus(orderId) {
+    showToast('Updating Status', `Updating status for order ${orderId}...`, 'info');
 
-    // Clear form fields
-    const rejectionReason = document.getElementById('rejectionReason');
-    const totalPrice = document.getElementById('totalPrice');
-    const priceNotes = document.getElementById('priceNotes');
-
-    if (rejectionReason) rejectionReason.value = '';
-    if (totalPrice) totalPrice.value = '';
-    if (priceNotes) priceNotes.value = '';
+    setTimeout(() => {
+        showToast('Status Updated', `Order ${orderId} status updated successfully.`, 'success');
+        
+        // In real application, you would update the status in the backend
+        const statusElement = document.querySelector(`[data-order="${orderId}"]`).querySelector('.status');
+        if (statusElement.classList.contains('status-processing')) {
+            statusElement.textContent = 'In Progress';
+            statusElement.className = 'status status-in-progress';
+        } else if (statusElement.classList.contains('status-in-progress')) {
+            statusElement.textContent = 'Completed';
+            statusElement.className = 'status status-completed';
+        }
+    }, 1500);
 }
 
-// Refresh current tab
-function refreshCurrentTab() {
-    const activeTab = document.querySelector('.tab-content.active');
-    if (!activeTab) return;
+function startDelivery(orderId) {
+    showToast('Starting Delivery', `Starting delivery for order ${orderId}...`, 'info');
 
-    const tabId = activeTab.id;
-
-    // Re-render the table for the active tab
-    switch (tabId) {
-        case 'incoming':
-            renderIncomingOrders();
-            break;
-        case 'processing':
-            renderProcessingOrders();
-            break;
-        case 'delivery':
-            renderDeliveryOrders();
-            break;
-    }
+    setTimeout(() => {
+        showToast('Delivery Started', `Delivery for order ${orderId} has started.`, 'success');
+        
+        const statusElement = document.querySelector(`[data-order="${orderId}"]`).querySelector('.status');
+        statusElement.textContent = 'In Delivery';
+        statusElement.className = 'status status-in-delivery';
+    }, 1500);
 }
 
-// Render orders for each tab
-function renderIncomingOrders() {
-    const tbody = document.querySelector('#incoming tbody');
-    if (!tbody) return;
+function markAsDelivered(orderId) {
+    showToast('Marking Delivered', `Marking order ${orderId} as delivered...`, 'info');
 
-    const incomingOrders = ordersData.filter(order => order.status === 'pending');
-    tbody.innerHTML = '';
-
-    incomingOrders.forEach(order => {
-        const row = createIncomingOrderRow(order);
-        tbody.appendChild(row);
-    });
+    setTimeout(() => {
+        showToast('Order Delivered', `Order ${orderId} has been marked as delivered.`, 'success');
+        
+        const statusElement = document.querySelector(`[data-order="${orderId}"]`).querySelector('.status');
+        statusElement.textContent = 'Delivered';
+        statusElement.className = 'status status-delivered';
+    }, 1500);
 }
 
-function renderProcessingOrders() {
-    const tbody = document.querySelector('#processing tbody');
-    if (!tbody) return;
+function setupSearchFunctionality() {
+    const searchInputs = {
+        incoming: document.getElementById('searchIncoming'),
+        processing: document.getElementById('searchProcessing'),
+        delivery: document.getElementById('searchDelivery')
+    };
 
-    const processingOrders = ordersData.filter(order =>
-        order.status === 'processing' || order.status === 'in-progress' || order.status === 'completed'
-    );
-    tbody.innerHTML = '';
-
-    processingOrders.forEach(order => {
-        const row = createProcessingOrderRow(order);
-        tbody.appendChild(row);
-    });
-}
-
-function renderDeliveryOrders() {
-    const tbody = document.querySelector('#delivery tbody');
-    if (!tbody) return;
-
-    const deliveryOrders = ordersData.filter(order =>
-        order.status === 'ready' || order.status === 'in-delivery' || order.status === 'delivered'
-    );
-    tbody.innerHTML = '';
-
-    deliveryOrders.forEach(order => {
-        const row = createDeliveryOrderRow(order);
-        tbody.appendChild(row);
-    });
-}
-
-// Create table rows for each tab
-function createIncomingOrderRow(order) {
-    const row = document.createElement('tr');
-    row.dataset.order = order.orderNumber;
-
-    row.innerHTML = `
-        <td>#${order.orderNumber}</td>
-        <td>${order.customer.name}</td>
-        <td><span class="badge badge-${order.orderType}">${order.orderType}</span></td>
-        <td>${order.date}</td>
-        <td>${order.deliveryDate}</td>
-        <td><span class="status status-${order.status}">${order.status}</span></td>
-        <td>
-            <div class="action-buttons">
-                <button class="btn-icon btn-view" data-order="${order.orderNumber}" title="View Details">
-                    <i class="fas fa-eye"></i>
-                </button>
-                <button class="btn-icon btn-accept" data-order="${order.orderNumber}" title="Accept Order">
-                    <i class="fas fa-check"></i>
-                </button>
-                <button class="btn-icon btn-reject" data-order="${order.orderNumber}" title="Reject Order">
-                    <i class="fas fa-times"></i>
-                </button>
-            </div>
-        </td>
-    `;
-
-    return row;
-}
-
-function createProcessingOrderRow(order) {
-    const row = document.createElement('tr');
-    row.dataset.order = order.orderNumber;
-
-    row.innerHTML = `
-        <td>#${order.orderNumber}</td>
-        <td>${order.customer.name}</td>
-        <td><span class="badge badge-${order.orderType}">${order.orderType}</span></td>
-        <td>${order.deliveryDate}</td>
-        <td><strong>SAR ${order.total.toFixed(2)}</strong></td>
-        <td><span class="status status-${order.status}">${order.status}</span></td>
-        <td>${order.date}</td>
-        <td>
-            <div class="action-buttons">
-                <button class="btn-icon btn-view" data-order="${order.orderNumber}" title="View Details">
-                    <i class="fas fa-eye"></i>
-                </button>
-                <button class="btn btn-sm btn-primary btn-update-status" data-order="${order.orderNumber}">
-                    Update Status
-                </button>
-            </div>
-        </td>
-    `;
-
-    return row;
-}
-
-function createDeliveryOrderRow(order) {
-    const row = document.createElement('tr');
-    row.dataset.order = order.orderNumber;
-
-    row.innerHTML = `
-        <td>#${order.orderNumber}</td>
-        <td>${order.customer.name}</td>
-        <td>${order.customer.address}</td>
-        <td>${order.deliveryDate}</td>
-        <td><strong>SAR ${order.total.toFixed(2)}</strong></td>
-        <td><span class="status status-${order.status}">${order.status}</span></td>
-        <td>
-            <div class="action-buttons">
-                <button class="btn-icon btn-view" data-order="${order.orderNumber}" title="View Details">
-                    <i class="fas fa-eye"></i>
-                </button>
-                ${order.status === 'ready' ? `
-                    <button class="btn btn-sm btn-primary btn-start-delivery" data-order="${order.orderNumber}">
-                        Start Delivery
-                    </button>
-                ` : order.status === 'in-delivery' ? `
-                    <button class="btn btn-sm btn-success btn-mark-delivered" data-order="${order.orderNumber}">
-                        Mark Delivered
-                    </button>
-                ` : `
-                    <button class="btn btn-sm btn-secondary" disabled>
-                        Delivered
-                    </button>
-                `}
-            </div>
-        </td>
-    `;
-
-    return row;
-}
-
-// Search functionality for each tab
-function setupTabSearch() {
-    const searchInputs = document.querySelectorAll('#searchIncoming, #searchProcessing, #searchDelivery');
-
-    searchInputs.forEach(input => {
-        input.addEventListener('input', (e) => {
-            const searchTerm = e.target.value.toLowerCase();
-            const tabId = e.target.id.replace('search', '').toLowerCase();
-            const tbody = document.querySelector(`#${tabId} tbody`);
-
-            if (!tbody) return;
-
-            const rows = tbody.querySelectorAll('tr');
-            rows.forEach(row => {
-                const text = row.textContent.toLowerCase();
-                row.style.display = text.includes(searchTerm) ? '' : 'none';
+    Object.keys(searchInputs).forEach(tab => {
+        if (searchInputs[tab]) {
+            searchInputs[tab].addEventListener('input', function() {
+                const searchTerm = this.value.toLowerCase();
+                const table = document.querySelector(`#${tab} .orders-table tbody`);
+                const rows = table.querySelectorAll('tr');
+                
+                rows.forEach(row => {
+                    const text = row.textContent.toLowerCase();
+                    if (text.includes(searchTerm)) {
+                        row.style.display = '';
+                    } else {
+                        row.style.display = 'none';
+                    }
+                });
             });
-        });
-    });
-}
-
-// Filter functionality for each tab
-function setupTabFilters() {
-    const filterSelects = document.querySelectorAll('#filterOrderType, #filterProcessingStatus, #filterDeliveryStatus');
-
-    filterSelects.forEach(select => {
-        select.addEventListener('change', (e) => {
-            const filterValue = e.target.value;
-            const tabId = e.target.id.replace('filter', '').replace('Status', '').replace('Type', '').toLowerCase();
-            const tbody = document.querySelector(`#${tabId} tbody`);
-
-            if (!tbody) return;
-
-            const rows = tbody.querySelectorAll('tr');
-            rows.forEach(row => {
-                if (!filterValue) {
-                    row.style.display = '';
-                    return;
-                }
-
-                const statusCell = row.querySelector('.status');
-                const typeCell = row.querySelector('.badge');
-
-                if (statusCell && statusCell.textContent.toLowerCase().includes(filterValue.toLowerCase())) {
-                    row.style.display = '';
-                } else if (typeCell && typeCell.textContent.toLowerCase().includes(filterValue.toLowerCase())) {
-                    row.style.display = '';
-                } else {
-                    row.style.display = 'none';
-                }
-            });
-        });
-    });
-}
-
-// Event delegation for table actions
-function setupTableActions() {
-    document.addEventListener('click', (e) => {
-        const button = e.target.closest('button');
-        if (!button) return;
-
-        const orderId = button.dataset.order;
-        if (!orderId) return;
-
-        if (button.classList.contains('btn-view')) {
-            showOrderDetailsModal(orderId);
-        } else if (button.classList.contains('btn-accept')) {
-            showActionModal('accept', orderId);
-        } else if (button.classList.contains('btn-reject')) {
-            showActionModal('reject', orderId);
-        } else if (button.classList.contains('btn-update-status')) {
-            showStatusUpdateModal(orderId);
-        } else if (button.classList.contains('btn-start-delivery')) {
-            showActionModal('start-delivery', orderId);
-        } else if (button.classList.contains('btn-mark-delivered')) {
-            showActionModal('mark-delivered', orderId);
         }
     });
 }
 
-// Toast notification system
-function showToast(type, title, message) {
-    // Create toast container if it doesn't exist
-    let toastContainer = document.querySelector('.toast-container');
-    if (!toastContainer) {
-        toastContainer = document.createElement('div');
-        toastContainer.className = 'toast-container';
-        document.body.appendChild(toastContainer);
+function setupFilterFunctionality() {
+    const filterOrderType = document.getElementById('filterOrderType');
+    const filterProcessingStatus = document.getElementById('filterProcessingStatus');
+    const filterDeliveryStatus = document.getElementById('filterDeliveryStatus');
+
+    if (filterOrderType) {
+        filterOrderType.addEventListener('change', function() {
+            filterTableByType(this.value, 'incoming');
+        });
     }
 
-    // Create toast element
-    const toast = document.createElement('div');
-    toast.className = `toast toast-${type}`;
+    if (filterProcessingStatus) {
+        filterProcessingStatus.addEventListener('change', function() {
+            filterTableByStatus(this.value, 'processing');
+        });
+    }
 
-    const iconMap = {
-        success: 'fas fa-check-circle',
-        error: 'fas fa-exclamation-circle',
-        warning: 'fas fa-exclamation-triangle',
-        info: 'fas fa-info-circle'
-    };
+    if (filterDeliveryStatus) {
+        filterDeliveryStatus.addEventListener('change', function() {
+            filterTableByStatus(this.value, 'delivery');
+        });
+    }
+}
 
-    toast.innerHTML = `
-        <div class="toast-icon">
-            <i class="${iconMap[type] || iconMap.info}"></i>
-        </div>
-        <div class="toast-content">
-            <div class="toast-title">${title}</div>
-            <div class="toast-message">${message}</div>
-        </div>
-        <button class="toast-close">
-            <i class="fas fa-times"></i>
-        </button>
-    `;
+function filterTableByType(type, tab) {
+    const table = document.querySelector(`#${tab} .orders-table tbody`);
+    const rows = table.querySelectorAll('tr');
+    
+    rows.forEach(row => {
+        const typeElement = row.querySelector('.badge');
+        const rowType = typeElement.classList.contains('badge-special') ? 'special' : 'products';
+        
+        if (!type || rowType === type) {
+            row.style.display = '';
+        } else {
+            row.style.display = 'none';
+        }
+    });
+}
 
+function filterTableByStatus(status, tab) {
+    const table = document.querySelector(`#${tab} .orders-table tbody`);
+    const rows = table.querySelectorAll('tr');
+    
+    rows.forEach(row => {
+        const statusElement = row.querySelector('.status');
+        const rowStatus = statusElement.className.replace('status ', '').replace('status-', '');
+        
+        if (!status || rowStatus === status) {
+            row.style.display = '';
+        } else {
+            row.style.display = 'none';
+        }
+    });
+}
+
+function setupSignOutModal() {
+    const openSignOutBtn = document.getElementById('openSignOut');
+    const signOutModal = document.getElementById('signOutModal');
+    const cancelSignOutBtn = document.getElementById('cancelSignOut');
+    const confirmSignOutBtn = document.getElementById('confirmSignOut');
+    
+    openSignOutBtn.addEventListener('click', function() {
+        signOutModal.classList.add('open');
+    });
+    
+    cancelSignOutBtn.addEventListener('click', function() {
+        signOutModal.classList.remove('open');
+    });
+    
+    confirmSignOutBtn.addEventListener('click', function() {
+        showToast('Signed out successfully', 'You have been signed out of your account.', 'success');
+        signOutModal.classList.remove('open');
+        setTimeout(() => {
+            window.location.href = 'login.html';
+        }, 1500);
+    });
+}
+
+function setupModalCloseHandlers() {
+    const modals = ['orderDetailsModal', 'actionModal', 'signOutModal'];
+    
+    modals.forEach(modalId => {
+        const modal = document.getElementById(modalId);
+        if (modal) {
+            modal.addEventListener('click', function(e) {
+                if (e.target === modal) {
+                    modal.classList.remove('open');
+                }
+            });
+        }
+    });
+}
+
+// Toast notification function
+function showToast(title, message, type = 'info') {
+    const toastContainer = document.querySelector('.toast-container');
+    const toastTemplate = document.getElementById('toast-template');
+    const toastClone = toastTemplate.content.cloneNode(true);
+    const toast = toastClone.querySelector('.toast');
+    const toastIcon = toast.querySelector('.toast-icon i');
+    const toastTitle = toast.querySelector('.toast-title');
+    const toastMessage = toast.querySelector('.toast-message');
+    
+    // Set toast content
+    toastTitle.textContent = title;
+    toastMessage.textContent = message;
+    
+    // Set icon and color based on type
+    let iconClass, bgColor;
+    switch(type) {
+        case 'success':
+            iconClass = 'fas fa-check-circle';
+            bgColor = '#10b981';
+            break;
+        case 'warning':
+            iconClass = 'fas fa-exclamation-triangle';
+            bgColor = '#f59e0b';
+            break;
+        case 'error':
+            iconClass = 'fas fa-times-circle';
+            bgColor = '#ef4444';
+            break;
+        default:
+            iconClass = 'fas fa-info-circle';
+            bgColor = 'var(--bright-blue)';
+    }
+    
+    toastIcon.className = iconClass;
+    toast.querySelector('.toast-icon').style.backgroundColor = bgColor;
+    
     // Add close functionality
     const closeBtn = toast.querySelector('.toast-close');
-    closeBtn.addEventListener('click', () => {
-        toast.remove();
+    closeBtn.addEventListener('click', function() {
+        toast.style.animation = 'slideOut 0.3s ease-in forwards';
+        setTimeout(() => {
+            if (toast.parentNode) {
+                toast.parentNode.removeChild(toast);
+            }
+        }, 300);
     });
-
+    
     // Add to container
     toastContainer.appendChild(toast);
-
+    
     // Auto remove after 5 seconds
     setTimeout(() => {
         if (toast.parentNode) {
-            toast.remove();
+            toast.style.animation = 'slideOut 0.3s ease-in forwards';
+            setTimeout(() => {
+                if (toast.parentNode) {
+                    toast.parentNode.removeChild(toast);
+                }
+            }, 300);
         }
     }, 5000);
 }
 
-// Initialize everything when DOM is loaded
-document.addEventListener('DOMContentLoaded', function () {
-    initializeTabs();
-    setupTabSearch();
-    setupTabFilters();
-    setupTableActions();
-
-    // Render initial data
-    renderIncomingOrders();
-    renderProcessingOrders();
-    renderDeliveryOrders();
-
-    // Setup modal close handlers
-    const closeDetailsModal = document.getElementById('closeDetailsModal');
-    const closeDetails = document.getElementById('closeDetails');
-    const closeActionModal = document.getElementById('closeActionModal');
-    const cancelAction = document.getElementById('cancelAction');
-    const confirmAction = document.getElementById('confirmAction');
-
-    if (closeDetailsModal) {
-        closeDetailsModal.addEventListener('click', () => {
-            const modal = document.getElementById('orderDetailsModal');
-            modal.setAttribute('aria-hidden', 'true');
-            modal.style.display = 'none';
-        });
-    }
-
-    if (closeDetails) {
-        closeDetails.addEventListener('click', () => {
-            const modal = document.getElementById('orderDetailsModal');
-            modal.setAttribute('aria-hidden', 'true');
-            modal.style.display = 'none';
-        });
-    }
-
-    if (closeActionModal) {
-        closeActionModal.addEventListener('click', () => {
-            const modal = document.getElementById('actionModal');
-            if (modal) {
-                modal.setAttribute('aria-hidden', 'true');
-                modal.style.display = 'none';
-            }
-        });
-    }
-
-    if (cancelAction) {
-        cancelAction.addEventListener('click', () => {
-            const modal = document.getElementById('actionModal');
-            if (modal) {
-                modal.setAttribute('aria-hidden', 'true');
-                modal.style.display = 'none';
-            }
-        });
-    }
-
-    if (confirmAction) {
-        confirmAction.addEventListener('click', executeAction);
-    }
-
-    // Setup confirmation modal close handlers
-    const cancelConfirm = document.getElementById('cancelConfirm');
-    if (cancelConfirm) {
-        cancelConfirm.addEventListener('click', () => {
-            const modal = document.getElementById('confirmModal');
-            if (modal) {
-                modal.setAttribute('aria-hidden', 'true');
-                modal.style.display = 'none';
-            }
-        });
-    }
-
-    // Setup sign out modal close handlers
-    const cancelSignOut = document.getElementById('cancelSignOut');
-    if (cancelSignOut) {
-        cancelSignOut.addEventListener('click', () => {
-            const modal = document.getElementById('signOutModal');
-            if (modal) {
-                modal.setAttribute('aria-hidden', 'true');
-                modal.style.display = 'none';
-            }
-        });
-    }
-
-    // Setup modal overlay click to close
-    const modalOverlays = document.querySelectorAll('.modal-overlay');
-    modalOverlays.forEach(overlay => {
-        overlay.addEventListener('click', (e) => {
-            if (e.target === overlay) {
-                overlay.setAttribute('aria-hidden', 'true');
-                overlay.style.display = 'none';
-            }
-        });
-    });
-
-    // Keyboard navigation support
-    document.addEventListener('keydown', function (e) {
-        // Close modals with Escape key
-        if (e.key === 'Escape') {
-            const orderDetailsModal = document.getElementById('orderDetailsModal');
-            const actionModal = document.getElementById('actionModal');
-            const confirmModal = document.getElementById('confirmModal');
-            const signOutModal = document.getElementById('signOutModal');
-
-            if (orderDetailsModal && orderDetailsModal.style.display === 'flex') {
-                orderDetailsModal.setAttribute('aria-hidden', 'true');
-                orderDetailsModal.style.display = 'none';
-            }
-            if (actionModal && actionModal.style.display === 'flex') {
-                closeActionModal();
-            }
-            if (confirmModal && confirmModal.style.display === 'flex') {
-                confirmModal.setAttribute('aria-hidden', 'true');
-                confirmModal.style.display = 'none';
-            }
-            if (signOutModal && signOutModal.style.display === 'flex') {
-                signOutModal.setAttribute('aria-hidden', 'true');
-                signOutModal.style.display = 'none';
-            }
+// Add slideOut animation for toasts
+const style = document.createElement('style');
+style.textContent = `
+    @keyframes slideOut {
+        from {
+            transform: translateX(0);
+            opacity: 1;
         }
-    });
-});
-
-// Comprehensive sample orders data
-const ordersData = [
-    {
-        orderNumber: 'ORD-001',
-        userNumber: 'USR-001',
-        date: '2025-01-15',
-        subtotal: 89.99,
-        deliveryFee: 5.99,
-        total: 95.98,
-        status: 'processing',
-        addressNumber: 'ADD-001',
-        initialStatus: 'accepted',
-        rejectionReason: '',
-        orderType: 'custom',
-        priority: 'high',
-        notes: 'Please deliver after 6 PM. Call before delivery.',
-        deliveryDate: '2025-01-20',
-        illustrativeImages: ['../../images/product1.avif', '../../images/ceek1.jpg'],
-        illustrativeDescription: 'Custom birthday cake with chocolate flavor, 2-tier design with personalized decoration',
-        orderDetails: [
-            {
-                orderNumber: 'ORD-001',
-                productType: 'Cake',
-                productNumber: 'PRD-CAKE-001',
-                additionType: 'Cake',
-                additionNumber: 'ADD-CAKE-001',
-                quantity: 1,
-                price: 89.99,
-                total: 89.99,
-                notes: 'Chocolate flavor, 2-tier, custom decoration'
-            }
-        ],
-        customer: {
-            name: 'Sarah Ahmed',
-            email: 'sarah@example.com',
-            phone: '+966501234567',
-            avatar: '../../images/woman.jpg',
-            address: '123 Main Street, Riyadh, Saudi Arabia',
-            since: '2024-03-15',
-            orderCount: 5
-        },
-        paymentStatus: 'paid',
-        paymentMethod: 'Credit Card (****1234)',
-        cancellationRequest: null
-    },
-    {
-        orderNumber: 'ORD-002',
-        userNumber: 'USR-002',
-        date: '2025-01-14',
-        subtotal: 45.00,
-        deliveryFee: 3.99,
-        total: 48.99,
-        status: 'in-progress',
-        addressNumber: 'ADD-002',
-        initialStatus: 'accepted',
-        rejectionReason: '',
-        orderType: 'products',
-        priority: 'medium',
-        notes: 'Set up in living room area.',
-        deliveryDate: '2025-01-18',
-        illustrativeImages: ['../../images/ballon.jpg', '../../images/ceek2.jpg'],
-        illustrativeDescription: 'Balloon decoration package with mixed colors, perfect for party setup',
-        orderDetails: [
-            {
-                orderNumber: 'ORD-002',
-                productType: 'Balloons',
-                productNumber: 'PRD-BAL-001',
-                additionType: 'Balloons',
-                additionNumber: 'ADD-BAL-001',
-                quantity: 1,
-                price: 45.00,
-                total: 45.00,
-                notes: '50 balloons, mixed colors, latex type'
-            }
-        ],
-        customer: {
-            name: 'Ahmed Mohamed',
-            email: 'ahmed@example.com',
-            phone: '+966507654321',
-            avatar: '../../images/avater2.jpg',
-            address: '456 King Fahd Road, Jeddah, Saudi Arabia',
-            since: '2024-05-20',
-            orderCount: 3
-        },
-        paymentStatus: 'paid',
-        paymentMethod: 'Apple Pay',
-        cancellationRequest: null
-    },
-    {
-        orderNumber: 'ORD-003',
-        userNumber: 'USR-003',
-        date: '2025-01-13',
-        subtotal: 35.00,
-        deliveryFee: 2.99,
-        total: 37.99,
-        status: 'completed',
-        addressNumber: 'ADD-003',
-        initialStatus: 'accepted',
-        rejectionReason: '',
-        orderType: 'products',
-        priority: 'low',
-        notes: 'Deliver to reception desk.',
-        deliveryDate: '2025-01-16',
-        illustrativeImages: ['../../images/rose.jpg', '../../images/ceek3.jpg'],
-        illustrativeDescription: 'Beautiful rose bouquet with gift wrapping, perfect for special occasions',
-        orderDetails: [
-            {
-                orderNumber: 'ORD-003',
-                productType: 'Flowers',
-                productNumber: 'PRD-FLOW-001',
-                additionType: 'Flowers',
-                additionNumber: 'ADD-FLOW-001',
-                quantity: 1,
-                price: 35.00,
-                total: 35.00,
-                notes: '12 red roses, gift wrapping included'
-            }
-        ],
-        customer: {
-            name: 'Mona Ali',
-            email: 'mona@example.com',
-            phone: '+966509876543',
-            avatar: '../../images/wowan2.jpg',
-            address: '789 Al Olaya Street, Riyadh, Saudi Arabia',
-            since: '2024-08-10',
-            orderCount: 8
-        },
-        paymentStatus: 'paid',
-        paymentMethod: 'Credit Card (****5678)',
-        cancellationRequest: null
-    },
-    {
-        orderNumber: 'ORD-004',
-        userNumber: 'USR-004',
-        date: '2025-01-12',
-        subtotal: 120.00,
-        deliveryFee: 8.99,
-        total: 128.99,
-        status: 'paid',
-        addressNumber: 'ADD-004',
-        initialStatus: 'accepted',
-        rejectionReason: '',
-        orderType: 'custom',
-        priority: 'high',
-        notes: 'Wedding decoration package with premium setup.',
-        deliveryDate: '2025-01-25',
-        illustrativeImages: ['../../images/ceek4.jpg', '../../images/ceek5.jpg'],
-        illustrativeDescription: 'Complete wedding decoration package including flowers, balloons, and organization services',
-        orderDetails: [
-            {
-                orderNumber: 'ORD-004',
-                productType: 'Organization',
-                productNumber: 'PRD-ORG-001',
-                additionType: 'Flowers',
-                additionNumber: 'ADD-FLOW-002',
-                quantity: 1,
-                price: 80.00,
-                total: 80.00,
-                notes: 'Wedding flower arrangement'
-            },
-            {
-                orderNumber: 'ORD-004',
-                productType: 'Balloons',
-                productNumber: 'PRD-BAL-002',
-                additionType: 'Balloons',
-                additionNumber: 'ADD-BAL-002',
-                quantity: 1,
-                price: 40.00,
-                total: 40.00,
-                notes: 'Wedding balloon decoration'
-            }
-        ],
-        customer: {
-            name: 'Fatima Al-Rashid',
-            email: 'fatima@example.com',
-            phone: '+966501112233',
-            avatar: '../../images/avater3.jpg',
-            address: '321 Prince Mohammed Street, Dammam, Saudi Arabia',
-            since: '2024-01-15',
-            orderCount: 12
-        },
-        paymentStatus: 'paid',
-        paymentMethod: 'Bank Transfer',
-        cancellationRequest: null
-    },
-    {
-        orderNumber: 'ORD-005',
-        userNumber: 'USR-005',
-        date: '2025-01-11',
-        subtotal: 25.00,
-        deliveryFee: 2.99,
-        total: 27.99,
-        status: 'cancellation-requested',
-        addressNumber: 'ADD-005',
-        initialStatus: 'accepted',
-        rejectionReason: '',
-        orderType: 'products',
-        priority: 'medium',
-        notes: 'Customer requested cancellation due to change of plans.',
-        deliveryDate: '2025-01-15',
-        illustrativeImages: ['../../images/ceek6.jpg'],
-        illustrativeDescription: 'Small flower arrangement for office desk',
-        orderDetails: [
-            {
-                orderNumber: 'ORD-005',
-                productType: 'Flowers',
-                productNumber: 'PRD-FLOW-002',
-                additionType: 'Flowers',
-                additionNumber: 'ADD-FLOW-003',
-                quantity: 1,
-                price: 25.00,
-                total: 25.00,
-                notes: 'Small office flower arrangement'
-            }
-        ],
-        customer: {
-            name: 'Omar Hassan',
-            email: 'omar@example.com',
-            phone: '+966504445555',
-            avatar: '../../images/avater4.jpg',
-            address: '654 Al Khobar Road, Khobar, Saudi Arabia',
-            since: '2024-11-05',
-            orderCount: 2
-        },
-        paymentStatus: 'unpaid',
-        paymentMethod: 'Credit Card (****9012)',
-        cancellationRequest: {
-            requestedDate: '2025-01-12',
-            reason: 'Change of plans',
-            customerNotes: 'I need to cancel this order due to unexpected circumstances.'
+        to {
+            transform: translateX(100%);
+            opacity: 0;
         }
-    },
-    {
-        orderNumber: 'ORD-006',
-        userNumber: 'USR-006',
-        date: '2025-01-10',
-        subtotal: 75.50,
-        deliveryFee: 4.99,
-        total: 80.49,
-        status: 'pending',
-        addressNumber: 'ADD-006',
-        initialStatus: 'pending',
-        rejectionReason: '',
-        orderType: 'custom',
-        priority: 'medium',
-        notes: 'Need delivery before 2 PM.',
-        deliveryDate: '2025-01-17',
-        illustrativeImages: ['../../images/ceek7.jpg'],
-        illustrativeDescription: 'Custom anniversary cake with photo printing',
-        orderDetails: [
-            {
-                orderNumber: 'ORD-006',
-                productType: 'Cake',
-                productNumber: 'PRD-CAKE-002',
-                additionType: 'Cake',
-                additionNumber: 'ADD-CAKE-002',
-                quantity: 1,
-                price: 75.50,
-                total: 75.50,
-                notes: 'Vanilla flavor with photo printing'
-            }
-        ],
-        customer: {
-            name: 'Khalid Abdullah',
-            email: 'khalid@example.com',
-            phone: '+966506667777',
-            avatar: '../../images/avater5.jpg',
-            address: '987 University Street, Riyadh, Saudi Arabia',
-            since: '2024-09-22',
-            orderCount: 4
-        },
-        paymentStatus: 'unpaid',
-        paymentMethod: 'Cash on Delivery',
-        cancellationRequest: null
     }
-    ,
-    {
-        orderNumber: 'ORD-007',
-        userNumber: 'USR-007',
-        date: '2025-01-09',
-        subtotal: 60.00,
-        deliveryFee: 3.50,
-        total: 63.50,
-        status: 'cancelled',
-        addressNumber: 'ADD-007',
-        initialStatus: 'accepted',
-        rejectionReason: 'Customer requested cancellation',
-        orderType: 'products',
-        priority: 'low',
-        notes: 'Cancelled by customer before processing.',
-        deliveryDate: '2025-01-12',
-        illustrativeImages: ['../../images/flower1.jpg'],
-        illustrativeDescription: 'Gift bundle order',
-        orderDetails: [
-            {
-                orderNumber: 'ORD-007',
-                productType: 'Flowers',
-                productNumber: 'PRD-FLOW-010',
-                additionType: 'Flowers',
-                additionNumber: 'ADD-FLOW-010',
-                quantity: 1,
-                price: 60.00,
-                total: 60.00,
-                notes: 'Roses bundle'
-            }
-        ],
-        customer: {
-            name: 'Laila Nasser',
-            email: 'laila@example.com',
-            phone: '+966500000001',
-            avatar: '../../images/avater6.jpg',
-            address: 'Al Malaz, Riyadh, Saudi Arabia',
-            since: '2024-02-10',
-            orderCount: 1
-        },
-        paymentStatus: 'unpaid',
-        paymentMethod: 'Cash on Delivery',
-        cancellationRequest: null
-    },
-    {
-        orderNumber: 'ORD-008',
-        userNumber: 'USR-008',
-        date: '2025-01-08',
-        subtotal: 110.00,
-        deliveryFee: 6.00,
-        total: 116.00,
-        status: 'cancelled',
-        addressNumber: 'ADD-008',
-        initialStatus: 'accepted',
-        rejectionReason: 'Payment failed after retries',
-        orderType: 'custom',
-        priority: 'medium',
-        notes: 'Order cancelled due to payment failure.',
-        deliveryDate: '2025-01-14',
-        illustrativeImages: ['../../images/ceek4.jpg'],
-        illustrativeDescription: 'Custom theme order',
-        orderDetails: [
-            {
-                orderNumber: 'ORD-008',
-                productType: 'Cake',
-                productNumber: 'PRD-CAKE-020',
-                additionType: 'Cake',
-                additionNumber: 'ADD-CAKE-020',
-                quantity: 1,
-                price: 110.00,
-                total: 110.00,
-                notes: 'Chocolate deluxe'
-            }
-        ],
-        customer: {
-            name: 'Yousef Al Qahtani',
-            email: 'yousef@example.com',
-            phone: '+966500000002',
-            avatar: '../../images/avater5.jpg',
-            address: 'Corniche, Jeddah, Saudi Arabia',
-            since: '2024-06-01',
-            orderCount: 6
-        },
-        paymentStatus: 'unpaid',
-        paymentMethod: 'Credit Card',
-        cancellationRequest: null
-    }
-];
-
-// DOM Elements
-const orderSearch = document.getElementById('orderSearch');
-const statusFilter = document.getElementById('statusFilter');
-const orderTypeFilter = document.getElementById('orderTypeFilter');
-const ordersTable = document.getElementById('ordersTable');
-const orderCount = document.getElementById('orderCount');
-const orderDetailsModal = document.getElementById('orderDetailsModal');
-const confirmModal = document.getElementById('confirmModal');
-const signOutModal = document.getElementById('signOutModal');
-
-// Statistics elements
-const pendingOrders = document.getElementById('pendingOrders');
-const processingOrders = document.getElementById('processingOrders');
-const completedOrders = document.getElementById('completedOrders');
-const cancelledOrders = document.getElementById('cancelledOrders');
-
-// Current order being processed
-let currentOrder = null;
-let currentAction = null;
-
-// Initialize the page
-document.addEventListener('DOMContentLoaded', function () {
-    initializeOrders();
-    updateStatistics();
-});
-
-function initializeOrders() {
-    renderOrdersTable(ordersData);
-    updateOrderCount(ordersData.length);
-}
-
-
-function handleSearch() {
-    if (!orderSearch) return;
-
-    const searchTerm = orderSearch.value.toLowerCase();
-    const filteredOrders = ordersData.filter(order =>
-        order.orderNumber.toLowerCase().includes(searchTerm) ||
-        order.userNumber.toLowerCase().includes(searchTerm) ||
-        order.customer.name.toLowerCase().includes(searchTerm) ||
-        order.orderDetails.some(detail =>
-            detail.productType.toLowerCase().includes(searchTerm) ||
-            detail.productNumber.toLowerCase().includes(searchTerm)
-        )
-    );
-    renderOrdersTable(filteredOrders);
-    updateOrderCount(filteredOrders.length);
-}
-
-function handleFilter() {
-    if (!statusFilter || !orderTypeFilter) return;
-
-    const status = statusFilter.value;
-    const orderType = orderTypeFilter.value;
-
-    let filteredOrders = ordersData;
-
-    if (status) {
-        filteredOrders = filteredOrders.filter(order => order.status === status);
-    }
-
-    if (orderType) {
-        filteredOrders = filteredOrders.filter(order => order.orderType === orderType);
-    }
-
-    renderOrdersTable(filteredOrders);
-    updateOrderCount(filteredOrders.length);
-}
-
-
-function handleTableClick(e) {
-    if (!ordersTable) return;
-
-    const button = e.target.closest('button');
-    if (!button) return;
-
-    const action = button.dataset.action;
-    const row = button.closest('tr');
-    if (!row) return;
-
-    const orderId = row.dataset.orderId;
-    if (!orderId) return;
-
-    currentOrder = ordersData.find(order => order.orderNumber === orderId);
-    if (!currentOrder) return;
-
-    switch (action) {
-        case 'view':
-            showOrderDetails(currentOrder);
-            break;
-        case 'accept':
-            showConfirmModal('accept', 'Accept Order');
-            break;
-        case 'reject':
-            showConfirmModal('reject', 'Reject Order');
-            break;
-        case 'complete':
-            showConfirmModal('complete', 'Mark Complete');
-            break;
-        case 'cancel-request':
-            showConfirmModal('cancel-request', 'Request Cancellation');
-            break;
-        case 'approve-cancellation':
-            showConfirmModal('approve-cancellation', 'Approve Cancellation');
-            break;
-        case 'reject-cancellation':
-            showConfirmModal('reject-cancellation', 'Reject Cancellation');
-            break;
-    }
-}
-
-function showOrderDetails(order) {
-    if (!order || !orderDetailsModal) return;
-
-    // Simple order details population
-    const orderIdEl = document.getElementById('orderId');
-    const orderStatusEl = document.getElementById('orderStatus');
-    const orderDateEl = document.getElementById('orderDate');
-    const orderTotalEl = document.getElementById('orderTotal');
-    const customerNameEl = document.getElementById('customerName');
-    const customerEmailEl = document.getElementById('customerEmail');
-    const customerPhoneEl = document.getElementById('customerPhone');
-
-    if (orderIdEl) orderIdEl.textContent = `#${order.orderNumber}`;
-    if (orderStatusEl) {
-        orderStatusEl.textContent = formatStatusText(order.status);
-        orderStatusEl.className = `status-badge ${order.status}`;
-    }
-    if (orderDateEl) orderDateEl.textContent = order.date;
-    if (orderTotalEl) orderTotalEl.textContent = `﷼${order.total.toFixed(2)}`;
-    if (customerNameEl) customerNameEl.textContent = order.customer.name;
-    if (customerEmailEl) customerEmailEl.textContent = order.customer.email;
-    if (customerPhoneEl) customerPhoneEl.textContent = order.customer.phone;
-
-    // Populate order items
-    setupSimpleOrderItems(order.orderDetails);
-
-    // Show/hide action buttons based on status
-    updateSimpleActionButtons(order.status);
-
-    // Show modal
-    if (orderDetailsModal) {
-        orderDetailsModal.setAttribute('aria-hidden', 'false');
-        orderDetailsModal.style.display = 'flex';
-    }
-}
-
-function setupImageGallery(images) {
-    const mainImage = document.getElementById('mainImage');
-    const thumbnailsContainer = document.getElementById('illustrativeImages');
-
-    // Set main image
-    if (images.length > 0) {
-        mainImage.src = images[0];
-    }
-
-    // Clear and populate thumbnails
-    thumbnailsContainer.innerHTML = '';
-    images.forEach((imageSrc, index) => {
-        const img = document.createElement('img');
-        img.src = imageSrc;
-        img.alt = `Order illustration ${index + 1}`;
-        img.className = index === 0 ? 'active' : '';
-        img.addEventListener('click', () => {
-            mainImage.src = imageSrc;
-            // Update active thumbnail
-            thumbnailsContainer.querySelectorAll('img').forEach(thumb => thumb.classList.remove('active'));
-            img.classList.add('active');
-        });
-        thumbnailsContainer.appendChild(img);
-    });
-}
-
-function setupSimpleOrderItems(orderDetails) {
-    const orderItemsContainer = document.getElementById('orderItems');
-    if (!orderItemsContainer) return;
-
-    // Clear existing items
-    orderItemsContainer.innerHTML = '';
-
-    orderDetails.forEach(detail => {
-        const orderItem = document.createElement('div');
-        orderItem.className = 'order-item';
-
-        orderItem.innerHTML = `
-            <div class="item-name">${detail.productType}</div>
-            <div class="item-quantity">Qty: ${detail.quantity}</div>
-            <div class="item-price">﷼${detail.total.toFixed(2)}</div>
-        `;
-
-        orderItemsContainer.appendChild(orderItem);
-    });
-}
-
-function updateSimpleActionButtons(status) {
-    const acceptBtn = document.getElementById('acceptOrderBtn');
-    const rejectBtn = document.getElementById('rejectOrderBtn');
-    const completeBtn = document.getElementById('completeOrderBtn');
-
-    // Hide all buttons first
-    [acceptBtn, rejectBtn, completeBtn].forEach(btn => {
-        if (btn) btn.style.display = 'none';
-    });
-
-    // Show relevant buttons based on status
-    switch (status) {
-        case 'pending':
-            if (acceptBtn) acceptBtn.style.display = 'inline-flex';
-            if (rejectBtn) rejectBtn.style.display = 'inline-flex';
-            break;
-        case 'processing':
-            if (acceptBtn) acceptBtn.style.display = 'inline-flex';
-            if (rejectBtn) rejectBtn.style.display = 'inline-flex';
-            break;
-        case 'in-progress':
-            if (completeBtn) completeBtn.style.display = 'inline-flex';
-            break;
-    }
-}
-
-function updateActionButtons(status) {
-    const acceptBtn = document.getElementById('acceptOrderBtn');
-    const rejectBtn = document.getElementById('rejectOrderBtn');
-    const requestCancelBtn = document.getElementById('requestCancelBtn');
-    const completeBtn = document.getElementById('completeOrderBtn');
-    const approveCancelBtn = document.getElementById('approveCancelBtn');
-    const rejectCancelBtn = document.getElementById('rejectCancelBtn');
-
-    // Hide all buttons first
-    [acceptBtn, rejectBtn, requestCancelBtn, completeBtn, approveCancelBtn, rejectCancelBtn].forEach(btn => {
-        btn.style.display = 'none';
-    });
-
-    // Show relevant buttons based on status
-    switch (status) {
-        case 'pending':
-            acceptBtn.style.display = 'inline-flex';
-            rejectBtn.style.display = 'inline-flex';
-            break;
-        case 'processing':
-            acceptBtn.style.display = 'inline-flex';
-            rejectBtn.style.display = 'inline-flex';
-            break;
-        case 'in-progress':
-            completeBtn.style.display = 'inline-flex';
-            requestCancelBtn.style.display = 'inline-flex';
-            break;
-        case 'cancellation-requested':
-            approveCancelBtn.style.display = 'inline-flex';
-            rejectCancelBtn.style.display = 'inline-flex';
-            break;
-        case 'completed':
-        case 'cancelled':
-        case 'paid':
-        case 'unpaid':
-            // No action buttons for completed/cancelled/paid/unpaid orders
-            break;
-    }
-}
-
-function showConfirmModal(action, title) {
-    currentAction = action;
-    document.getElementById('confirmTitle').innerHTML = `<i class="fas fa-question-circle" style="color: var(--orange);"></i> ${title}`;
-
-    let message = '';
-    switch (action) {
-        case 'accept':
-            message = 'Are you sure you want to accept this order? This will move it to processing status.';
-            break;
-        case 'reject':
-            message = 'Are you sure you want to reject this order? This action cannot be undone.';
-            break;
-        case 'complete':
-            message = 'Are you sure you want to mark this order as complete?';
-            break;
-        case 'cancel-request':
-            message = 'Are you sure you want to request cancellation for this order?';
-            break;
-        case 'approve-cancellation':
-            message = 'Are you sure you want to approve the cancellation request? This will cancel the order and notify the customer.';
-            break;
-        case 'reject-cancellation':
-            message = 'Are you sure you want to reject the cancellation request? The order will continue as normal.';
-            break;
-    }
-
-    document.getElementById('confirmMessage').textContent = message;
-    confirmModal.setAttribute('aria-hidden', 'false');
-    confirmModal.style.display = 'flex';
-}
-
-
-function updateOrderStatus(orderNumber, newStatus) {
-    const order = ordersData.find(o => o.orderNumber === orderNumber);
-    if (order) {
-        order.status = newStatus;
-
-        // If approving cancellation, remove the cancellation request
-        if (newStatus === 'cancelled' && currentAction === 'approve-cancellation') {
-            order.cancellationRequest = null;
-        }
-
-        // If rejecting cancellation, remove the cancellation request but keep the order in progress
-        if (newStatus === 'in-progress' && currentAction === 'reject-cancellation') {
-            order.cancellationRequest = null;
-        }
-
-        renderOrdersTable(ordersData);
-    }
-}
-
-function closeOrderDetails() {
-    orderDetailsModal.setAttribute('aria-hidden', 'true');
-    orderDetailsModal.style.display = 'none';
-}
-
-function closeConfirmModal() {
-    confirmModal.setAttribute('aria-hidden', 'true');
-    confirmModal.style.display = 'none';
-    currentAction = null;
-}
-
-function closeSignOutModal() {
-    signOutModal.setAttribute('aria-hidden', 'true');
-    signOutModal.style.display = 'none';
-}
-
-function renderOrdersTable(orders) {
-    if (!ordersTable || !Array.isArray(orders)) return;
-
-    const tbody = ordersTable.querySelector('tbody');
-    if (!tbody) return;
-
-    tbody.innerHTML = '';
-
-    orders.forEach(order => {
-        if (order && order.orderNumber) {
-            const row = createOrderRow(order);
-            if (row) {
-                tbody.appendChild(row);
-            }
-        }
-    });
-}
-
-function createOrderRow(order) {
-    if (!order || !order.orderNumber || !order.customer) {
-        console.error('Invalid order data:', order);
-        return null;
-    }
-
-    const row = document.createElement('tr');
-    row.dataset.orderId = order.orderNumber;
-
-    const statusClass = order.status;
-    const statusText = formatStatusText(order.status);
-    const initialStatusClass = order.initialStatus;
-    const initialStatusText = formatStatusText(order.initialStatus);
-
-    let actionButtons = '';
-    switch (order.status) {
-        case 'pending':
-        case 'processing':
-            actionButtons = `
-                <button class="icon-btn view" data-action="view" title="View Details"><i class="fas fa-eye"></i></button>
-                <button class="icon-btn success" data-action="accept" title="Accept Order"><i class="fas fa-check"></i></button>
-                <button class="icon-btn danger" data-action="reject" title="Reject Order"><i class="fas fa-times"></i></button>
-            `;
-            break;
-        case 'in-progress':
-            actionButtons = `
-                <button class="icon-btn view" data-action="view" title="View Details"><i class="fas fa-eye"></i></button>
-                <button class="icon-btn success" data-action="complete" title="Mark Complete"><i class="fas fa-check-circle"></i></button>
-                <button class="icon-btn warn" data-action="cancel-request" title="Request Cancellation"><i class="fas fa-ban"></i></button>
-            `;
-            break;
-        case 'cancellation-requested':
-            actionButtons = `
-                <button class="icon-btn view" data-action="view" title="View Details"><i class="fas fa-eye"></i></button>
-                <button class="icon-btn success" data-action="approve-cancellation" title="Approve Cancellation"><i class="fas fa-check"></i></button>
-                <button class="icon-btn danger" data-action="reject-cancellation" title="Reject Cancellation"><i class="fas fa-times"></i></button>
-            `;
-            break;
-        case 'completed':
-            actionButtons = `
-                <button class="icon-btn view" data-action="view" title="View Details"><i class="fas fa-eye"></i></button>
-            `;
-            break;
-        case 'cancelled':
-        case 'paid':
-        case 'unpaid':
-            actionButtons = `
-                <button class="icon-btn view" data-action="view" title="View Details"><i class="fas fa-eye"></i></button>
-            `;
-            break;
-    }
-
-    // Get primary product info for display
-    const primaryProduct = order.orderDetails[0];
-
-    row.innerHTML = `
-        <td>
-            <div class="order-number-cell">
-                <div class="order-number">#${order.orderNumber}</div>
-                <div class="order-sub-info">
-                    <span class="user-number">User: #${order.userNumber}</span>
-                    <span class="delivery-date">Delivery: ${order.deliveryDate}</span>
-                </div>
-            </div>
-        </td>
-        <td>
-            <div class="customer-cell">
-                <img src="${order.customer.avatar}" alt="${order.customer.name}">
-                <div>
-                    <div class="name">${order.customer.name}</div>
-                    <div class="sub">${order.customer.email}</div>
-                </div>
-            </div>
-        </td>
-        <td>
-            <div class="order-type-cell">
-                <span class="badge type ${order.orderType}">${formatStatusText(order.orderType)}</span>
-                <div class="initial-status">
-                    <span class="badge initial ${initialStatusClass}" data-initial-status="${initialStatusClass}">${initialStatusText}</span>
-                </div>
-            </div>
-        </td>
-        <td>
-            <div class="amount-cell">
-                <div class="total-amount">﷼${order.total.toFixed(2)}</div>
-                <div class="amount-breakdown">
-                    <span class="subtotal">Sub: ﷼${order.subtotal.toFixed(2)}</span>
-                    <span class="delivery">+ ﷼${order.deliveryFee.toFixed(2)} delivery</span>
-                </div>
-            </div>
-        </td>
-        <td><span class="badge status ${statusClass}" data-status="${statusClass}">${statusText}</span></td>
-        <td>${order.date}</td>
-        <td>
-            <div class="row-actions">
-                ${actionButtons}
-            </div>
-        </td>
-    `;
-
-    return row;
-}
-
-function formatStatusText(status) {
-    return status.split('-').map(word =>
-        word.charAt(0).toUpperCase() + word.slice(1)
-    ).join(' ');
-}
-
-function getFilteredOrders() {
-    let filteredOrders = ordersData;
-
-    // Apply search filter
-    if (orderSearch && orderSearch.value) {
-        const searchTerm = orderSearch.value.toLowerCase();
-        filteredOrders = filteredOrders.filter(order =>
-            order.orderNumber.toLowerCase().includes(searchTerm) ||
-            order.userNumber.toLowerCase().includes(searchTerm) ||
-            order.customer.name.toLowerCase().includes(searchTerm) ||
-            order.orderDetails.some(detail =>
-                detail.productType.toLowerCase().includes(searchTerm) ||
-                detail.productNumber.toLowerCase().includes(searchTerm)
-            )
-        );
-    }
-
-    // Apply status filter
-    if (statusFilter && statusFilter.value) {
-        filteredOrders = filteredOrders.filter(order => order.status === statusFilter.value);
-    }
-
-    // Apply order type filter
-    if (orderTypeFilter && orderTypeFilter.value) {
-        filteredOrders = filteredOrders.filter(order => order.orderType === orderTypeFilter.value);
-    }
-
-    return filteredOrders;
-}
-
-function updateOrderCount(count) {
-    if (!orderCount) return;
-
-    const validCount = typeof count === 'number' && count >= 0 ? count : 0;
-    orderCount.textContent = `${validCount} orders`;
-}
-
-function updateStatistics() {
-    const stats = ordersData.reduce((acc, order) => {
-        acc[order.status] = (acc[order.status] || 0) + 1;
-        return acc;
-    }, {});
-
-    pendingOrders.textContent = stats.pending || 0;
-    processingOrders.textContent = stats.processing || 0;
-    completedOrders.textContent = stats.completed || 0;
-    cancelledOrders.textContent = (stats.cancelled || 0) + (stats['cancellation-requested'] || 0);
-}
-
-function renderOrderCards() {
-    const ordersGrid = document.getElementById('ordersGrid');
-    if (!ordersGrid) return;
-
-    const orders = getFilteredOrders();
-
-    ordersGrid.innerHTML = '';
-
-    orders.forEach(order => {
-        const card = document.createElement('div');
-        card.className = 'order-card';
-        card.onclick = () => showOrderDetails(order);
-
-        card.innerHTML = `
-            <div class="order-card-header">
-                <div class="order-card-id">${order.orderNumber}</div>
-                <div class="order-card-status ${order.status}">${formatStatusText(order.status)}</div>
-            </div>
-            <div class="order-card-body">
-                <div class="order-card-customer">
-                    <img src="${order.customer.avatar}" alt="Customer" class="customer-avatar">
-                    <div class="customer-info">
-                        <h4>${order.customer.name}</h4>
-                        <p>${order.customer.email}</p>
-                    </div>
-                </div>
-                <div class="order-card-amount">﷼${order.total.toFixed(2)}</div>
-                <div class="order-card-date">${order.date}</div>
-            </div>
-            <div class="order-card-actions">
-                <button class="btn-icon" onclick="event.stopPropagation(); showOrderDetails('${order.orderNumber}')" title="View Details">
-                    <i class="fas fa-eye"></i>
-                </button>
-                <button class="btn-icon" onclick="event.stopPropagation(); handleTableClick('${order.orderNumber}', 'edit')" title="Edit">
-                    <i class="fas fa-edit"></i>
-                </button>
-            </div>
-        `;
-
-        ordersGrid.appendChild(card);
-    });
-}
-
-function setupTableSorting() {
-    const sortableHeaders = document.querySelectorAll('.enhanced-table th.sortable');
-
-    sortableHeaders.forEach(header => {
-        header.addEventListener('click', (e) => {
-            e.preventDefault();
-            e.stopPropagation();
-
-            const sortField = header.dataset.sort;
-            const currentSort = header.classList.contains('sort-asc') ? 'asc' :
-                header.classList.contains('sort-desc') ? 'desc' : 'none';
-
-            // Remove active class from all headers
-            sortableHeaders.forEach(h => {
-                h.classList.remove('active', 'sort-asc', 'sort-desc');
-                h.querySelector('.sort-icon').style.display = 'block';
-                h.querySelector('.sort-asc').style.display = 'none';
-                h.querySelector('.sort-desc').style.display = 'none';
-            });
-
-            // Determine new sort direction
-            let newDirection = 'asc';
-            if (currentSort === 'asc') {
-                newDirection = 'desc';
-            }
-
-            // Apply new sort
-            header.classList.add('active', `sort-${newDirection}`);
-            header.querySelector('.sort-icon').style.display = 'none';
-            header.querySelector(`.sort-${newDirection}`).style.display = 'block';
-
-            // Sort the data
-            sortOrders(sortField, newDirection);
-        });
-    });
-}
-
-function sortOrders(field, direction) {
-    const orders = getFilteredOrders();
-
-    orders.sort((a, b) => {
-        let valueA, valueB;
-
-        switch (field) {
-            case 'orderNumber':
-                valueA = a.orderNumber;
-                valueB = b.orderNumber;
-                break;
-            case 'customer':
-                valueA = a.customer.name.toLowerCase();
-                valueB = b.customer.name.toLowerCase();
-                break;
-            case 'orderType':
-                valueA = a.orderType;
-                valueB = b.orderType;
-                break;
-            case 'total':
-                valueA = parseFloat(a.total);
-                valueB = parseFloat(b.total);
-                break;
-            case 'status':
-                valueA = a.status;
-                valueB = b.status;
-                break;
-            case 'date':
-                valueA = new Date(a.date);
-                valueB = new Date(b.date);
-                break;
-            default:
-                return 0;
-        }
-
-        if (valueA < valueB) return direction === 'asc' ? -1 : 1;
-        if (valueA > valueB) return direction === 'asc' ? 1 : -1;
-        return 0;
-    });
-
-    renderOrdersTable(orders);
-}
-
-
-function showToast(type, title, message) {
-    const toastContainer = document.querySelector('.toast-container');
-    const toastTemplate = document.getElementById('toast-template');
-    const toast = toastTemplate.content.cloneNode(true);
-
-    const toastElement = toast.querySelector('.toast');
-    const icon = toast.querySelector('.toast-icon i');
-    const titleElement = toast.querySelector('.toast-title');
-    const messageElement = toast.querySelector('.toast-message');
-    const closeBtn = toast.querySelector('.toast-close');
-
-    // Set icon and colors based on type
-    const iconMap = {
-        success: 'fas fa-check-circle',
-        error: 'fas fa-exclamation-circle',
-        warning: 'fas fa-exclamation-triangle',
-        info: 'fas fa-info-circle'
-    };
-
-    icon.className = iconMap[type] || iconMap.info;
-    toastElement.classList.add(type);
-
-    titleElement.textContent = title;
-    messageElement.textContent = message;
-
-    closeBtn.addEventListener('click', () => {
-        toastElement.remove();
-    });
-
-    toastContainer.appendChild(toastElement);
-
-    // Auto remove after 5 seconds
-    setTimeout(() => {
-        if (toastElement.parentNode) {
-            toastElement.remove();
-        }
-    }, 5000);
-}
+`;
+document.head.appendChild(style);

@@ -1330,48 +1330,16 @@ tbody td:first-child {
 
 /* Enhanced multi-select styling for product forms */
 .product-form select[multiple] {
-    min-height: 44px;
-    padding: 8px 10px;
-    border: 1px solid var(--medium-gray);
-    border-radius: 8px;
+    min-height: 140px;
+    padding: 10px 12px;
+    border: 2px solid #e9ecef;
+    border-radius: 12px;
     background: #fff;
     color: #2c3e50;
     font-size: 0.95rem;
     outline: none;
     transition: box-shadow 0.2s ease, border-color 0.2s ease;
 }
-
-/* Select2 styles to match catalog design */
-.select2-container { width: 100% !important; }
-.select2-container--default .select2-selection--multiple {
-    border: 1px solid var(--medium-gray);
-    border-radius: 8px;
-    min-height: 44px;
-    padding: 8px 8px;
-    background: var(--white);
-}
-.select2-container--default.select2-container--focus .select2-selection--multiple {
-    border-color: var(--bright-blue);
-    box-shadow: 0 0 0 3px rgba(54,139,255,.15);
-}
-.select2-container--default .select2-selection--multiple .select2-selection__rendered {
-    display: flex; flex-wrap: wrap; gap: 6px;
-}
-.select2-container--default .select2-selection--multiple .select2-selection__choice {
-    background: var(--gradient-primary);
-    border: none;
-    color: var(--white);
-    border-radius: 12px;
-    padding: 4px 8px;
-    font-size: 12px;
-}
-.select2-container--default .select2-selection--multiple .select2-selection__choice__remove {
-    color: var(--white); margin-right: 6px;
-}
-.select2-dropdown { border: 1px solid var(--medium-gray); border-radius: 8px; box-shadow: var(--shadow-lg); }
-.select2-container--default .select2-results__option--highlighted[aria-selected] { background: var(--gradient-primary); color: var(--white); }
-.select2-results__option { padding: 10px 12px; }
-.modal .select2-container { z-index: 1200; }
 
 .product-form select[multiple]:focus {
     border-color: #667eea;
