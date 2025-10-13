@@ -29,6 +29,781 @@ document.addEventListener('DOMContentLoaded', function () {
     }
 });
 
+// Tab functionality
+function initializeTabs() {
+    const tabButtons = document.querySelectorAll('.tab-btn');
+    const tabContents = document.querySelectorAll('.tab-content');
+
+    tabButtons.forEach(button => {
+        button.addEventListener('click', () => {
+            const targetTab = button.dataset.tab;
+
+            // Remove active class from all buttons and contents
+            tabButtons.forEach(btn => btn.classList.remove('active'));
+            tabContents.forEach(content => content.classList.remove('active'));
+
+            // Add active class to clicked button and corresponding content
+            button.classList.add('active');
+            const targetContent = document.getElementById(targetTab);
+            if (targetContent) {
+                targetContent.classList.add('active');
+            }
+        });
+    });
+}
+
+// Order details modal functionality
+function showOrderDetailsModal(orderId) {
+    const modal = document.getElementById('orderDetailsModal');
+    const orderIdTitle = document.getElementById('orderIdTitle');
+    const orderDetailsContent = document.getElementById('orderDetailsContent');
+
+    if (!modal || !orderIdTitle || !orderDetailsContent) return;
+
+    // Find the order data
+    const order = ordersData.find(o => o.orderNumber === orderId);
+    if (!order) return;
+
+    // Update modal title
+    orderIdTitle.textContent = `#${orderId}`;
+
+    // Generate order details HTML
+    const orderDetailsHTML = generateOrderDetailsHTML(order);
+    orderDetailsContent.innerHTML = orderDetailsHTML;
+
+    // Show modal
+    modal.setAttribute('aria-hidden', 'false');
+    modal.style.display = 'flex';
+}
+
+function generateOrderDetailsHTML(order) {
+    return `
+        <div class="details-grid">
+            <!-- Order Information -->
+            <div class="order-info-section">
+                <h4><i class="fas fa-info-circle"></i> Order Information</h4>
+                <div class="info-grid">
+                    <div class="info-item">
+                        <label>Order ID:</label>
+                        <span class="order-id">#${order.orderNumber}</span>
+                    </div>
+                    <div class="info-item">
+                        <label>User ID:</label>
+                        <span class="user-id">#${order.userNumber}</span>
+                    </div>
+                    <div class="info-item">
+                        <label>Order Date:</label>
+                        <span>${order.date}</span>
+                    </div>
+                    <div class="info-item">
+                        <label>Delivery Date:</label>
+                        <span>${order.deliveryDate}</span>
+                    </div>
+                    <div class="info-item">
+                        <label>Order Type:</label>
+                        <span class="badge badge-${order.orderType}">${order.orderType}</span>
+                    </div>
+                    <div class="info-item">
+                        <label>Priority:</label>
+                        <span class="priority-badge priority-${order.priority}">${order.priority}</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Customer Information -->
+            <div class="customer-section">
+                <h4><i class="fas fa-user"></i> Customer Information</h4>
+                <div class="customer-content">
+                    <div class="customer-header">
+                        <img src="${order.customer.avatar}" alt="${order.customer.name}" class="customer-avatar">
+                        <div class="customer-details">
+                            <h5>${order.customer.name}</h5>
+                            <p><i class="fas fa-envelope"></i> ${order.customer.email}</p>
+                            <p><i class="fas fa-phone"></i> ${order.customer.phone}</p>
+                            <p><i class="fas fa-map-marker-alt"></i> ${order.customer.address}</p>
+                            <p><i class="fas fa-calendar"></i> Customer since: ${order.customer.since}</p>
+                            <p><i class="fas fa-shopping-cart"></i> Total orders: ${order.customer.orderCount}</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Pricing Information -->
+            <div class="pricing-section">
+                <h4><i class="fas fa-calculator"></i> Pricing Information</h4>
+                <div class="pricing-grid">
+                    <div class="price-item">
+                        <span>Subtotal:</span>
+                        <span>SAR ${order.subtotal.toFixed(2)}</span>
+                    </div>
+                    <div class="price-item">
+                        <span>Delivery Fee:</span>
+                        <span>SAR ${order.deliveryFee.toFixed(2)}</span>
+                    </div>
+                    <div class="price-item total">
+                        <span>Total:</span>
+                        <span class="price-total">SAR ${order.total.toFixed(2)}</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Order Items -->
+            <div class="order-items-section">
+                <h4><i class="fas fa-shopping-bag"></i> Order Items</h4>
+                <div class="items-list">
+                    ${order.orderDetails.map(item => `
+                        <div class="item-card">
+                            <div class="item-header">
+                                <div class="item-name">${item.productType}</div>
+                                <div class="item-price">SAR ${item.total.toFixed(2)}</div>
+                            </div>
+                            <div class="item-details">
+                                <p><strong>Product ID:</strong> <span class="detail-value product-id">${item.productNumber}</span></p>
+                                <p><strong>Quantity:</strong> <span class="detail-value">${item.quantity}</span></p>
+                                <p><strong>Price:</strong> <span class="detail-value price">SAR ${item.price.toFixed(2)}</span></p>
+                                <p><strong>Total:</strong> <span class="detail-value total">SAR ${item.total.toFixed(2)}</span></p>
+                                ${item.notes ? `<p><strong>Notes:</strong> <span class="detail-value notes">${item.notes}</span></p>` : ''}
+                            </div>
+                        </div>
+                    `).join('')}
+                </div>
+            </div>
+
+            <!-- Custom Request Details -->
+            ${order.orderType === 'custom' ? `
+                <div class="custom-request-section">
+                    <h4><i class="fas fa-palette"></i> Custom Request Details</h4>
+                    <div class="request-content">
+                        <div class="request-description">
+                            <label>Description:</label>
+                            <div class="description-content">
+                                <p>${order.illustrativeDescription}</p>
+                            </div>
+                        </div>
+                        <div class="request-images">
+                            <label>Reference Images:</label>
+                            <div class="images-grid">
+                                ${order.illustrativeImages.map(img => `
+                                    <div class="image-item">
+                                        <img src="${img}" alt="Reference image" onclick="openImageModal('${img}')">
+                                    </div>
+                                `).join('')}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            ` : ''}
+
+            <!-- Notes Section -->
+            ${order.notes ? `
+                <div class="notes-section">
+                    <h4><i class="fas fa-sticky-note"></i> Order Notes</h4>
+                    <div class="notes-content">
+                        <div class="notes-item">
+                            <label>Special Instructions:</label>
+                            <div class="notes-text">${order.notes}</div>
+                        </div>
+                    </div>
+                </div>
+            ` : ''}
+
+            <!-- Cancellation Request -->
+            ${order.cancellationRequest ? `
+                <div class="cancellation-request-section">
+                    <h4><i class="fas fa-exclamation-triangle"></i> Cancellation Request</h4>
+                    <div class="cancellation-content">
+                        <p><strong>Requested Date:</strong> ${order.cancellationRequest.requestedDate}</p>
+                        <p><strong>Reason:</strong> ${order.cancellationRequest.reason}</p>
+                        <p><strong>Customer Notes:</strong> ${order.cancellationRequest.customerNotes}</p>
+                    </div>
+                </div>
+            ` : ''}
+        </div>
+    `;
+}
+
+// Status update modal functionality
+function showStatusUpdateModal(orderId) {
+    const modal = document.getElementById('actionModal');
+    const actionTitle = document.getElementById('actionTitle');
+    const actionMessage = document.getElementById('actionMessage');
+    const reasonInput = document.getElementById('reasonInput');
+    const priceInput = document.getElementById('priceInput');
+    const confirmActionBtn = document.getElementById('confirmAction');
+
+    if (!modal || !actionTitle || !actionMessage) return;
+
+    // Update modal content for status update
+    actionTitle.textContent = 'Update Order Status';
+    actionMessage.innerHTML = `
+        <label for="statusSelect">Select new status for order ${orderId}:</label>
+        <select id="statusSelect" style="width: 100%; padding: 10px; margin-top: 10px; border: 1px solid #ccc; border-radius: 4px;">
+            <option value="">Select Status</option>
+            <option value="processing">Processing</option>
+            <option value="in-progress">In Progress</option>
+            <option value="completed">Completed</option>
+            <option value="ready">Ready for Delivery</option>
+            <option value="in-delivery">In Delivery</option>
+            <option value="delivered">Delivered</option>
+        </select>
+    `;
+    reasonInput.style.display = 'none';
+    priceInput.style.display = 'none';
+    confirmActionBtn.textContent = 'Update Status';
+
+    // Store current action and order ID
+    modal.dataset.action = 'update-status';
+    modal.dataset.orderId = orderId;
+
+    // Show modal
+    modal.setAttribute('aria-hidden', 'false');
+    modal.style.display = 'flex';
+}
+
+// Action modal functionality
+function showActionModal(action, orderId) {
+    const modal = document.getElementById('actionModal');
+    const actionTitle = document.getElementById('actionTitle');
+    const actionMessage = document.getElementById('actionMessage');
+    const reasonInput = document.getElementById('reasonInput');
+    const priceInput = document.getElementById('priceInput');
+    const confirmActionBtn = document.getElementById('confirmAction');
+
+    if (!modal || !actionTitle || !actionMessage) return;
+
+    // Update modal content based on action
+    switch (action) {
+        case 'accept':
+            actionTitle.textContent = 'Accept Order';
+            actionMessage.textContent = 'Are you sure you want to accept this order?';
+            reasonInput.style.display = 'none';
+            priceInput.style.display = 'block';
+            confirmActionBtn.textContent = 'Accept Order';
+            break;
+        case 'reject':
+            actionTitle.textContent = 'Reject Order';
+            actionMessage.textContent = 'Are you sure you want to reject this order?';
+            reasonInput.style.display = 'block';
+            priceInput.style.display = 'none';
+            confirmActionBtn.textContent = 'Reject Order';
+            break;
+        case 'update-status':
+            actionTitle.textContent = 'Update Order Status';
+            actionMessage.textContent = 'Select the new status for this order:';
+            reasonInput.style.display = 'none';
+            priceInput.style.display = 'none';
+            confirmActionBtn.textContent = 'Update Status';
+            break;
+        case 'start-delivery':
+            actionTitle.textContent = 'Start Delivery';
+            actionMessage.textContent = 'Are you sure you want to start delivery for this order?';
+            reasonInput.style.display = 'none';
+            priceInput.style.display = 'none';
+            confirmActionBtn.textContent = 'Start Delivery';
+            break;
+        case 'mark-delivered':
+            actionTitle.textContent = 'Mark as Delivered';
+            actionMessage.textContent = 'Are you sure you want to mark this order as delivered?';
+            reasonInput.style.display = 'none';
+            priceInput.style.display = 'none';
+            confirmActionBtn.textContent = 'Mark Delivered';
+            break;
+    }
+
+    // Store current action and order ID
+    modal.dataset.action = action;
+    modal.dataset.orderId = orderId;
+
+    // Show modal
+    modal.setAttribute('aria-hidden', 'false');
+    modal.style.display = 'flex';
+}
+
+// Execute action
+function executeAction() {
+    const modal = document.getElementById('actionModal');
+    const action = modal.dataset.action;
+    const orderId = modal.dataset.orderId;
+
+    if (!action || !orderId) return;
+
+    // Find the order
+    const order = ordersData.find(o => o.orderNumber === orderId);
+    if (!order) return;
+
+    // Execute the action
+    switch (action) {
+        case 'accept':
+            // Update order status to processing
+            order.status = 'processing';
+            showToast('success', 'Order Accepted', `Order ${orderId} has been accepted.`);
+            break;
+        case 'reject':
+            // Update order status to cancelled
+            order.status = 'cancelled';
+            const rejectionReason = document.getElementById('rejectionReason').value;
+            order.rejectionReason = rejectionReason;
+            showToast('success', 'Order Rejected', `Order ${orderId} has been rejected.`);
+            break;
+        case 'update-status':
+            // Get selected status and update order
+            const statusSelect = document.getElementById('statusSelect');
+            if (statusSelect && statusSelect.value) {
+                order.status = statusSelect.value;
+                showToast('success', 'Status Updated', `Order ${orderId} status has been updated to ${statusSelect.value}.`);
+            } else {
+                showToast('error', 'No Status Selected', 'Please select a status before updating.');
+                return;
+            }
+            break;
+        case 'start-delivery':
+            // Update order status to in-delivery
+            order.status = 'in-delivery';
+            showToast('success', 'Delivery Started', `Delivery for order ${orderId} has been started.`);
+            break;
+        case 'mark-delivered':
+            // Update order status to delivered
+            order.status = 'delivered';
+            showToast('success', 'Order Delivered', `Order ${orderId} has been marked as delivered.`);
+            break;
+    }
+
+    // Close modal
+    closeActionModal();
+
+    // Refresh the current tab
+    refreshCurrentTab();
+}
+
+// Close action modal
+function closeActionModal() {
+    const modal = document.getElementById('actionModal');
+    if (modal) {
+        modal.setAttribute('aria-hidden', 'true');
+        modal.style.display = 'none';
+    }
+
+    // Clear form fields
+    const rejectionReason = document.getElementById('rejectionReason');
+    const totalPrice = document.getElementById('totalPrice');
+    const priceNotes = document.getElementById('priceNotes');
+
+    if (rejectionReason) rejectionReason.value = '';
+    if (totalPrice) totalPrice.value = '';
+    if (priceNotes) priceNotes.value = '';
+}
+
+// Refresh current tab
+function refreshCurrentTab() {
+    const activeTab = document.querySelector('.tab-content.active');
+    if (!activeTab) return;
+
+    const tabId = activeTab.id;
+
+    // Re-render the table for the active tab
+    switch (tabId) {
+        case 'incoming':
+            renderIncomingOrders();
+            break;
+        case 'processing':
+            renderProcessingOrders();
+            break;
+        case 'delivery':
+            renderDeliveryOrders();
+            break;
+    }
+}
+
+// Render orders for each tab
+function renderIncomingOrders() {
+    const tbody = document.querySelector('#incoming tbody');
+    if (!tbody) return;
+
+    const incomingOrders = ordersData.filter(order => order.status === 'pending');
+    tbody.innerHTML = '';
+
+    incomingOrders.forEach(order => {
+        const row = createIncomingOrderRow(order);
+        tbody.appendChild(row);
+    });
+}
+
+function renderProcessingOrders() {
+    const tbody = document.querySelector('#processing tbody');
+    if (!tbody) return;
+
+    const processingOrders = ordersData.filter(order =>
+        order.status === 'processing' || order.status === 'in-progress' || order.status === 'completed'
+    );
+    tbody.innerHTML = '';
+
+    processingOrders.forEach(order => {
+        const row = createProcessingOrderRow(order);
+        tbody.appendChild(row);
+    });
+}
+
+function renderDeliveryOrders() {
+    const tbody = document.querySelector('#delivery tbody');
+    if (!tbody) return;
+
+    const deliveryOrders = ordersData.filter(order =>
+        order.status === 'ready' || order.status === 'in-delivery' || order.status === 'delivered'
+    );
+    tbody.innerHTML = '';
+
+    deliveryOrders.forEach(order => {
+        const row = createDeliveryOrderRow(order);
+        tbody.appendChild(row);
+    });
+}
+
+// Create table rows for each tab
+function createIncomingOrderRow(order) {
+    const row = document.createElement('tr');
+    row.dataset.order = order.orderNumber;
+
+    row.innerHTML = `
+        <td>#${order.orderNumber}</td>
+        <td>${order.customer.name}</td>
+        <td><span class="badge badge-${order.orderType}">${order.orderType}</span></td>
+        <td>${order.date}</td>
+        <td>${order.deliveryDate}</td>
+        <td><span class="status status-${order.status}">${order.status}</span></td>
+        <td>
+            <div class="action-buttons">
+                <button class="btn-icon btn-view" data-order="${order.orderNumber}" title="View Details">
+                    <i class="fas fa-eye"></i>
+                </button>
+                <button class="btn-icon btn-accept" data-order="${order.orderNumber}" title="Accept Order">
+                    <i class="fas fa-check"></i>
+                </button>
+                <button class="btn-icon btn-reject" data-order="${order.orderNumber}" title="Reject Order">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+        </td>
+    `;
+
+    return row;
+}
+
+function createProcessingOrderRow(order) {
+    const row = document.createElement('tr');
+    row.dataset.order = order.orderNumber;
+
+    row.innerHTML = `
+        <td>#${order.orderNumber}</td>
+        <td>${order.customer.name}</td>
+        <td><span class="badge badge-${order.orderType}">${order.orderType}</span></td>
+        <td>${order.deliveryDate}</td>
+        <td><strong>SAR ${order.total.toFixed(2)}</strong></td>
+        <td><span class="status status-${order.status}">${order.status}</span></td>
+        <td>${order.date}</td>
+        <td>
+            <div class="action-buttons">
+                <button class="btn-icon btn-view" data-order="${order.orderNumber}" title="View Details">
+                    <i class="fas fa-eye"></i>
+                </button>
+                <button class="btn btn-sm btn-primary btn-update-status" data-order="${order.orderNumber}">
+                    Update Status
+                </button>
+            </div>
+        </td>
+    `;
+
+    return row;
+}
+
+function createDeliveryOrderRow(order) {
+    const row = document.createElement('tr');
+    row.dataset.order = order.orderNumber;
+
+    row.innerHTML = `
+        <td>#${order.orderNumber}</td>
+        <td>${order.customer.name}</td>
+        <td>${order.customer.address}</td>
+        <td>${order.deliveryDate}</td>
+        <td><strong>SAR ${order.total.toFixed(2)}</strong></td>
+        <td><span class="status status-${order.status}">${order.status}</span></td>
+        <td>
+            <div class="action-buttons">
+                <button class="btn-icon btn-view" data-order="${order.orderNumber}" title="View Details">
+                    <i class="fas fa-eye"></i>
+                </button>
+                ${order.status === 'ready' ? `
+                    <button class="btn btn-sm btn-primary btn-start-delivery" data-order="${order.orderNumber}">
+                        Start Delivery
+                    </button>
+                ` : order.status === 'in-delivery' ? `
+                    <button class="btn btn-sm btn-success btn-mark-delivered" data-order="${order.orderNumber}">
+                        Mark Delivered
+                    </button>
+                ` : `
+                    <button class="btn btn-sm btn-secondary" disabled>
+                        Delivered
+                    </button>
+                `}
+            </div>
+        </td>
+    `;
+
+    return row;
+}
+
+// Search functionality for each tab
+function setupTabSearch() {
+    const searchInputs = document.querySelectorAll('#searchIncoming, #searchProcessing, #searchDelivery');
+
+    searchInputs.forEach(input => {
+        input.addEventListener('input', (e) => {
+            const searchTerm = e.target.value.toLowerCase();
+            const tabId = e.target.id.replace('search', '').toLowerCase();
+            const tbody = document.querySelector(`#${tabId} tbody`);
+
+            if (!tbody) return;
+
+            const rows = tbody.querySelectorAll('tr');
+            rows.forEach(row => {
+                const text = row.textContent.toLowerCase();
+                row.style.display = text.includes(searchTerm) ? '' : 'none';
+            });
+        });
+    });
+}
+
+// Filter functionality for each tab
+function setupTabFilters() {
+    const filterSelects = document.querySelectorAll('#filterOrderType, #filterProcessingStatus, #filterDeliveryStatus');
+
+    filterSelects.forEach(select => {
+        select.addEventListener('change', (e) => {
+            const filterValue = e.target.value;
+            const tabId = e.target.id.replace('filter', '').replace('Status', '').replace('Type', '').toLowerCase();
+            const tbody = document.querySelector(`#${tabId} tbody`);
+
+            if (!tbody) return;
+
+            const rows = tbody.querySelectorAll('tr');
+            rows.forEach(row => {
+                if (!filterValue) {
+                    row.style.display = '';
+                    return;
+                }
+
+                const statusCell = row.querySelector('.status');
+                const typeCell = row.querySelector('.badge');
+
+                if (statusCell && statusCell.textContent.toLowerCase().includes(filterValue.toLowerCase())) {
+                    row.style.display = '';
+                } else if (typeCell && typeCell.textContent.toLowerCase().includes(filterValue.toLowerCase())) {
+                    row.style.display = '';
+                } else {
+                    row.style.display = 'none';
+                }
+            });
+        });
+    });
+}
+
+// Event delegation for table actions
+function setupTableActions() {
+    document.addEventListener('click', (e) => {
+        const button = e.target.closest('button');
+        if (!button) return;
+
+        const orderId = button.dataset.order;
+        if (!orderId) return;
+
+        if (button.classList.contains('btn-view')) {
+            showOrderDetailsModal(orderId);
+        } else if (button.classList.contains('btn-accept')) {
+            showActionModal('accept', orderId);
+        } else if (button.classList.contains('btn-reject')) {
+            showActionModal('reject', orderId);
+        } else if (button.classList.contains('btn-update-status')) {
+            showStatusUpdateModal(orderId);
+        } else if (button.classList.contains('btn-start-delivery')) {
+            showActionModal('start-delivery', orderId);
+        } else if (button.classList.contains('btn-mark-delivered')) {
+            showActionModal('mark-delivered', orderId);
+        }
+    });
+}
+
+// Toast notification system
+function showToast(type, title, message) {
+    // Create toast container if it doesn't exist
+    let toastContainer = document.querySelector('.toast-container');
+    if (!toastContainer) {
+        toastContainer = document.createElement('div');
+        toastContainer.className = 'toast-container';
+        document.body.appendChild(toastContainer);
+    }
+
+    // Create toast element
+    const toast = document.createElement('div');
+    toast.className = `toast toast-${type}`;
+
+    const iconMap = {
+        success: 'fas fa-check-circle',
+        error: 'fas fa-exclamation-circle',
+        warning: 'fas fa-exclamation-triangle',
+        info: 'fas fa-info-circle'
+    };
+
+    toast.innerHTML = `
+        <div class="toast-icon">
+            <i class="${iconMap[type] || iconMap.info}"></i>
+        </div>
+        <div class="toast-content">
+            <div class="toast-title">${title}</div>
+            <div class="toast-message">${message}</div>
+        </div>
+        <button class="toast-close">
+            <i class="fas fa-times"></i>
+        </button>
+    `;
+
+    // Add close functionality
+    const closeBtn = toast.querySelector('.toast-close');
+    closeBtn.addEventListener('click', () => {
+        toast.remove();
+    });
+
+    // Add to container
+    toastContainer.appendChild(toast);
+
+    // Auto remove after 5 seconds
+    setTimeout(() => {
+        if (toast.parentNode) {
+            toast.remove();
+        }
+    }, 5000);
+}
+
+// Initialize everything when DOM is loaded
+document.addEventListener('DOMContentLoaded', function () {
+    initializeTabs();
+    setupTabSearch();
+    setupTabFilters();
+    setupTableActions();
+
+    // Render initial data
+    renderIncomingOrders();
+    renderProcessingOrders();
+    renderDeliveryOrders();
+
+    // Setup modal close handlers
+    const closeDetailsModal = document.getElementById('closeDetailsModal');
+    const closeDetails = document.getElementById('closeDetails');
+    const closeActionModal = document.getElementById('closeActionModal');
+    const cancelAction = document.getElementById('cancelAction');
+    const confirmAction = document.getElementById('confirmAction');
+
+    if (closeDetailsModal) {
+        closeDetailsModal.addEventListener('click', () => {
+            const modal = document.getElementById('orderDetailsModal');
+            modal.setAttribute('aria-hidden', 'true');
+            modal.style.display = 'none';
+        });
+    }
+
+    if (closeDetails) {
+        closeDetails.addEventListener('click', () => {
+            const modal = document.getElementById('orderDetailsModal');
+            modal.setAttribute('aria-hidden', 'true');
+            modal.style.display = 'none';
+        });
+    }
+
+    if (closeActionModal) {
+        closeActionModal.addEventListener('click', () => {
+            const modal = document.getElementById('actionModal');
+            if (modal) {
+                modal.setAttribute('aria-hidden', 'true');
+                modal.style.display = 'none';
+            }
+        });
+    }
+
+    if (cancelAction) {
+        cancelAction.addEventListener('click', () => {
+            const modal = document.getElementById('actionModal');
+            if (modal) {
+                modal.setAttribute('aria-hidden', 'true');
+                modal.style.display = 'none';
+            }
+        });
+    }
+
+    if (confirmAction) {
+        confirmAction.addEventListener('click', executeAction);
+    }
+
+    // Setup confirmation modal close handlers
+    const cancelConfirm = document.getElementById('cancelConfirm');
+    if (cancelConfirm) {
+        cancelConfirm.addEventListener('click', () => {
+            const modal = document.getElementById('confirmModal');
+            if (modal) {
+                modal.setAttribute('aria-hidden', 'true');
+                modal.style.display = 'none';
+            }
+        });
+    }
+
+    // Setup sign out modal close handlers
+    const cancelSignOut = document.getElementById('cancelSignOut');
+    if (cancelSignOut) {
+        cancelSignOut.addEventListener('click', () => {
+            const modal = document.getElementById('signOutModal');
+            if (modal) {
+                modal.setAttribute('aria-hidden', 'true');
+                modal.style.display = 'none';
+            }
+        });
+    }
+
+    // Setup modal overlay click to close
+    const modalOverlays = document.querySelectorAll('.modal-overlay');
+    modalOverlays.forEach(overlay => {
+        overlay.addEventListener('click', (e) => {
+            if (e.target === overlay) {
+                overlay.setAttribute('aria-hidden', 'true');
+                overlay.style.display = 'none';
+            }
+        });
+    });
+
+    // Keyboard navigation support
+    document.addEventListener('keydown', function (e) {
+        // Close modals with Escape key
+        if (e.key === 'Escape') {
+            const orderDetailsModal = document.getElementById('orderDetailsModal');
+            const actionModal = document.getElementById('actionModal');
+            const confirmModal = document.getElementById('confirmModal');
+            const signOutModal = document.getElementById('signOutModal');
+
+            if (orderDetailsModal && orderDetailsModal.style.display === 'flex') {
+                orderDetailsModal.setAttribute('aria-hidden', 'true');
+                orderDetailsModal.style.display = 'none';
+            }
+            if (actionModal && actionModal.style.display === 'flex') {
+                closeActionModal();
+            }
+            if (confirmModal && confirmModal.style.display === 'flex') {
+                confirmModal.setAttribute('aria-hidden', 'true');
+                confirmModal.style.display = 'none';
+            }
+            if (signOutModal && signOutModal.style.display === 'flex') {
+                signOutModal.setAttribute('aria-hidden', 'true');
+                signOutModal.style.display = 'none';
+            }
+        }
+    });
+});
+
 // Comprehensive sample orders data
 const ordersData = [
     {
@@ -416,7 +1191,6 @@ let currentAction = null;
 // Initialize the page
 document.addEventListener('DOMContentLoaded', function () {
     initializeOrders();
-    setupEventListeners();
     updateStatistics();
 });
 
@@ -425,122 +1199,6 @@ function initializeOrders() {
     updateOrderCount(ordersData.length);
 }
 
-function setupEventListeners() {
-    // Search functionality
-    if (orderSearch) orderSearch.addEventListener('input', handleSearch);
-    if (statusFilter) statusFilter.addEventListener('change', handleFilter);
-    if (orderTypeFilter) orderTypeFilter.addEventListener('change', handleFilter);
-
-    // Table actions
-    ordersTable.addEventListener('click', handleTableClick);
-
-    // Enhanced table head sorting
-    setupTableSorting();
-
-    // Modal controls
-    const closeOrderDetailsBtn = document.getElementById('closeOrderDetails');
-    const cancelOrderDetailsBtn = document.getElementById('cancelOrderDetails');
-    const cancelConfirmBtn = document.getElementById('cancelConfirm');
-    const confirmActionBtn = document.getElementById('confirmAction');
-
-    if (closeOrderDetailsBtn) closeOrderDetailsBtn.addEventListener('click', closeOrderDetails);
-    if (cancelOrderDetailsBtn) cancelOrderDetailsBtn.addEventListener('click', closeOrderDetails);
-    if (cancelConfirmBtn) cancelConfirmBtn.addEventListener('click', closeConfirmModal);
-    if (confirmActionBtn) confirmActionBtn.addEventListener('click', executeAction);
-
-    // Order action buttons
-    const acceptOrderBtn = document.getElementById('acceptOrderBtn');
-    const rejectOrderBtn = document.getElementById('rejectOrderBtn');
-    const requestCancelBtn = document.getElementById('requestCancelBtn');
-    const completeOrderBtn = document.getElementById('completeOrderBtn');
-
-    if (acceptOrderBtn) acceptOrderBtn.addEventListener('click', () => showConfirmModal('accept', 'Accept Order'));
-    if (rejectOrderBtn) rejectOrderBtn.addEventListener('click', () => showConfirmModal('reject', 'Reject Order'));
-    if (requestCancelBtn) requestCancelBtn.addEventListener('click', () => showConfirmModal('cancel-request', 'Request Cancellation'));
-    if (completeOrderBtn) completeOrderBtn.addEventListener('click', () => showConfirmModal('complete', 'Mark Complete'));
-
-    // New cancellation handling buttons
-    const approveCancelBtn = document.getElementById('approveCancelBtn');
-    const rejectCancelBtn = document.getElementById('rejectCancelBtn');
-
-    if (approveCancelBtn) {
-        approveCancelBtn.addEventListener('click', () => showConfirmModal('approve-cancellation', 'Approve Cancellation'));
-    }
-    if (rejectCancelBtn) {
-        rejectCancelBtn.addEventListener('click', () => showConfirmModal('reject-cancellation', 'Reject Cancellation'));
-    }
-
-    // Sign out functionality
-    const openSignOutBtn = document.getElementById('openSignOut');
-    const cancelSignOutBtn = document.getElementById('cancelSignOut');
-    const confirmSignOutBtn = document.getElementById('confirmSignOut');
-
-    if (openSignOutBtn) {
-        openSignOutBtn.addEventListener('click', () => {
-            if (signOutModal) {
-                signOutModal.setAttribute('aria-hidden', 'false');
-                signOutModal.style.display = 'flex';
-            }
-        });
-    }
-    if (cancelSignOutBtn) cancelSignOutBtn.addEventListener('click', closeSignOutModal);
-    if (confirmSignOutBtn) {
-        confirmSignOutBtn.addEventListener('click', () => {
-            window.location.href = '../../auth/login.html';
-        });
-    }
-
-    // View toggle functionality
-    const viewButtons = document.querySelectorAll('.view-btn');
-    const tableView = document.getElementById('tableView');
-    const cardView = document.getElementById('cardView');
-
-    viewButtons.forEach(btn => {
-        btn.addEventListener('click', () => {
-            const view = btn.dataset.view;
-
-            // Update active button
-            viewButtons.forEach(b => b.classList.remove('active'));
-            btn.classList.add('active');
-
-            // Toggle views
-            if (view === 'table') {
-                tableView.style.display = 'block';
-                cardView.style.display = 'none';
-            } else {
-                tableView.style.display = 'none';
-                cardView.style.display = 'block';
-                renderOrderCards();
-            }
-        });
-    });
-
-    // Close modals on overlay click
-    document.querySelectorAll('.modal-overlay').forEach(overlay => {
-        overlay.addEventListener('click', function (e) {
-            if (e.target === this) {
-                this.setAttribute('aria-hidden', 'true');
-                this.style.display = 'none';
-            }
-        });
-    });
-
-    // Keyboard navigation support
-    document.addEventListener('keydown', function (e) {
-        // Close modals with Escape key
-        if (e.key === 'Escape') {
-            if (orderDetailsModal && orderDetailsModal.style.display === 'flex') {
-                closeOrderDetails();
-            }
-            if (confirmModal && confirmModal.style.display === 'flex') {
-                closeConfirmModal();
-            }
-            if (signOutModal && signOutModal.style.display === 'flex') {
-                closeSignOutModal();
-            }
-        }
-    });
-}
 
 function handleSearch() {
     if (!orderSearch) return;
@@ -801,40 +1459,6 @@ function showConfirmModal(action, title) {
     confirmModal.style.display = 'flex';
 }
 
-function executeAction() {
-    if (!currentOrder || !currentAction) return;
-
-    switch (currentAction) {
-        case 'accept':
-            updateOrderStatus(currentOrder.orderNumber, 'in-progress');
-            showToast('success', 'Order Accepted', `Order ${currentOrder.orderNumber} has been accepted and moved to in-progress.`);
-            break;
-        case 'reject':
-            updateOrderStatus(currentOrder.orderNumber, 'cancelled');
-            showToast('success', 'Order Rejected', `Order ${currentOrder.orderNumber} has been rejected.`);
-            break;
-        case 'complete':
-            updateOrderStatus(currentOrder.orderNumber, 'completed');
-            showToast('success', 'Order Completed', `Order ${currentOrder.orderNumber} has been marked as complete.`);
-            break;
-        case 'cancel-request':
-            // In a real app, this would send a cancellation request to the customer
-            showToast('info', 'Cancellation Requested', `Cancellation request has been sent for order ${currentOrder.orderNumber}.`);
-            break;
-        case 'approve-cancellation':
-            updateOrderStatus(currentOrder.orderNumber, 'cancelled');
-            showToast('success', 'Cancellation Approved', `Order ${currentOrder.orderNumber} has been cancelled. Customer has been notified.`);
-            break;
-        case 'reject-cancellation':
-            updateOrderStatus(currentOrder.orderNumber, 'in-progress');
-            showToast('success', 'Cancellation Rejected', `Cancellation request for order ${currentOrder.orderNumber} has been rejected. Order continues as normal.`);
-            break;
-    }
-
-    closeConfirmModal();
-    closeOrderDetails();
-    updateStatistics();
-}
 
 function updateOrderStatus(orderNumber, newStatus) {
     const order = ordersData.find(o => o.orderNumber === orderNumber);

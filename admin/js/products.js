@@ -2,6 +2,116 @@ document.addEventListener('DOMContentLoaded', function () {
     // Enhanced Product Management System
     console.log('Enhanced Product Management System Initialized');
 
+    // Initialize Select2 for enhanced cake form
+    if (typeof $ !== 'undefined') {
+        $('.select2-multiple').select2({
+            placeholder: 'Select options...',
+            allowClear: true,
+            width: '100%',
+            closeOnSelect: false,
+            tags: false
+        });
+    }
+
+    // Image upload functionality for cake form
+    const imagePreview = document.getElementById('imagePreview');
+    const cakeImageInput = document.getElementById('cakeImage');
+
+    if (imagePreview && cakeImageInput) {
+        // Click to upload
+        imagePreview.addEventListener('click', function () {
+            cakeImageInput.click();
+        });
+
+        // Handle file selection
+        cakeImageInput.addEventListener('change', function (e) {
+            const file = e.target.files[0];
+            if (file) {
+                const reader = new FileReader();
+                reader.onload = function (e) {
+                    imagePreview.innerHTML = `<img src="${e.target.result}" alt="Cake preview">`;
+                };
+                reader.readAsDataURL(file);
+            }
+        });
+    }
+
+    // Enhanced cake form submission handler
+    function handleCakeSubmission(formData) {
+        // Collect all form data
+        const cakeData = {
+            name: formData.get('cakeName'),
+            description: formData.get('cakeDescription'),
+            basePrice: parseFloat(formData.get('basePrice')),
+            productType: formData.get('productType'),
+            cakeType: formData.getAll('cakeType'),
+            baseFlavors: formData.getAll('baseFlavors'),
+            fillings: formData.getAll('fillings'),
+            frosting: formData.getAll('frosting'),
+            shape: formData.getAll('shape'),
+            size: formData.getAll('size'),
+            layers: formData.get('layers'),
+            colors: formData.getAll('colors'),
+            decorations: formData.getAll('decorations'),
+            cakeText: formData.get('cakeText'),
+            textColor: formData.get('textColor'),
+            candles: formData.getAll('candles'),
+            topper: formData.getAll('topper'),
+            edibleImage: formData.get('edibleImage'),
+            packaging: formData.getAll('packaging'),
+            isAvailable: formData.get('isAvailable') === 'on'
+        };
+
+        // Simulate API call
+        console.log('Cake data to be submitted:', cakeData);
+
+        // Show success toast
+        showToast('Success', 'Cake added successfully!', 'success');
+
+        return cakeData;
+    }
+
+    // Toast notification function
+    function showToast(title, message, type = 'info') {
+        const toastContainer = document.querySelector('.toast-container');
+        if (!toastContainer) return;
+
+        const toast = document.createElement('div');
+        toast.className = `toast toast-${type}`;
+
+        const icons = {
+            success: 'fas fa-check-circle',
+            error: 'fas fa-exclamation-circle',
+            warning: 'fas fa-exclamation-triangle',
+            info: 'fas fa-info-circle'
+        };
+
+        toast.innerHTML = `
+            <div class="toast-icon">
+                <i class="${icons[type]}"></i>
+            </div>
+            <div class="toast-content">
+                <div class="toast-title">${title}</div>
+                <div class="toast-message">${message}</div>
+            </div>
+            <button class="toast-close">
+                <i class="fas fa-times"></i>
+            </button>
+        `;
+
+        toastContainer.appendChild(toast);
+
+        // Auto remove after 5 seconds
+        setTimeout(() => {
+            toast.remove();
+        }, 5000);
+
+        // Close button functionality
+        toast.querySelector('.toast-close').addEventListener('click', () => {
+            toast.remove();
+        });
+    }
+
     // Mobile Navigation
     const mobileMenuToggle = document.getElementById('mobileMenuToggle');
     const sidebar = document.getElementById('sidebar');
@@ -1371,34 +1481,32 @@ document.addEventListener('DOMContentLoaded', function () {
 
         let data = {};
         if (editing.entity === 'cake') {
-            const imgs = [val('primaryImage'), ...val('galleryImages').split(',').map(s => s.trim()).filter(Boolean)].filter(Boolean);
+            const imgs = [val('cakeImage'), ...val('galleryImages').split(',').map(s => s.trim()).filter(Boolean)].filter(Boolean);
             data = {
                 id: editing.id || nextId(arr),
                 cakeId: val('cakeId'),
-                name: val('name'),
-                description: val('description'),
+                name: val('cakeName'),
+                description: val('cakeDescription'),
                 basePrice: Number(val('basePrice') || 0),
                 images: imgs,
                 size: val('size'),
                 layers: val('layers'),
-                available: boolVal('available'),
-                scope: val('scope'),
-                type: val('cakeType'),
-                // addons/customization
-                mainFlavor: valMulti('mainFlavor'),
+                available: boolVal('isAvailable'),
+                scope: val('productType'),
+                type: valMulti('cakeType'),
+                // Enhanced cake fields matching chefs structure
+                baseFlavors: valMulti('baseFlavors'),
                 fillings: valMulti('fillings'),
                 frosting: valMulti('frosting'),
                 shape: valMulti('shape'),
-                sizeDiameter: valMulti('sizeDiameter'),
-                layersAlt: valMulti('layersAlt'),
-                baseColors: valMulti('baseColors'),
+                colors: valMulti('colors'),
                 decorations: valMulti('decorations'),
-                writingText: val('writingText'),
-                writingColor: valMulti('writingColor'),
+                cakeText: val('cakeText'),
+                textColor: val('textColor'),
                 candles: valMulti('candles'),
                 topper: valMulti('topper'),
-                topperText: val('topperText'),
                 edibleImage: val('edibleImage'),
+                packaging: valMulti('packaging'),
                 addons: currentAddons.filter(addon => addon.type === 'cake')
             };
         } else if (editing.entity === 'cakeAddon') {
@@ -1845,6 +1953,119 @@ document.addEventListener('DOMContentLoaded', function () {
         document.body.appendChild(link);
         link.click();
         document.body.removeChild(link);
+    }
+
+    // Enhanced Cake Form Image Upload
+    const cakeImagePreview = document.getElementById('cakeImagePreview');
+    const cakePrimaryImage = document.getElementById('cake-primaryImage');
+
+    if (cakeImagePreview && cakePrimaryImage) {
+        // Click to upload
+        cakeImagePreview.addEventListener('click', function () {
+            cakePrimaryImage.click();
+        });
+
+        // Handle file selection
+        cakePrimaryImage.addEventListener('change', function (e) {
+            if (e.target.files && e.target.files[0]) {
+                const reader = new FileReader();
+
+                reader.onload = function (e) {
+                    cakeImagePreview.style.backgroundImage = `url(${e.target.result})`;
+                    cakeImagePreview.classList.add('has-image');
+                };
+
+                reader.readAsDataURL(e.target.files[0]);
+            }
+        });
+    }
+
+    // Enhanced Cake Form Validation
+    function validateCakeForm(formData) {
+        const errors = [];
+
+        // Required fields validation
+        if (!formData.get('name')) {
+            errors.push('Cake name is required');
+        }
+
+        if (!formData.get('basePrice') || parseFloat(formData.get('basePrice')) <= 0) {
+            errors.push('Valid base price is required');
+        }
+
+        // Get Select2 values
+        const cakeType = $('#cake-type').val();
+        const baseFlavors = $('#cake-baseFlavors').val();
+        const shape = $('#cake-shape').val();
+        const size = $('#cake-size').val();
+
+        if (!cakeType || cakeType.length === 0) {
+            errors.push('At least one cake type must be selected');
+        }
+
+        if (!baseFlavors || baseFlavors.length === 0) {
+            errors.push('At least one base flavor must be selected');
+        }
+
+        if (!shape || shape.length === 0) {
+            errors.push('At least one shape must be selected');
+        }
+
+        if (!size || size.length === 0) {
+            errors.push('At least one size must be selected');
+        }
+
+        return errors;
+    }
+
+    // Enhanced Cake Form Submission
+    function handleEnhancedCakeSubmission(formData) {
+        const errors = validateCakeForm(formData);
+
+        if (errors.length > 0) {
+            showToast('Validation Error', errors.join(', '), 'error');
+            return false;
+        }
+
+        // Get all Select2 values
+        const cakeData = {
+            name: formData.get('name'),
+            description: formData.get('description'),
+            basePrice: parseFloat(formData.get('basePrice')),
+            scope: formData.get('scope'),
+            available: formData.get('available') === 'true',
+            cakeType: $('#cake-type').val(),
+            baseFlavors: $('#cake-baseFlavors').val(),
+            fillings: $('#cake-fillings').val(),
+            frosting: $('#cake-frosting').val(),
+            shape: $('#cake-shape').val(),
+            size: $('#cake-size').val(),
+            colors: $('#cake-colors').val(),
+            decorations: $('#cake-decorations').val(),
+            customText: formData.get('cakeText'),
+            textColor: formData.get('textColor'),
+            candles: $('#cake-candles').val(),
+            topper: $('#cake-topper').val(),
+            packaging: $('#cake-packaging').val(),
+            layers: formData.get('layers')
+        };
+
+        console.log('Enhanced Cake Data:', cakeData);
+        showToast('Cake Saved', 'Your enhanced cake has been saved successfully.', 'success');
+        return true;
+    }
+
+    // Override the existing cake form submission
+    const originalHandleCakeSubmission = window.handleCakeSubmission;
+    if (originalHandleCakeSubmission) {
+        window.handleCakeSubmission = function () {
+            const form = document.querySelector('form[data-entity="cake"]');
+            if (form) {
+                const formData = new FormData(form);
+                return handleEnhancedCakeSubmission(formData);
+            }
+            return originalHandleCakeSubmission();
+        };
     }
 
     // Initialize the unified product system
