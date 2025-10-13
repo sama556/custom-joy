@@ -505,176 +505,197 @@
 
                 <!-- Flower Form -->
                 <form class="product-form" data-entity="flower" style="display:none;">
-                    <div class="form-grid">
-                        <div class="form-field">
-                            <label for="flower-name">Name</label>
-                            <input type="text" id="flower-name" name="name" placeholder="Bouquet name">
-                        </div>
-                        <div class="form-field">
-                            <label for="flower-basePrice">Base Price</label>
-                            <input type="number" step="0.01" id="flower-basePrice" name="basePrice" placeholder="0.00">
-                        </div>
-                        <div class="form-field">
-                            <label for="flower-primaryImage">Image</label>
-                            <input type="file" id="flower-primaryImage" name="primaryImage" accept="image/*">
-                        </div>
-                        <div class="form-field">
-                            <label for="flower-available">Available</label>
-                            <select id="flower-available" name="available">
-                                <option value="true">Yes</option>
-                                <option value="false">No</option>
-                            </select>
-                        </div>
-                        <div class="form-field">
-                            <label for="flower-scope">Type</label>
-                            <select id="flower-scope" name="scope">
-                                <option value="private">Private</option>
-                                <option value="public">Public</option>
-                            </select>
-                        </div>
-
-                        <div class="form-field ">
-
-                            <label for="flower-type">Flower Type</label>
-                            <select id="flower-type" name="type">
-                                <option value="Rose">Rose</option>
-                                <option value="Tulip">Tulip</option>
-                                <option value="Lily">Lily</option>
-                                <option value="Orchid">Orchid</option>
-                                <option value="Sunflower">Sunflower</option>
-                                <option value="Hydrangea">Hydrangea</option>
-                                <option value="Gypsophila (Baby’s Breath)">Gypsophila (Baby’s Breath)</option>
-                                <option value="Carnation">Carnation</option>
-                                <option value="Chrysanthemum">Chrysanthemum</option>
-                                <option value="Peony (Seasonal)">Peony (Seasonal)</option>
-                                <option value="Anthurium">Anthurium</option>
-                            </select>
-                        </div>
-                        <div class="form-filed full-width">
-                            <h4 style="margin:0 0 6px 0;">Flower Addons </h4>
-                        </div>
-                        <div class="form-filed full-width">
-
-                        </div>
-                        <div class="form-filed full-width">
-
-                        </div>
-                        <div class="form-field">
-                            <label>Flower Color</label>
-                            <div class="checkbox-group" id="flower-color-group">
-                                <label><input type="checkbox" name="flowerColor[]" value="Red"> Red</label>
-                                <label><input type="checkbox" name="flowerColor[]" value="Pink"> Pink</label>
-                                <label><input type="checkbox" name="flowerColor[]" value="White"> White</label>
-                                <label><input type="checkbox" name="flowerColor[]" value="Purple"> Purple</label>
-                                <label><input type="checkbox" name="flowerColor[]" value="Yellow"> Yellow</label>
-                                <label><input type="checkbox" name="flowerColor[]" value="Orange"> Orange</label>
-                                <label><input type="checkbox" name="flowerColor[]" value="Mixed"> Mixed</label>
+                    <div class="form-section">
+                        <h4>Basic Information</h4>
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="flower-name">Flower Name *</label>
+                                <input type="text" id="flower-name" name="name" required
+                                    placeholder="Enter flower name">
+                            </div>
+                            <div class="form-group">
+                                <label for="flower-basePrice">Base Price (SAR) *</label>
+                                <input type="number" id="flower-basePrice" name="basePrice" min="0" step="0.01" required
+                                    placeholder="0.00">
                             </div>
                         </div>
+                        <div class="form-group">
+                            <label for="flower-description">Description</label>
+                            <textarea id="flower-description" name="description" rows="3"
+                                placeholder="Enter flower description"></textarea>
+                        </div>
+                    </div>
 
-                        <div class="form-field">
-                            <label>Stem Count / Size</label>
-                            <div class="checkbox-group" id="flower-stemCount-group">
-                                <label><input type="checkbox" name="stemCount[]" value="Small (5–7)"> Small
-                                    (5–7)</label>
-                                <label><input type="checkbox" name="stemCount[]" value="Medium (10–15)"> Medium
-                                    (10–15)</label>
-                                <label><input type="checkbox" name="stemCount[]" value="Large (20+)"> Large
-                                    (20+)</label>
-                                <label><input type="checkbox" name="stemCount[]" value="Custom"> Custom</label>
+                    <div class="form-section">
+                        <h4>Flower Type & Specifications</h4>
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="flower-type">Flower Type *</label>
+                                <select id="flower-type" name="type" required>
+                                    <option value="">Select Type</option>
+                                    <option value="Rose">Rose</option>
+                                    <option value="Tulip">Tulip</option>
+                                    <option value="Lily">Lily</option>
+                                    <option value="Orchid">Orchid</option>
+                                    <option value="Sunflower">Sunflower</option>
+                                    <option value="Hydrangea">Hydrangea</option>
+                                    <option value="Gypsophila">Gypsophila (Baby's Breath)</option>
+                                    <option value="Carnation">Carnation</option>
+                                    <option value="Chrysanthemum">Chrysanthemum</option>
+                                    <option value="Peony">Peony (Seasonal)</option>
+                                    <option value="Anthurium">Anthurium</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label for="flower-scope">Product Type *</label>
+                                <select id="flower-scope" name="scope" required>
+                                    <option value="special">Special</option>
+                                    <option value="general">General</option>
+                                </select>
                             </div>
                         </div>
+                    </div>
 
-                        <div class="form-field">
-                            <label>Fillers & Greens</label>
-                            <div class="checkbox-group" id="flower-fillersGreens-group">
-                                <label><input type="checkbox" name="fillersGreens[]" value="nothing"> Nothing</label>
-                                <label><input type="checkbox" name="fillersGreens[]" value="Gypsophila">
-                                    Gypsophila</label>
-                                <label><input type="checkbox" name="fillersGreens[]" value="Eucalyptus">
-                                    Eucalyptus</label>
-                                <label><input type="checkbox" name="fillersGreens[]" value="Ruscus"> Ruscus</label>
-                                <label><input type="checkbox" name="fillersGreens[]" value="Fern"> Fern</label>
-                                <label><input type="checkbox" name="fillersGreens[]" value="Lemon Leaf"> Lemon
-                                    Leaf</label>
-                            </div>
-                        </div>
-
-                        <div class="form-field">
-                            <label>Packaging</label>
-                            <div class="checkbox-group" id="flower-packaging-group">
-                                <label><input type="checkbox" name="packaging[]" value="Transparent">
-                                    Transparent</label>
-                                <label><input type="checkbox" name="packaging[]" value="Kraft Paper"> Kraft
-                                    Paper</label>
-                                <label><input type="checkbox" name="packaging[]" value="Fabric / Satin"> Fabric /
-                                    Satin</label>
-                                <label><input type="checkbox" name="packaging[]" value="Matte Black"> Matte
-                                    Black</label>
-                                <label><input type="checkbox" name="packaging[]" value="Luxury Box"> Luxury Box</label>
-                            </div>
-                        </div>
-
-                        <div class="form-field">
-                            <label>Ribbon Color</label>
-                            <div class="checkbox-group" id="flower-ribbonColor-group">
-                                <label><input type="checkbox" name="ribbonColor[]" value="White"> White</label>
-                                <label><input type="checkbox" name="ribbonColor[]" value="Pink"> Pink</label>
-                                <label><input type="checkbox" name="ribbonColor[]" value="Black"> Black</label>
-                                <label><input type="checkbox" name="ribbonColor[]" value="Gold"> Gold</label>
-                                <label><input type="checkbox" name="ribbonColor[]" value="Red"> Red</label>
-                            </div>
-                        </div>
-
-                        <div class="form-field">
-                            <label for="flower-greetingCard">Greeting Card</label>
-                            <select id="flower-greetingCard" name="greetingCard">
-                                <option value="No">No</option>
-                                <option value="Yes">Yes</option>
-                            </select>
-                        </div>
-                        <div class="form-field ">
-                            <label for="flower-greetingText">Greeting Card Text (optional)</label>
-                            <input type="text" id="flower-greetingText" name="greetingText"
-                                placeholder="Your custom message">
-                        </div>
-
-                        <div class="form-field" ;">
-                            <label>Accessories</label>
-                            <div class="checkbox-group" id="flower-accessories-group">
-                                <label><input type="checkbox" name="accessories[]" value="nothing"> Nothing</label>
-                                <label><input type="checkbox" name="accessories[]" value="Chocolate"> Chocolate</label>
-                                <label><input type="checkbox" name="accessories[]" value="Teddy Bear"> Teddy
-                                    Bear</label>
-                                <label><input type="checkbox" name="accessories[]" value="Helium Balloon"> Helium
-                                    Balloon</label>
-                                <label><input type="checkbox" name="accessories[]" value="LED Lights"> LED
-                                    Lights</label>
-                                <label><input type="checkbox" name="accessories[]" value="Light Perfume for Bouquet">
-                                    Light Perfume for Bouquet</label>
-                            </div>
-                        </div>
-
-                        <div class="form-field ">
-                            <label>Arrangement Style</label>
-                            <div class="checkbox-group" id="flower-arrangementStyle-group">
-                                <label><input type="checkbox" name="arrangementStyle[]" value="Classic & Balanced">
-                                    Classic & Balanced</label>
-                                <label><input type="checkbox" name="arrangementStyle[]" value="Modern / Minimal"> Modern
-                                    / Minimal</label>
-                                <label><input type="checkbox" name="arrangementStyle[]" value="Natural “Wild”"> Natural
-                                    “Wild”</label>
-                            </div>
-                        </div>
-                        <div class="form-field">
-                            <label for="flower-available">Available</label>
-                            <select id="flower-available" name="available">
-                                <option value="true">Yes</option>
-                                <option value="false">No</option>
+                    <div class="form-section">
+                        <h4>Flower Colors</h4>
+                        <div class="form-group">
+                            <label for="flower-colors">Select Colors *</label>
+                            <select id="flower-colors" name="flowerColor" class="select2-multiple" multiple required>
+                                <option value="Red">Red</option>
+                                <option value="Pink">Pink</option>
+                                <option value="White">White</option>
+                                <option value="Purple">Purple</option>
+                                <option value="Yellow">Yellow</option>
+                                <option value="Orange">Orange</option>
+                                <option value="Mixed">Mixed</option>
                             </select>
                         </div>
                     </div>
 
+                    <div class="form-section">
+                        <h4>Size & Stem Count</h4>
+                        <div class="form-group">
+                            <label for="flower-stemCount">Select Size/Stem Count *</label>
+                            <select id="flower-stemCount" name="stemCount" class="select2-multiple" multiple required>
+                                <option value="Small (5-7)">Small (5-7 stems)</option>
+                                <option value="Medium (10-15)">Medium (10-15 stems)</option>
+                                <option value="Large (20+)">Large (20+ stems)</option>
+                                <option value="Custom">Custom</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="form-section">
+                        <h4>Fillers & Greens</h4>
+                        <div class="form-group">
+                            <label for="flower-fillersGreens">Select Fillers & Greens</label>
+                            <select id="flower-fillersGreens" name="fillersGreens" class="select2-multiple" multiple>
+                                <option value="nothing">Nothing</option>
+                                <option value="Gypsophila">Gypsophila</option>
+                                <option value="Eucalyptus">Eucalyptus</option>
+                                <option value="Ruscus">Ruscus</option>
+                                <option value="Fern">Fern</option>
+                                <option value="Lemon Leaf">Lemon Leaf</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="form-section">
+                        <h4>Packaging & Presentation</h4>
+                        <div class="form-group">
+                            <label for="flower-packaging">Select Packaging</label>
+                            <select id="flower-packaging" name="packaging" class="select2-multiple" multiple>
+                                <option value="Transparent">Transparent</option>
+                                <option value="Paper">Paper</option>
+                                <option value="Fabric">Fabric</option>
+                                <option value="Basket">Basket</option>
+                                <option value="Vase">Vase</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="form-section">
+                        <h4>Ribbon & Accessories</h4>
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="flower-ribbonColor">Ribbon Color</label>
+                                <select id="flower-ribbonColor" name="ribbonColor" class="select2-multiple" multiple>
+                                    <option value="Red">Red</option>
+                                    <option value="Pink">Pink</option>
+                                    <option value="White">White</option>
+                                    <option value="Gold">Gold</option>
+                                    <option value="Silver">Silver</option>
+                                    <option value="Black">Black</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label for="flower-accessories">Accessories</label>
+                                <select id="flower-accessories" name="accessories" class="select2-multiple" multiple>
+                                    <option value="Greeting Card">Greeting Card</option>
+                                    <option value="Chocolate">Chocolate</option>
+                                    <option value="Teddy Bear">Teddy Bear</option>
+                                    <option value="Balloon">Balloon</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-section">
+                        <h4>Arrangement Style</h4>
+                        <div class="form-group">
+                            <label for="flower-arrangementStyle">Select Arrangement Style</label>
+                            <select id="flower-arrangementStyle" name="arrangementStyle" class="select2-multiple"
+                                multiple>
+                                <option value="Hand Bouquet">Hand Bouquet</option>
+                                <option value="Flower Box">Flower Box</option>
+                                <option value="Vase Arrangement">Vase Arrangement</option>
+                                <option value="Basket Arrangement">Basket Arrangement</option>
+                                <option value="Long Stem">Long-Stem Bouquet</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="form-section">
+                        <h4>Greeting Card</h4>
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="flower-greetingCard">Include Greeting Card</label>
+                                <select id="flower-greetingCard" name="greetingCard">
+                                    <option value="no">No</option>
+                                    <option value="yes">Yes</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label for="flower-greetingText">Greeting Text</label>
+                                <input type="text" id="flower-greetingText" name="greetingText"
+                                    placeholder="Enter greeting message">
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-section">
+                        <h4>Flower Image</h4>
+                        <div class="form-group">
+                            <div class="image-upload-container">
+                                <div class="image-preview" id="flowerImagePreview">
+                                    <i class="fas fa-cloud-upload-alt"></i>
+                                    <span>Click to upload flower image</span>
+                                </div>
+                                <input type="file" id="flower-primaryImage" name="primaryImage" accept="image/*" hidden>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-section">
+                        <h4>Availability</h4>
+                        <div class="form-group">
+                            <label class="checkbox-label">
+                                <input type="checkbox" id="flower-available" name="available" checked>
+                                <span class="checkmark"></span>
+                                Available for orders
+                            </label>
+                        </div>
+                    </div>
                 </form>
 
                 <!-- Flower Addon Form -->
