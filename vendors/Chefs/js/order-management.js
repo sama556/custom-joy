@@ -112,19 +112,93 @@ document.addEventListener('DOMContentLoaded', function() {
 
 function showOrderDetails(orderId) {
     // Update modal title
-    document.getElementById('orderIdTitle').textContent = `#${orderId}`;
-    
+    const titleEl = document.getElementById('orderIdTitle');
+    if (titleEl) titleEl.textContent = `#${orderId}`;
+
     // Get order data
     const orderData = getOrderData(orderId);
-    
-    // Get order data and generate HTML
-    
-    // Generate order details HTML
-    const orderDetailsHTML = generateOrderDetailsHTML(orderData);
-    
-    // Update modal content
-    document.getElementById('orderDetailsContent').innerHTML = orderDetailsHTML;
-    
+
+    // Populate fixed fields in the enhanced modal layout
+    try {
+        const setText = (id, val) => { const el = document.getElementById(id); if (el) el.textContent = val ?? '—'; };
+
+        setText('od_order_id', `#${orderData?.orderId || orderId}`);
+        setText('od_user_id', orderData?.userId);
+        setText('od_date', orderData?.orderDate);
+        setText('od_subtotal', orderData?.subtotal);
+        setText('od_delivery_fee', orderData?.deliveryFee);
+        setText('od_total', orderData?.total);
+        setText('od_initial_status', (orderData?.initialStatus || 'pending').toLowerCase());
+        setText('od_reason', orderData?.rejectionReason || '—');
+        setText('od_order_type', (orderData?.orderType || 'custom').toLowerCase());
+        setText('od_notes', orderData?.descriptiveNotes || orderData?.notes || '—');
+        setText('od_delivery_date', orderData?.deliveryDate);
+
+        const odStatus = document.getElementById('od_status');
+        if (odStatus) {
+            const status = (orderData?.orderStatus || 'processing').toLowerCase().replace(/\s+/g, '-');
+            odStatus.textContent = status;
+            odStatus.className = `status-badge status-${status}`;
+        }
+
+        // Images
+        const imgsWrap = document.getElementById('od_illustration_images');
+        if (imgsWrap) {
+            const refs = orderData?.referenceImages || [];
+            imgsWrap.innerHTML = refs.map(src => `<div class=\"image-item\"><img src=\"${src}\" alt=\"Illustration\"></div>`).join('');
+        }
+
+        // Items
+        const itemsWrap = document.getElementById('od_items');
+        if (itemsWrap) {
+            const items = orderData?.items || [];
+            itemsWrap.innerHTML = items.map(item => `
+                <div class="item-row">
+                    <div class="details-grid">
+                        <div class="detail-item"><span class="label">product_type</span><span>${item.productType || '—'}</span></div>
+                        <div class="detail-item"><span class="label">product_id</span><span>${item.productId || '—'}</span></div>
+                        <div class="detail-item"><span class="label">addon_type</span><span>${item.addonType || '—'}</span></div>
+                        <div class="detail-item"><span class="label">addon_id</span><span>${item.addonId || '—'}</span></div>
+                        <div class="detail-item"><span class="label">quantity</span><span>${item.quantity ?? '—'}</span></div>
+                        <div class="detail-item"><span class="label">price</span><span>${item.price || '—'}</span></div>
+                        ${item.total ? `<div class=\"detail-item\"><span class=\"label\">total</span><span>${item.total}</span></div>` : ''}
+                        <div class="detail-item detail-row"><span class="label">item_notes</span><span>${item.notes || '—'}</span></div>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        // Payment
+        setText('pay_order_id', `#${orderData?.orderId || orderId}`);
+        setText('pay_method', orderData?.paymentMethod || '—');
+        setText('pay_amount', orderData?.total || '—');
+        const payStatus = document.getElementById('pay_status');
+        if (payStatus) {
+            const ps = (orderData?.paymentStatus || 'paid').toLowerCase();
+            payStatus.textContent = ps;
+            payStatus.className = `status-badge status-${ps}`;
+        }
+        setText('pay_date', orderData?.orderDate || '—');
+
+        // Address
+        setText('addr_number', orderData?.addressId || orderData?.address?.id || '—');
+        setText('addr_user_number', orderData?.userId || '—');
+        setText('addr_supplier_number', '—');
+        setText('addr_name', orderData?.address?.name || '—');
+        setText('addr_city', orderData?.address?.street?.split(',')?.[0] || '—');
+        setText('addr_district', orderData?.address?.street?.split(',')?.[1] || '—');
+        setText('addr_street', orderData?.address?.building || '—');
+        setText('addr_additional', orderData?.address?.phone || '—');
+
+        // User Info (if present)
+        setText('user_number', orderData?.userId || '—');
+        setText('user_name', orderData?.customerName || orderData?.customer?.name || '—');
+        setText('user_email', orderData?.customer?.email || '—');
+        setText('user_mobile', orderData?.customer?.phone || orderData?.address?.phone || '—');
+    } catch (e) {
+        console.error('Failed to populate order details', e);
+    }
+
     // Show modal
     document.getElementById('orderDetailsModal').classList.add('open');
 }
@@ -153,7 +227,7 @@ function getOrderData(orderId) {
             notes: 'Please make sure the flowers are pink and white colors only. The cake should serve 50 people. Need delivery before 6 PM.',
             descriptiveNotes: 'Elegant wedding cake with fresh flower decoration. The couple wants a modern design with gold leaf details. Three-layer vanilla cake with buttercream frosting.',
             referenceImages: [
-                '../../../images/ceek3.jpg',
+                '../../../images/ceek2.jpg',
                 '../../../images/ceek4.jpg'
             ],
             address: {
@@ -327,8 +401,12 @@ function getOrderData(orderId) {
             notes: 'Wedding cake with specific design requirements',
             descriptiveNotes: 'Three-tier wedding cake with gold accents and fresh flowers',
             referenceImages: [
-                '../../../images/ceek3.jpg',
-                '../../../images/ceek4.jpg'
+                '../../images/ceek3.jpg',
+                '../../images/ceek4.jpg'
+            ],
+            referenceImages: [
+                '../../images/ceek3.jpg',
+                '../../images/ceek4.jpg'
             ],
             address: {
                 id: 'ADD-005',

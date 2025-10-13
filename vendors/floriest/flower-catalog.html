@@ -140,23 +140,26 @@
     <div class="modal-overlay" id="flowerModal" aria-hidden="true">
         <div class="modal large-modal">
             <div class="modal-header">
-                <h3 id="modalTitle"><i class="fas fa-seedling"></i> Add New Flower</h3>
-                <button class="modal-close" id="closeModal">&times;</button>
+                <h3><i class="fas fa-seedling"></i> <span id="modalTitle">Add New Flower</span></h3>
+                <button class="modal-close" id="closeModal">
+                    <i class="fas fa-times"></i>
+                </button>
             </div>
-            
-            <form id="flowerForm" class="modal-form">
-                <div class="form-tabs">
-                    <button type="button" class="tab-btn active" data-tab="basic">Basic Information</button>
-                    <button type="button" class="tab-btn" data-tab="addons">Flower Addons</button>
-                </div>
 
-                <!-- Basic Information Tab -->
-                <div class="tab-content active" id="basicTab">
+            <form id="flowerForm" class="modal-form">
+                <div class="form-section">
+                    <h4>Basic Information</h4>
                     <div class="form-row">
                         <div class="form-group">
                             <label for="flowerName">Flower Name *</label>
                             <input type="text" id="flowerName" name="flowerName" required placeholder="Enter flower name">
                         </div>
+                        <div class="form-group">
+                            <label for="basePrice">Base Price (SAR) *</label>
+                            <input type="number" id="basePrice" name="basePrice" min="0" step="0.01" required placeholder="0.00">
+                        </div>
+                    </div>
+                    <div class="form-row">
                         <div class="form-group">
                             <label for="flowerType">Flower Type *</label>
                             <select id="flowerType" name="flowerType" required>
@@ -174,9 +177,6 @@
                                 <option value="anthurium">Anthurium</option>
                             </select>
                         </div>
-                    </div>
-
-                    <div class="form-row">
                         <div class="form-group">
                             <label for="arrangementType">Arrangement Type *</label>
                             <select id="arrangementType" name="arrangementType" required>
@@ -189,6 +189,8 @@
                                 <option value="preserved">Preserved/Sustainable Flowers</option>
                             </select>
                         </div>
+                    </div>
+                    <div class="form-row">
                         <div class="form-group">
                             <label for="flowerSize">Size *</label>
                             <select id="flowerSize" name="flowerSize" required>
@@ -199,58 +201,46 @@
                                 <option value="custom">Custom</option>
                             </select>
                         </div>
-                    </div>
-
-                    <div class="form-row">
                         <div class="form-group">
-                            <label for="basePrice">Base Price (SAR) *</label>
-                            <input type="number" id="basePrice" name="basePrice" step="0.01" min="0" required placeholder="0.00">
-                        </div>
-                        <div class="form-group">
-                            <label for="availability">Availability</label>
-                            <div class="status-toggle">
-                                <input type="checkbox" id="availability" name="availability" checked>
-                                <label for="availability" class="toggle-slider">
-                                    <span class="toggle-text">Available</span>
-                                </label>
-                            </div>
+                            <label for="flowerCategory">Category</label>
+                            <select id="flowerCategory" name="flowerCategory">
+                                <option value="general">General</option>
+                                <option value="special">Special</option>
+                            </select>
                         </div>
                     </div>
+                </div>
 
+                <div class="form-section">
+                    <h4>Flower Image</h4>
                     <div class="form-group">
-                        <label>Flower Image</label>
                         <div class="image-upload-container">
-                            <div class="image-preview">
-                                <img id="flowerImagePreview" src="../../images/orcida.jpg" alt="Flower Preview">
-                                <div class="image-overlay">
-                                    <i class="fas fa-camera"></i>
-                                    <span>Upload Image</span>
-                                </div>
+                            <div class="image-preview" id="flowerImagePreviewContainer">
+                                <i class="fas fa-cloud-upload-alt"></i>
+                                <span>Click to upload flower image</span>
                             </div>
                             <input type="file" id="flowerImage" name="flowerImage" accept="image/*" hidden>
-                            <div class="upload-info">
-                                <p>Recommended size: 400x400 pixels</p>
-                                <p>Max file size: 2MB</p>
-                                <p>Formats: JPG, PNG, WebP</p>
-                            </div>
                         </div>
                     </div>
+                </div>
 
+                <div class="form-section">
+                    <h4>Availability</h4>
                     <div class="form-group">
-                        <label for="flowerCategory">Category</label>
-                        <select id="flowerCategory" name="flowerCategory">
-                            <option value="general">General</option>
-                            <option value="special">Special</option>
+                        <label for="availability">Available</label>
+                        <select id="availability" name="availability" required>
+                            <option value="yes" selected>Yes</option>
+                            <option value="no">No</option>
                         </select>
                     </div>
                 </div>
 
-                <!-- Addons Tab -->
-                <div class="tab-content" id="addonsTab">
-                    <div class="addons-section">
-                        <h4>Flower Color</h4>
+                <div class="form-section">
+                    <h4>Flower Addons</h4>
+                    <div class="form-row">
                         <div class="form-group">
-                            <select id="flowerColors" name="flowerColors" multiple class="select2-multi">
+                            <label for="flowerColors">Flower Color</label>
+                            <select id="flowerColors" name="flowerColors" class="select2-multi" multiple>
                                 <option value="red">Red</option>
                                 <option value="pink">Pink</option>
                                 <option value="white">White</option>
@@ -260,38 +250,9 @@
                                 <option value="mixed">Mixed Colors</option>
                             </select>
                         </div>
-                    </div>
-
-                    <div class="addons-section">
-                        <h4>Fillers & Greens</h4>
                         <div class="form-group">
-                            <select id="fillers" name="fillers" multiple class="select2-multi">
-                                <option value="gypsophila">Gypsophila</option>
-                                <option value="eucalyptus">Eucalyptus</option>
-                                <option value="ruscus">Ruscus</option>
-                                <option value="fern">Fern</option>
-                                <option value="lemon_leaf">Lemon Leaf</option>
-                            </select>
-                        </div>
-                    </div>
-
-                    <div class="addons-section">
-                        <h4>Packaging Options</h4>
-                        <div class="form-group">
-                            <select id="packaging" name="packaging" multiple class="select2-multi">
-                                <option value="transparent">Transparent Wrap</option>
-                                <option value="kraft">Kraft Paper</option>
-                                <option value="satin">Satin/Fabric</option>
-                                <option value="black_matte">Black Matte</option>
-                                <option value="luxury_box">Luxury Box</option>
-                            </select>
-                        </div>
-                    </div>
-
-                    <div class="addons-section">
-                        <h4>Ribbon Colors</h4>
-                        <div class="form-group">
-                            <select id="ribbonColors" name="ribbonColors" multiple class="select2-multi">
+                            <label for="ribbonColors">Ribbon Colors</label>
+                            <select id="ribbonColors" name="ribbonColors" class="select2-multi" multiple>
                                 <option value="white">White</option>
                                 <option value="pink">Pink</option>
                                 <option value="black">Black</option>
@@ -300,11 +261,32 @@
                             </select>
                         </div>
                     </div>
-
-                    <div class="addons-section">
-                        <h4>Accessories</h4>
+                    <div class="form-row">
                         <div class="form-group">
-                            <select id="accessories" name="accessories" multiple class="select2-multi">
+                            <label for="fillers">Fillers & Greens</label>
+                            <select id="fillers" name="fillers" class="select2-multi" multiple>
+                                <option value="gypsophila">Gypsophila</option>
+                                <option value="eucalyptus">Eucalyptus</option>
+                                <option value="ruscus">Ruscus</option>
+                                <option value="fern">Fern</option>
+                                <option value="lemon_leaf">Lemon Leaf</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="packaging">Packaging Options</label>
+                            <select id="packaging" name="packaging" class="select2-multi" multiple>
+                                <option value="transparent">Transparent Wrap</option>
+                                <option value="kraft">Kraft Paper</option>
+                                <option value="satin">Satin/Fabric</option>
+                                <option value="black_matte">Black Matte</option>
+                                <option value="luxury_box">Luxury Box</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="accessories">Accessories</label>
+                            <select id="accessories" name="accessories" class="select2-multi" multiple>
                                 <option value="chocolate">Chocolate</option>
                                 <option value="teddy_bear">Teddy Bear</option>
                                 <option value="balloon">Helium Balloon</option>
@@ -312,19 +294,15 @@
                                 <option value="perfume">Light Perfume</option>
                             </select>
                         </div>
-                    </div>
-
-                    <div class="addons-section">
-                        <h4>Arrangement Style</h4>
                         <div class="form-group">
-                            <select id="arrangementStyle" name="arrangementStyle" multiple class="select2-multi">
+                            <label for="arrangementStyle">Arrangement Style</label>
+                            <select id="arrangementStyle" name="arrangementStyle" class="select2-multi" multiple>
                                 <option value="classic">Classic Harmonious</option>
                                 <option value="modern">Modern/Minimal</option>
                                 <option value="wild">Wild Natural</option>
                             </select>
                         </div>
                     </div>
-
                     <div class="form-group">
                         <label for="greetingCard">Greeting Card Text (Optional)</label>
                         <textarea id="greetingCard" name="greetingCard" rows="3" placeholder="Enter custom greeting card text..."></textarea>

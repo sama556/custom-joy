@@ -19,7 +19,17 @@ document.addEventListener('DOMContentLoaded', function() {
     addFlowerBtn.addEventListener('click', function() {
         document.getElementById('modalTitle').innerHTML = '<i class="fas fa-seedling"></i> Add New Flower';
         flowerForm.reset();
-        document.getElementById('flowerImagePreview').src = '../../images/placeholder-image.jpg';
+        // Reset image preview (supports both legacy <img id="flowerImagePreview"> and new container)
+        const legacyPreviewImg = document.getElementById('flowerImagePreview');
+        const previewContainer = document.getElementById('flowerImagePreviewContainer');
+        if (legacyPreviewImg) {
+            legacyPreviewImg.src = '../../images/placeholder-image.jpg';
+        }
+        if (previewContainer) {
+            previewContainer.style.backgroundImage = '';
+            const hintSpan = previewContainer.querySelector('span');
+            if (hintSpan) hintSpan.style.opacity = '1';
+        }
         $('.select2-multi').val(null).trigger('change');
         flowerModal.style.display = 'flex';
     });
@@ -48,25 +58,44 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     });
 
-    // Image upload preview
+    // Image upload preview (supports legacy <img> preview and new container preview)
     const flowerImage = document.getElementById('flowerImage');
     const flowerImagePreview = document.getElementById('flowerImagePreview');
-    
-    flowerImage.addEventListener('change', function(e) {
-        const file = e.target.files[0];
-        if (file) {
-            const reader = new FileReader();
-            reader.onload = function(e) {
-                flowerImagePreview.src = e.target.result;
-            };
-            reader.readAsDataURL(file);
-        }
-    });
+    const flowerImagePreviewContainer = document.getElementById('flowerImagePreviewContainer');
 
-    // Trigger file input when clicking on image preview
-    flowerImagePreview.closest('.image-preview').addEventListener('click', function() {
-        flowerImage.click();
-    });
+    if (flowerImage) {
+        flowerImage.addEventListener('change', function(e) {
+            const file = e.target.files[0];
+            if (file) {
+                const reader = new FileReader();
+                reader.onload = function(ev) {
+                    if (flowerImagePreview) {
+                        flowerImagePreview.src = ev.target.result;
+                    }
+                    if (flowerImagePreviewContainer) {
+                        flowerImagePreviewContainer.style.backgroundImage = `url('${ev.target.result}')`;
+                        flowerImagePreviewContainer.style.backgroundSize = 'cover';
+                        flowerImagePreviewContainer.style.backgroundPosition = 'center';
+                        const hintSpan = flowerImagePreviewContainer.querySelector('span');
+                        if (hintSpan) hintSpan.style.opacity = '0';
+                    }
+                };
+                reader.readAsDataURL(file);
+            }
+        });
+
+        // Trigger file input when clicking on preview area
+        if (flowerImagePreview && flowerImagePreview.closest('.image-preview')) {
+            flowerImagePreview.closest('.image-preview').addEventListener('click', function() {
+                flowerImage.click();
+            });
+        }
+        if (flowerImagePreviewContainer) {
+            flowerImagePreviewContainer.addEventListener('click', function() {
+                flowerImage.click();
+            });
+        }
+    }
 
     // Edit and Delete buttons functionality
     document.querySelectorAll('.edit-flower').forEach(btn => {

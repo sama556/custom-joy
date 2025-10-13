@@ -1271,6 +1271,101 @@ document.addEventListener('DOMContentLoaded', function () {
                 if (galleryEl && galleryEl.type !== 'file') galleryEl.value = gallery;
             }
         }
+        // Initialize Select2 for any multi-selects in the active form
+        try {
+            if (window.jQuery && $.fn.select2) {
+                $(form).find('.select2-multiple').select2({
+                    placeholder: 'Select options',
+                    allowClear: true,
+                    width: '100%',
+                    closeOnSelect: false
+                });
+                $(form).find('.select2').select2({ width: '100%' });
+            }
+        } catch (e) { /* no-op */ }
+
+        // Wire image preview click + file selection like catalog pages
+        try {
+            const cakePreview = document.getElementById('productsCakeImagePreview');
+            const cakeFile = document.getElementById('cake-primaryImage');
+            if (cakePreview && cakeFile) {
+                cakePreview.addEventListener('click', () => cakeFile.click(), { once: true });
+                cakeFile.addEventListener('change', (e) => {
+                    const f = e.target.files?.[0];
+                    if (!f) return;
+                    const reader = new FileReader();
+                    reader.onload = (ev) => {
+                        cakePreview.style.backgroundImage = `url('${ev.target.result}')`;
+                        cakePreview.classList.add('has-image');
+                    };
+                    reader.readAsDataURL(f);
+                }, { once: true });
+            }
+
+            const flowerPreview = document.getElementById('productsFlowerImagePreview');
+            const flowerFile = document.getElementById('flower-primaryImage');
+            if (flowerPreview && flowerFile) {
+                flowerPreview.addEventListener('click', () => flowerFile.click(), { once: true });
+                flowerFile.addEventListener('change', (e) => {
+                    const f = e.target.files?.[0];
+                    if (!f) return;
+                    const reader = new FileReader();
+                    reader.onload = (ev) => {
+                        flowerPreview.style.backgroundImage = `url('${ev.target.result}')`;
+                        flowerPreview.classList.add('has-image');
+                    };
+                    reader.readAsDataURL(f);
+                }, { once: true });
+            }
+        } catch (_) { /* no-op */ }
+
+        // Populate cake addon options by option type
+        try {
+            if (editing.entity === 'cakeAddon') {
+                const typeSel = document.getElementById('cakeAddon-optionTypeName');
+                const nameSel = document.getElementById('cakeAddon-optionName');
+                const optionMap = {
+                    'Flavor': ['Vanilla','Chocolate','Red Velvet','Coffee','Lemon','Pistachio','Lotus','Oreo'],
+                    'Fillings': ['Nothing','Chocolate Ganache','Pastry Cream','Caramel','Lotus','Strawberry','Mixed Berries','Nutella'],
+                    'Frosting': ['Butter Cream','Whipped Cream','Cream Cheese','Ganache','Fondant'],
+                    'Shape': ['Round','Square','Rectangle','Heart'],
+                    'Size': ['6"','8"','10"','12"','Small','Medium','Large'],
+                    'Colors': ['White','Gold','Pink','Blue','Black'],
+                    'Decorations': ['Nothing','Sprinkles','Chocolate Shavings','Fresh Fruits','Nuts'],
+                    'Candles': ['Regular','Digital','Sparkler'],
+                    'Topper': ['Happy Birthday','Names','Numbers','Acrylic','Paper']
+                };
+                const repopulate = () => {
+                    const t = typeSel.value;
+                    const items = optionMap[t] || [];
+                    nameSel.innerHTML = items.map(v => `<option value="${v}">${v}</option>`).join('');
+                    if (window.jQuery && $.fn.select2) {
+                        $(nameSel).val(null).trigger('change');
+                    }
+                };
+                if (typeSel && nameSel) {
+                    typeSel.addEventListener('change', repopulate);
+                    repopulate();
+                }
+                // Image preview for addon
+                const addonPreview = document.getElementById('productsCakeAddonImagePreview');
+                const addonFile = document.getElementById('cakeAddon-image');
+                if (addonPreview && addonFile) {
+                    addonPreview.addEventListener('click', () => addonFile.click(), { once: true });
+                    addonFile.addEventListener('change', (e) => {
+                        const f = e.target.files?.[0];
+                        if (!f) return;
+                        const r = new FileReader();
+                        r.onload = (ev) => {
+                            addonPreview.style.backgroundImage = `url('${ev.target.result}')`;
+                            addonPreview.classList.add('has-image');
+                        };
+                        r.readAsDataURL(f);
+                    }, { once: true });
+                }
+            }
+        } catch (__) { /* no-op */ }
+
         openModal(productModal);
     }
 

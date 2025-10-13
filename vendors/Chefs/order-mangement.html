@@ -6,6 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Admin Dashboard - Order Management</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="css/orders.css">
     <link rel="stylesheet" href="css/profile.css">
     <link rel="stylesheet" href="css/order-management.css">
 </head>
@@ -365,8 +366,71 @@
                 </button>
             </div>
             <div class="modal-body">
-                <div id="orderDetailsContent">
-                    <!-- Order details will be dynamically loaded here -->
+                <div class="modal-content enhanced-modal-content">
+                    <div class="enhanced-content">
+                        <div class="detail-section">
+                            <h4><i class="fas fa-info-circle"></i> Order Information</h4>
+                            <div class="details-grid">
+                                <div class="detail-item"><span class="label">order_id</span><span id="od_order_id">#ORD-001</span></div>
+                                <div class="detail-item"><span class="label">user_id</span><span id="od_user_id">USR-1001</span></div>
+                                <div class="detail-item"><span class="label">date</span><span id="od_date">2025-01-15</span></div>
+                                <div class="detail-item"><span class="label">subtotal</span><span id="od_subtotal">﷼90.00</span></div>
+                                <div class="detail-item"><span class="label">delivery_fee</span><span id="od_delivery_fee">﷼5.00</span></div>
+                                <div class="detail-item"><span class="label">total</span><span id="od_total">﷼95.00</span></div>
+                                <div class="detail-item"><span class="label">status</span><span id="od_status" class="status-badge status-processing">processing</span></div>
+                                <div class="detail-item"><span class="label">initial_status</span><span id="od_initial_status">pending</span></div>
+                                <div class="detail-item"><span class="label">reason</span><span id="od_reason">—</span></div>
+                                <div class="detail-item"><span class="label">order_type</span><span id="od_order_type">custom</span></div>
+                                <div class="detail-item detail-row"><span class="label">notes</span><span id="od_notes">—</span></div>
+                                <div class="detail-item"><span class="label">delivery_date</span><span id="od_delivery_date">2025-01-20</span></div>
+                            </div>
+                            <div class="illustrations">
+                                <div class="subheader"><i class="fas fa-images"></i> Illustration Images</div>
+                                <div class="images-grid" id="od_illustration_images"></div>
+                                <div class="detail-item detail-row"><span class="label">illustration_description</span><span id="od_illustration_description">—</span></div>
+                            </div>
+                        </div>
+
+                        <div class="detail-section">
+                            <h4><i class="fas fa-box"></i> Order Items</h4>
+                            <div class="items-list" id="od_items"></div>
+                        </div>
+
+                        <div class="detail-section">
+                            <h4><i class="fas fa-credit-card"></i> Payment</h4>
+                            <div class="details-grid">
+                                <div class="detail-item"><span class="label">order_id</span><span id="pay_order_id">#ORD-001</span></div>
+                                <div class="detail-item"><span class="label">payment_method</span><span id="pay_method">card</span></div>
+                                <div class="detail-item"><span class="label">amount</span><span id="pay_amount">﷼95.00</span></div>
+                                <div class="detail-item"><span class="label">payment_status</span><span id="pay_status" class="status-badge status-paid">paid</span></div>
+                                <div class="detail-item"><span class="label">payment_date</span><span id="pay_date">2025-01-15</span></div>
+                            </div>
+                        </div>
+
+                        <div class="detail-section">
+                            <h4><i class="fas fa-map-marker-alt"></i> Address</h4>
+                            <div class="details-grid">
+                                <div class="detail-item"><span class="label">Number</span><span id="addr_number">—</span></div>
+                                <div class="detail-item"><span class="label">User Number</span><span id="addr_user_number">—</span></div>
+                                <div class="detail-item"><span class="label">Supplier Number</span><span id="addr_supplier_number">—</span></div>
+                                <div class="detail-item detail-row"><span class="label">Address Name</span><span id="addr_name">—</span></div>
+                                <div class="detail-item"><span class="label">City</span><span id="addr_city">—</span></div>
+                                <div class="detail-item"><span class="label">District</span><span id="addr_district">—</span></div>
+                                <div class="detail-item"><span class="label">Street</span><span id="addr_street">—</span></div>
+                                <div class="detail-item detail-row"><span class="label">Additional Details</span><span id="addr_additional">—</span></div>
+                            </div>
+                        </div>
+
+                        <div class="detail-section">
+                            <h4><i class="fas fa-user"></i> User Info</h4>
+                            <div class="details-grid">
+                                <div class="detail-item"><span class="label">User number</span><span id="user_number">USR-1001</span></div>
+                                <div class="detail-item detail-row"><span class="label">Name</span><span id="user_name">—</span></div>
+                                <div class="detail-item"><span class="label">Email</span><span id="user_email">—</span></div>
+                                <div class="detail-item"><span class="label">Mobile number</span><span id="user_mobile">—</span></div>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
             <div class="modal-actions">

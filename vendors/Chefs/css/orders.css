@@ -3868,7 +3868,7 @@
 }
 
 .modal-header {
-    background: linear-gradient(135deg, #FF4FA1 0%, #368BFF 100%);
+    background: var(--dark-navy);
     color: var(--white);
     padding: 20px 24px;
     display: flex;

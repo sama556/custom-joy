@@ -42,9 +42,7 @@
         <!-- Catalog Header -->
         <div class="catalog-header">
             <div class="catalog-actions">
-                <button class="btn btn-primary" id="addCakeBtn">
-                    <i class="fas fa-plus"></i> Add New Cake
-                </button>
+               
                 <div class="search-box">
                     <i class="fas fa-search"></i>
                     <input type="text" placeholder="Search cakes..." id="searchCakes">
@@ -61,6 +59,9 @@
                     <option value="special">Special</option>
                     <option value="general">General</option>
                 </select>
+                <button class="btn btn-primary" id="addCakeBtn">
+                    <i class="fas fa-plus"></i> Add New Cake
+                </button>
             </div>
         </div>
 
@@ -366,11 +367,11 @@
                 <div class="form-section">
                     <h4>Availability</h4>
                     <div class="form-group">
-                        <label class="checkbox-label">
-                            <input type="checkbox" id="isAvailable" name="isAvailable" checked>
-                            <span class="checkmark"></span>
-                            Available for orders
-                        </label>
+                        <label for="isAvailable">Available</label>
+                        <select id="isAvailable" name="isAvailable" required>
+                            <option value="yes" selected>Yes</option>
+                            <option value="no">No</option>
+                        </select>
                     </div>
                 </div>
 

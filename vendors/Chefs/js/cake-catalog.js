@@ -218,7 +218,7 @@ function handleCakeSubmission() {
         candles: candles,
         topper: topper,
         packaging: packaging,
-        isAvailable: formData.get('isAvailable') === 'on'
+        isAvailable: formData.get('isAvailable') === 'yes'
     };
 
     // Simulate API call
