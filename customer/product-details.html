@@ -1,0 +1,466 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Royal Chocolate Cake - Product Details | Custom Joy</title>
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="./css/style.css">
+    <link rel="stylesheet" href="./css/product-details.css">
+</head>
+
+<body class="product-details-page">
+    <div class="animated-bg"></div>
+
+    <!-- Navigation -->
+    <nav class="navbar navbar-expand-lg navbar-dark sticky-top">
+        <div class="container">
+            <a class="navbar-brand" href="index.html" data-aos="fade-right"><img class="logo" src="../images/logo.png"
+                    alt="logo"></a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto align-items-lg-center">
+                    <li class="nav-item" data-aos="fade-down" data-aos-delay="100"><a class="nav-link"
+                            href="./index.html#top">Home</a></li>
+                    <li class="nav-item" data-aos="fade-down" data-aos-delay="150"><a class="nav-link"
+                            href="./index.html#services">Services</a></li>
+                    <li class="nav-item" data-aos="fade-down" data-aos-delay="200"><a class="nav-link"
+                            href="./index.html#products">Products</a></li>
+                    <li class="nav-item" data-aos="fade-down" data-aos-delay="250"><a class="nav-link"
+                            href="./index.html#contact">Contact</a></li>
+                    <li class="nav-item" data-aos="fade-down" data-aos-delay="300"><a class="nav-link"
+                            href="chef.html">Service Providers</a></li>
+                    <li class="nav-item" data-aos="fade-down" data-aos-delay="310"><a class="nav-link"
+                            href="themes.html">Themes</a></li>
+                    <li class="nav-item" data-aos="fade-down" data-aos-delay="320"><a class="nav-link"
+                            href="ads.html">Ads</a></li>
+                    <li class="nav-item ms-lg-3 mt-3 mt-lg-0" data-aos="fade-down" data-aos-delay="330">
+                        <a class="nav-link position-relative" href="#" title="Wishlist">
+                            <i class="fas fa-heart"></i>
+                            <span id="wishlistCount"
+                                class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">0</span>
+                        </a>
+                    </li>
+                    <li class="nav-item ms-lg-2 mt-3 mt-lg-0" data-aos="fade-down" data-aos-delay="340">
+                        <a class="nav-link position-relative" href="#" title="Cart">
+                            <i class="fas fa-shopping-cart"></i>
+                            <span id="cartCount"
+                                class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-primary">0</span>
+                        </a>
+                    </li>
+                    <li class="nav-item dropdown ms-lg-3 mt-2 mt-lg-0" data-aos="fade-down" data-aos-delay="350">
+                        <a class="nav-link dropdown-toggle d-flex align-items-center" href="#" role="button"
+                            data-bs-toggle="dropdown" aria-expanded="false">
+                            <img src="../images/avater.jpg" alt="Avatar" class="rounded-circle me-2"
+                                style="width:28px;height:28px;object-fit:cover;">
+                            <span>Account</span>
+                        </a>
+                        <ul class="dropdown-menu dropdown-menu-end">
+                            <li><a class="dropdown-item" href="#">My Account</a></li>
+                            <li><a class="dropdown-item" href="#">Orders</a></li>
+                            <li>
+                                <hr class="dropdown-divider">
+                            </li>
+                            <li><a id="logoutBtn" class="dropdown-item" href="#">Logout</a></li>
+                        </ul>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Breadcrumb -->
+    <section class="py-4">
+        <div class="container">
+            <nav aria-label="breadcrumb" data-aos="fade-up">
+                <ol class="breadcrumb">
+                    <li class="breadcrumb-item"><a href="index.html" class="text-decoration-none">Home</a></li>
+                    <li class="breadcrumb-item"><a href="products.html" class="text-decoration-none">Products</a></li>
+                    <li class="breadcrumb-item active" aria-current="page">Royal Chocolate Cake</li>
+                </ol>
+            </nav>
+        </div>
+    </section>
+
+    <!-- Product Details -->
+    <section class="py-5">
+        <div class="container">
+            <div class="row">
+                <!-- Product Gallery -->
+                <div class="col-lg-6 mb-4" data-aos="fade-right">
+                    <div class="product-gallery">
+                        <img id="mainImage" src="../images/product1.avif" alt="Royal Chocolate Cake" class="main-image">
+                        <div class="thumbnail-gallery">
+                            <img src="../images/ceek1.jpg" alt="Royal Chocolate Cake" class="thumbnail active"
+                                onclick="changeImage(this)">
+                            <img src="../images/ceek3.jpg" alt="Strawberry Cake" class="thumbnail"
+                                onclick="changeImage(this)">
+                            <img src="../images/ceek5.jpg" alt="Red Velvet Cake" class="thumbnail"
+                                onclick="changeImage(this)">
+                            <img src="../images/ceek4.jpg" alt="Vanilla Cake" class="thumbnail"
+                                onclick="changeImage(this)">
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Product Information -->
+                <div class="col-lg-6 mb-4" data-aos="fade-left">
+                    <div class="product-info-card">
+                        <h1 class="product-title">Royal Chocolate Cake</h1>
+
+                        <div class="product-rating">
+                            <div class="stars">
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star-half-alt"></i>
+                            </div>
+                            <span class="rating-text">4.8 (124 reviews)</span>
+                        </div>
+
+                        <div class="product-price">SAR 199</div>
+
+                        <p class="product-description">
+                            Indulge in our premium Royal Chocolate Cake, crafted with the finest Belgian chocolate and
+                            layered with rich chocolate ganache. This decadent masterpiece is perfect for special
+                            celebrations and will leave your guests craving for more.
+                        </p>
+
+                        <div class="quantity-selector">
+                            <label class="form-label fw-bold">Quantity:</label>
+                            <div class="quantity-controls">
+                                <button class="quantity-btn" onclick="decreaseQuantity()">
+                                    <i class="fas fa-minus"></i>
+                                </button>
+                                <input type="number" class="quantity-input" id="quantity" value="1" min="1" max="10">
+                                <button class="quantity-btn" onclick="increaseQuantity()">
+                                    <i class="fas fa-plus"></i>
+                                </button>
+                            </div>
+                        </div>
+
+                        <div class="d-flex gap-3 mb-4">
+                            <button class="btn btn-add-to-cart"
+                                onclick="event.stopImmediatePropagation(); addToCartInline()">
+                                <i class="fas fa-shopping-cart"></i>
+                                Add to Cart
+                            </button>
+                            <button class="btn btn-customize" onclick="scrollToCustomization()">
+                                <i class="fas fa-cog"></i>
+                                Customize
+                            </button>
+                        </div>
+
+                        <div class="row text-center">
+                            <div class="col-4">
+                                <div class="feature-highlight">
+                                    <i class="fas fa-shipping-fast text-primary mb-2" style="font-size: 1.5rem;"></i>
+                                    <p class="mb-0 small">Free Delivery</p>
+                                </div>
+                            </div>
+                            <div class="col-4">
+                                <div class="feature-highlight">
+                                    <i class="fas fa-shield-alt text-success mb-2" style="font-size: 1.5rem;"></i>
+                                    <p class="mb-0 small">Quality Guarantee</p>
+                                </div>
+                            </div>
+                            <div class="col-4">
+                                <div class="feature-highlight">
+                                    <i class="fas fa-clock text-warning mb-2" style="font-size: 1.5rem;"></i>
+                                    <p class="mb-0 small">Fresh Daily</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+
+    <!-- Chef Information & Order Features -->
+    <section class="py-5">
+        <div class="container">
+            <div class="chef-section" data-aos="fade-up">
+                <h3 class="mb-4">Meet Our Chef & Customer Reviews</h3>
+                <div class="row">
+                    <!-- Chef Information Column -->
+                    <div class="col-lg-6 mb-4">
+                        <div class="chef-info-card" onclick="window.location.href='chef-profile.html'"
+                            style="cursor: pointer;">
+                            <div class="chef-header">
+                                <div class="chef-image-container">
+                                    <img src="../images/avater.jpg" alt="Chef Ahmed Al-Rashid" class="chef-image">
+                                    <div class="chef-badge">
+                                        <i class="fas fa-award"></i>
+                                    </div>
+                                </div>
+                                <div class="chef-basic-info">
+                                    <h4 class="chef-name">Chef Ahmed Al-Rashid</h4>
+                                    <p class="chef-title">Master Pastry Chef</p>
+                                </div>
+                            </div>
+                            <p class="chef-description">
+                                With over 15 years of experience in the culinary arts, Chef Ahmed specializes in
+                                creating
+                                exquisite chocolate masterpieces. Trained in Paris and London, he brings international
+                                expertise to every creation.
+                            </p>
+                            <div class="chef-stats">
+                                <div class="stat-item">
+                                    <div class="stat-icon">
+                                        <i class="fas fa-star"></i>
+                                    </div>
+                                    <div class="stat-content">
+                                        <div class="stat-value">4.9</div>
+                                        <div class="stat-label">Average Rating</div>
+                                    </div>
+                                </div>
+                                <div class="stat-item">
+                                    <div class="stat-icon">
+                                        <i class="fas fa-utensils"></i>
+                                    </div>
+                                    <div class="stat-content">
+                                        <div class="stat-value">2,847</div>
+                                        <div class="stat-label">Orders Completed</div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="chef-achievements">
+                                <span class="achievement-badge">
+                                    <i class="fas fa-medal"></i>
+                                    Michelin Trained
+                                </span>
+                                <span class="achievement-badge">
+                                    <i class="fas fa-certificate"></i>
+                                    Certified Master Chef
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Customer Reviews Column -->
+                    <div class="col-lg-6 mb-4">
+                        <div class="reviews-section" data-aos="fade-up">
+                            <h3 class="mb-4">Customer Reviews</h3>
+
+                            <div class="review-item">
+                                <div class="review-header">
+                                    <div>
+                                        <div class="reviewer-name">Sarah Ahmed</div>
+                                        <div class="stars">
+                                            <i class="fas fa-star"></i>
+                                            <i class="fas fa-star"></i>
+                                            <i class="fas fa-star"></i>
+                                            <i class="fas fa-star"></i>
+                                            <i class="fas fa-star"></i>
+                                        </div>
+                                    </div>
+                                    <div class="review-date">2 days ago</div>
+                                </div>
+                                <p class="mb-0">Absolutely amazing! The chocolate was so rich and the cake was perfectly
+                                    moist. Will
+                                    definitely order again for my daughter's birthday.</p>
+                            </div>
+
+                            <div class="review-item">
+                                <div class="review-header">
+                                    <div>
+                                        <div class="reviewer-name">Mohammed Al-Rashid</div>
+                                        <div class="stars">
+                                            <i class="fas fa-star"></i>
+                                            <i class="fas fa-star"></i>
+                                            <i class="fas fa-star"></i>
+                                            <i class="fas fa-star"></i>
+                                            <i class="far fa-star"></i>
+                                        </div>
+                                    </div>
+                                    <div class="review-date">1 week ago</div>
+                                </div>
+                                <p class="mb-0">Great quality and taste. The delivery was on time and the packaging was
+                                    excellent.
+                                    Highly recommended!</p>
+                            </div>
+
+                            <div class="review-item">
+                                <div class="review-header">
+                                    <div>
+                                        <div class="reviewer-name">Fatima Hassan</div>
+                                        <div class="stars">
+                                            <i class="fas fa-star"></i>
+                                            <i class="fas fa-star"></i>
+                                            <i class="fas fa-star"></i>
+                                            <i class="fas fa-star"></i>
+                                            <i class="fas fa-star"></i>
+                                        </div>
+                                    </div>
+                                    <div class="review-date">2 weeks ago</div>
+                                </div>
+                                <p class="mb-0">Perfect for our anniversary celebration. The cake was beautiful and
+                                    tasted
+                                    incredible. Thank you Custom Joy!</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+
+
+    <!-- Related Products -->
+    <section class="py-5">
+        <div class="container">
+            <div class="related-products" data-aos="fade-up">
+                <h3 class="section-title mb-5"> Related Products</h3>
+                <div class="row">
+                    <div class="col-md-4 mb-4">
+                        <div class="related-product-card" onclick="viewRelatedProduct(2)" style="cursor: pointer;">
+                            <img src="../images/ceek1.jpg" alt="Vanilla Dream Cake" class="related-product-img">
+                            <div class="related-product-info">
+                                <h5 class="related-product-title">Vanilla Dream Cake</h5>
+                                <div class="stars mb-2">
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star-half-alt"></i>
+                                </div>
+                                <div class="related-product-price">SAR 179</div>
+                                <button class="btn btn-add-cart w-100 mt-2"
+                                    onclick="event.stopImmediatePropagation(); addRelatedInline(2)">
+                                    <i class="fas fa-shopping-cart"></i> Add to Cart
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-4 mb-4">
+                        <div class="related-product-card" onclick="viewRelatedProduct(4)" style="cursor: pointer;">
+                            <img src="../images/ceek5.jpg" alt="Red Velvet Cake" class="related-product-img">
+                            <div class="related-product-info">
+                                <h5 class="related-product-title">Red Velvet Cake</h5>
+                                <div class="stars mb-2">
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                </div>
+                                <div class="related-product-price">SAR 219</div>
+                                <button class="btn btn-add-cart w-100 mt-2"
+                                    onclick="event.stopImmediatePropagation(); addRelatedInline(4)">
+                                    <i class="fas fa-shopping-cart"></i> Add to Cart
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-4 mb-4">
+                        <div class="related-product-card" onclick="viewRelatedProduct(15)" style="cursor: pointer;">
+                            <img src="../images/ceek3.jpg" alt="Wedding Cake" class="related-product-img">
+                            <div class="related-product-info">
+                                <h5 class="related-product-title">Wedding Cake</h5>
+                                <div class="stars mb-2">
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                </div>
+                                <div class="related-product-price">SAR 399</div>
+                                <button class="btn btn-add-cart w-100 mt-2"
+                                    onclick="event.stopImmediatePropagation(); addRelatedInline(15)">
+                                    <i class="fas fa-shopping-cart"></i> Add to Cart
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-4 mb-4" data-aos="fade-up">
+                    <h4 class="mb-4">Custom Joy</h4>
+                    <p>Saudi Arabia's premier platform for celebration services since 2025. We make your special moments
+                        unforgettable with our premium cakes, flowers, balloons, and event arrangements.</p>
+                </div>
+                <div class="col-lg-2 col-md-6 mb-4" data-aos="fade-up" data-aos-delay="100">
+                    <h5 class="mb-4">Quick Links</h5>
+                    <div class="footer-links">
+                        <a href="../index.html#top">Home</a>
+                        <a href="../index.html#services">Services</a>
+                        <a href="../index.html#products">Products</a>
+                        <a href="../index.html#contact">Contact</a>
+                    </div>
+                </div>
+                <div class="col-lg-3 col-md-6 mb-4" data-aos="fade-up" data-aos-delay="200">
+                    <h5 class="mb-4">Services</h5>
+                    <div class="footer-links">
+                        <a href="#">Custom Cakes</a>
+                        <a href="#">Fresh Flowers</a>
+                        <a href="#">Balloon Decorations</a>
+                        <a href="#">Event Arrangements</a>
+                    </div>
+                </div>
+
+            </div>
+            <div class="copyright">
+                <p>&copy; 2025 Custom Joy. All rights reserved. | Crafted with ❤️ in Saudi Arabia</p>
+            </div>
+        </div>
+    </footer>
+
+    <div class="scroll-top" id="scrollTop"><i class="fas fa-arrow-up"></i></div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/toastify-js"></script>
+    <script src="./js/product-details.js"></script>
+    <script>
+        let cartCounter = 0;
+        let wishlistCounter = 0;
+        function updateBadges() { const c = document.getElementById('cartCount'); const w = document.getElementById('wishlistCount'); if (c) c.textContent = cartCounter; if (w) w.textContent = wishlistCounter; }
+        document.addEventListener('DOMContentLoaded', function () {
+            updateBadges();
+            // No-op: buttons use inline handlers that stopImmediatePropagation
+            const logoutBtn = document.getElementById('logoutBtn');
+            if (logoutBtn) {
+                logoutBtn.addEventListener('click', function (e) {
+                    e.preventDefault();
+                    Toastify({ text: 'Logged out', duration: 2500, gravity: 'top', position: 'right', backgroundColor: 'linear-gradient(135deg, #7a7a7a, #4a4a4a)' }).showToast();
+                    setTimeout(() => window.location.reload(), 600);
+                });
+            }
+        });
+
+        // Inline customer-only add to cart handlers (override any global ones)
+        function addToCartInline() {
+            cartCounter += 1; updateBadges();
+            var nameEl = document.querySelector('.product-info-card .product-title');
+            var productName = nameEl ? nameEl.textContent.trim() : 'Product';
+            Toastify({ text: `Added ${productName} to cart!`, duration: 3000, gravity: 'top', position: 'right', backgroundColor: 'linear-gradient(to right, #FF4FA1, #e03d8c)', stopOnFocus: true }).showToast();
+        }
+        function addRelatedInline(productId) {
+            cartCounter += 1; updateBadges();
+            var btn = event && event.currentTarget ? event.currentTarget : null;
+            var card = btn ? btn.closest('.related-product-card') : null;
+            var nameEl = card ? card.querySelector('.related-product-title') : null;
+            var productName = nameEl ? nameEl.textContent.trim() : 'Product';
+            Toastify({ text: `Added ${productName} to cart!`, duration: 3000, gravity: 'top', position: 'right', backgroundColor: 'linear-gradient(to right, #FF4FA1, #e03d8c)', stopOnFocus: true }).showToast();
+        }
+    </script>
+</body>
+
+</html>

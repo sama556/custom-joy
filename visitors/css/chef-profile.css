@@ -1,0 +1,971 @@
+/* Chef Profile Page Styles */
+
+.chef-profile-page {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    min-height: 100vh;
+}
+
+/* Chef Profile Hero */
+.chef-profile-hero {
+    background: linear-gradient(135deg, rgba(102, 126, 234, 0.9) 0%, rgba(118, 75, 162, 0.9) 100%),
+                url('../images/ceek1.jpg') center/cover;
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    position: relative;
+    overflow: hidden;
+}
+
+.chef-profile-hero::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: linear-gradient(45deg, rgba(255, 79, 161, 0.1) 0%, rgba(255, 255, 255, 0.1) 100%);
+    z-index: 1;
+}
+
+.chef-profile-hero .container {
+    position: relative;
+    z-index: 2;
+}
+
+.chef-profile-image {
+    position: relative;
+    overflow: hidden;
+    border-radius: 1rem;
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+}
+
+.chef-profile-image img {
+    transition: transform 0.3s ease;
+    width: 100%;
+    height: auto;
+}
+
+.chef-profile-image:hover img {
+    transform: scale(1.05);
+}
+
+.chef-badge {
+    position: absolute;
+    top: 1rem;
+    right: 1rem;
+    background: linear-gradient(45deg, #FF4FA1, #667eea);
+    color: white;
+    padding: 0.5rem 1rem;
+    border-radius: 25px;
+    font-size: 0.8rem;
+    font-weight: 600;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+}
+
+.chef-rating-large {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+}
+
+.chef-rating-large .stars {
+    color: #ffc107;
+    font-size: 1.2rem;
+}
+
+.chef-rating-large .rating-text {
+    color: rgba(255, 255, 255, 0.9);
+    font-size: 1.1rem;
+    font-weight: 500;
+}
+
+.chef-stats-large {
+    display: flex;
+    gap: 2rem;
+    flex-wrap: wrap;
+}
+
+.stat-item {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    background: rgba(255, 255, 255, 0.1);
+    padding: 1rem 1.5rem;
+    border-radius: 1rem;
+    backdrop-filter: blur(10px);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+.stat-item i {
+    font-size: 1.5rem;
+    color: #FF4FA1;
+}
+
+.stat-number {
+    display: block;
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: white;
+}
+
+.stat-label {
+    display: block;
+    font-size: 0.9rem;
+    color: rgba(255, 255, 255, 0.8);
+}
+
+.chef-social-large {
+    display: flex;
+    gap: 1rem;
+}
+
+.social-link-large {
+    width: 50px;
+    height: 50px;
+    background: rgba(255, 255, 255, 0.2);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    font-size: 1.2rem;
+    transition: all 0.3s ease;
+    text-decoration: none;
+    backdrop-filter: blur(10px);
+    border: 1px solid rgba(255, 255, 255, 0.3);
+}
+
+.social-link-large:hover {
+    background: rgba(255, 255, 255, 0.3);
+    transform: scale(1.1);
+    color: white;
+}
+
+/* Chef Details Section */
+.chef-details {
+    background: white;
+}
+
+.chef-bio {
+    margin-bottom: 3rem;
+}
+
+.chef-bio p {
+    color: #666;
+    line-height: 1.8;
+    margin-bottom: 1.5rem;
+}
+
+.chef-specialties-section {
+    margin-top: 3rem;
+}
+
+.specialties-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 2rem;
+    margin-top: 2rem;
+}
+
+.specialty-item {
+    text-align: center;
+    padding: 2rem;
+    background: #f8f9fa;
+    border-radius: 1rem;
+    transition: all 0.3s ease;
+}
+
+.specialty-item:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+}
+
+.specialty-item i {
+    font-size: 2.5rem;
+    color: #FF4FA1;
+    margin-bottom: 1rem;
+}
+
+.specialty-item h5 {
+    color: #333;
+    font-weight: 600;
+    margin-bottom: 0.5rem;
+}
+
+.specialty-item p {
+    color: #666;
+    margin: 0;
+    font-size: 0.9rem;
+}
+
+/* Chef Sidebar */
+.chef-sidebar {
+    position: sticky;
+    top: 2rem;
+}
+
+.chef-contact-card,
+.chef-awards-card {
+    background: white;
+    border-radius: 1rem;
+    padding: 2rem;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+    margin-bottom: 2rem;
+}
+
+.chef-contact-card h4,
+.chef-awards-card h4 {
+    color: #333;
+    font-weight: 600;
+    margin-bottom: 1.5rem;
+}
+
+.contact-info {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+}
+
+.contact-item {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    color: #666;
+}
+
+.contact-item i {
+    color: #FF4FA1;
+    font-size: 1.1rem;
+    width: 20px;
+}
+
+.awards-list {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+}
+
+.award-item {
+    display: flex;
+    align-items: flex-start;
+    gap: 1rem;
+}
+
+.award-item i {
+    font-size: 1.5rem;
+    margin-top: 0.2rem;
+}
+
+.award-item h6 {
+    color: #333;
+    font-weight: 600;
+    margin-bottom: 0.2rem;
+}
+
+.award-item p {
+    color: #666;
+    margin: 0;
+    font-size: 0.9rem;
+}
+
+/* Chef Products Section */
+.chef-products {
+    background: #f8f9fa;
+}
+
+/* Product Cards - Matching products.html style */
+.product-card {
+    background: white;
+    border-radius: 1rem;
+    overflow: hidden;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.08);
+    transition: all 0.3s ease;
+    height: 100%;
+    padding: 0;
+    margin-bottom: 15px;
+}
+
+.product-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 15px 30px rgba(0, 0, 0, 0.15);
+}
+
+.product-img {
+    height: 150px;
+    overflow: hidden;
+}
+
+.product-img img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.3s ease;
+}
+
+.product-card:hover .product-img img {
+    transform: scale(1.1);
+}
+
+.product-info {
+    padding: 15px 10px;
+}
+
+.product-title {
+    font-size: 0.9rem;
+    margin-bottom: 8px;
+    line-height: 1.3;
+    min-height: 35px;
+    color: #333;
+    font-weight: 600;
+}
+
+.product-rating {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-bottom: 8px;
+}
+
+.stars {
+    display: flex;
+    gap: 2px;
+}
+
+.stars i {
+    font-size: 0.8rem;
+    color: #FFB11B;
+    transition: color 0.2s ease;
+}
+
+.stars .far {
+    color: #ddd;
+}
+
+.rating-text {
+    font-size: 0.75rem;
+    color: #666;
+    font-weight: 500;
+}
+
+.product-price {
+    color: #FF4FA1;
+    font-size: 1rem;
+    font-weight: 700;
+    margin-bottom: 10px;
+}
+
+.btn-add-cart {
+    width: 100%;
+    padding: 8px 12px;
+    font-size: 0.8rem;
+    background: linear-gradient(45deg, #FF4FA1, #667eea);
+    border: none;
+    color: white;
+    border-radius: 8px;
+    font-weight: 600;
+    transition: all 0.3s ease;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 5px;
+}
+
+.btn-add-cart:hover {
+    background: linear-gradient(45deg, #e03d8c, #5a6fd8);
+    transform: translateY(-2px);
+    box-shadow: 0 5px 15px rgba(255, 79, 161, 0.3);
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    .chef-profile-hero {
+        min-height: 80vh;
+        text-align: center;
+    }
+    
+    .chef-profile-hero h1 {
+        font-size: 2.5rem;
+    }
+    
+    .chef-stats-large {
+        justify-content: center;
+        gap: 1rem;
+    }
+    
+    .stat-item {
+        padding: 0.8rem 1rem;
+    }
+    
+    .specialties-grid {
+        grid-template-columns: 1fr;
+        gap: 1rem;
+    }
+    
+    .chef-sidebar {
+        position: static;
+        margin-top: 2rem;
+    }
+
+    /* Reviews Section Mobile */
+    .reviews-header {
+        flex-direction: column;
+        gap: 1rem;
+        align-items: flex-start;
+    }
+
+    .reviews-filter {
+        width: 100%;
+        justify-content: center;
+    }
+
+    .filter-btn {
+        flex: 1;
+        text-align: center;
+    }
+
+    .rating-summary-card {
+        position: static;
+        margin-bottom: 2rem;
+    }
+
+    .rating-number {
+        font-size: 3rem;
+    }
+
+    .review-header {
+        flex-direction: column;
+        gap: 1rem;
+        align-items: flex-start;
+    }
+
+    .review-meta {
+        align-items: flex-start;
+        flex-direction: row;
+        gap: 1rem;
+    }
+
+    .reviewer-info {
+        width: 100%;
+    }
+
+    .reviews-actions {
+        flex-direction: column;
+        gap: 0.8rem;
+    }
+
+    .reviews-actions .btn {
+        width: 100%;
+    }
+}
+
+@media (max-width: 576px) {
+    .chef-profile-hero h1 {
+        font-size: 2rem;
+    }
+    
+    .chef-stats-large {
+        flex-direction: column;
+        align-items: center;
+    }
+    
+    .stat-item {
+        width: 100%;
+        justify-content: center;
+    }
+    
+    .chef-social-large {
+        justify-content: center;
+    }
+    
+    .specialty-item {
+        padding: 1.5rem;
+    }
+    
+    .chef-contact-card,
+    .chef-awards-card {
+        padding: 1.5rem;
+    }
+
+    /* Reviews Section Small Mobile */
+    .reviews-container,
+    .rating-summary-card {
+        padding: 1.5rem;
+        margin: 0 0.5rem;
+    }
+
+    .rating-number {
+        font-size: 2.5rem;
+    }
+
+    .review-card {
+        padding: 1rem;
+    }
+
+    .reviewer-avatar {
+        width: 40px;
+        height: 40px;
+    }
+
+    .review-text {
+        font-size: 0.9rem;
+    }
+
+    .review-text::before {
+        font-size: 2rem;
+        top: -0.3rem;
+        left: -0.5rem;
+    }
+
+    .tag {
+        font-size: 0.75rem;
+        padding: 0.25rem 0.6rem;
+    }
+
+    .reviews-actions .btn {
+        padding: 0.6rem 1.5rem;
+        font-size: 0.9rem;
+    }
+}
+
+/* Animation Enhancements */
+.chef-profile-image {
+    animation: float 3s ease-in-out infinite;
+}
+
+@keyframes float {
+    0%, 100% { transform: translateY(0px); }
+    50% { transform: translateY(-10px); }
+}
+
+.stat-item {
+    animation: fadeInUp 0.6s ease forwards;
+}
+
+.stat-item:nth-child(1) { animation-delay: 0.1s; }
+.stat-item:nth-child(2) { animation-delay: 0.2s; }
+.stat-item:nth-child(3) { animation-delay: 0.3s; }
+
+@keyframes fadeInUp {
+    from {
+        opacity: 0;
+        transform: translateY(30px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* Reviews Section Styles */
+.reviews-section {
+    background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+    position: relative;
+    overflow: hidden;
+}
+
+.reviews-section::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><defs><pattern id="grain" width="100" height="100" patternUnits="userSpaceOnUse"><circle cx="50" cy="50" r="1" fill="%23FF4FA1" opacity="0.05"/></pattern></defs><rect width="100" height="100" fill="url(%23grain)"/></svg>');
+    z-index: 1;
+}
+
+.reviews-section .container {
+    position: relative;
+    z-index: 2;
+}
+
+/* Rating Summary Card */
+.rating-summary-card {
+    background: white;
+    border-radius: 1.5rem;
+    padding: 2rem;
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+    border: 1px solid rgba(255, 79, 161, 0.1);
+    position: sticky;
+    top: 2rem;
+    transition: all 0.3s ease;
+}
+
+.rating-summary-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 25px 50px rgba(0, 0, 0, 0.15);
+}
+
+.overall-rating {
+    text-align: center;
+    margin-bottom: 2rem;
+    padding-bottom: 2rem;
+    border-bottom: 2px solid #f8f9fa;
+}
+
+.rating-number {
+    font-size: 4rem;
+    font-weight: 700;
+    color: #FF4FA1;
+    line-height: 1;
+    margin-bottom: 0.5rem;
+    background: linear-gradient(45deg, #FF4FA1, #667eea);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+}
+
+.rating-stars {
+    color: #ffc107;
+    font-size: 1.5rem;
+    margin-bottom: 0.5rem;
+}
+
+.rating-count {
+    color: #666;
+    font-size: 1rem;
+    margin: 0;
+}
+
+.rating-breakdown {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+}
+
+.rating-bar {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+}
+
+.star-label {
+    font-size: 0.9rem;
+    color: #666;
+    min-width: 50px;
+    font-weight: 500;
+}
+
+.progress-bar {
+    flex: 1;
+    height: 8px;
+    background: #f8f9fa;
+    border-radius: 4px;
+    overflow: hidden;
+    position: relative;
+}
+
+.progress-fill {
+    height: 100%;
+    background: linear-gradient(45deg, #FF4FA1, #667eea);
+    border-radius: 4px;
+    transition: width 0.8s ease;
+    position: relative;
+}
+
+.progress-fill::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: linear-gradient(45deg, transparent, rgba(255, 255, 255, 0.3));
+    animation: shimmer 2s infinite;
+}
+
+@keyframes shimmer {
+    0% { transform: translateX(-100%); }
+    100% { transform: translateX(100%); }
+}
+
+.count {
+    font-size: 0.9rem;
+    color: #666;
+    font-weight: 600;
+    min-width: 30px;
+    text-align: right;
+}
+
+/* Reviews Container */
+.reviews-container {
+    background: white;
+    border-radius: 1.5rem;
+    padding: 2rem;
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+    border: 1px solid rgba(255, 79, 161, 0.1);
+}
+
+.reviews-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 2rem;
+    padding-bottom: 1rem;
+    border-bottom: 2px solid #f8f9fa;
+}
+
+.reviews-header h4 {
+    color: #333;
+    font-weight: 700;
+    margin: 0;
+}
+
+.reviews-filter {
+    display: flex;
+    gap: 0.5rem;
+}
+
+.filter-btn {
+    padding: 0.5rem 1rem;
+    border: 2px solid #e9ecef;
+    background: white;
+    color: #666;
+    border-radius: 25px;
+    font-size: 0.9rem;
+    font-weight: 500;
+    transition: all 0.3s ease;
+    cursor: pointer;
+}
+
+.filter-btn:hover,
+.filter-btn.active {
+    border-color: #FF4FA1;
+    background: #FF4FA1;
+    color: white;
+    transform: translateY(-2px);
+}
+
+/* Review Cards */
+.reviews-list {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+    margin-bottom: 2rem;
+}
+
+.review-card {
+    background: #f8f9fa;
+    border-radius: 1rem;
+    padding: 1.5rem;
+    border: 1px solid #e9ecef;
+    transition: all 0.3s ease;
+    position: relative;
+    overflow: hidden;
+}
+
+.review-card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 4px;
+    height: 100%;
+    background: linear-gradient(45deg, #FF4FA1, #667eea);
+    transform: scaleY(0);
+    transition: transform 0.3s ease;
+}
+
+.review-card:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 15px 30px rgba(0, 0, 0, 0.1);
+    background: white;
+}
+
+.review-card:hover::before {
+    transform: scaleY(1);
+}
+
+.review-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    margin-bottom: 1rem;
+}
+
+.reviewer-info {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+}
+
+.reviewer-avatar {
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    overflow: hidden;
+    border: 3px solid #FF4FA1;
+    position: relative;
+}
+
+.reviewer-avatar img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.3s ease;
+}
+
+.review-card:hover .reviewer-avatar img {
+    transform: scale(1.1);
+}
+
+.reviewer-details h6 {
+    color: #333;
+    font-weight: 600;
+    margin: 0 0 0.3rem 0;
+    font-size: 1rem;
+}
+
+.review-rating {
+    color: #ffc107;
+    font-size: 0.9rem;
+}
+
+.review-meta {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    gap: 0.5rem;
+}
+
+.review-date {
+    color: #666;
+    font-size: 0.85rem;
+    font-weight: 500;
+}
+
+.review-verified {
+    display: flex;
+    align-items: center;
+    gap: 0.3rem;
+    color: #28a745;
+    font-size: 0.8rem;
+    font-weight: 500;
+}
+
+.review-verified i {
+    font-size: 0.9rem;
+}
+
+.review-content {
+    margin-top: 1rem;
+}
+
+.review-text {
+    color: #555;
+    line-height: 1.6;
+    margin-bottom: 1rem;
+    font-size: 0.95rem;
+    position: relative;
+}
+
+.review-text::before {
+    content: '"';
+    font-size: 3rem;
+    color: #FF4FA1;
+    opacity: 0.3;
+    position: absolute;
+    top: -0.5rem;
+    left: -1rem;
+    font-family: serif;
+}
+
+.review-tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+}
+
+.tag {
+    background: linear-gradient(45deg, #FF4FA1, #667eea);
+    color: white;
+    padding: 0.3rem 0.8rem;
+    border-radius: 15px;
+    font-size: 0.8rem;
+    font-weight: 500;
+    transition: all 0.3s ease;
+}
+
+.tag:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 5px 15px rgba(255, 79, 161, 0.3);
+}
+
+/* Reviews Actions */
+.reviews-actions {
+    display: flex;
+    gap: 1rem;
+    justify-content: center;
+    padding-top: 1rem;
+    border-top: 2px solid #f8f9fa;
+}
+
+.reviews-actions .btn {
+    padding: 0.8rem 2rem;
+    border-radius: 25px;
+    font-weight: 600;
+    transition: all 0.3s ease;
+    position: relative;
+    overflow: hidden;
+}
+
+.reviews-actions .btn::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(45deg, transparent, rgba(255, 255, 255, 0.3), transparent);
+    transition: left 0.5s ease;
+}
+
+.reviews-actions .btn:hover::before {
+    left: 100%;
+}
+
+.reviews-actions .btn:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
+}
+
+/* Animation for review cards */
+.review-card {
+    animation: slideInUp 0.6s ease forwards;
+    opacity: 0;
+    transform: translateY(30px);
+}
+
+.review-card:nth-child(1) { animation-delay: 0.1s; }
+.review-card:nth-child(2) { animation-delay: 0.2s; }
+.review-card:nth-child(3) { animation-delay: 0.3s; }
+.review-card:nth-child(4) { animation-delay: 0.4s; }
+
+@keyframes slideInUp {
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* Custom scrollbar */
+.chef-profile-page::-webkit-scrollbar {
+    width: 8px;
+}
+
+.chef-profile-page::-webkit-scrollbar-track {
+    background: #f1f1f1;
+}
+
+.chef-profile-page::-webkit-scrollbar-thumb {
+    background: linear-gradient(45deg, #FF4FA1, #667eea);
+    border-radius: 4px;
+}
+
+.chef-profile-page::-webkit-scrollbar-thumb:hover {
+    background: linear-gradient(45deg, #e03d8c, #5a6fd8);
+}

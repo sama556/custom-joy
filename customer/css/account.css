@@ -1,0 +1,97 @@
+.account-section { padding-top: 140px; }
+@media (max-width: 992px) { .account-section { padding-top: 170px; } }
+@media (max-width: 576px) { .account-section { padding-top: 200px; } }
+
+.nav-spacer { height: 90px; }
+@media (max-width: 992px) { .nav-spacer { height: 120px; } }
+@media (max-width: 576px) { .nav-spacer { height: 140px; } }
+
+.account-nav .list-group-item {
+    border: none;
+    margin-bottom: 6px;
+    border-radius: 12px;
+    background: rgba(255,255,255,0.8);
+    border: 1px solid rgba(255,255,255,0.6);
+}
+.account-nav .list-group-item.active {
+    background: linear-gradient(135deg, var(--pink) 0%, #e03d8c 100%);
+    color: #fff;
+}
+
+.account-section .card {
+    background: rgba(255, 255, 255, 0.9);
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
+    border: 1px solid rgba(255, 255, 255, 0.6);
+    border-radius: 20px;
+}
+
+.tab-pane { display: none; }
+.tab-pane.active { display: block; }
+
+.address-card { background: rgba(255,255,255,0.8); }
+
+/* Profile form enhancements */
+.account-section .form-label { font-weight: 700; color: rgba(9,21,35,0.9); }
+.account-section .form-control {
+    background: rgba(255, 255, 255, 0.95);
+    border: 1px solid rgba(9,21,35,0.2);
+    color: #0b1726;
+    padding: 12px 14px 12px 42px;
+    border-radius: 14px;
+    transition: box-shadow 0.2s ease, transform 0.12s ease;
+}
+.account-section .form-control::placeholder { color: rgba(9,21,35,0.6); }
+.account-section .form-control:focus {
+    background: #ffffff;
+    border-color: var(--sky-blue);
+    box-shadow: 0 0 0 0.3rem rgba(126, 215, 255, 0.35);
+}
+.account-section .form-control.is-invalid { border-color: #dc3545; box-shadow: 0 0 0 0.2rem rgba(220,53,69,.15); }
+
+.input-with-icon { position: relative; }
+.input-with-icon .input-icon {
+    position: absolute;
+    left: 12px;
+    top: 50%;
+    transform: translateY(-50%);
+    color: rgba(9,21,35,0.45);
+}
+
+.account-section .helper-text { color: rgba(9,21,35,0.7); font-size: 12px; margin-top: 4px; }
+
+/* Selects styling to match inputs */
+.account-section .form-select {
+    background-color: #ffffff;
+    border: 1px solid rgba(9,21,35,0.2);
+    color: #0b1726;
+    border-radius: 14px;
+    padding: 10px 12px;
+}
+.account-section .form-select:focus {
+    border-color: var(--sky-blue);
+    box-shadow: 0 0 0 0.3rem rgba(126, 215, 255, 0.35);
+}
+.account-section .form-select:disabled { opacity: 0.8; color: rgba(9,21,35,0.6); }
+
+/* Modal form inputs (Add Address) */
+#addAddressModal .modal-content {
+    background: linear-gradient(135deg, rgba(126, 215, 255, 0.08) 0%, rgba(255, 79, 161, 0.08) 100%);
+    backdrop-filter: blur(14px);
+    -webkit-backdrop-filter: blur(14px);
+    border: 1px solid rgba(255,255,255,0.18);
+}
+#addAddressModal .modal-header { background: rgba(9,21,35,0.95); color: #fff; border: 0; }
+#addAddressModal .form-label { color: rgba(9,21,35,0.95); font-weight: 800; }
+#addAddressModal .form-control, #addAddressModal .form-select {
+    background: #ffffff;
+    border: 1px solid rgba(9,21,35,0.25);
+    color: #0b1726;
+}
+#addAddressModal .form-control::placeholder { color: rgba(9,21,35,0.65); }
+#addAddressModal .form-control:focus, #addAddressModal .form-select:focus {
+    border-color: var(--sky-blue);
+    box-shadow: 0 0 0 0.3rem rgba(126,215,255,0.35);
+}
+
+

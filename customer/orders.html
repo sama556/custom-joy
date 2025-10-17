@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Orders - Custom Joy</title>
+    <base href="/customer/">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="icon" href="../images/logo.png">
+    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/orders.css">
+</head>
+
+<body>
+    <nav class="navbar navbar-expand-lg navbar-dark sticky-top scrolled">
+        <div class="container">
+            <a class="navbar-brand" href="index.html"><img class="logo" src="../images/logo.png" alt="logo"></a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto align-items-lg-center">
+                    <li class="nav-item" data-aos="fade-down" data-aos-delay="100"><a class="nav-link"
+                            href="index.html#top">Home</a></li>
+                    <li class="nav-item" data-aos="fade-down" data-aos-delay="150"><a class="nav-link"
+                            href="index.html#services">Services</a></li>
+                    <li class="nav-item" data-aos="fade-down" data-aos-delay="200"><a class="nav-link"
+                            href="index.html#products">Products</a></li>
+                    <li class="nav-item" data-aos="fade-down" data-aos-delay="250"><a class="nav-link"
+                            href="index.html#contact">Contact</a></li>
+                    <li class="nav-item" data-aos="fade-down" data-aos-delay="300"><a class="nav-link"
+                            href="chef.html">Service Providers</a></li>
+                    <li class="nav-item" data-aos="fade-down" data-aos-delay="310"><a class="nav-link"
+                            href="themes.html">Themes</a></li>
+                    <li class="nav-item" data-aos="fade-down" data-aos-delay="320"><a class="nav-link"
+                            href="ads.html">Ads</a></li>
+                    <li class="nav-item ms-lg-3 mt-3 mt-lg-0" data-aos="fade-down" data-aos-delay="330">
+                        <a class="nav-link position-relative" href="#" title="Wishlist">
+                            <i class="fas fa-heart"></i>
+                            <span id="wishlistCount"
+                                class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">0</span>
+                        </a>
+                    </li>
+                    <li class="nav-item ms-lg-2 mt-3 mt-lg-0" data-aos="fade-down" data-aos-delay="340">
+                        <a class="nav-link position-relative" href="cart.html" title="Cart">
+                            <i class="fas fa-shopping-cart"></i>
+                            <span id="cartCount"
+                                class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-primary">0</span>
+                        </a>
+                    </li>
+                    <li class="nav-item dropdown ms-lg-3 mt-2 mt-lg-0" data-aos="fade-down" data-aos-delay="350">
+                        <a class="nav-link dropdown-toggle d-flex align-items-center" href="#" role="button"
+                            data-bs-toggle="dropdown" aria-expanded="false">
+                            <img src="../images/avater.jpg" alt="Avatar" class="rounded-circle me-2"
+                                style="width:28px;height:28px;object-fit:cover;">
+                            <span>Account</span>
+                        </a>
+                        <ul class="dropdown-menu dropdown-menu-end">
+                            <li><a class="dropdown-item" href="account.html">My Account</a></li>
+                            <li><a class="dropdown-item" href="orders.html">Orders</a></li>
+                            <li>
+                                <hr class="dropdown-divider">
+                            </li>
+                            <li><a id="logoutBtn" class="dropdown-item" href="#">Logout</a></li>
+                        </ul>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <div class="nav-spacer"></div>
+
+    <section class="orders-section py-4">
+        <div class="container">
+            <div class="d-flex flex-column flex-md-row align-items-md-center justify-content-between gap-3 mb-3">
+                <div>
+                    <h2 class="section-title mb-1">My Orders</h2>
+                    <div class="text-muted">Track your order status and view details</div>
+                </div>
+                <div class="d-flex gap-2">
+                    <select id="statusFilter" class="form-select form-select-sm" style="width:auto">
+                        <option value="all">All Statuses</option>
+                        <option value="processing">Processing</option>
+                        <option value="in_progress">In Progress</option>
+                        <option value="completed">Completed</option>
+                        <option value="cancelled">Cancelled</option>
+                        <option value="paid">Paid</option>
+                        <option value="unpaid">Unpaid</option>
+                    </select>
+                    <select id="typeFilter" class="form-select form-select-sm" style="width:auto">
+                        <option value="all">All Types</option>
+                        <option value="custom">Custom</option>
+                        <option value="products">From Products</option>
+                    </select>
+                    <input id="orderSearch" class="form-control form-control-sm" placeholder="Search by # or user..."
+                        style="width:220px">
+                </div>
+            </div>
+
+            <div class="card border-0 shadow-sm" data-aos="fade-up">
+                <div class="card-body p-0">
+                    <div class="table-responsive">
+                        <table class="table align-middle mb-0">
+                            <thead>
+                                <tr>
+                                    <th>Order #</th>
+                                    <th>User ID</th>
+                                    <th>Date</th>
+                                    <th>Type</th>
+                                    <th>Status</th>
+                                    <th>Total</th>
+                                    <th>Delivery</th>
+                                    <th>Initial Review</th>
+                                    <th></th>
+                                </tr>
+                            </thead>
+                            <tbody id="ordersTable">
+                                <!-- rows inserted by JS -->
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Order Details Modal -->
+    <div class="modal fade" id="orderModal" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog modal-lg modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Order Details</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body" id="orderModalBody">
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="scroll-top" id="scrollTop"><i class="fas fa-arrow-up"></i></div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/toastify-js"></script>
+    <script src="js/orders.js"></script>
+</body>
+
+</html>
