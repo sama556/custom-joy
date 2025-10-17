@@ -48,7 +48,7 @@
                         </a>
                     </li>
                     <li class="nav-item ms-lg-2 mt-3 mt-lg-0" data-aos="fade-down" data-aos-delay="340">
-                        <a class="nav-link position-relative" href="#" title="Cart">
+                        <a class="nav-link position-relative" href="cart.html" title="Cart">
                             <i class="fas fa-shopping-cart"></i>
                             <span id="cartCount"
                                 class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-primary">0</span>
@@ -87,6 +87,144 @@
             </nav>
         </div>
     </section>
+
+    <!-- Customization Modal -->
+    <div class="modal fade" id="customizeModal" tabindex="-1" aria-labelledby="customizeModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-lg modal-dialog-centered">
+            <div class="modal-content"
+                style="background: rgba(9,21,35,0.96); color: #fff; border: 1px solid rgba(255,255,255,0.15);">
+                <div class="modal-header border-0">
+                    <h5 class="modal-title" id="customizeModalLabel">Customize Your Cake</h5>
+                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"
+                        aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="row g-4">
+                        <div class="col-md-6">
+                            <h6 class="mb-3">Size</h6>
+                            <div class="list-group">
+                                <label class="list-group-item d-flex align-items-center justify-content-between">
+                                    <span>
+                                        <input class="form-check-input me-2" type="radio" name="size" value="small"
+                                            data-price="0" checked>
+                                        Small (serves 4-6)
+                                    </span>
+                                    <span class="badge bg-light text-dark">+SAR 0</span>
+                                </label>
+                                <label class="list-group-item d-flex align-items-center justify-content-between">
+                                    <span>
+                                        <input class="form-check-input me-2" type="radio" name="size" value="medium"
+                                            data-price="30">
+                                        Medium (serves 8-10)
+                                    </span>
+                                    <span class="badge bg-light text-dark">+SAR 30</span>
+                                </label>
+                                <label class="list-group-item d-flex align-items-center justify-content-between">
+                                    <span>
+                                        <input class="form-check-input me-2" type="radio" name="size" value="large"
+                                            data-price="70">
+                                        Large (serves 12-16)
+                                    </span>
+                                    <span class="badge bg-light text-dark">+SAR 70</span>
+                                </label>
+                            </div>
+                        </div>
+
+                        <div class="col-md-6">
+                            <h6 class="mb-3">Flavor</h6>
+                            <div class="list-group">
+                                <label class="list-group-item">
+                                    <input class="form-check-input me-2" type="radio" name="flavor" value="chocolate"
+                                        checked>
+                                    Chocolate
+                                </label>
+                                <label class="list-group-item">
+                                    <input class="form-check-input me-2" type="radio" name="flavor" value="vanilla">
+                                    Vanilla
+                                </label>
+                                <label class="list-group-item">
+                                    <input class="form-check-input me-2" type="radio" name="flavor" value="red velvet">
+                                    Red Velvet
+                                </label>
+                            </div>
+                        </div>
+
+                        <div class="col-md-6">
+                            <h6 class="mb-3">Decoration</h6>
+                            <div class="list-group">
+                                <label class="list-group-item d-flex align-items-center justify-content-between">
+                                    <span>
+                                        <input class="form-check-input me-2" type="radio" name="decoration"
+                                            value="classic" data-price="0" checked>
+                                        Classic
+                                    </span>
+                                    <span class="badge bg-light text-dark">+SAR 0</span>
+                                </label>
+                                <label class="list-group-item d-flex align-items-center justify-content-between">
+                                    <span>
+                                        <input class="form-check-input me-2" type="radio" name="decoration"
+                                            value="premium" data-price="40">
+                                        Premium
+                                    </span>
+                                    <span class="badge bg-light text-dark">+SAR 40</span>
+                                </label>
+                                <label class="list-group-item d-flex align-items-center justify-content-between">
+                                    <span>
+                                        <input class="form-check-input me-2" type="radio" name="decoration"
+                                            value="luxury" data-price="90">
+                                        Luxury
+                                    </span>
+                                    <span class="badge bg-light text-dark">+SAR 90</span>
+                                </label>
+                            </div>
+                        </div>
+
+                        <div class="col-md-6">
+                            <h6 class="mb-3">Additional Details</h6>
+                            <div class="mb-3">
+                                <label for="special-message" class="form-label">Special Message</label>
+                                <input type="text" id="special-message" class="form-control"
+                                    placeholder="e.g., Happy Birthday Sara!">
+                            </div>
+                            <div class="mb-3">
+                                <label for="allergies" class="form-label">Allergies</label>
+                                <input type="text" id="allergies" class="form-control" placeholder="e.g., No nuts">
+                            </div>
+                            <div class="mb-3">
+                                <label for="delivery-date" class="form-label">Preferred Delivery Date</label>
+                                <input type="date" id="delivery-date" class="form-control">
+                            </div>
+                        </div>
+
+                        <div class="col-12">
+                            <div class="row g-3 align-items-center">
+                                <div class="col-md-8">
+                                    <div class="p-3 rounded-3"
+                                        style="background: rgba(126, 215, 255, 0.08); border: 1px solid rgba(126,215,255,0.25);">
+                                        <div class="d-flex flex-wrap gap-3">
+                                            <div>Base: <span id="basePrice">SAR 199</span></div>
+                                            <div>Size: <span id="sizePrice">+SAR 0</span></div>
+                                            <div>Decoration: <span id="decorationPrice">+SAR 0</span></div>
+                                        </div>
+                                        <div class="mt-2 fw-bold">Total: <span id="totalPrice">SAR 199</span></div>
+                                    </div>
+                                </div>
+                                <div class="col-md-4 text-md-end">
+                                    <button class="btn btn-customize w-100 w-md-auto" onclick="addCustomizedToCart()">
+                                        <i class="fas fa-cog"></i>
+                                        Add Customized to Cart
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer border-0">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
 
     <!-- Product Details -->
     <section class="py-5">
@@ -152,7 +290,7 @@
                                 <i class="fas fa-shopping-cart"></i>
                                 Add to Cart
                             </button>
-                            <button class="btn btn-customize" onclick="scrollToCustomization()">
+                            <button class="btn btn-customize" data-bs-toggle="modal" data-bs-target="#customizeModal">
                                 <i class="fas fa-cog"></i>
                                 Customize
                             </button>

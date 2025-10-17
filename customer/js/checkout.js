@@ -2,6 +2,17 @@
 
 AOS.init({ duration: 800, once: true });
 
+// Navbar scroll behavior (match home)
+window.addEventListener('scroll', function () {
+    const navbar = document.querySelector('.navbar');
+    if (!navbar) return;
+    if (window.scrollY > 50) {
+        navbar.classList.add('scrolled');
+    } else {
+        navbar.classList.remove('scrolled');
+    }
+});
+
 function loadCart() {
     try {
         const raw = localStorage.getItem('cj_cart');
@@ -195,6 +206,24 @@ window.addEventListener('scroll', function () {
     if (window.scrollY > 300) { scrollTopBtn.classList.add('active'); } else { scrollTopBtn.classList.remove('active'); }
 });
 scrollTopBtn.addEventListener('click', function () { window.scrollTo({ top: 0, behavior: 'smooth' }); });
+
+// Logout functionality (match home page)
+document.addEventListener('DOMContentLoaded', function () {
+    const logoutBtn = document.getElementById('logoutBtn');
+    if (logoutBtn) {
+        logoutBtn.addEventListener('click', function (e) {
+            e.preventDefault();
+            Toastify({
+                text: 'Logged out',
+                duration: 2500,
+                gravity: 'top',
+                position: 'right',
+                backgroundColor: 'linear-gradient(135deg, #7a7a7a, #4a4a4a)'
+            }).showToast();
+            setTimeout(() => window.location.reload(), 600);
+        });
+    }
+});
 
 // Kickoff
 renderSummary();
