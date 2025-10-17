@@ -36,12 +36,26 @@
                             href="themes.html">Themes</a></li>
                     <li class="nav-item" data-aos="fade-down" data-aos-delay="320"><a class="nav-link"
                             href="ads.html">Ads</a></li>
-                    <li class="nav-item ms-lg-3 mt-3 mt-lg-0" data-aos="fade-down" data-aos-delay="330">
-                        <a class="nav-link position-relative" href="#" title="Wishlist">
-                            <i class="fas fa-heart"></i>
-                            <span id="wishlistCount"
+                    <li class="nav-item dropdown ms-lg-3 mt-3 mt-lg-0" data-aos="fade-down" data-aos-delay="330">
+                        <a class="nav-link position-relative dropdown-toggle" href="#" role="button"
+                            data-bs-toggle="dropdown" aria-expanded="false" title="Notifications">
+                            <i class="fas fa-bell"></i>
+                            <span id="notificationCount"
                                 class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">0</span>
                         </a>
+                        <ul class="dropdown-menu dropdown-menu-end notification-dropdown">
+                            <li class="dropdown-header d-flex justify-content-between align-items-center">
+                                <span>Notifications</span>
+                                <button class="btn btn-sm btn-outline-secondary" onclick="markAllAsRead()">Mark all as
+                                    read</button>
+                            </li>
+                            <li>
+                                <hr class="dropdown-divider">
+                            </li>
+                            <div id="notificationList">
+                                <!-- Notifications will be loaded here -->
+                            </div>
+                        </ul>
                     </li>
                     <li class="nav-item ms-lg-2 mt-3 mt-lg-0" data-aos="fade-down" data-aos-delay="340">
                         <a class="nav-link position-relative" href="cart.html" title="Cart">
@@ -73,69 +87,163 @@
 
     <div class="nav-spacer"></div>
 
-    <section class="orders-section py-4">
+    <section class="orders-section py-5">
         <div class="container">
-            <div class="d-flex flex-column flex-md-row align-items-md-center justify-content-between gap-3 mb-3">
-                <div>
-                    <h2 class="section-title mb-1">My Orders</h2>
-                    <div class="text-muted">Track your order status and view details</div>
+            <!-- Header Section -->
+            <div class="row mb-4">
+                <div class="col-lg-8">
+                    <h2 class="section-title mb-2">My Orders</h2>
+                    <p class="text-muted mb-0">Track your order status and view details</p>
                 </div>
-                <div class="d-flex gap-2">
-                    <select id="statusFilter" class="form-select form-select-sm" style="width:auto">
-                        <option value="all">All Statuses</option>
-                        <option value="processing">Processing</option>
-                        <option value="in_progress">In Progress</option>
-                        <option value="completed">Completed</option>
-                        <option value="cancelled">Cancelled</option>
-                        <option value="paid">Paid</option>
-                        <option value="unpaid">Unpaid</option>
-                    </select>
-                    <select id="typeFilter" class="form-select form-select-sm" style="width:auto">
-                        <option value="all">All Types</option>
-                        <option value="custom">Custom</option>
-                        <option value="products">From Products</option>
-                    </select>
-                    <input id="orderSearch" class="form-control form-control-sm" placeholder="Search by # or user..."
-                        style="width:220px">
+                <div class="col-lg-4">
+                    <div class="header-actions">
+                        <button class="btn btn-outline-primary btn-sm" onclick="exportOrders()">
+                            <i class="fas fa-download me-1"></i>Export
+                        </button>
+                        <button class="btn btn-outline-secondary btn-sm" onclick="refreshOrders()">
+                            <i class="fas fa-sync-alt me-1"></i>Refresh
+                        </button>
+                    </div>
                 </div>
             </div>
 
-            <div class="card border-0 shadow-sm" data-aos="fade-up">
-                <div class="card-body p-0">
-                    <div class="table-responsive">
-                        <table class="table align-middle mb-0">
-                            <thead>
-                                <tr>
-                                    <th>Order #</th>
-                                    <th>User ID</th>
-                                    <th>Date</th>
-                                    <th>Type</th>
-                                    <th>Status</th>
-                                    <th>Total</th>
-                                    <th>Delivery</th>
-                                    <th>Initial Review</th>
-                                    <th></th>
-                                </tr>
-                            </thead>
-                            <tbody id="ordersTable">
-                                <!-- rows inserted by JS -->
-                            </tbody>
-                        </table>
+            <!-- Enhanced Search and Filter Bar -->
+            <div class="search-filter-container mb-4">
+                <div class="row g-3">
+                    <div class="col-lg-6">
+                        <div class="search-wrapper">
+                            <div class="search-input-group">
+                                <i class="fas fa-search search-icon"></i>
+                                <input id="orderSearch" class="search-input"
+                                    placeholder="Search by order #, user ID, or date...">
+                                <button class="search-clear" type="button" onclick="clearSearch()">
+                                    <i class="fas fa-times"></i>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-6">
+                        <div class="filter-wrapper">
+                            <div class="filter-group">
+                                <label class="filter-label">
+                                    <i class="fas fa-filter me-2"></i>Filter Orders
+                                </label>
+                                <div class="filter-controls">
+                                    <select id="statusFilter" class="filter-select">
+                                        <option value="all">All Statuses</option>
+                                        <option value="processing">Processing</option>
+                                        <option value="in_progress">In Progress</option>
+                                        <option value="completed">Completed</option>
+                                        <option value="cancelled">Cancelled</option>
+                                        <option value="paid">Paid</option>
+                                        <option value="unpaid">Unpaid</option>
+                                    </select>
+                                    <select id="typeFilter" class="filter-select">
+                                        <option value="all">All Types</option>
+                                        <option value="custom">Custom</option>
+                                        <option value="products">From Products</option>
+                                    </select>
+                                    <button class="filter-clear" onclick="clearFilters()">
+                                        <i class="fas fa-undo"></i>
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                 </div>
+            </div>
+
+            <!-- Order Statistics Cards -->
+            <div class="row mb-4" id="orderStats">
+                <div class="col-md-3">
+                    <div class="stat-card">
+                        <div class="stat-icon processing">
+                            <i class="fas fa-clock"></i>
+                        </div>
+                        <div class="stat-content">
+                            <div class="stat-number" id="processingCount">0</div>
+                            <div class="stat-label">Processing</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="stat-card">
+                        <div class="stat-icon in-progress">
+                            <i class="fas fa-truck"></i>
+                        </div>
+                        <div class="stat-content">
+                            <div class="stat-number" id="inProgressCount">0</div>
+                            <div class="stat-label">In Progress</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="stat-card">
+                        <div class="stat-icon completed">
+                            <i class="fas fa-check-circle"></i>
+                        </div>
+                        <div class="stat-content">
+                            <div class="stat-number" id="completedCount">0</div>
+                            <div class="stat-label">Completed</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="stat-card">
+                        <div class="stat-icon total">
+                            <i class="fas fa-shopping-bag"></i>
+                        </div>
+                        <div class="stat-content">
+                            <div class="stat-number" id="totalCount">0</div>
+                            <div class="stat-label">Total Orders</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Orders Grid -->
+            <div id="ordersContainer">
+                <div class="row" id="ordersGrid">
+                    <!-- Order cards will be inserted here by JS -->
+                </div>
+            </div>
+
+            <!-- Empty State -->
+            <div id="emptyState" class="text-center py-5" style="display: none;">
+                <div class="empty-icon mb-3">
+                    <i class="fas fa-shopping-bag"></i>
+                </div>
+                <h4 class="text-muted">No orders found</h4>
+                <p class="text-muted">Try adjusting your filters or search terms</p>
+                <button class="btn btn-hero" onclick="clearFilters()">Clear Filters</button>
             </div>
         </div>
     </section>
 
     <!-- Order Details Modal -->
     <div class="modal fade" id="orderModal" tabindex="-1" aria-hidden="true">
-        <div class="modal-dialog modal-lg modal-dialog-centered">
-            <div class="modal-content">
+        <div class="modal-dialog modal-xl modal-dialog-centered">
+            <div class="modal-content order-modal">
                 <div class="modal-header">
-                    <h5 class="modal-title">Order Details</h5>
+                    <div class="d-flex align-items-center">
+                        <div class="order-icon me-3">
+                            <i class="fas fa-receipt"></i>
+                        </div>
+                        <div>
+                            <h5 class="modal-title mb-0">Order Details</h5>
+                            <small class="text-muted" id="orderModalSubtitle"></small>
+                        </div>
+                    </div>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body" id="orderModalBody">
+                    <!-- Content will be inserted by JS -->
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-hero" id="reorderBtn" style="display: none;">
+                        <i class="fas fa-redo me-2"></i>Reorder
+                    </button>
                 </div>
             </div>
         </div>
@@ -147,6 +255,7 @@
     <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
     <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/toastify-js"></script>
     <script src="js/orders.js"></script>
+    <script src="js/notifications.js"></script>
 </body>
 
 </html>

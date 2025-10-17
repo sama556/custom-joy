@@ -1085,3 +1085,152 @@ footer {
 #regServiceType option{
     color:var(--dark-navy)
 }
+
+/* Notification Dropdown Styles */
+.notification-dropdown {
+    min-width: 350px;
+    max-width: 400px;
+    max-height: 500px;
+    overflow: hidden;
+    border: none;
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
+    border-radius: 12px;
+    padding: 0;
+    word-wrap: break-word;
+    word-break: break-word;
+    overflow-wrap: break-word;
+}
+
+.notification-dropdown .dropdown-header {
+    background: linear-gradient(135deg, #FF4FA1 0%, #368BFF 100%);
+    color: white;
+    padding: 15px 20px;
+    margin: 0;
+    border-radius: 12px 12px 0 0;
+    font-weight: 600;
+}
+
+.notification-dropdown .dropdown-header button {
+    background: rgba(255, 255, 255, 0.2);
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    color: white;
+    font-size: 0.75rem;
+    padding: 4px 8px;
+    border-radius: 6px;
+    transition: all 0.3s ease;
+    white-space: nowrap;
+    word-wrap: break-word;
+    word-break: break-word;
+    overflow-wrap: break-word;
+}
+
+.notification-dropdown .dropdown-header button:hover {
+    background: rgba(255, 255, 255, 0.3);
+    border-color: rgba(255, 255, 255, 0.5);
+}
+
+.notification-item {
+    padding: 12px 20px;
+    border-bottom: 1px solid #f1f3f4;
+    transition: all 0.3s ease;
+    cursor: pointer;
+    position: relative;
+    word-wrap: break-word;
+    word-break: break-word;
+    overflow-wrap: break-word;
+}
+
+.notification-item:hover {
+    background-color: #f8f9fa;
+}
+
+.notification-item.unread {
+    background-color: #f0f8ff;
+    border-left: 3px solid #368BFF;
+}
+
+.notification-item:last-child {
+    border-bottom: none;
+}
+
+.notification-icon {
+    width: 32px;
+    height: 32px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    background: rgba(54, 139, 255, 0.1);
+    flex-shrink: 0;
+}
+
+/* Text wrapping for notification content */
+.notification-item .fw-bold {
+    word-wrap: break-word;
+    word-break: break-word;
+    overflow-wrap: break-word;
+    white-space: normal;
+    line-height: 1.3;
+}
+
+.notification-item .small {
+    word-wrap: break-word;
+    word-break: break-word;
+    overflow-wrap: break-word;
+    white-space: normal;
+    line-height: 1.4;
+}
+
+/* Ensure flex container allows wrapping */
+.notification-item .d-flex {
+    flex-wrap: wrap;
+    align-items: flex-start;
+}
+
+.notification-item .flex-grow-1 {
+    min-width: 0;
+    flex: 1;
+}
+
+.notification-dot {
+    width: 8px;
+    height: 8px;
+    background: #FF4FA1;
+    border-radius: 50%;
+    position: absolute;
+    top: 15px;
+    right: 15px;
+    animation: pulse 2s infinite;
+}
+
+@keyframes pulse {
+    0% {
+        transform: scale(1);
+        opacity: 1;
+    }
+    50% {
+        transform: scale(1.2);
+        opacity: 0.7;
+    }
+    100% {
+        transform: scale(1);
+        opacity: 1;
+    }
+}
+
+/* Notification badge animation */
+#notificationCount {
+    animation: bounce 0.6s ease-in-out;
+}
+
+@keyframes bounce {
+    0%, 20%, 50%, 80%, 100% {
+        transform: translateY(0);
+    }
+    40% {
+        transform: translateY(-3px);
+    }
+    60% {
+        transform: translateY(-2px);
+    }
+}

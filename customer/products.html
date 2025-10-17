@@ -40,12 +40,26 @@
                             href="themes.html">Themes</a></li>
                     <li class="nav-item" data-aos="fade-down" data-aos-delay="320"><a class="nav-link"
                             href="ads.html">Ads</a></li>
-                    <li class="nav-item ms-lg-3 mt-3 mt-lg-0" data-aos="fade-down" data-aos-delay="330">
-                        <a class="nav-link position-relative" href="#" title="Wishlist">
-                            <i class="fas fa-heart"></i>
-                            <span id="wishlistCount"
+                    <li class="nav-item dropdown ms-lg-3 mt-3 mt-lg-0" data-aos="fade-down" data-aos-delay="330">
+                        <a class="nav-link position-relative dropdown-toggle" href="#" role="button"
+                            data-bs-toggle="dropdown" aria-expanded="false" title="Notifications">
+                            <i class="fas fa-bell"></i>
+                            <span id="notificationCount"
                                 class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">0</span>
                         </a>
+                        <ul class="dropdown-menu dropdown-menu-end notification-dropdown">
+                            <li class="dropdown-header d-flex justify-content-between align-items-center">
+                                <span>Notifications</span>
+                                <button class="btn btn-sm btn-outline-secondary" onclick="markAllAsRead()">Mark all as
+                                    read</button>
+                            </li>
+                            <li>
+                                <hr class="dropdown-divider">
+                            </li>
+                            <div id="notificationList">
+                                <!-- Notifications will be loaded here -->
+                            </div>
+                        </ul>
                     </li>
                     <li class="nav-item ms-lg-2 mt-3 mt-lg-0" data-aos="fade-down" data-aos-delay="340">
                         <a class="nav-link position-relative" href="cart.html" title="Cart">
@@ -153,6 +167,23 @@
                                 </select>
                             </div>
 
+                            <div class="color-filter">
+                                <label class="filter-label">Color</label>
+                                <select id="colorFilter" class="filter-select">
+                                    <option value="">All Colors</option>
+                                    <option value="red">Red</option>
+                                    <option value="pink">Pink</option>
+                                    <option value="white">White</option>
+                                    <option value="blue">Blue</option>
+                                    <option value="yellow">Yellow</option>
+                                    <option value="purple">Purple</option>
+                                    <option value="green">Green</option>
+                                    <option value="orange">Orange</option>
+                                    <option value="black">Black</option>
+                                    <option value="gold">Gold</option>
+                                </select>
+                            </div>
+
                             <div class="results-info">
                                 <span id="resultsCount" class="results-badge">18 products</span>
                                 <button id="clearFilters" class="clear-filters-btn">
@@ -174,7 +205,7 @@
                 <!-- Static Product Cards -->
                 <div class="col-6 col-md-4 col-lg-3 col-xl-2">
                     <div class="product-card h-100" data-aos="zoom-in" onclick="viewProduct(1)" style="cursor: pointer;"
-                        data-category="cakes">
+                        data-category="cakes" data-color="brown">
                         <div class="product-img">
                             <img src="../images/ceek1.jpg" alt="Royal Chocolate Cake">
                         </div>
@@ -198,7 +229,7 @@
 
                 <div class="col-6 col-md-4 col-lg-3 col-xl-2">
                     <div class="product-card h-100" data-aos="zoom-in" onclick="viewProduct(2)" style="cursor: pointer;"
-                        data-category="cakes">
+                        data-category="cakes" data-color="white">
                         <div class="product-img">
                             <img src="../images/ceek2.jpg" alt="Vanilla Dream Cake">
                         </div>
@@ -222,7 +253,7 @@
 
                 <div class="col-6 col-md-4 col-lg-3 col-xl-2">
                     <div class="product-card h-100" data-aos="zoom-in" onclick="viewProduct(4)" style="cursor: pointer;"
-                        data-category="cakes">
+                        data-category="cakes" data-color="red">
                         <div class="product-img">
                             <img src="../images/ceek3.jpg" alt="Red Velvet Cake">
                         </div>
@@ -246,7 +277,7 @@
 
                 <div class="col-6 col-md-4 col-lg-3 col-xl-2">
                     <div class="product-card h-100" data-aos="zoom-in" onclick="viewProduct(5)" style="cursor: pointer;"
-                        data-category="flowers">
+                        data-category="flowers" data-color="pink">
                         <div class="product-img">
                             <img src="../images/rose.jpg" alt="Premium Rose Bouquet">
                         </div>
@@ -459,6 +490,7 @@
     <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
     <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/toastify-js"></script>
     <script src="./js/products.js"></script>
+    <script src="./js/notifications.js"></script>
 </body>
 
 </html>

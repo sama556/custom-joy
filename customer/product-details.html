@@ -90,137 +90,217 @@
 
     <!-- Customization Modal -->
     <div class="modal fade" id="customizeModal" tabindex="-1" aria-labelledby="customizeModalLabel" aria-hidden="true">
-        <div class="modal-dialog modal-lg modal-dialog-centered">
+        <div class="modal-dialog modal-xl modal-dialog-centered modal-dialog-scrollable">
             <div class="modal-content"
-                style="background: rgba(9,21,35,0.96); color: #fff; border: 1px solid rgba(255,255,255,0.15);">
-                <div class="modal-header border-0">
-                    <h5 class="modal-title" id="customizeModalLabel">Customize Your Cake</h5>
-                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"
-                        aria-label="Close"></button>
+                style="border-radius: 12px; border: none; box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);">
+                <div class="modal-header"
+                    style="background: linear-gradient(135deg, #FF4FA1 0%, #368BFF 100%); color: white; border-radius: 12px 12px 0 0; padding: 20px 30px; border: none;">
+                    <h5 class="modal-title" id="customizeModalLabel" style="font-weight: 600; font-size: 1.2rem;">
+                        <i class="fas fa-birthday-cake me-2"></i>Customize Your Cake
+                    </h5>
+                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"
+                        style="filter: brightness(0) invert(1);"></button>
                 </div>
                 <div class="modal-body">
-                    <div class="row g-4">
-                        <div class="col-md-6">
-                            <h6 class="mb-3">Size</h6>
-                            <div class="list-group">
-                                <label class="list-group-item d-flex align-items-center justify-content-between">
-                                    <span>
-                                        <input class="form-check-input me-2" type="radio" name="size" value="small"
-                                            data-price="0" checked>
-                                        Small (serves 4-6)
-                                    </span>
-                                    <span class="badge bg-light text-dark">+SAR 0</span>
-                                </label>
-                                <label class="list-group-item d-flex align-items-center justify-content-between">
-                                    <span>
-                                        <input class="form-check-input me-2" type="radio" name="size" value="medium"
-                                            data-price="30">
-                                        Medium (serves 8-10)
-                                    </span>
-                                    <span class="badge bg-light text-dark">+SAR 30</span>
-                                </label>
-                                <label class="list-group-item d-flex align-items-center justify-content-between">
-                                    <span>
-                                        <input class="form-check-input me-2" type="radio" name="size" value="large"
-                                            data-price="70">
-                                        Large (serves 12-16)
-                                    </span>
-                                    <span class="badge bg-light text-dark">+SAR 70</span>
-                                </label>
+                    <div class="customization-form">
+                        <!-- Flavor Section -->
+                        <div class="form-section">
+                            <h4><i class="fas fa-birthday-cake me-2"></i>Flavor</h4>
+                            <div class="form-group">
+                                <label for="flavor">Select Flavor *</label>
+                                <select id="flavor" name="flavor" class="form-select" required>
+                                    <option value="chocolate" selected>Chocolate</option>
+                                    <option value="vanilla">Vanilla</option>
+                                    <option value="red_velvet">Red Velvet</option>
+                                    <option value="strawberry">Strawberry</option>
+                                    <option value="lemon">Lemon</option>
+                                    <option value="carrot">Carrot</option>
+                                </select>
                             </div>
                         </div>
 
-                        <div class="col-md-6">
-                            <h6 class="mb-3">Flavor</h6>
-                            <div class="list-group">
-                                <label class="list-group-item">
-                                    <input class="form-check-input me-2" type="radio" name="flavor" value="chocolate"
-                                        checked>
-                                    Chocolate
-                                </label>
-                                <label class="list-group-item">
-                                    <input class="form-check-input me-2" type="radio" name="flavor" value="vanilla">
-                                    Vanilla
-                                </label>
-                                <label class="list-group-item">
-                                    <input class="form-check-input me-2" type="radio" name="flavor" value="red velvet">
-                                    Red Velvet
-                                </label>
+                        <!-- Fillings Section -->
+                        <div class="form-section">
+                            <h4><i class="fas fa-layer-group me-2"></i>Fillings</h4>
+                            <div class="form-group">
+                                <label for="fillings">Select Fillings</label>
+                                <select id="fillings" name="fillings" class="select2-multiple" multiple>
+                                    <option value="chocolate_ganache">Chocolate Ganache</option>
+                                    <option value="pastry_cream">Pastry Cream</option>
+                                    <option value="caramel">Caramel</option>
+                                    <option value="lotus">Lotus</option>
+                                    <option value="strawberry">Strawberry</option>
+                                    <option value="mixed_berries">Mixed Berries</option>
+                                    <option value="nutella">Nutella</option>
+                                </select>
                             </div>
                         </div>
 
-                        <div class="col-md-6">
-                            <h6 class="mb-3">Decoration</h6>
-                            <div class="list-group">
-                                <label class="list-group-item d-flex align-items-center justify-content-between">
-                                    <span>
-                                        <input class="form-check-input me-2" type="radio" name="decoration"
-                                            value="classic" data-price="0" checked>
-                                        Classic
-                                    </span>
-                                    <span class="badge bg-light text-dark">+SAR 0</span>
-                                </label>
-                                <label class="list-group-item d-flex align-items-center justify-content-between">
-                                    <span>
-                                        <input class="form-check-input me-2" type="radio" name="decoration"
-                                            value="premium" data-price="40">
-                                        Premium
-                                    </span>
-                                    <span class="badge bg-light text-dark">+SAR 40</span>
-                                </label>
-                                <label class="list-group-item d-flex align-items-center justify-content-between">
-                                    <span>
-                                        <input class="form-check-input me-2" type="radio" name="decoration"
-                                            value="luxury" data-price="90">
-                                        Luxury
-                                    </span>
-                                    <span class="badge bg-light text-dark">+SAR 90</span>
-                                </label>
+                        <!-- Frosting & Toppings Section -->
+                        <div class="form-section">
+                            <h4><i class="fas fa-ice-cream me-2"></i>Frosting & Toppings</h4>
+                            <div class="form-group">
+                                <label for="frosting">Select Frosting</label>
+                                <select id="frosting" name="frosting" class="select2-multiple" multiple>
+                                    <option value="butter_cream">Butter Cream</option>
+                                    <option value="whipped_cream">Whipped Cream</option>
+                                    <option value="cream_cheese">Cream Cheese</option>
+                                    <option value="ganache">Ganache</option>
+                                    <option value="fondant">Fondant</option>
+                                </select>
                             </div>
                         </div>
 
-                        <div class="col-md-6">
-                            <h6 class="mb-3">Additional Details</h6>
-                            <div class="mb-3">
-                                <label for="special-message" class="form-label">Special Message</label>
-                                <input type="text" id="special-message" class="form-control"
-                                    placeholder="e.g., Happy Birthday Sara!">
-                            </div>
-                            <div class="mb-3">
-                                <label for="allergies" class="form-label">Allergies</label>
-                                <input type="text" id="allergies" class="form-control" placeholder="e.g., No nuts">
-                            </div>
-                            <div class="mb-3">
-                                <label for="delivery-date" class="form-label">Preferred Delivery Date</label>
-                                <input type="date" id="delivery-date" class="form-control">
-                            </div>
-                        </div>
-
-                        <div class="col-12">
-                            <div class="row g-3 align-items-center">
-                                <div class="col-md-8">
-                                    <div class="p-3 rounded-3"
-                                        style="background: rgba(126, 215, 255, 0.08); border: 1px solid rgba(126,215,255,0.25);">
-                                        <div class="d-flex flex-wrap gap-3">
-                                            <div>Base: <span id="basePrice">SAR 199</span></div>
-                                            <div>Size: <span id="sizePrice">+SAR 0</span></div>
-                                            <div>Decoration: <span id="decorationPrice">+SAR 0</span></div>
-                                        </div>
-                                        <div class="mt-2 fw-bold">Total: <span id="totalPrice">SAR 199</span></div>
+                        <!-- Shape & Size Section -->
+                        <div class="form-section">
+                            <h4><i class="fas fa-shapes me-2"></i>Shape & Size</h4>
+                            <div class="row g-3">
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label for="shape">Shape *</label>
+                                        <select id="shape" name="shape" class="form-select" required>
+                                            <option value="round" selected>Round</option>
+                                            <option value="square">Square</option>
+                                            <option value="rectangle">Rectangle</option>
+                                            <option value="heart">Heart</option>
+                                        </select>
                                     </div>
                                 </div>
-                                <div class="col-md-4 text-md-end">
-                                    <button class="btn btn-customize w-100 w-md-auto" onclick="addCustomizedToCart()">
-                                        <i class="fas fa-cog"></i>
-                                        Add Customized to Cart
-                                    </button>
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label for="size">Size/Diameter *</label>
+                                        <select id="size" name="size" class="form-select" required>
+                                            <option value="6" data-price="0" selected>6" - Small (4-6 people)</option>
+                                            <option value="8" data-price="30">8" - Medium (8-10 people)</option>
+                                            <option value="10" data-price="60">10" - Large (12-16 people)</option>
+                                            <option value="12" data-price="100">12" - Extra Large (20+ people)</option>
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Layers & Design Section -->
+                        <div class="form-section">
+                            <h4><i class="fas fa-layer-group me-2"></i>Layers & Design</h4>
+                            <div class="row g-3">
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label for="layers">Number of Layers *</label>
+                                        <select id="layers" name="layers" class="form-select" required>
+                                            <option value="1" data-price="0" selected>1 Layer</option>
+                                            <option value="2" data-price="25">2 Layers</option>
+                                            <option value="3" data-price="50">3+ Layers</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label for="colors">Colors</label>
+                                        <select id="colors" name="colors" class="select2-multiple" multiple>
+                                            <option value="white">White</option>
+                                            <option value="gold">Gold</option>
+                                            <option value="pink">Pink</option>
+                                            <option value="blue">Blue</option>
+                                            <option value="black">Black</option>
+                                            <option value="red">Red</option>
+                                            <option value="green">Green</option>
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Decorations Section -->
+                        <div class="form-section">
+                            <h4><i class="fas fa-sparkles me-2"></i>Decorations</h4>
+                            <div class="form-group">
+                                <label for="decorations">Select Decorations</label>
+                                <select id="decorations" name="decorations" class="select2-multiple" multiple>
+                                    <option value="sprinkles" data-price="5">Sprinkles (+SAR 5)</option>
+                                    <option value="chocolate_shavings" data-price="8">Chocolate Shavings (+SAR 8)
+                                    </option>
+                                    <option value="fresh_fruits" data-price="15">Fresh Fruits (+SAR 15)</option>
+                                    <option value="nuts" data-price="10">Nuts (+SAR 10)</option>
+                                    <option value="edible_flowers" data-price="20">Edible Flowers (+SAR 20)</option>
+                                    <option value="gold_leaf" data-price="30">Gold Leaf (+SAR 30)</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <!-- Customization Options Section -->
+                        <div class="form-section">
+                            <h4><i class="fas fa-cog me-2"></i>Customization Options</h4>
+                            <div class="row g-3">
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label for="special-message" class="form-label">Special Message</label>
+                                        <input type="text" id="special-message" class="form-control"
+                                            placeholder="e.g., Happy Birthday Sara!">
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label for="allergies" class="form-label">Allergies/Dietary Restrictions</label>
+                                        <input type="text" id="allergies" class="form-control"
+                                            placeholder="e.g., No nuts, Gluten-free">
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label for="delivery-date" class="form-label">Preferred Delivery Date</label>
+                                        <input type="date" id="delivery-date" class="form-control">
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label for="delivery-time" class="form-label">Preferred Delivery Time</label>
+                                        <select id="delivery-time" class="form-select">
+                                            <option value="">Any time</option>
+                                            <option value="morning">Morning (9AM-12PM)</option>
+                                            <option value="afternoon">Afternoon (12PM-5PM)</option>
+                                            <option value="evening">Evening (5PM-8PM)</option>
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Price Summary -->
+                        <div class="form-section">
+                            <div class="price-summary">
+                                <div class="row g-3 align-items-center">
+                                    <div class="col-md-8">
+                                        <div class="p-3 rounded-3"
+                                            style="background: rgba(126, 215, 255, 0.08); border: 1px solid rgba(126,215,255,0.25);">
+                                            <div class="d-flex flex-wrap gap-3 mb-2">
+                                                <div>Base: <span id="basePrice">SAR 199</span></div>
+                                                <div>Size: <span id="sizePrice">+SAR 0</span></div>
+                                                <div>Layers: <span id="layersPrice">+SAR 0</span></div>
+                                                <div>Decorations: <span id="decorationsPrice">+SAR 0</span></div>
+                                            </div>
+                                            <div class="fw-bold border-top pt-2">Total: <span id="totalPrice">SAR
+                                                    199</span></div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-4 text-md-end">
+                                        <button class="btn w-100" onclick="addCustomizedToCart()"
+                                            style="background: linear-gradient(135deg, #FF4FA1 0%, #368BFF 100%); border: none; color: white; padding: 12px 24px; border-radius: 8px; font-weight: 600; font-size: 0.9rem; transition: all 0.3s ease; box-shadow: 0 4px 12px rgba(255, 79, 161, 0.3);">
+                                            <i class="fas fa-shopping-cart me-2"></i>
+                                            Add Customized to Cart
+                                        </button>
+                                    </div>
                                 </div>
                             </div>
                         </div>
                     </div>
                 </div>
-                <div class="modal-footer border-0">
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                <div class="modal-footer"
+                    style="background: #f8fafc; border-top: 1px solid #e2e8f0; padding: 20px 30px; border-radius: 0 0 12px 12px;">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal"
+                        style="border: 1px solid #e2e8f0; color: #64748b; background: #ffffff; padding: 10px 20px; border-radius: 8px; font-weight: 500;">
+                        <i class="fas fa-times me-2"></i>Close
+                    </button>
                 </div>
             </div>
         </div>

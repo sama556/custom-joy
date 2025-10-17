@@ -1018,3 +1018,403 @@
         font-size: 14px;
     }
 }
+
+/* Admin-style Form Sections - Enhanced */
+.customization-form {
+    background: #f8fafc;
+    border-radius: 12px;
+    padding: 0;
+    margin: 0;
+}
+
+.customization-form .form-section {
+    margin-bottom: 0;
+    padding: 25px 30px;
+    background: #ffffff;
+    border-bottom: 1px solid #e2e8f0;
+    position: relative;
+}
+
+.customization-form .form-section:last-of-type {
+    border-bottom: none;
+}
+
+.customization-form .form-section h4 {
+    color: #0A1428;
+    font-weight: 600;
+    margin-bottom: 20px;
+    font-size: 1.1rem;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    position: relative;
+}
+
+.customization-form .form-section h4::before {
+    content: '';
+    width: 4px;
+    height: 16px;
+    background: linear-gradient(135deg, #FF4FA1 0%, #368BFF 100%);
+    border-radius: 2px;
+}
+
+.customization-form .form-section h4 i {
+    color: #FF4FA1;
+    margin-right: 0;
+    font-size: 1rem;
+}
+
+.customization-form .form-group {
+    margin-bottom: 20px;
+}
+
+.customization-form .form-group:last-child {
+    margin-bottom: 0;
+}
+
+.customization-form .form-group label {
+    font-weight: 500;
+    color: #0A1428;
+    margin-bottom: 8px;
+    display: block;
+    font-size: 0.9rem;
+}
+
+/* Enhanced Select2 Styling for Multiselect */
+.customization-form .form-select {
+    border: 1px solid #e2e8f0;
+    border-radius: 8px;
+    padding: 0.75rem 1rem;
+    background: #ffffff;
+    color: #0A1428;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    font-size: 0.9rem;
+    min-height: 44px;
+}
+
+.customization-form .form-select:focus {
+    border-color: #368BFF;
+    box-shadow: 0 0 0 3px rgba(54, 139, 255, 0.1);
+    background: #ffffff;
+    outline: none;
+}
+
+.customization-form .form-select:hover {
+    border-color: #64748b;
+}
+
+.customization-form .form-control {
+    border: 1px solid #e2e8f0;
+    border-radius: 8px;
+    padding: 0.75rem 1rem;
+    background: #ffffff;
+    color: #0A1428;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    font-size: 0.9rem;
+}
+
+.customization-form .form-control:focus {
+    border-color: #368BFF;
+    box-shadow: 0 0 0 3px rgba(54, 139, 255, 0.1);
+    background: #ffffff;
+    outline: none;
+}
+
+.customization-form .form-control:hover {
+    border-color: #64748b;
+}
+
+/* Select2 Multiselect Styling - Admin Version Match */
+.select2-container--default .select2-selection--multiple {
+    border: 1px solid #e2e8f0;
+    border-radius: 8px;
+    min-height: 44px;
+    padding: 8px 12px;
+    background: #ffffff;
+    font-size: 0.9rem;
+    line-height: 1.5;
+}
+
+.select2-container--default.select2-container--focus .select2-selection--multiple {
+    border-color: #368BFF;
+    box-shadow: 0 0 0 3px rgba(54, 139, 255, 0.1);
+    outline: none;
+}
+
+.select2-container--default .select2-selection--multiple .select2-selection__rendered {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+    padding: 0;
+    margin: 0;
+}
+
+.select2-container--default .select2-selection--multiple .select2-selection__choice {
+    background: linear-gradient(135deg, #FF4FA1 0%, #368BFF 100%);
+    border: none;
+    border-radius: 16px;
+    color: #ffffff;
+    padding: 6px 12px;
+    margin: 2px;
+    font-size: 0.8rem;
+    font-weight: 500;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+}
+
+.select2-container--default .select2-selection--multiple .select2-selection__choice__remove {
+    color: #ffffff;
+    margin-right: 0;
+    margin-left: 4px;
+    border: none;
+    background: none;
+    font-size: 1rem;
+    width: 16px;
+    height: 16px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    transition: all 0.3s;
+}
+
+.select2-container--default .select2-selection--multiple .select2-selection__choice__remove:hover {
+    background: rgba(255, 255, 255, 0.3);
+    color: #ffffff;
+}
+
+.select2-container--default .select2-search--inline .select2-search__field {
+    margin: 0;
+    padding: 0;
+    font-size: 0.9rem;
+    color: #0A1428;
+    min-height: auto;
+    line-height: 1.5;
+}
+
+.select2-container--default .select2-search--inline .select2-search__field::placeholder {
+    color: #64748b;
+    opacity: 0.7;
+}
+
+.select2-container--default .select2-results__option {
+    padding: 10px 12px;
+    font-size: 0.9rem;
+    transition: all 0.3s;
+}
+
+.select2-container--default .select2-results__option--highlighted[aria-selected] {
+    background: linear-gradient(135deg, #FF4FA1 0%, #368BFF 100%);
+    color: #ffffff;
+}
+
+.select2-container--default .select2-results__option[aria-selected=true] {
+    background: #f8fafc;
+    color: #0A1428;
+}
+
+.select2-container--default .select2-selection--multiple {
+    min-height: 44px;
+    max-height: 120px;
+    overflow-y: auto;
+}
+
+.select2-container--default .select2-selection--multiple::-webkit-scrollbar {
+    width: 6px;
+}
+
+.select2-container--default .select2-selection--multiple::-webkit-scrollbar-track {
+    background: #f8fafc;
+    border-radius: 3px;
+}
+
+.select2-container--default .select2-selection--multiple::-webkit-scrollbar-thumb {
+    background: #64748b;
+    border-radius: 3px;
+}
+
+.select2-container--default .select2-selection--multiple::-webkit-scrollbar-thumb:hover {
+    background: #368BFF;
+}
+
+.select2-container--default .select2-selection--multiple:focus {
+    border-color: #368BFF;
+    box-shadow: 0 0 0 3px rgba(54, 139, 255, 0.1);
+}
+
+.select2-container--default .select2-selection--multiple:hover {
+    border-color: #64748b;
+}
+
+.select2-dropdown {
+    border: 1px solid #e2e8f0;
+    border-radius: 8px;
+    box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+    z-index: 9999;
+}
+
+.select2-container--default .select2-results__option {
+    border-bottom: 1px solid #f8fafc;
+}
+
+.select2-container--default .select2-results__option:last-child {
+    border-bottom: none;
+}
+
+/* Price Summary Styling */
+.price-summary {
+    background: linear-gradient(135deg, rgba(126, 215, 255, 0.1) 0%, rgba(255, 177, 27, 0.1) 100%);
+    border: 1px solid rgba(126, 215, 255, 0.3);
+    border-radius: 12px;
+    padding: 20px;
+    margin-top: 20px;
+}
+
+/* Form Row Grid */
+.customization-form .form-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 20px;
+}
+
+/* Custom Multiselect Styling - No jQuery */
+.custom-multiselect-wrapper {
+    position: relative;
+    width: 100%;
+}
+
+.custom-multiselect-chips {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+    margin-bottom: 8px;
+    min-height: 20px;
+}
+
+.custom-multiselect-chip {
+    display: inline-flex;
+    align-items: center;
+    background: linear-gradient(135deg, #FF4FA1 0%, #368BFF 100%);
+    color: white;
+    border: none;
+    border-radius: 16px;
+    padding: 6px 12px;
+    font-size: 0.8rem;
+    font-weight: 500;
+    box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+    gap: 6px;
+}
+
+.custom-multiselect-chip .chip-remove {
+    background: none;
+    border: none;
+    color: white;
+    font-size: 0.8rem;
+    width: 16px;
+    height: 16px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    transition: all 0.3s;
+    cursor: pointer;
+}
+
+.custom-multiselect-chip .chip-remove:hover {
+    background: rgba(255, 255, 255, 0.3);
+}
+
+.custom-multiselect-button {
+    width: 100%;
+    padding: 12px 16px;
+    border: 1px solid #e2e8f0;
+    border-radius: 8px;
+    background: #ffffff;
+    color: #0A1428;
+    font-size: 0.9rem;
+    text-align: left;
+    cursor: pointer;
+    transition: all 0.3s;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.custom-multiselect-button:hover {
+    border-color: #64748b;
+}
+
+.custom-multiselect-button.active {
+    border-color: #368BFF;
+    box-shadow: 0 0 0 3px rgba(54, 139, 255, 0.1);
+}
+
+.custom-multiselect-dropdown {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    right: 0;
+    background: #ffffff;
+    border: 1px solid #e2e8f0;
+    border-radius: 8px;
+    box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+    z-index: 1000;
+    max-height: 200px;
+    overflow-y: auto;
+    display: none;
+}
+
+.custom-multiselect-dropdown.show {
+    display: block;
+}
+
+.custom-multiselect-option {
+    padding: 10px 16px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    transition: all 0.3s;
+    cursor: pointer;
+}
+
+.custom-multiselect-option:hover {
+    background: #f8fafc;
+}
+
+.custom-multiselect-option input[type="checkbox"] {
+    margin: 0;
+    width: 16px;
+    height: 16px;
+    accent-color: #368BFF;
+}
+
+.custom-multiselect-option label {
+    margin: 0;
+    cursor: pointer;
+    font-size: 0.9rem;
+    color: #0A1428;
+    flex: 1;
+}
+
+@media (max-width: 768px) {
+    .customization-form .form-row {
+        grid-template-columns: 1fr;
+        gap: 15px;
+    }
+    
+    .customization-form .form-section {
+        padding: 20px;
+    }
+    
+    .select2-container--default .select2-selection--multiple {
+        min-height: 48px;
+        padding: 10px 12px;
+    }
+    
+    .select2-container--default .select2-selection--multiple .select2-selection__choice {
+        padding: 6px 10px;
+        font-size: 0.75rem;
+    }
+}

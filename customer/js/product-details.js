@@ -327,24 +327,50 @@ function addRelatedToCart(productId) {
 
 // Customization functionality
 function updateCustomizationSummary() {
-    const basePrice = 199;
-    const sizePrice = parseInt(document.querySelector('input[name="size"]:checked').dataset.price);
-    const decorationPrice = parseInt(document.querySelector('input[name="decoration"]:checked').dataset.price);
+    // Get values from the new admin-style form
+    const sizeSelect = document.getElementById('size');
+    const layersSelect = document.getElementById('layers');
 
-    const totalPrice = basePrice + sizePrice + decorationPrice;
+    const sizePrice = sizeSelect ? parseInt(sizeSelect.selectedOptions[0]?.dataset.price || '0', 10) : 0;
+    const layersPrice = layersSelect ? parseInt(layersSelect.selectedOptions[0]?.dataset.price || '0', 10) : 0;
+
+    // Calculate decorations price using vanilla JavaScript
+    let decorationsPrice = 0;
+    const decorationsSelect = document.getElementById('decorations');
+    if (decorationsSelect) {
+        const selectedDecorations = Array.from(decorationsSelect.selectedOptions);
+        selectedDecorations.forEach(option => {
+            decorationsPrice += parseInt(option.dataset.price || '0', 10);
+        });
+    }
+
+    const basePrice = 199;
+    const totalPrice = basePrice + sizePrice + layersPrice + decorationsPrice;
 
     document.getElementById('basePrice').textContent = `SAR ${basePrice}`;
     document.getElementById('sizePrice').textContent = `+SAR ${sizePrice}`;
-    document.getElementById('decorationPrice').textContent = `+SAR ${decorationPrice}`;
+    document.getElementById('layersPrice').textContent = `+SAR ${layersPrice}`;
+    document.getElementById('decorationsPrice').textContent = `+SAR ${decorationsPrice}`;
     document.getElementById('totalPrice').textContent = `SAR ${totalPrice}`;
 }
 
 function addCustomizedToCart() {
-    const size = document.querySelector('input[name="size"]:checked')?.value || 'small';
-    const flavor = document.querySelector('input[name="flavor"]:checked')?.value || 'chocolate';
-    const decoration = document.querySelector('input[name="decoration"]:checked')?.value || 'classic';
+    // Get all form values from the new admin-style form
+    const flavor = document.getElementById('flavor')?.value || 'chocolate';
+
+    // Get multiselect values using vanilla JavaScript
+    const fillings = Array.from(document.getElementById('fillings')?.selectedOptions || []).map(option => option.value);
+    const frosting = Array.from(document.getElementById('frosting')?.selectedOptions || []).map(option => option.value);
+    const colors = Array.from(document.getElementById('colors')?.selectedOptions || []).map(option => option.value);
+    const decorations = Array.from(document.getElementById('decorations')?.selectedOptions || []).map(option => option.value);
+
+    const shape = document.getElementById('shape')?.value || 'round';
+    const size = document.getElementById('size')?.value || '6';
+    const layers = document.getElementById('layers')?.value || '1';
     const specialMessage = document.getElementById('special-message')?.value || '';
+    const allergies = document.getElementById('allergies')?.value || '';
     const deliveryDate = document.getElementById('delivery-date')?.value || '';
+    const deliveryTime = document.getElementById('delivery-time')?.value || '';
     const totalPrice = document.getElementById('totalPrice')?.textContent || 'SAR 199';
 
     // Increment cart badge directly
@@ -366,21 +392,32 @@ function addCustomizedToCart() {
 
     // Show success toast summarizing customization
     const summaryParts = [
-        `Size: ${size}`,
-        `Flavor: ${flavor}`,
-        `Decoration: ${decoration}`,
+        `Flavor: ${flavor.charAt(0).toUpperCase() + flavor.slice(1).replace('_', ' ')}`,
+        `Shape: ${shape.charAt(0).toUpperCase() + shape.slice(1)}`,
+        `Size: ${size}"`,
+        `Layers: ${layers}`
     ];
+
+    if (fillings.length) summaryParts.push(`Fillings: ${fillings.join(', ').replace(/_/g, ' ')}`);
+    if (frosting.length) summaryParts.push(`Frosting: ${frosting.join(', ').replace(/_/g, ' ')}`);
+    if (colors.length) summaryParts.push(`Colors: ${colors.join(', ')}`);
+    if (decorations.length) summaryParts.push(`Decorations: ${decorations.join(', ').replace(/_/g, ' ')}`);
     if (specialMessage) summaryParts.push(`Message: "${specialMessage}"`);
-    if (deliveryDate) summaryParts.push(`Date: ${deliveryDate}`);
+    if (allergies) summaryParts.push(`Allergies: ${allergies}`);
+    if (deliveryDate) summaryParts.push(`Delivery: ${deliveryDate}`);
+    if (deliveryTime) summaryParts.push(`Time: ${deliveryTime}`);
 
     Toastify({
-        text: `Added customized cake to cart (${summaryParts.join(', ')}) • ${totalPrice}`,
-        duration: 3500,
+        text: `Added customized cake to cart!\n${summaryParts.join('\n')}\n\nTotal: ${totalPrice}`,
+        duration: 5000,
         gravity: 'top',
         position: 'right',
         close: true,
         stopOnFocus: true,
-        style: { background: 'linear-gradient(to right, #FF4FA1, #e03d8c)' }
+        style: {
+            background: 'linear-gradient(to right, #FF4FA1, #e03d8c)',
+            whiteSpace: 'pre-line'
+        }
     }).showToast();
 }
 
@@ -388,8 +425,147 @@ function addCustomizedToCart() {
 document.addEventListener('DOMContentLoaded', function () {
     updateCustomizationSummary();
 
-    // Add event listeners for customization options
-    document.querySelectorAll('input[name="size"], input[name="decoration"]').forEach(input => {
-        input.addEventListener('change', updateCustomizationSummary);
+    // Initialize Select2 for multiselect fields using vanilla JavaScript
+    initializeSelect2();
+
+    // Add event listeners for regular select fields
+    const sizeSelect = document.getElementById('size');
+    const layersSelect = document.getElementById('layers');
+
+    if (sizeSelect) sizeSelect.addEventListener('change', updateCustomizationSummary);
+    if (layersSelect) layersSelect.addEventListener('change', updateCustomizationSummary);
+});
+
+// Custom multiselect implementation without jQuery
+function initializeSelect2() {
+    const selectElements = document.querySelectorAll('.select2-multiple:not([data-customized])');
+
+    selectElements.forEach(select => {
+        createCustomMultiselect(select);
+        // Mark as customized to prevent re-initialization
+        select.setAttribute('data-customized', 'true');
     });
+
+    if (selectElements.length > 0) {
+        console.log('Custom multiselect initialized for', selectElements.length, 'elements');
+    }
+}
+
+function createCustomMultiselect(selectElement) {
+    // Create wrapper
+    const wrapper = document.createElement('div');
+    wrapper.className = 'custom-multiselect-wrapper';
+
+    // Create display area for chips
+    const chipsContainer = document.createElement('div');
+    chipsContainer.className = 'custom-multiselect-chips';
+
+    // Create dropdown button
+    const dropdownButton = document.createElement('button');
+    dropdownButton.type = 'button';
+    dropdownButton.className = 'custom-multiselect-button';
+    dropdownButton.innerHTML = 'Select options... <i class="fas fa-chevron-down"></i>';
+
+    // Create dropdown menu
+    const dropdownMenu = document.createElement('div');
+    dropdownMenu.className = 'custom-multiselect-dropdown';
+
+    // Populate dropdown with options
+    Array.from(selectElement.options).forEach(option => {
+        if (option.value) {
+            const menuItem = document.createElement('div');
+            menuItem.className = 'custom-multiselect-option';
+            menuItem.dataset.value = option.value;
+            menuItem.innerHTML = `
+                <input type="checkbox" id="${selectElement.id}_${option.value}" value="${option.value}">
+                <label for="${selectElement.id}_${option.value}">${option.textContent}</label>
+            `;
+            dropdownMenu.appendChild(menuItem);
+        }
+    });
+
+    // Assemble wrapper
+    wrapper.appendChild(chipsContainer);
+    wrapper.appendChild(dropdownButton);
+    wrapper.appendChild(dropdownMenu);
+
+    // Hide original select but keep it for form submission
+    selectElement.style.display = 'none';
+    selectElement.parentNode.insertBefore(wrapper, selectElement);
+
+    // Add event listeners
+    dropdownButton.addEventListener('click', () => {
+        dropdownMenu.classList.toggle('show');
+        dropdownButton.classList.toggle('active');
+    });
+
+    // Close dropdown when clicking outside
+    document.addEventListener('click', (e) => {
+        if (!wrapper.contains(e.target)) {
+            dropdownMenu.classList.remove('show');
+            dropdownButton.classList.remove('active');
+        }
+    });
+
+    // Handle option selection
+    dropdownMenu.addEventListener('change', (e) => {
+        if (e.target.type === 'checkbox') {
+            // Update the hidden select element
+            const option = selectElement.querySelector(`option[value="${e.target.value}"]`);
+            if (option) {
+                option.selected = e.target.checked;
+            }
+            updateChips(selectElement, chipsContainer);
+            updateCustomizationSummary();
+        }
+    });
+
+    // Initialize chips
+    updateChips(selectElement, chipsContainer);
+}
+
+
+function updateChips(selectElement, chipsContainer) {
+    chipsContainer.innerHTML = '';
+
+    // Get selected options
+    const selectedOptions = Array.from(selectElement.selectedOptions);
+
+    selectedOptions.forEach(option => {
+        const chip = document.createElement('span');
+        chip.className = 'custom-multiselect-chip';
+        chip.innerHTML = `
+            ${option.textContent}
+            <button type="button" class="chip-remove" data-value="${option.value}">
+                <i class="fas fa-times"></i>
+            </button>
+        `;
+
+        // Add remove functionality
+        chip.querySelector('.chip-remove').addEventListener('click', () => {
+            option.selected = false;
+            // Also uncheck the corresponding checkbox
+            const checkbox = document.querySelector(`input[value="${option.value}"]`);
+            if (checkbox) {
+                checkbox.checked = false;
+            }
+            updateChips(selectElement, chipsContainer);
+            updateCustomizationSummary();
+        });
+
+        chipsContainer.appendChild(chip);
+    });
+}
+
+// Re-initialize Select2 when modal is shown (only if not already initialized)
+document.addEventListener('shown.bs.modal', function (event) {
+    if (event.target.id === 'customizeModal') {
+        // Only initialize if there are uninitialized elements
+        const uninitializedElements = document.querySelectorAll('.select2-multiple:not([data-customized])');
+        if (uninitializedElements.length > 0) {
+            setTimeout(() => {
+                initializeSelect2();
+            }, 100);
+        }
+    }
 });

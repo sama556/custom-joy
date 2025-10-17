@@ -7,6 +7,7 @@ AOS.init({ duration: 800, once: true });
 const grid = document.getElementById('productsGrid');
 const searchInput = document.getElementById('searchInput');
 const priceFilter = document.getElementById('priceFilter');
+const colorFilter = document.getElementById('colorFilter');
 const resultsCount = document.getElementById('resultsCount');
 const clearFilters = document.getElementById('clearFilters');
 const clearSearch = document.getElementById('clearSearch');
@@ -57,12 +58,15 @@ function renderProducts(items) {
         const activePill = document.querySelector('.filter-pill.active');
         const cat = activePill ? activePill.dataset.filter : 'all';
         const price = priceFilter.value;
+        const color = colorFilter.value;
+        const productColor = card.dataset.color;
 
         const matchesText = !term || productName.includes(term);
         const matchesCat = cat === 'all' || productCategory === cat;
         const matchesPrice = !price || checkPriceRange(productPrice, price);
+        const matchesColor = !color || productColor === color;
 
-        if (matchesText && matchesCat && matchesPrice) {
+        if (matchesText && matchesCat && matchesPrice && matchesColor) {
             card.closest('.col-6').style.display = 'block';
             visibleCount++;
         }
@@ -97,6 +101,7 @@ function applyFilters() {
 function clearAllFilters() {
     searchInput.value = '';
     priceFilter.value = '';
+    colorFilter.value = '';
 
     // Reset filter pills
     filterPills.forEach(pill => pill.classList.remove('active'));
@@ -155,6 +160,7 @@ filterPills.forEach(pill => {
 });
 
 priceFilter.addEventListener('change', applyFilters);
+colorFilter.addEventListener('change', applyFilters);
 
 // Clear filters functionality
 clearFilters.addEventListener('click', clearAllFilters);

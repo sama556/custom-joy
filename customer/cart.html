@@ -36,12 +36,26 @@
                             href="themes.html">Themes</a></li>
                     <li class="nav-item" data-aos="fade-down" data-aos-delay="320"><a class="nav-link"
                             href="ads.html">Ads</a></li>
-                    <li class="nav-item ms-lg-3 mt-3 mt-lg-0" data-aos="fade-down" data-aos-delay="330">
-                        <a class="nav-link position-relative" href="#" title="Wishlist">
-                            <i class="fas fa-heart"></i>
-                            <span id="wishlistCount"
+                    <li class="nav-item dropdown ms-lg-3 mt-3 mt-lg-0" data-aos="fade-down" data-aos-delay="330">
+                        <a class="nav-link position-relative dropdown-toggle" href="#" role="button"
+                            data-bs-toggle="dropdown" aria-expanded="false" title="Notifications">
+                            <i class="fas fa-bell"></i>
+                            <span id="notificationCount"
                                 class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">0</span>
                         </a>
+                        <ul class="dropdown-menu dropdown-menu-end notification-dropdown">
+                            <li class="dropdown-header d-flex justify-content-between align-items-center">
+                                <span>Notifications</span>
+                                <button class="btn btn-sm btn-outline-secondary" onclick="markAllAsRead()">Mark all as
+                                    read</button>
+                            </li>
+                            <li>
+                                <hr class="dropdown-divider">
+                            </li>
+                            <div id="notificationList">
+                                <!-- Notifications will be loaded here -->
+                            </div>
+                        </ul>
                     </li>
                     <li class="nav-item ms-lg-2 mt-3 mt-lg-0" data-aos="fade-down" data-aos-delay="340">
                         <a class="nav-link position-relative" href="cart.html" title="Cart">
@@ -127,6 +141,7 @@
     <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
     <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/toastify-js"></script>
     <script src="js/cart.js"></script>
+    <script src="js/notifications.js"></script>
 </body>
 
 </html>
