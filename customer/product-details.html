@@ -31,7 +31,7 @@
                     <li class="nav-item" data-aos="fade-down" data-aos-delay="150"><a class="nav-link"
                             href="./index.html#services">Services</a></li>
                     <li class="nav-item" data-aos="fade-down" data-aos-delay="200"><a class="nav-link"
-                            href="./index.html#products">Products</a></li>
+                            href="./products.html">Products</a></li>
                     <li class="nav-item" data-aos="fade-down" data-aos-delay="250"><a class="nav-link"
                             href="./index.html#contact">Contact</a></li>
                     <li class="nav-item" data-aos="fade-down" data-aos-delay="300"><a class="nav-link"
@@ -40,13 +40,7 @@
                             href="themes.html">Themes</a></li>
                     <li class="nav-item" data-aos="fade-down" data-aos-delay="320"><a class="nav-link"
                             href="ads.html">Ads</a></li>
-                    <li class="nav-item ms-lg-3 mt-3 mt-lg-0" data-aos="fade-down" data-aos-delay="330">
-                        <a class="nav-link position-relative" href="#" title="Wishlist">
-                            <i class="fas fa-heart"></i>
-                            <span id="wishlistCount"
-                                class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">0</span>
-                        </a>
-                    </li>
+                   
                     <li class="nav-item ms-lg-2 mt-3 mt-lg-0" data-aos="fade-down" data-aos-delay="340">
                         <a class="nav-link position-relative" href="cart.html" title="Cart">
                             <i class="fas fa-shopping-cart"></i>
@@ -103,59 +97,61 @@
                 </div>
                 <div class="modal-body">
                     <div class="customization-form">
-                        <!-- Flavor Section -->
-                        <div class="form-section">
-                            <h4><i class="fas fa-birthday-cake me-2"></i>Flavor</h4>
-                            <div class="form-group">
-                                <label for="flavor">Select Flavor *</label>
-                                <select id="flavor" name="flavor" class="form-select" required>
-                                    <option value="chocolate" selected>Chocolate</option>
-                                    <option value="vanilla">Vanilla</option>
-                                    <option value="red_velvet">Red Velvet</option>
-                                    <option value="strawberry">Strawberry</option>
-                                    <option value="lemon">Lemon</option>
-                                    <option value="carrot">Carrot</option>
-                                </select>
-                            </div>
-                        </div>
+                        <div class="row g-4">
+                            <!-- Column 1: Flavor & Fillings -->
+                            <div class="col-lg-3 col-md-6">
+                                <div class="form-section">
+                                    <h4><i class="fas fa-birthday-cake me-2"></i>Flavor</h4>
+                                    <div class="form-group">
+                                        <label for="flavor">Select Flavor *</label>
+                                        <select id="flavor" name="flavor" class="form-select" required>
+                                            <option value="chocolate" selected>Chocolate</option>
+                                            <option value="vanilla">Vanilla</option>
+                                            <option value="red_velvet">Red Velvet</option>
+                                            <option value="strawberry">Strawberry</option>
+                                            <option value="lemon">Lemon</option>
+                                            <option value="carrot">Carrot</option>
+                                        </select>
+                                    </div>
+                                </div>
 
-                        <!-- Fillings Section -->
-                        <div class="form-section">
-                            <h4><i class="fas fa-layer-group me-2"></i>Fillings</h4>
-                            <div class="form-group">
-                                <label for="fillings">Select Fillings</label>
-                                <select id="fillings" name="fillings" class="select2-multiple" multiple>
-                                    <option value="chocolate_ganache">Chocolate Ganache</option>
-                                    <option value="pastry_cream">Pastry Cream</option>
-                                    <option value="caramel">Caramel</option>
-                                    <option value="lotus">Lotus</option>
-                                    <option value="strawberry">Strawberry</option>
-                                    <option value="mixed_berries">Mixed Berries</option>
-                                    <option value="nutella">Nutella</option>
-                                </select>
+                                <div class="form-section mt-4">
+                                    <h4><i class="fas fa-layer-group me-2"></i>Fillings</h4>
+                                    <div class="form-group">
+                                        <label for="fillings">Select Filling</label>
+                                        <select id="fillings" name="fillings" class="form-select">
+                                            <option value="">Choose a filling</option>
+                                            <option value="chocolate_ganache">Chocolate Ganache</option>
+                                            <option value="pastry_cream">Pastry Cream</option>
+                                            <option value="caramel">Caramel</option>
+                                            <option value="lotus">Lotus</option>
+                                            <option value="strawberry">Strawberry</option>
+                                            <option value="mixed_berries">Mixed Berries</option>
+                                            <option value="nutella">Nutella</option>
+                                        </select>
+                                    </div>
+                                </div>
                             </div>
-                        </div>
 
-                        <!-- Frosting & Toppings Section -->
-                        <div class="form-section">
-                            <h4><i class="fas fa-ice-cream me-2"></i>Frosting & Toppings</h4>
-                            <div class="form-group">
-                                <label for="frosting">Select Frosting</label>
-                                <select id="frosting" name="frosting" class="select2-multiple" multiple>
-                                    <option value="butter_cream">Butter Cream</option>
-                                    <option value="whipped_cream">Whipped Cream</option>
-                                    <option value="cream_cheese">Cream Cheese</option>
-                                    <option value="ganache">Ganache</option>
-                                    <option value="fondant">Fondant</option>
-                                </select>
-                            </div>
-                        </div>
+                            <!-- Column 2: Frosting & Shape -->
+                            <div class="col-lg-3 col-md-6">
+                                <div class="form-section">
+                                    <h4><i class="fas fa-ice-cream me-2"></i>Frosting</h4>
+                                    <div class="form-group">
+                                        <label for="frosting">Select Frosting</label>
+                                        <select id="frosting" name="frosting" class="form-select">
+                                            <option value="">Choose frosting</option>
+                                            <option value="butter_cream">Butter Cream</option>
+                                            <option value="whipped_cream">Whipped Cream</option>
+                                            <option value="cream_cheese">Cream Cheese</option>
+                                            <option value="ganache">Ganache</option>
+                                            <option value="fondant">Fondant</option>
+                                        </select>
+                                    </div>
+                                </div>
 
-                        <!-- Shape & Size Section -->
-                        <div class="form-section">
-                            <h4><i class="fas fa-shapes me-2"></i>Shape & Size</h4>
-                            <div class="row g-3">
-                                <div class="col-md-6">
+                                <div class="form-section mt-4">
+                                    <h4><i class="fas fa-shapes me-2"></i>Shape</h4>
                                     <div class="form-group">
                                         <label for="shape">Shape *</label>
                                         <select id="shape" name="shape" class="form-select" required>
@@ -166,7 +162,12 @@
                                         </select>
                                     </div>
                                 </div>
-                                <div class="col-md-6">
+                            </div>
+
+                            <!-- Column 3: Size & Layers -->
+                            <div class="col-lg-3 col-md-6">
+                                <div class="form-section">
+                                    <h4><i class="fas fa-ruler me-2"></i>Size</h4>
                                     <div class="form-group">
                                         <label for="size">Size/Diameter *</label>
                                         <select id="size" name="size" class="form-select" required>
@@ -177,14 +178,9 @@
                                         </select>
                                     </div>
                                 </div>
-                            </div>
-                        </div>
 
-                        <!-- Layers & Design Section -->
-                        <div class="form-section">
-                            <h4><i class="fas fa-layer-group me-2"></i>Layers & Design</h4>
-                            <div class="row g-3">
-                                <div class="col-md-6">
+                                <div class="form-section mt-4">
+                                    <h4><i class="fas fa-layer-group me-2"></i>Layers</h4>
                                     <div class="form-group">
                                         <label for="layers">Number of Layers *</label>
                                         <select id="layers" name="layers" class="form-select" required>
@@ -194,10 +190,16 @@
                                         </select>
                                     </div>
                                 </div>
-                                <div class="col-md-6">
+                            </div>
+
+                            <!-- Column 4: Colors & Decorations -->
+                            <div class="col-lg-3 col-md-6">
+                                <div class="form-section">
+                                    <h4><i class="fas fa-palette me-2"></i>Colors</h4>
                                     <div class="form-group">
-                                        <label for="colors">Colors</label>
-                                        <select id="colors" name="colors" class="select2-multiple" multiple>
+                                        <label for="colors">Select Color</label>
+                                        <select id="colors" name="colors" class="form-select">
+                                            <option value="">Choose color</option>
                                             <option value="white">White</option>
                                             <option value="gold">Gold</option>
                                             <option value="pink">Pink</option>
@@ -208,28 +210,27 @@
                                         </select>
                                     </div>
                                 </div>
-                            </div>
-                        </div>
 
-                        <!-- Decorations Section -->
-                        <div class="form-section">
-                            <h4><i class="fas fa-sparkles me-2"></i>Decorations</h4>
-                            <div class="form-group">
-                                <label for="decorations">Select Decorations</label>
-                                <select id="decorations" name="decorations" class="select2-multiple" multiple>
-                                    <option value="sprinkles" data-price="5">Sprinkles (+SAR 5)</option>
-                                    <option value="chocolate_shavings" data-price="8">Chocolate Shavings (+SAR 8)
-                                    </option>
-                                    <option value="fresh_fruits" data-price="15">Fresh Fruits (+SAR 15)</option>
-                                    <option value="nuts" data-price="10">Nuts (+SAR 10)</option>
-                                    <option value="edible_flowers" data-price="20">Edible Flowers (+SAR 20)</option>
-                                    <option value="gold_leaf" data-price="30">Gold Leaf (+SAR 30)</option>
-                                </select>
+                                <div class="form-section mt-4">
+                                    <h4><i class="fas fa-sparkles me-2"></i>Decorations</h4>
+                                    <div class="form-group">
+                                        <label for="decorations">Select Decoration</label>
+                                        <select id="decorations" name="decorations" class="form-select">
+                                            <option value="">Choose decoration</option>
+                                            <option value="sprinkles" data-price="5">Sprinkles (+SAR 5)</option>
+                                            <option value="chocolate_shavings" data-price="8">Chocolate Shavings (+SAR 8)</option>
+                                            <option value="fresh_fruits" data-price="15">Fresh Fruits (+SAR 15)</option>
+                                            <option value="nuts" data-price="10">Nuts (+SAR 10)</option>
+                                            <option value="edible_flowers" data-price="20">Edible Flowers (+SAR 20)</option>
+                                            <option value="gold_leaf" data-price="30">Gold Leaf (+SAR 30)</option>
+                                        </select>
+                                    </div>
+                                </div>
                             </div>
                         </div>
 
                         <!-- Customization Options Section -->
-                        <div class="form-section">
+                        <div class="form-section mt-5">
                             <h4><i class="fas fa-cog me-2"></i>Customization Options</h4>
                             <div class="row g-3">
                                 <div class="col-md-6">

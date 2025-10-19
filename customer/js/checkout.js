@@ -75,7 +75,10 @@ function renderSummary() {
         listEl.appendChild(line);
     });
 
-    const delivery = items.length ? 15 : 0;
+    // Calculate delivery cost based on selected option
+    const selectedDelivery = document.querySelector('input[name="deliveryOption"]:checked');
+    const delivery = selectedDelivery && selectedDelivery.value === 'fast' ? 50 : (items.length ? 15 : 0);
+    
     subtotalEl.textContent = formatSar(subtotal);
     deliveryEl.textContent = formatSar(delivery);
     totalEl.textContent = formatSar(subtotal + delivery);
@@ -95,19 +98,7 @@ function initPaymentSelection() {
     cardFields.style.display = selected && selected.value === 'card' ? 'grid' : 'none';
 }
 
-function validateShipping() {
-    const name = document.getElementById('shipName');
-    const phone = document.getElementById('shipPhone');
-    const address = document.getElementById('shipAddress');
-    const city = document.getElementById('shipCity');
-    const zip = document.getElementById('shipZip');
-    if (!name.value.trim()) return name.focus(), false;
-    if (!phone.value.trim()) return phone.focus(), false;
-    if (!address.value.trim()) return address.focus(), false;
-    if (!city.value.trim()) return city.focus(), false;
-    if (!zip.value.trim()) return zip.focus(), false;
-    return true;
-}
+// Shipping validation removed - no longer needed
 
 function validateCardIfNeeded() {
     const selected = document.querySelector('input[name="paymentMethod"]:checked');
@@ -132,22 +123,16 @@ function saveOrders(list) {
 document.getElementById('payNowBtn')?.addEventListener('click', function () {
     const items = loadCart();
     if (!items.length) return;
-    if (!validateShipping()) return;
     if (!validateCardIfNeeded()) return;
 
     // compute totals
     const subtotal = items.reduce((s, it) => s + (it.price * it.qty), 0);
-    const deliveryFee = items.length ? 15 : 0;
+    const selectedDelivery = document.querySelector('input[name="deliveryOption"]:checked');
+    const deliveryFee = selectedDelivery && selectedDelivery.value === 'fast' ? 50 : (items.length ? 15 : 0);
     const total = subtotal + deliveryFee;
 
-    // capture shipping
-    const shipping = {
-        name: document.getElementById('shipName').value.trim(),
-        phone: document.getElementById('shipPhone').value.trim(),
-        address: document.getElementById('shipAddress').value.trim(),
-        city: document.getElementById('shipCity').value.trim(),
-        zip: document.getElementById('shipZip').value.trim()
-    };
+    // capture delivery option
+    const deliveryOption = selectedDelivery ? selectedDelivery.value : 'standard';
 
     const method = document.querySelector('input[name="paymentMethod"]:checked')?.value || 'card';
     const status = method === 'cod' ? 'unpaid' : 'paid';
@@ -162,7 +147,7 @@ document.getElementById('payNowBtn')?.addEventListener('click', function () {
         total,
         status,
         addressId: null,
-        shipping,
+        deliveryOption,
         initialReview: { state: 'accepted', reason: '' },
         type: 'products',
         notes: '',
@@ -225,8 +210,17 @@ document.addEventListener('DOMContentLoaded', function () {
     }
 });
 
+// Add delivery option change listener
+function initDeliveryOptions() {
+    const deliveryRadios = document.querySelectorAll('input[name="deliveryOption"]');
+    deliveryRadios.forEach(radio => {
+        radio.addEventListener('change', renderSummary);
+    });
+}
+
 // Kickoff
 renderSummary();
 initPaymentSelection();
+initDeliveryOptions();
 
 

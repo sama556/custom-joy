@@ -582,7 +582,68 @@
     border-radius: 0 0 20px 20px;
 }
 
-/* Rating Stars */
+/* Order Review Section */
+.order-review-section {
+    background: rgba(126, 215, 255, 0.05);
+    border: 1px solid rgba(126, 215, 255, 0.2);
+    border-radius: 15px;
+    padding: 20px;
+    margin-top: 20px;
+}
+
+.order-review-section h6 {
+    color: var(--dark-navy);
+    font-weight: 600;
+    margin-bottom: 15px;
+}
+
+.order-review-section .rating-stars {
+    display: flex;
+    gap: 5px;
+    margin-bottom: 15px;
+}
+
+.order-review-section .star {
+    color: #ddd;
+    cursor: pointer;
+    font-size: 1.5rem;
+    transition: all 0.2s ease;
+    padding: 2px;
+}
+
+.order-review-section .star:hover {
+    color: #ffc107;
+    transform: scale(1.1);
+}
+
+.order-review-section .star.active {
+    color: #ffc107;
+    transform: scale(1.1);
+}
+
+.order-review-section .form-control {
+    border: 2px solid rgba(9, 21, 35, 0.1);
+    border-radius: 10px;
+    padding: 12px 15px;
+    transition: all 0.3s ease;
+}
+
+.order-review-section .form-control:focus {
+    border-color: var(--sky-blue);
+    box-shadow: 0 0 0 3px rgba(126, 215, 255, 0.2);
+}
+
+.order-review-section .btn {
+    border-radius: 10px;
+    font-weight: 600;
+    transition: all 0.3s ease;
+}
+
+.order-review-section .btn:hover {
+    transform: translateY(-2px);
+}
+
+/* Rating Stars (legacy) */
 .rating-stars {
     display: flex;
     gap: 2px;
@@ -747,6 +808,82 @@
 
 
 
+/* Order Review Section Styles */
+.order-review-section {
+    background: rgba(126, 215, 255, 0.05);
+    border: 1px solid rgba(126, 215, 255, 0.2);
+    border-radius: 12px;
+    padding: 20px;
+    margin-top: 20px;
+}
+
+.rating-stars {
+    display: flex;
+    gap: 4px;
+    align-items: center;
+}
+
+.rating-stars .star {
+    font-size: 1.5rem;
+    color: #ddd;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    user-select: none;
+}
+
+.rating-stars .star:hover,
+.rating-stars .star.active {
+    color: #ffc107;
+    transform: scale(1.1);
+}
+
+.rating-text {
+    font-weight: 600;
+    color: rgba(9, 21, 35, 0.8);
+    font-size: 0.9rem;
+}
+
+.review-comment textarea {
+    border: 1px solid rgba(126, 215, 255, 0.3);
+    border-radius: 8px;
+    resize: vertical;
+    min-height: 80px;
+    transition: all 0.3s ease;
+}
+
+.review-comment textarea:focus {
+    border-color: rgba(126, 215, 255, 0.6);
+    box-shadow: 0 0 0 0.2rem rgba(126, 215, 255, 0.25);
+    outline: none;
+}
+
+.order-review-section .btn {
+    font-size: 0.85rem;
+    padding: 8px 16px;
+    border-radius: 6px;
+    transition: all 0.3s ease;
+}
+
+.order-review-section .btn-primary {
+    background: linear-gradient(135deg, #FF4FA1 0%, #368BFF 100%);
+    border: none;
+}
+
+.order-review-section .btn-primary:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 4px 12px rgba(54, 139, 255, 0.3);
+}
+
+.order-review-section .btn-outline-secondary {
+    border-color: rgba(9, 21, 35, 0.2);
+    color: rgba(9, 21, 35, 0.7);
+}
+
+.order-review-section .btn-outline-secondary:hover {
+    background: rgba(9, 21, 35, 0.05);
+    border-color: rgba(9, 21, 35, 0.3);
+}
+
 @media (max-width: 576px) {
     .order-card {
         padding: 15px;
@@ -758,5 +895,13 @@
     
     .order-modal .modal-footer {
         padding: 15px 20px;
+    }
+    
+    .order-review-section {
+        padding: 15px;
+    }
+    
+    .rating-stars .star {
+        font-size: 1.3rem;
     }
 }

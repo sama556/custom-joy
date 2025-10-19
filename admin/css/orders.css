@@ -5298,3 +5298,90 @@
 cubic-bezier(0.4, 0, 0.2, 1);
     box-shadow: var(--shadow-sm);
 }
+
+/* Order Review Section */
+.order-review-section {
+    background: rgba(126, 215, 255, 0.05);
+    border: 1px solid rgba(126, 215, 255, 0.2);
+    border-radius: 12px;
+    padding: 20px;
+    margin-top: 15px;
+}
+
+.review-content {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+.review-rating {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+}
+
+.stars {
+    display: flex;
+    gap: 2px;
+}
+
+.stars i {
+    color: #ffc107;
+    font-size: 1.2rem;
+}
+
+.rating-text {
+    font-weight: 600;
+    color: var(--dark-navy);
+    font-size: 0.95rem;
+}
+
+.review-comment {
+    background: rgba(255, 255, 255, 0.8);
+    border-radius: 8px;
+    padding: 15px;
+    border-left: 4px solid var(--sky-blue);
+}
+
+.review-comment p {
+    margin: 0;
+    color: var(--dark-navy);
+    font-style: italic;
+    line-height: 1.5;
+}
+
+.review-meta {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 0.85rem;
+    color: var(--dark-gray);
+}
+
+.review-date {
+    font-weight: 500;
+}
+
+.review-status {
+    background: var(--success);
+    color: white;
+    padding: 4px 8px;
+    border-radius: 12px;
+    font-size: 0.75rem;
+    font-weight: 600;
+}
+
+/* Responsive Design for Review Section */
+@media (max-width: 768px) {
+    .review-rating {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 10px;
+    }
+    
+    .review-meta {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 8px;
+    }
+}

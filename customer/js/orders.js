@@ -387,14 +387,6 @@ function openOrder(id) {
                         </div>
                     </div>
                     
-                    <div class="d-flex gap-2 mt-3">
-                        <button class="btn btn-outline-secondary btn-sm flex-fill">
-                            <i class="fas fa-download me-1"></i>Invoice
-                        </button>
-                        <button class="btn btn-outline-primary btn-sm flex-fill">
-                            <i class="fas fa-share me-1"></i>Share
-                        </button>
-                    </div>
                 </div>
             </div>
         </div>
@@ -404,64 +396,134 @@ function openOrder(id) {
     const modal = new bootstrap.Modal(document.getElementById('orderModal'));
     modal.show();
 
-    // Add ratings for completed orders
+    // Add order review for completed orders
     if (order.status === 'completed') {
-        addRatingStars(body, order, isCheckoutSchema);
+        addOrderReview(body, order);
     }
 }
 
-function addRatingStars(container, order, isCheckoutSchema) {
-    const ratings = JSON.parse(localStorage.getItem('cj_ratings') || '{}');
-    const tbody = container.querySelector('tbody');
+function addOrderReview(container, order) {
+    const orderReviews = JSON.parse(localStorage.getItem('cj_order_reviews') || '{}');
+    const orderKey = `order_${order.id}`;
+    const currentReview = orderReviews[orderKey] || { rating: 0, comment: '' };
 
-    if (!tbody) return;
-
-    Array.from(tbody.querySelectorAll('tr')).forEach((row, idx) => {
-        if (!order.items[idx]) return;
-        const i = order.items[idx];
-        const key = `${order.id}:${isCheckoutSchema ? 'product' : (i.category || 'item')}:${isCheckoutSchema ? (i.productId || idx) : (i.productId || idx)}`;
-        const current = ratings[key] || 0;
-        const nameCell = row.children[1];
-
-        const stars = document.createElement('div');
-        stars.className = 'rating-stars mt-2';
-        stars.setAttribute('data-key', key);
-        stars.innerHTML = [1, 2, 3, 4, 5].map(n =>
-            `<span class="star ${current >= n ? 'active' : ''}" data-value="${n}">★</span>`
-        ).join('');
-
-        nameCell.appendChild(stars);
-    });
-
-    // Add click handlers for rating stars
-    container.querySelectorAll('.rating-stars').forEach(group => {
-        group.addEventListener('click', function (e) {
-            const star = e.target.closest('.star');
-            if (!star) return;
-
-            const value = parseInt(star.getAttribute('data-value'), 10);
-            const key = this.getAttribute('data-key');
-            const all = this.querySelectorAll('.star');
-
-            all.forEach((s, idx) => {
-                if (idx < value) s.classList.add('active');
-                else s.classList.remove('active');
-            });
-
-            const ratings = JSON.parse(localStorage.getItem('cj_ratings') || '{}');
-            ratings[key] = value;
-            localStorage.setItem('cj_ratings', JSON.stringify(ratings));
-        });
-    });
-
-    container.insertAdjacentHTML('beforeend', `
-        <div class="rating-note mt-3 p-2 rounded-3" style="background:rgba(126,215,255,0.1);">
-            <small class="text-muted">
-                <i class="fas fa-star me-1"></i>
-                Tap stars to rate each item
-            </small>
+    // Create order review section
+    const reviewSection = document.createElement('div');
+    reviewSection.className = 'order-review-section mt-4 p-3 rounded-3';
+    reviewSection.style.cssText = 'background: rgba(126,215,255,0.05); border: 1px solid rgba(126,215,255,0.2);';
+    
+    reviewSection.innerHTML = `
+        <div class="d-flex align-items-center mb-3">
+            <h6 class="mb-0 me-3">
+                <i class="fas fa-star text-warning me-1"></i>
+                Order Review
+            </h6>
+            <div class="rating-stars" data-order-key="${orderKey}">
+                ${[1, 2, 3, 4, 5].map(n => 
+                    `<span class="star ${currentReview.rating >= n ? 'active' : ''}" data-value="${n}">★</span>`
+                ).join('')}
+            </div>
+            <span class="rating-text ms-2">${currentReview.rating > 0 ? `${currentReview.rating}.0` : 'Not rated'}</span>
         </div>
-    `);
+        
+        <div class="review-comment mb-3">
+            <label class="form-label small">Your Review</label>
+            <textarea class="form-control" rows="3" placeholder="Share your experience with this order..." data-comment-key="${orderKey}">${currentReview.comment}</textarea>
+        </div>
+        
+        <div class="d-flex gap-2">
+            <button class="btn btn-primary btn-sm" data-save-review="${orderKey}">
+                <i class="fas fa-save me-1"></i>Save Review
+            </button>
+            <button class="btn btn-outline-secondary btn-sm" data-clear-review="${orderKey}">
+                <i class="fas fa-trash me-1"></i>Clear
+            </button>
+        </div>
+    `;
+
+    // Add to container
+    container.appendChild(reviewSection);
+
+    // Add event listeners
+    const starsContainer = reviewSection.querySelector('.rating-stars');
+    const commentTextarea = reviewSection.querySelector('[data-comment-key]');
+    const saveBtn = reviewSection.querySelector('[data-save-review]');
+    const clearBtn = reviewSection.querySelector('[data-clear-review]');
+
+    // Star rating functionality
+    starsContainer.addEventListener('click', function(e) {
+        const star = e.target.closest('.star');
+        if (!star) return;
+
+        const value = parseInt(star.getAttribute('data-value'), 10);
+        const allStars = this.querySelectorAll('.star');
+
+        allStars.forEach((s, idx) => {
+            if (idx < value) s.classList.add('active');
+            else s.classList.remove('active');
+        });
+
+        // Update rating text
+        const ratingText = reviewSection.querySelector('.rating-text');
+        ratingText.textContent = `${value}.0`;
+    });
+
+    // Save review functionality
+    saveBtn.addEventListener('click', function() {
+        const rating = starsContainer.querySelectorAll('.star.active').length;
+        const comment = commentTextarea.value.trim();
+
+        if (rating === 0) {
+            if (typeof Toastify !== 'undefined') {
+                Toastify({
+                    text: "Please select a rating",
+                    duration: 2000,
+                    gravity: "top",
+                    position: "right",
+                    backgroundColor: "linear-gradient(to right, #ff6b6b, #ee5a24)",
+                }).showToast();
+            }
+            return;
+        }
+
+        const orderReviews = JSON.parse(localStorage.getItem('cj_order_reviews') || '{}');
+        orderReviews[orderKey] = { rating, comment };
+        localStorage.setItem('cj_order_reviews', JSON.stringify(orderReviews));
+
+        if (typeof Toastify !== 'undefined') {
+            Toastify({
+                text: "Review saved successfully!",
+                duration: 2000,
+                gravity: "top",
+                position: "right",
+                backgroundColor: "linear-gradient(to right, #00b09b, #96c93d)",
+            }).showToast();
+        }
+    });
+
+    // Clear review functionality
+    clearBtn.addEventListener('click', function() {
+        const allStars = starsContainer.querySelectorAll('.star');
+        allStars.forEach(star => star.classList.remove('active'));
+        commentTextarea.value = '';
+        
+        const ratingText = reviewSection.querySelector('.rating-text');
+        ratingText.textContent = 'Not rated';
+
+        const orderReviews = JSON.parse(localStorage.getItem('cj_order_reviews') || '{}');
+        delete orderReviews[orderKey];
+        localStorage.setItem('cj_order_reviews', JSON.stringify(orderReviews));
+
+        if (typeof Toastify !== 'undefined') {
+            Toastify({
+                text: "Review cleared",
+                duration: 2000,
+                gravity: "top",
+                position: "right",
+                backgroundColor: "linear-gradient(to right, #667eea, #764ba2)",
+            }).showToast();
+        }
+    });
 }
 
 function handleReorder(orderId) {
