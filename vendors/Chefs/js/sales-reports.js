@@ -257,19 +257,19 @@ function initCategoriesChart() {
     const ctx = document.getElementById('categoriesChart').getContext('2d');
     
     const categoriesData = {
-        labels: ['Wedding', 'Birthday', 'Anniversary', 'Custom'],
+        labels: ['Birthday', 'Anniversary', 'Custom'],
         datasets: [{
-            data: [42, 28, 18, 12],
+            data: [ 70, 18, 12],
             backgroundColor: [
                 'rgba(255, 79, 161, 0.8)',
                 'rgba(255, 177, 27, 0.8)',
-                'rgba(54, 139, 255, 0.8)',
+              
                 'rgba(16, 185, 129, 0.8)'
             ],
             borderColor: [
                 'rgba(255, 79, 161, 1)',
                 'rgba(255, 177, 27, 1)',
-                'rgba(54, 139, 255, 1)',
+                
                 'rgba(16, 185, 129, 1)'
             ],
             borderWidth: 2
